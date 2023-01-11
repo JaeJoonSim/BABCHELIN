@@ -69,48 +69,17 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody rb;
 
     private float groundDistance = .1f;
+    private bool isMoving = false;
+    private bool isJumpRequired = false;
 
     #region Player Input Fields
-    private float inputX;
-    private float inputZ;
+    private Vector3 moveDir;
     #endregion
 
     #endregion
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-    }
-
-    private void FixedUpdate()
-    {
-        rb.AddForce(Vector3.down * forceGravity, ForceMode.Acceleration);
-    }
-
-    private void Update()
-    {
-        PlayerMove();
-
-        if (Input.GetButtonDown("Jump") && IsGrounded())
-        {
-            rb.AddForce(new Vector3(0, pcJumpHeight, 0), ForceMode.Impulse);
-        }
-    }
-
-    private void PlayerMove()
-    {
-        inputX = Input.GetAxis("Horizontal");
-        inputZ = Input.GetAxis("Vertical");
-
-        Vector3 vel = new Vector3(inputX, 0, inputZ);
         
-        vel = (pcWRTrigger) ? vel *= pcWalkMSpd : vel *= pcRunMSpd;
-
-        rb.velocity = vel;
-    }
-
-    private bool IsGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, groundDistance);
     }
 }
