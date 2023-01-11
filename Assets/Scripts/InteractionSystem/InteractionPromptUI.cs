@@ -1,4 +1,4 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -6,7 +6,7 @@ using UnityEngine;
 public class InteractionPromptUI : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("UI∆–≥Œ")]
+    [Tooltip("UIÌå®ÎÑê")]
     private GameObject uiPanel;
     public GameObject UiPanel
     {
@@ -26,7 +26,7 @@ public class InteractionPromptUI : MonoBehaviour
     private Camera mainCam;
 
     [SerializeField]
-    [Tooltip("UI≥Î√‚ ¿Øπ´")]
+    [Tooltip("UIÎÖ∏Ï∂ú Ïú†Î¨¥")]
     private bool isDisplayed = false;
     public bool IsDisplayed
     {

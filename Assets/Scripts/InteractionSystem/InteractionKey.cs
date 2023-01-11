@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class InteractionKey : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("Å° À¯¹«")]
+    [Tooltip("í‚¤ ìœ ë¬´")]
     private bool hasKey = false;
     public bool HasKey
     {

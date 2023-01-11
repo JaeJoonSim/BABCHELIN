@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     #region Inspector Fields
     [SerializeField]
-    [Tooltip("PC °È±âÀÇ ÃÖ´ë ÀÌµ¿ ¼Óµµ")]
+    [Tooltip("PC ê±·ê¸°ì˜ ìµœëŒ€ ì´ë™ ì†ë„")]
     private float pcWalkMSpd;
     public float PcWalkMSpd
     {
@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("PC ¶Ù±âÀÇ ÃÖ´ë ÀÌµ¿ ¼Óµµ")]
+    [Tooltip("PC ë›°ê¸°ì˜ ìµœëŒ€ ì´ë™ ì†ë„")]
     private float pcRunMSpd;
     public float PcRunMSpd
     {
@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("PC Á¡ÇÁ ¼Óµµ")]
+    [Tooltip("PC ì í”„ ì†ë„")]
     private float pcJumpHeight;
     public float PcJumpHeight
     {
@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("PC Á¡ÇÁ ÄğÅ¸ÀÓ")]
+    [Tooltip("PC ì í”„ ì¿¨íƒ€ì„")]
     private float pcJumpDelay;
     public float PcJumpDelay
     {
@@ -46,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
     /// True = Walk, False = Run
     /// </summary>
     [SerializeField]
-    [Tooltip("°È±â/¶Ù±â ½ºÅÄ½º Æ®¸®°Å")]
+    [Tooltip("ê±·ê¸°/ë›°ê¸° ìŠ¤íƒ ìŠ¤ íŠ¸ë¦¬ê±°")]
     private bool pcWRTrigger;
     public bool PcWRTrigger
     {

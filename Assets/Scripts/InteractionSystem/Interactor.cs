@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class Interactor : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("»óÈ£ÀÛ¿ë À§Ä¡")]
+    [Tooltip("ìƒí˜¸ì‘ìš© ìœ„ì¹˜")]
     private Transform intPoint;
     public Transform InteractionPoint
     {
@@ -15,7 +15,7 @@ public class Interactor : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("»óÈ£ÀÛ¿ë °¨Áö ¹üÀ§")]
+    [Tooltip("ìƒí˜¸ì‘ìš© ê°ì§€ ë²”ìœ„")]
     private float intRange;
     public float IntRange
     {
@@ -24,7 +24,7 @@ public class Interactor : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("»óÈ£ÀÛ¿ë ¿ÀºêÁ§Æ® ¸¶½ºÅ©")]
+    [Tooltip("ìƒí˜¸ì‘ìš© ì˜¤ë¸Œì íŠ¸ ë§ˆìŠ¤í¬")]
     private LayerMask intMask;
     public LayerMask IntMask
     {
@@ -33,7 +33,7 @@ public class Interactor : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("»óÈ£ÀÛ¿ë °¡´ÉÇÑ ¿ÀºêÁ§Æ® °³¼ö")]
+    [Tooltip("ìƒí˜¸ì‘ìš© ê°€ëŠ¥í•œ ì˜¤ë¸Œì íŠ¸ ê°œìˆ˜")]
     private int numFound;
     public int NumFound
     {
@@ -42,7 +42,7 @@ public class Interactor : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("»óÈ£ÀÛ¿ë UI")]
+    [Tooltip("ìƒí˜¸ì‘ìš© UI")]
     private InteractionPromptUI intUI;
     public InteractionPromptUI IntUI
     {

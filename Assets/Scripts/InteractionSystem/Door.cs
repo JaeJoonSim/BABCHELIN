@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,7 +20,7 @@ public class Door : MonoBehaviour, Interactable
             return true;
         }
 
-        Debug.Log("Å°°¡ ¾ø½À´Ï´Ù!");
+        Debug.Log("í‚¤ê°€ ì—†ìŠµë‹ˆë‹¤!");
         return false;
     }
 }

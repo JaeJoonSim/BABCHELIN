@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,10 +6,10 @@ using UnityEngine.SceneManagement;
 public class SceneMove : MonoBehaviour
 {
     [SerializeField]
-    [Tooltip("ÀÌµ¿ÇÒ ¾À ÀÌ¸§")]
+    [Tooltip("ì´ë™í•  ì”¬ ì´ë¦„")]
     private string sceneName;
 
-    // Äİ¶óÀÌ´õ Á¢ÃË
+    // ì½œë¼ì´ë” ì ‘ì´‰
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
