@@ -42,6 +42,15 @@ public class PlayerMovement : MonoBehaviour
         set { pcJumpDelay = value; }
     }
 
+    [SerializeField]
+    [Tooltip("중력가속도 (-9.81 = 기본값)")]
+    private float forceGravity = -9.81f;
+    public float ForceGravity
+    {
+        get { return forceGravity; }
+        set { forceGravity = value; }
+    }
+
     /// <summary>
     /// True = Walk, False = Run
     /// </summary>
@@ -71,6 +80,11 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+    }
+
+    private void FixedUpdate()
+    {
+        rb.AddForce(Vector3.down * forceGravity, ForceMode.Acceleration);
     }
 
     private void Update()
