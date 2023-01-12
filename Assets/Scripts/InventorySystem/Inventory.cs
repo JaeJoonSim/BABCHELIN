@@ -191,6 +191,90 @@ public class Inventory : MonoBehaviour
         return items[index].Data.Name;
     }
 
+    /// <summary> 인벤토리에 아이템 추가
+    /// <para/> 넣는 데 실패한 잉여 아이템 개수 리턴
+    /// <para/> 리턴이 0이면 넣는데 모두 성공했다는 의미
+    /// </summary>
+    public int Add(ItemData itemData, int amount = 1)
+    {
+        int index;
+        
+        if(itemData is CountableItemData ciData)
+        {
+            bool findNextCountable = true;
+            index = -1;
+            
+            while (amount > 0)
+            {
+                if(findNextCountable)
+                {
+                    index = FindCountableItemSlotIndex(ciData, index + 1);
+
+                    if(index == -1)
+                    {
+                        findNextCountable = false;
+                    }
+                    else
+                    {
+                        CountableItem ci = items[index] as CountableItem;
+                        amount = ci.AddAmountAndGetExcess(amount);
+
+                        UpdateSlot(index);
+                    }
+                }
+                else
+                {
+                    index = FindEmptySlotIndex(index + 1);
+                    
+                    if(index == -1)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        CountableItem ci = ciData.CreateItem() as CountableItem;
+                        ci.SetAmount(amount);
+                        
+                        items[index] = ci;
+
+                        amount = (amount > ciData.MaxAmount) ? (amount - ciData.MaxAmount) : 0;
+
+                        UpdateSlot(index);
+                    }
+                }
+            }
+        }
+        else
+        {
+            if(amount == 1)
+            {
+                index = FindEmptySlotIndex();
+                if(index != -1)
+                {
+                    items[index] = itemData.CreateItem();
+                    amount = 0;
+
+                    UpdateSlot(index);
+                }
+            }
+
+            index = -1;
+            for(; amount > 0; amount--)
+            {
+                index = FindEmptySlotIndex(index + 1);
+
+                if (index == -1)
+                    break;
+                
+                items[index] = itemData.CreateItem();
+
+                UpdateSlot(index);
+            }
+        }
+
+        return amount;
+    }
+    
     /// <summary> 해당 슬롯의 아이템 제거 </summary>
     public void Remove(int index)
     {
