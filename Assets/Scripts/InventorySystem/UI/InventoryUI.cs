@@ -132,7 +132,7 @@ public class InventoryUI : MonoBehaviour
     private bool prevShow = false;
     private bool prevMouseReversed = false;
 #endif
-    
+
     [System.Diagnostics.Conditional("UNITY_EDITOR")]
     private void EditorLog(object message)
     {
@@ -142,6 +142,7 @@ public class InventoryUI : MonoBehaviour
 
     private void Awake()
     {
+        Init();
         InitSlot();
     }
 
@@ -191,8 +192,8 @@ public class InventoryUI : MonoBehaviour
     private void OnPointerDrag()
     {
         if (beginDragSlot == null) return;
-        
-        if(Input.GetMouseButton(0))
+
+        if (Input.GetMouseButton(0))
         {
             beginDragIconTransform.position = beginDragIconPoint + (Input.mousePosition - beginDragCursorPoint);
         }
@@ -200,9 +201,9 @@ public class InventoryUI : MonoBehaviour
 
     private void OnPointerUp()
     {
-        if(Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0))
         {
-            if(beginDragSlot != null)
+            if (beginDragSlot != null)
             {
                 beginDragIconTransform.position = beginDragIconPoint;
 
@@ -218,6 +219,17 @@ public class InventoryUI : MonoBehaviour
 
     private void EndDrag()
     {
+
+    }
+
+    private void Init()
+    {
+        TryGetComponent(out gr);
+        if (gr == null)
+            gr = gameObject.AddComponent<GraphicRaycaster>();
+
+        ped = new PointerEventData(EventSystem.current);
+        rrList = new List<RaycastResult>(10);
 
     }
 
@@ -438,7 +450,7 @@ public class InventoryUI : MonoBehaviour
                 {
                     img.color = new Color(img.color.r, img.color.g, img.color.b, previewAlpha);
                     var outline = img.GetComponent<Outline>();
-                    if(outline)
+                    if (outline)
                         outline.effectColor = new Color(outline.effectColor.r, outline.effectColor.g, outline.effectColor.b, previewAlpha);
                 }
             }

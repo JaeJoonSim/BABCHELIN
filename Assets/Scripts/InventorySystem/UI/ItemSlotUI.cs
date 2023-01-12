@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ItemSlotUI : MonoBehaviour
 {
@@ -25,8 +26,8 @@ public class ItemSlotUI : MonoBehaviour
 
     [SerializeField]
     [Tooltip("아이템 개수 텍스트")]
-    private Text amountText;
-    public Text AmountText
+    private TextMeshProUGUI amountText;
+    public TextMeshProUGUI AmountText
     {
         get { return amountText; }
         set { amountText = value; }
