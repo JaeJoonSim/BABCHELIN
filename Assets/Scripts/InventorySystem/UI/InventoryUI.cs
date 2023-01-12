@@ -294,6 +294,42 @@ public class InventoryUI : MonoBehaviour
         mouseReversed = value;
     }
 
+    public void SetItemIcon(int index, Sprite icon)
+    {
+        EditorLog($"Set Item Icon : Slot [{index}]");
+
+        slotUIList[index].SetItem(icon);
+    }
+
+    public void SetItemAmountText(int index, int amount)
+    {
+        EditorLog($"Set Item Amount Text : Slot [{index}], Amount [{amount}]");
+
+        slotUIList[index].SetItemAmount(amount);
+    }
+
+    public void HideItemAmountText(int index)
+    {
+        EditorLog($"Hide Item Amount Text : Slot [{index}]");
+
+        slotUIList[index].SetItemAmount(1);
+    }
+
+    public void RemoveItem(int index)
+    {
+        EditorLog($"Remove Item : Slot [{index}]");
+
+        slotUIList[index].RemoveItem();
+    }
+
+    public void SetAccessibleSlotRange(int accessibleSlotCount)
+    {
+        for (int i = 0; i < slotUIList.Count; i++)
+        {
+            slotUIList[i].SetSlotAccessibleState(i < accessibleSlotCount);
+        }
+    }
+
 #if UNITY_EDITOR
 
     private void OnValidate()

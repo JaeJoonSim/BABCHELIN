@@ -183,22 +183,66 @@ public class ItemSlotUI : MonoBehaviour
     }
 
     /// <summary> 다른 슬롯과 아이템 아이콘 교환 </summary>
-    //public void SwapOrMoveIcon(ItemSlotUI other)
-    //{
-    //    if (other == null) return;
-    //    if (other == this) return;
-    //    if (!this.IsAccessible) return;
-    //    if (!other.IsAccessible) return;
+    public void SwapOrMoveIcon(ItemSlotUI other)
+    {
+        if (other == null) return;
+        if (other == this) return;
+        if (!this.IsAccessible) return;
+        if (!other.IsAccessible) return;
 
-    //    var temp = iconImage.sprite;
+        var temp = iconImage.sprite;
 
-    //    if (other.HasItem) SetItem(other.iconImage.sprite);
+        if (other.HasItem) SetItem(other.iconImage.sprite);
 
-    //    else RemoveItem();
+        else RemoveItem();
 
-    //    other.SetItem(temp);
-    //}
+        other.SetItem(temp);
+    }
 
+    public void SetItem(Sprite sprite)
+    {
+        if (sprite != null)
+        {
+            iconImage.sprite = sprite;
+            ShowIcon();
+        }
+        else
+        {
+            RemoveItem();
+        }
+    }
+
+    public void RemoveItem()
+    {
+        iconImage.sprite = null;
+        HideIcon();
+        HideText();
+    }
+
+    public void SetIconAlpha(float alpha)
+    {
+        iconImage.color = new Color(iconImage.color.r, iconImage.color.g, iconImage.color.b, alpha);
+    }
+
+    public void SetItemAmount(int amount)
+    {
+        if (HasItem && amount > 1)
+            ShowText();
+        else
+            HideText();
+
+        amountText.text = amount.ToString();
+    }
+
+    public void Highlight(bool show)
+    {
+        if (!this.IsAccessible) return;
+
+        if (show)
+            StartCoroutine(nameof(HighlightFadeInRoutine));
+        else
+            StartCoroutine(nameof(HighlightFadeOutRoutine));
+    }
 
     public void SetHighlightOnTop(bool value)
     {
@@ -206,5 +250,48 @@ public class ItemSlotUI : MonoBehaviour
             highlightRect.SetAsLastSibling();
         else
             highlightRect.SetAsFirstSibling();
+    }
+
+    /// <summary> 하이라이트 알파값 서서히 증가 </summary>
+    private IEnumerator HighlightFadeInRoutine()
+    {
+        StopCoroutine(nameof(HighlightFadeOutRoutine));
+        highlightGo.SetActive(true);
+
+        float unit = highlightAlpha / highlightFadeDuration;
+
+        for (; currentHLAlpha <= highlightAlpha; currentHLAlpha += unit * Time.deltaTime)
+        {
+            highlightImage.color = new Color(
+                highlightImage.color.r,
+                highlightImage.color.g,
+                highlightImage.color.b,
+                currentHLAlpha
+            );
+
+            yield return null;
+        }
+    }
+
+    /// <summary> 하이라이트 알파값 0%까지 서서히 감소 </summary>
+    private IEnumerator HighlightFadeOutRoutine()
+    {
+        StopCoroutine(nameof(HighlightFadeInRoutine));
+
+        float unit = highlightAlpha / highlightFadeDuration;
+
+        for (; currentHLAlpha >= 0f; currentHLAlpha -= unit * Time.deltaTime)
+        {
+            highlightImage.color = new Color(
+                highlightImage.color.r,
+                highlightImage.color.g,
+                highlightImage.color.b,
+                currentHLAlpha
+            );
+
+            yield return null;
+        }
+
+        highlightGo.SetActive(false);
     }
 }
