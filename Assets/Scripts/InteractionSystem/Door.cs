@@ -1,12 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Door : MonoBehaviour, Interactable
 {
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
+
+    #region Unity Events
+    public UnityEvent onInteraction;
+    #endregion
 
     public bool Interact(Interactor interactor)
     {
@@ -16,6 +21,7 @@ public class Door : MonoBehaviour, Interactable
 
         if (intKey.HasKey)
         {
+            onInteraction.Invoke();
             Debug.Log("Opening Door!");
             return true;
         }
