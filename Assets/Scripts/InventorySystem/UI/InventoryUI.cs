@@ -187,6 +187,16 @@ public class InventoryUI : MonoBehaviour
                 beginDragSlot = null;
             }
         }
+
+        else if (Input.GetMouseButtonDown(1))
+        {
+            ItemSlotUI slot = RaycastAndGetFirstComponent<ItemSlotUI>();
+
+            if (slot != null && slot.HasItem && slot.IsAccessible)
+            {
+                TryUseItem(slot.Index);
+            }
+        }
     }
 
     private void OnPointerDrag()
@@ -211,6 +221,8 @@ public class InventoryUI : MonoBehaviour
 
                 EndDrag();
 
+                beginDragSlot.SetHighlightOnTop(true);
+
                 beginDragSlot = null;
                 beginDragIconTransform = null;
             }
@@ -221,17 +233,94 @@ public class InventoryUI : MonoBehaviour
     {
         ItemSlotUI endDragSlot = RaycastAndGetFirstComponent<ItemSlotUI>();
 
-        if(endDragSlot != null && endDragSlot.IsAccessible)
+        // 아이템 슬롯끼리 아이콘 교환 또는 이동
+        if (endDragSlot != null && endDragSlot.IsAccessible)
         {
-            TrySwapItem(beginDragSlot, endDragSlot);
+            // 수량 나누기 조건
+            // 1) 마우스 클릭 떼는 순간 좌측 Ctrl 또는 Shift 키 유지
+            // 2) begin : 셀 수 있는 아이템 / end : 비어있는 슬롯
+            // 3) begin 아이템의 수량 > 1
+            bool isSeparatable =
+                (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
+                (inventory.IsCountableItem(beginDragSlot.Index) && !inventory.HasItem(endDragSlot.Index));
+
+            // true : 수량 나누기, false : 교환 또는 이동
+            bool isSeparation = false;
+            int currentAmount = 0;
+
+            // 현재 개수 확인
+            if (isSeparatable)
+            {
+                currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
+                if (currentAmount > 1)
+                {
+                    isSeparation = true;
+                }
+            }
+
+            // 1. 개수 나누기
+            //if (isSeparation)
+            //TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
+            // 2. 교환 또는 이동
+            //else
+            TrySwapItems(beginDragSlot, endDragSlot);
+
+            // 툴팁 갱신
+            //UpdateTooltipUI(endDragSlot);
+            return;
         }
+
+        // 버리기(커서가 UI 레이캐스트 타겟 위에 있지 않은 경우)
+        if (!IsOverUI())
+        {
+            // 확인 팝업 띄우고 콜백 위임
+            int index = beginDragSlot.Index;
+            string itemName = inventory.GetItemName(index);
+            int amount = inventory.GetCurrentAmount(index);
+
+            // 셀 수 있는 아이템의 경우, 수량 표시
+            if (amount > 1)
+                itemName += $" x{amount}";
+
+            // if (_showRemovingPopup)
+            //_popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
+            //else
+            TryRemoveItem(index);
+        }
+        // 슬롯이 아닌 다른 UI 위에 놓은 경우
+        else
+        {
+            EditorLog($"Drag End(Do Nothing)");
+        }
+
     }
 
-    private void TrySwapItem(ItemSlotUI from, ItemSlotUI to)
+    private void TryRemoveItem(int index)
     {
-        if (from == to) return;
+        inventory.Remove(index);
+    }
+
+    private void TryUseItem(int index)
+    {
+        EditorLog($"UI - Try Use Item : Slot [{index}]");
+
+        inventory.Use(index);
+    }
+
+    private bool IsOverUI() => EventSystem.current.IsPointerOverGameObject();
+
+    private void TrySwapItems(ItemSlotUI from, ItemSlotUI to)
+    {
+        if (from == to)
+        {
+            EditorLog($"UI - Try Swap Items : Same Slot [{from.Index}]");
+            return;
+        }
+
+        EditorLog($"UI - Try Swap Items : Slot [{from.Index} -> {to.Index}]");
 
         from.SwapOrMoveIcon(to);
+
         inventory.Swap(from.Index, to.Index);
     }
 
@@ -297,6 +386,11 @@ public class InventoryUI : MonoBehaviour
 
             return rt;
         }
+    }
+
+    public void SetInventoryReference(Inventory inventory)
+    {
+        this.inventory = inventory;
     }
 
     public void InvertMouse(bool value)

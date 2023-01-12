@@ -17,6 +17,8 @@ public abstract class ItemData : ScriptableObject
     [Tooltip("아이템 이름")]
     private string name;
 
+    [Multiline]
+
     [SerializeField]
     [Tooltip("아이템 설명")]
     private string tooltip;
