@@ -6,6 +6,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     #region Inspector Fields
+    [Header("PC Movement")]
     [SerializeField]
     [Tooltip("PC 걷기의 최대 이동 속도")]
     private float pcWalkMSpd;
@@ -24,6 +25,8 @@ public class PlayerMovement : MonoBehaviour
         set { pcRunMSpd = value; }
     }
 
+    [Space]
+    [Header("PC Jump")]
     [SerializeField]
     [Tooltip("PC 점프 속도")]
     private float pcJumpHeight;
@@ -43,17 +46,19 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("중력가속도 (-9.81 = 기본값)")]
-    private float forceGravity = -9.81f;
-    public float ForceGravity
+    [Tooltip("땅 레이어 체크")]
+    private LayerMask whatIsGround;
+    public LayerMask WhatIsGround
     {
-        get { return forceGravity; }
-        set { forceGravity = value; }
+        get { return whatIsGround; }
+        set { whatIsGround = value; }
     }
 
     /// <summary>
     /// True = Walk, False = Run
     /// </summary>
+    [Space]
+    [Header("Extra")]
     [SerializeField]
     [Tooltip("걷기/뛰기 스탠스 트리거")]
     private bool pcWRTrigger;
@@ -62,24 +67,72 @@ public class PlayerMovement : MonoBehaviour
         get { return pcWRTrigger; }
         set { pcWRTrigger = value; }
     }
-
+    
     #endregion
 
     #region Private Value
+
     private Rigidbody rb;
 
-    private float groundDistance = .1f;
-    private bool isMoving = false;
-    private bool isJumpRequired = false;
-
-    #region Player Input Fields
     private Vector3 moveDir;
-    #endregion
+    private float groundDistance = .3f;
+    private bool isGrounded;
 
     #endregion
 
     private void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        PlayerInput();
+        Jump();
+    }
+
+    private void FixedUpdate()
+    {
+        if (moveDir != Vector3.zero)
+        {
+            if (pcWRTrigger)
+            {
+                rb.MovePosition(transform.position + moveDir * pcWalkMSpd * Time.deltaTime);
+            }
+            else
+            {
+                rb.MovePosition(transform.position + moveDir * pcRunMSpd * Time.deltaTime);
+            }
+        }
+    }
+
+    private void PlayerInput()
+    {
+        moveDir.x = Input.GetAxis("Horizontal");
+        moveDir.z = Input.GetAxis("Vertical");
+        moveDir.Normalize();
+    }
+
+    private void Jump()
+    {
+        CheckGround();
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            rb.AddForce(Vector3.up * pcJumpHeight, ForceMode.VelocityChange);
+        }
+    }
+
+    private void CheckGround()
+    {
+        RaycastHit hit;
+
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.2f), Vector3.down, out hit, groundDistance, whatIsGround))
+        {
+            isGrounded = true;
+        }
+        else
+        {
+            isGrounded = false;
+        }
     }
 }
