@@ -10,6 +10,7 @@ public class Door : MonoBehaviour, Interactable
     public string InteractionPrompt => _promt;
 
     #region Unity Events
+    [Space]
     public UnityEvent onInteraction;
     #endregion
 
