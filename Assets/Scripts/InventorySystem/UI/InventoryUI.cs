@@ -57,6 +57,24 @@ public class InventoryUI : MonoBehaviour
         set { slotSize = value; }
     }
 
+    [SerializeField]
+    [Tooltip("툴팁 보기")]
+    private bool showTooltip = true;
+    public bool ShowTooltip
+    {
+        get { return showTooltip; }
+        set { showTooltip = value; }
+    }
+
+    [SerializeField]
+    [Tooltip("하이라이트 표시")]
+    private bool showHighlight = true;
+    public bool ShowHighlight
+    {
+        get { return showHighlight; }
+        set { showHighlight = value; }
+    }
+
     [Space]
 
     [Header("Connected Objects")]
@@ -78,6 +96,15 @@ public class InventoryUI : MonoBehaviour
         set { slotUiPrefab = value; }
     }
 
+    [SerializeField]
+    [Tooltip("아이템 정보를 보여줄 툴팁 UI")]
+    private ItemTooltipUI itemTooltip;
+    public ItemTooltipUI ItemTooltip
+    {
+        get { return itemTooltip; }
+        set { itemTooltip = value; }
+    }
+
     [Space]
 
     [Header("Filter Toggles")]
@@ -97,6 +124,7 @@ public class InventoryUI : MonoBehaviour
     private PointerEventData ped;
     private List<RaycastResult> rrList;
 
+    private ItemSlotUI pointerOverSlot;
     private ItemSlotUI beginDragSlot;
     private Transform beginDragIconTransform;
 
@@ -149,6 +177,9 @@ public class InventoryUI : MonoBehaviour
     private void Update()
     {
         ped.position = Input.mousePosition;
+        OnPointerEnterAndExit();
+
+        ShowOrHideItemTooltip();
 
         OnPointerDown();
         OnPointerDrag();
@@ -163,6 +194,66 @@ public class InventoryUI : MonoBehaviour
         if (rrList.Count == 0) return null;
 
         return rrList[0].gameObject.GetComponent<T>();
+    }
+
+    private void ShowOrHideItemTooltip()
+    {
+        bool isValid = pointerOverSlot != null && pointerOverSlot.HasItem && pointerOverSlot.IsAccessible && (pointerOverSlot != beginDragSlot);
+
+        if (isValid)
+        {
+            UpdateTooltipUI(pointerOverSlot);
+            itemTooltip.Show();
+        }
+        else
+            itemTooltip.Hide();
+    }
+
+    private void UpdateTooltipUI(ItemSlotUI slot)
+    {
+        if (!slot.IsAccessible || !slot.HasItem)
+            return;
+
+        itemTooltip.SetItemInfo(inventory.GetItemData(slot.Index));
+        itemTooltip.SetRectPosition(slot.SlotRect);
+    }
+
+    private void OnPointerEnterAndExit()
+    {
+        var prevSlot = pointerOverSlot;
+
+        var curSlot = pointerOverSlot = RaycastAndGetFirstComponent<ItemSlotUI>();
+
+        if (prevSlot == null)
+        {
+            if (curSlot != null)
+            {
+                OnCurrentEnter();
+            }
+        }
+        else
+        {
+            if (curSlot == null)
+            {
+                OnPrevExit();
+            }
+            else if (prevSlot != curSlot)
+            {
+                OnPrevExit();
+                OnCurrentEnter();
+            }
+        }
+
+        void OnCurrentEnter()
+        {
+            if (showHighlight)
+                curSlot.Highlight(true);
+        }
+        
+        void OnPrevExit()
+        {
+            prevSlot.Highlight(false);
+        }
     }
 
     private void OnPointerDown()
