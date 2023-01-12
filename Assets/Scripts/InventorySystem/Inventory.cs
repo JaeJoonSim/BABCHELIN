@@ -125,6 +125,18 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    private void UpdateSlot(params int[] indices)
+    {
+        foreach (var i in indices)
+            UpdateSlot(i);
+    }
+
+    private void UpdateAllSlot()
+    {
+        for (int i = 0; i < Capacity; i++)
+            UpdateSlot(i);
+    }
+
     /// <summary> 모든 슬롯 UI에 접근 가능 여부 업데이트 </summary>
     public void UpdateAccessibleStatesAll()
     {
@@ -177,5 +189,48 @@ public class Inventory : MonoBehaviour
         if (items[index] == null) return "";
 
         return items[index].Data.Name;
+    }
+
+    /// <summary> 해당 슬롯의 아이템 제거 </summary>
+    public void Remove(int index)
+    {
+        if (!IsValidIndex(index)) return;
+
+        items[index] = null;
+        inventoryUI.RemoveItem(index);
+    }
+
+    /// <summary> 두 인덱스의 아이템 위치를 서로 교체 </summary>
+    public void Swap(int indexA, int indexB)
+    {
+        if (!IsValidIndex(indexA)) return;
+        if (!IsValidIndex(indexB)) return;
+
+        Item itemA = items[indexA];
+        Item ItemB = items[indexB];
+
+        if (itemA != null && ItemB != null && itemA.Data == ItemB.Data && itemA is CountableItem ciA && ItemB is CountableItem ciB)
+        {
+            int maxAmount = ciB.MaxAmount;
+            int sum = ciA.Amount + ciB.Amount;
+
+            if (sum <= maxAmount)
+            {
+                ciA.SetAmount(0);
+                ciB.SetAmount(sum);
+            }
+            else
+            {
+                ciA.SetAmount(sum - maxAmount);
+                ciB.SetAmount(maxAmount);
+            }
+        }
+        else
+        {
+            items[indexA] = ItemB;
+            items[indexB] = itemA;
+        }
+
+        UpdateSlot(indexA, indexB);
     }
 }

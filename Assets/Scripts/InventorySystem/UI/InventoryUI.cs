@@ -219,7 +219,20 @@ public class InventoryUI : MonoBehaviour
 
     private void EndDrag()
     {
+        ItemSlotUI endDragSlot = RaycastAndGetFirstComponent<ItemSlotUI>();
 
+        if(endDragSlot != null && endDragSlot.IsAccessible)
+        {
+            TrySwapItem(beginDragSlot, endDragSlot);
+        }
+    }
+
+    private void TrySwapItem(ItemSlotUI from, ItemSlotUI to)
+    {
+        if (from == to) return;
+
+        from.SwapOrMoveIcon(to);
+        inventory.Swap(from.Index, to.Index);
     }
 
     private void Init()
