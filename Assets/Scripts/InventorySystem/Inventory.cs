@@ -326,6 +326,24 @@ public class Inventory : MonoBehaviour
         UpdateSlot(indexA, indexB);
     }
 
+    public void SeparateAmount(int indexA, int indexB, int amount)
+    {
+        if (!IsValidIndex(indexA)) return;
+        if (!IsValidIndex(indexB)) return;
+
+        Item itemA = items[indexA];
+        Item itemB = items[indexB];
+
+        CountableItem ciA = itemA as CountableItem;
+        
+        if(ciA != null && itemB == null)
+        {
+            items[indexB] = ciA.SeperateAndClone(amount);
+
+            UpdateSlot(indexA, indexB);
+        }
+    }
+
     public void Use(int index)
     {
         //if (!IsValidIndex(index)) return;

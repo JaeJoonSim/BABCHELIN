@@ -75,6 +75,15 @@ public class InventoryUI : MonoBehaviour
         set { showHighlight = value; }
     }
 
+    [SerializeField]
+    [Tooltip("")]
+    private bool showRemovingPopup = true;
+    public bool ShowRemovingPopup
+    {
+        get { return showRemovingPopup; }
+        set { showRemovingPopup = value; }
+    }
+
     [Space]
 
     [Header("Connected Objects")]
@@ -103,6 +112,15 @@ public class InventoryUI : MonoBehaviour
     {
         get { return itemTooltip; }
         set { itemTooltip = value; }
+    }
+
+    [SerializeField]
+    [Tooltip("팝업 UI 관리 객채")]
+    private InventoryPopupUI popup;
+    public InventoryPopupUI Popup
+    {
+        get { return popup; }
+        set { popup = value; }
     }
 
     [Space]
@@ -324,22 +342,15 @@ public class InventoryUI : MonoBehaviour
     {
         ItemSlotUI endDragSlot = RaycastAndGetFirstComponent<ItemSlotUI>();
 
-        // 아이템 슬롯끼리 아이콘 교환 또는 이동
         if (endDragSlot != null && endDragSlot.IsAccessible)
         {
-            // 수량 나누기 조건
-            // 1) 마우스 클릭 떼는 순간 좌측 Ctrl 또는 Shift 키 유지
-            // 2) begin : 셀 수 있는 아이템 / end : 비어있는 슬롯
-            // 3) begin 아이템의 수량 > 1
             bool isSeparatable =
                 (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.LeftShift)) &&
                 (inventory.IsCountableItem(beginDragSlot.Index) && !inventory.HasItem(endDragSlot.Index));
 
-            // true : 수량 나누기, false : 교환 또는 이동
             bool isSeparation = false;
             int currentAmount = 0;
 
-            // 현재 개수 확인
             if (isSeparatable)
             {
                 currentAmount = inventory.GetCurrentAmount(beginDragSlot.Index);
@@ -349,15 +360,13 @@ public class InventoryUI : MonoBehaviour
                 }
             }
 
-            // 1. 개수 나누기
-            //if (isSeparation)
-            //TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
-            // 2. 교환 또는 이동
-            //else
-            TrySwapItems(beginDragSlot, endDragSlot);
 
-            // 툴팁 갱신
-            //UpdateTooltipUI(endDragSlot);
+            if (isSeparation)
+                TrySeparateAmount(beginDragSlot.Index, endDragSlot.Index, currentAmount);
+            else
+                TrySwapItems(beginDragSlot, endDragSlot);
+
+            UpdateTooltipUI(endDragSlot);
             return;
         }
 
@@ -373,8 +382,8 @@ public class InventoryUI : MonoBehaviour
             if (amount > 1)
                 itemName += $" x{amount}";
 
-            // if (_showRemovingPopup)
-            //_popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
+            if (showRemovingPopup)
+            popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
             //else
             TryRemoveItem(index);
         }
@@ -389,6 +398,15 @@ public class InventoryUI : MonoBehaviour
     private void TryRemoveItem(int index)
     {
         inventory.Remove(index);
+    }
+
+    private void TrySeparateAmount(int indexA, int indexB, int amount)
+    {
+        if (indexA == indexB) return;
+
+        string itemName = inventory.GetItemName(indexA);
+
+        popup.OpenAmountInputPopup(amt => inventory.SeparateAmount(indexA, indexB, amt), amount, itemName);
     }
 
     private void TryUseItem(int index)
