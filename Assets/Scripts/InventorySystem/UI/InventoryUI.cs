@@ -125,6 +125,18 @@ public class InventoryUI : MonoBehaviour
 
     [Space]
 
+    [Header("Button")]
+    [SerializeField]
+    [Tooltip("인벤토리 정렬 버튼")]
+    private Button sortButton;
+    public Button SortButton
+    {
+        get { return sortButton; }
+        set { sortButton = value; }
+    }
+
+    [Space]
+
     [Header("Filter Toggles")]
     [SerializeField]
     [Tooltip("마우스 클릭 반전 여부")]
@@ -152,6 +164,7 @@ public class InventoryUI : MonoBehaviour
     private Vector3 beginDragIconPoint;
     private Vector3 beginDragCursorPoint;
     private int beginDragSlotSiblingIndex;
+    
 
 #if UNITY_EDITOR
     [Space]
@@ -190,6 +203,7 @@ public class InventoryUI : MonoBehaviour
     {
         Init();
         InitSlot();
+        InitButtonEvenets();
     }
 
     private void Update()
@@ -267,7 +281,7 @@ public class InventoryUI : MonoBehaviour
             if (showHighlight)
                 curSlot.Highlight(true);
         }
-        
+
         void OnPrevExit()
         {
             prevSlot.Highlight(false);
@@ -383,9 +397,9 @@ public class InventoryUI : MonoBehaviour
                 itemName += $" x{amount}";
 
             if (showRemovingPopup)
-            popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
-            //else
-            TryRemoveItem(index);
+                popup.OpenConfirmationPopup(() => TryRemoveItem(index), itemName);
+            else
+                TryRemoveItem(index);
         }
         // 슬롯이 아닌 다른 UI 위에 놓은 경우
         else
@@ -495,6 +509,11 @@ public class InventoryUI : MonoBehaviour
 
             return rt;
         }
+    }
+
+    private void InitButtonEvenets()
+    {
+        sortButton.onClick.AddListener(() => inventory.SortAll());
     }
 
     public void SetInventoryReference(Inventory inventory)

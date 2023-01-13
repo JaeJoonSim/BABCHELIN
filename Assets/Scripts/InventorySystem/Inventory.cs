@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using static UnityEditor.Progress;
+using System;
 
 public class Inventory : MonoBehaviour
 {
@@ -32,6 +33,32 @@ public class Inventory : MonoBehaviour
     [SerializeField]
     [Tooltip("아이템 목록")]
     private Item[] items;
+
+    private readonly static Dictionary<Type, int> sortWeightDict = new Dictionary<Type, int>
+    {
+        { typeof(PortionItemData), 10000 },
+        { typeof(WeaponItemData),  20000 },
+        { typeof(ArmorItemData),   30000 },
+    };
+
+    private class ItemComparer : IComparer<Item>
+    {
+        public int Compare(Item a, Item b)
+        {
+            return (a.Data.ID + sortWeightDict[a.Data.GetType()])
+                     - (b.Data.ID + sortWeightDict[b.Data.GetType()]);
+        }
+    }
+    private static readonly ItemComparer itemComparer = new ItemComparer();
+
+
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        if (initialCapacity > maxCapacity)
+            initialCapacity = maxCapacity;
+    }
+#endif
 
     private void Awake()
     {
@@ -335,8 +362,8 @@ public class Inventory : MonoBehaviour
         Item itemB = items[indexB];
 
         CountableItem ciA = itemA as CountableItem;
-        
-        if(ciA != null && itemB == null)
+
+        if (ciA != null && itemB == null)
         {
             items[indexB] = ciA.SeperateAndClone(amount);
 
@@ -358,5 +385,28 @@ public class Inventory : MonoBehaviour
                 UpdateSlot(index);
             }
         }
+    }
+
+    public void SortAll()
+    {
+        int i = -1;
+        while (items[++i] != null) ;
+        int j = i;
+
+        while (true)
+        {
+            while (++j < Capacity && items[j] == null) ;
+
+            if (j == Capacity)
+                break;
+
+            items[i] = items[j];
+            items[j] = null;
+            i++;
+        }
+
+        Array.Sort(items, 0, i, itemComparer);
+
+        UpdateAllSlot();
     }
 }
