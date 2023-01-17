@@ -22,7 +22,6 @@ public class Inventory : ScriptableObject
     private ItemDatabase itemDatabase;
     public ItemDatabase ItemDatabase { get { return itemDatabase; } }
 
-    // ? 왜 getter가 stackoverflow? 대체 왜?
     [Tooltip("인벤토리")]
     [SerializeField]
     private InventoryObject items;
@@ -30,21 +29,34 @@ public class Inventory : ScriptableObject
 
     public void AddItem(ItemObject item, int amount)
     {
-        if(item.buffs.Length > 0)
+        if (item.buffs.Length > 0)
         {
-            items.Items.Add(new InventorySlot(item.ID, item, amount));
+            SetEmptySlot(item, amount);
             return;
         }
 
-        for (int i = 0; i < items.Items.Count; i++)
+        for (int i = 0; i < items.Items.Length; i++)
         {
-            if (items.Items[i].Item.ID == item.ID && items.Items[i].Amount < 101)
+            if (items.Items[i].ID == item.ID && items.Items[i].Amount < itemDatabase.GetItem[item.ID].MaxStack)
             {
                 items.Items[i].AddAmount(amount);
                 return;
             }
         }
-        items.Items.Add(new InventorySlot(item.ID, item, amount));
+        SetEmptySlot(item, amount);
+    }
+
+    public InventorySlot SetEmptySlot(ItemObject item, int amount)
+    {
+        for (int i = 0; i < Items.Items.Length; i++)
+        {
+            if (Items.Items[i].ID <= -1)
+            {
+                Items.Items[i].UpdateSlot(item.ID, item, amount);
+                return Items.Items[i];
+            }
+        }
+        return null;
     }
 
     [ContextMenu("Save")]
@@ -91,8 +103,12 @@ public class InventoryObject
 {
     [Tooltip("아이템 리스트")]
     [SerializeField]
-    private List<InventorySlot> items = new List<InventorySlot>();
-    public List<InventorySlot> Items { get { return items; } }
+    private InventorySlot[] items = new InventorySlot[25];
+    public InventorySlot[] Items 
+    { 
+        get { return items; }
+        set { items = value; }
+    }
 }
 
 
@@ -101,8 +117,12 @@ public class InventorySlot
 {
     [Tooltip("아이템 ID")]
     [SerializeField]
-    private int id;
-    public int ID { get { return id; } }
+    private int id = -1;
+    public int ID 
+    { 
+        get { return id; }
+        set { id = value; }
+    }
 
     [Tooltip("아이템")]
     [SerializeField]
@@ -122,7 +142,21 @@ public class InventorySlot
         set { amount = value; }
     }
 
+    public InventorySlot()
+    {
+        id = -1;
+        item = null;
+        amount = 0;
+    }
+
     public InventorySlot(int id, ItemObject item, int amount)
+    {
+        this.id = id;
+        this.item = item;
+        this.amount = amount;
+    }
+
+    public void UpdateSlot(int id, ItemObject item, int amount)
     {
         this.id = id;
         this.item = item;

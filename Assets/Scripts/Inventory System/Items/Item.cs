@@ -56,6 +56,15 @@ public abstract class Item : ScriptableObject
         set { description = value; }
     }
 
+    [Tooltip("최대 아이템 개수")]
+    [SerializeField]
+    private int maxStack = 100;
+    public int MaxStack
+    {
+        get { return maxStack; }
+        set { maxStack = value; }
+    }
+
     [Tooltip("버프")]
     [SerializeField]
     public ItemBuff[] buffs;
