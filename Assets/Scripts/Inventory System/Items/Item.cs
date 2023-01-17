@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum ItemType
@@ -94,6 +95,11 @@ public class ItemObject
     private int id;
     public int ID { get { return id; } }
 
+    [Tooltip("아이템 설명")]
+    [SerializeField, TextArea(15, 20)]
+    private string description;
+    public string Description { get { return description; } }
+
     [Tooltip("버프")]
     [SerializeField]
     public ItemBuff[] buffs;
@@ -107,6 +113,7 @@ public class ItemObject
     {
         name = item.name;
         id = item.ID;
+        description = item.Description;
         buffs = new ItemBuff[item.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {

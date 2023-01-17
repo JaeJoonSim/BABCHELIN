@@ -6,14 +6,15 @@ using UnityEngine.UI;
 using Spine;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using static UnityEditor.Progress;
 
 public class InventoryDisplay : MonoBehaviour
 {
     [Tooltip("¸¶¿ì½º")]
     [SerializeField]
     private MouseItem mouseItem = new MouseItem();
-    public MouseItem MouseItem 
-    { 
+    public MouseItem MouseItem
+    {
         get { return mouseItem; }
         set { mouseItem = value; }
     }
@@ -31,6 +32,11 @@ public class InventoryDisplay : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
     public Inventory Inventory { get { return inventory; } }
+
+    [Tooltip("ÅøÆÁ")]
+    [SerializeField]
+    private Tooltip tooltip;
+    public Tooltip Tooltip { get { return tooltip; } }
 
     Dictionary<GameObject, InventorySlot> itemsDisplay = new Dictionary<GameObject, InventorySlot>();
 
@@ -88,18 +94,26 @@ public class InventoryDisplay : MonoBehaviour
         eventTrigger.callback.AddListener(action);
         trigger.triggers.Add(eventTrigger);
     }
-    
+
     public void OnEnter(GameObject obj)
     {
         mouseItem.hoverObj = obj;
         if (itemsDisplay.ContainsKey(obj))
+        {
             mouseItem.hoverItem = itemsDisplay[obj];
+            if (itemsDisplay[obj].ID >= 0)
+            {
+                tooltip.gameObject.SetActive(true);
+                tooltip.SetupTooltip(itemsDisplay[obj].Item.Name, itemsDisplay[obj].Item.Description);
+            }
+        }
     }
 
     public void OnExit(GameObject obj)
     {
         mouseItem.hoverItem = null;
         mouseItem.hoverObj = null;
+        tooltip.gameObject.SetActive(false);
     }
 
     public void OnDragStart(GameObject obj)
@@ -121,7 +135,7 @@ public class InventoryDisplay : MonoBehaviour
 
     public void OnDragEnd(GameObject obj)
     {
-        if(mouseItem.hoverObj)
+        if (mouseItem.hoverObj)
         {
             inventory.MoveItem(itemsDisplay[obj], itemsDisplay[mouseItem.hoverObj]);
         }
@@ -135,7 +149,7 @@ public class InventoryDisplay : MonoBehaviour
 
     public void OnDrag(GameObject obj)
     {
-        if(mouseItem.obj != null)
+        if (mouseItem.obj != null)
             mouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
     }
 }
