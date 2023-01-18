@@ -116,7 +116,7 @@ public class Inventory : ScriptableObject
     [ContextMenu("Clear")]
     public void Clear()
     {
-        items = new InventoryObject();
+        items.Clear();
     }
 }
 
@@ -131,12 +131,38 @@ public class InventoryObject
         get { return items; }
         set { items = value; }
     }
+
+    public void Clear()
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].UpdateSlot(-1, new ItemObject(), 0);
+        }
+    }
 }
 
 
 [System.Serializable]
 public class InventorySlot
 {
+    [Tooltip("아이템 타입")]
+    [SerializeField]
+    private ItemType[] AllowedItems = new ItemType[0];
+    public ItemType[] allowedItems 
+    { 
+        get { return AllowedItems; }
+        set { AllowedItems = value; }
+    }
+
+    [Tooltip("User Interface Script")]
+    [SerializeField]
+    private UserInterface parent;
+    public UserInterface Parent 
+    { 
+        get { return parent; }
+        set { parent = value; }
+    }
+
     [Tooltip("아이템 ID")]
     [SerializeField]
     private int id = -1;
@@ -188,5 +214,18 @@ public class InventorySlot
     public void AddAmount(int value)
     {
         amount += value;
+    }
+
+    public bool CanPlaceInSlot(Item item)
+    {
+        if (AllowedItems.Length <= 0)
+            return true;
+
+        for (int i = 0; i < AllowedItems.Length; i++)
+        {
+            if (item.Type == AllowedItems[i])
+                return true;
+        }
+        return false;
     }
 }

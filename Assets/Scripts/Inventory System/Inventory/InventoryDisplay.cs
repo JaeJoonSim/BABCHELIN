@@ -135,15 +135,19 @@ public class InventoryDisplay : MonoBehaviour
 
     public void OnDragEnd(GameObject obj)
     {
+        InventoryUI inventoryUI = obj.GetComponentInParent<InventoryUI>();
+
         if (mouseItem.hoverObj)
         {
             inventory.MoveItem(itemsDisplay[obj], itemsDisplay[mouseItem.hoverObj]);
+            Destroy(mouseItem.obj);
         }
         else
         {
             inventory.RemoveItem(itemsDisplay[obj]);
+            Destroy(mouseItem.obj);
+            
         }
-        Destroy(mouseItem.obj);
         mouseItem.item = null;
     }
 
@@ -152,12 +156,4 @@ public class InventoryDisplay : MonoBehaviour
         if (mouseItem.obj != null)
             mouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
     }
-}
-
-public class MouseItem
-{
-    public GameObject obj;
-    public InventorySlot item;
-    public InventorySlot hoverItem;
-    public GameObject hoverObj;
 }

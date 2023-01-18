@@ -109,6 +109,12 @@ public class ItemObject
         set { buffs = value; }
     }
 
+    public ItemObject()
+    {
+        name = "";
+        id = -1;
+    }
+
     public ItemObject(Item item)
     {
         name = item.name;
