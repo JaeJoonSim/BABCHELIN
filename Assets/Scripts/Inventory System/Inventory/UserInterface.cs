@@ -24,6 +24,11 @@ public abstract class UserInterface : MonoBehaviour
     private Inventory inventory;
     public Inventory Inventory { get { return inventory; } }
 
+    [Tooltip("인벤토리 <=> 라디알 메뉴")]
+    [SerializeField]
+    private Inventory anotherData;
+    public Inventory AnotherData { get { return anotherData; } }
+
     [Tooltip("툴팁")]
     [SerializeField]
     private Tooltip tooltip;
@@ -184,10 +189,20 @@ public abstract class UserInterface : MonoBehaviour
         if (itemsDisplay[obj].Item.Type != ItemType.Equipment)
         {
             itemsDisplay[obj].Amount--;
+            if (itemsDisplay[obj].Amount <= 0)
+            {
+                inventory.RemoveItem(itemsDisplay[obj]);
+            }
         }
         else
         {
-
+            for (int i = 0; i < anotherData.Items.Items.Length; i++)
+            {
+                if (anotherData.Items.Items[i].ID <= -1)
+                {
+                    inventory.MoveItem(itemsDisplay[obj], anotherData.Items.Items[i]);
+                }
+            }
         }
     }
 }
