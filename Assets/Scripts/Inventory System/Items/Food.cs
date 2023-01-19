@@ -9,4 +9,5 @@ public class Food : Item
     {
         Type = ItemType.Food;
     }
+
 }

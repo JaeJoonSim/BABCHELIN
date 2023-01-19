@@ -145,7 +145,7 @@ public class InventoryObject
 [System.Serializable]
 public class InventorySlot
 {
-    [Tooltip("아이템 타입")]
+    [Tooltip("허용 아이템 타입")]
     [SerializeField]
     private ItemType[] AllowedItems = new ItemType[0];
     public ItemType[] allowedItems 
@@ -189,7 +189,7 @@ public class InventorySlot
         get { return amount; }
         set { amount = value; }
     }
-
+    
     public InventorySlot()
     {
         id = -1;
@@ -215,7 +215,7 @@ public class InventorySlot
     {
         amount += value;
     }
-
+    
     public bool CanPlaceInSlot(Item item)
     {
         if (AllowedItems.Length <= 0)

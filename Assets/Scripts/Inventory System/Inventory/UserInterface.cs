@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
+using AmplifyShaderEditor;
+using static UnityEditor.Progress;
 
 public abstract class UserInterface : MonoBehaviour
 {
@@ -80,6 +82,15 @@ public abstract class UserInterface : MonoBehaviour
         trigger.triggers.Add(eventTrigger);
     }
 
+    protected void OnRightClickEvent(GameObject obj)
+    {
+        EventTrigger trigger = obj.GetComponent<EventTrigger>();
+        var eventTrigger = new EventTrigger.Entry();
+        eventTrigger.eventID = EventTriggerType.PointerDown;
+        eventTrigger.callback.AddListener((data) => { OnClick(obj, (PointerEventData)data, PointerEventData.InputButton.Right); });
+        trigger.triggers.Add(eventTrigger);
+    }
+
     public void OnEnter(GameObject obj)
     {
         playerInventory.MouseItem.hoverObj = obj;
@@ -101,7 +112,7 @@ public abstract class UserInterface : MonoBehaviour
         playerInventory.MouseItem.hoverObj = null;
         tooltip.gameObject.SetActive(false);
     }
-    
+
     public void OnEnterInterface(GameObject obj)
     {
         playerInventory.MouseItem.ui = obj.GetComponent<UserInterface>();
@@ -149,7 +160,8 @@ public abstract class UserInterface : MonoBehaviour
             {
                 inventory.RemoveItem(itemsDisplay[obj]);
             }
-        }        Destroy(itemOnMouse.obj);
+        }
+        Destroy(itemOnMouse.obj);
         itemOnMouse.item = null;
     }
 
@@ -157,6 +169,26 @@ public abstract class UserInterface : MonoBehaviour
     {
         if (playerInventory.MouseItem.obj != null)
             playerInventory.MouseItem.obj.GetComponent<RectTransform>().position = Input.mousePosition;
+    }
+
+    public void OnClick(GameObject obj, PointerEventData data, PointerEventData.InputButton type)
+    {
+        if (data.button == type)
+        {
+            Use(obj);
+        }
+    }
+
+    public void Use(GameObject obj)
+    {
+        if (itemsDisplay[obj].Item.Type != ItemType.Equipment)
+        {
+            itemsDisplay[obj].Amount--;
+        }
+        else
+        {
+
+        }
     }
 }
 

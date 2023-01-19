@@ -109,6 +109,11 @@ public class ItemObject
         set { buffs = value; }
     }
 
+    [Tooltip("아이템 타입")]
+    [SerializeField]
+    private ItemType type;
+    public ItemType Type { get { return type; } }
+
     public ItemObject()
     {
         name = "";
@@ -125,6 +130,7 @@ public class ItemObject
         {
             buffs[i] = new ItemBuff(item.buffs[i].Min, item.buffs[i].Max) { Attribute = item.buffs[i].Attribute };
         }
+        type = item.Type;
     }
 }
 
