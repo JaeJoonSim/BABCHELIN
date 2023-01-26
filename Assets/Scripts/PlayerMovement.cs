@@ -108,8 +108,8 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-        moveDir.x = Input.GetAxis("Horizontal");
-        moveDir.z = Input.GetAxis("Vertical");
+        moveDir.x = Input.GetAxisRaw("Horizontal");
+        moveDir.z = Input.GetAxisRaw("Vertical");
         moveDir.Normalize();
     }
 
