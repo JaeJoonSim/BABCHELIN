@@ -15,7 +15,7 @@ public class CircularArrangment : MonoBehaviour
 
         for(int i = 0; i < numOfChild; i++)
         {
-            float angle = i * (Mathf.PI * 2.0f) / numOfChild;
+            float angle = Mathf.PI * 0.5f - i * (Mathf.PI * 2.0f) / numOfChild;
 
             GameObject child = transform.GetChild(i).gameObject;
 
