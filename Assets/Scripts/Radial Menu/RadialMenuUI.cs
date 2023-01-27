@@ -35,7 +35,7 @@ public class RadialMenuUI : MonoBehaviour
         else if (Input.GetKeyUp(key))
         {
             int selected = radialMenu.Hide();
-            Debug.Log($"Selected : {selected}");
+            Debug.Log($"Selected : {inventory.Items.Items[selected].Item.Name}");
         }
     }
 }

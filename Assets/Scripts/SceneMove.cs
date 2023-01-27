@@ -14,13 +14,7 @@ public class SceneMove : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            SceneChange(sceneName);
+            SceneManager.LoadScene(sceneName);
         }
     }
-
-    public void SceneChange(string sceneName)
-    {
-        SceneManager.LoadScene(this.sceneName);
-    }
-
 }

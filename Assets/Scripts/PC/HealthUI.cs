@@ -25,7 +25,7 @@ public class HealthUI : MonoBehaviour
 
     private void Update()
     {
-        healthText.text = (healthSlider.value * 10).ToString("n0");
+        healthText.text = healthSlider.value.ToString("n0");
 
         if (refilling)
         {
