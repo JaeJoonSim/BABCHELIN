@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 [CreateAssetMenu(fileName = "Inventory", menuName = "Inventory System/Inventory")]
 public class Inventory : ScriptableObject
@@ -27,23 +28,54 @@ public class Inventory : ScriptableObject
     private InventoryObject items;
     public InventoryObject Items { get { return items; } }
 
-    public void AddItem(ItemObject item, int amount)
+    public bool AddItem(ItemObject item, int amount)
     {
-        if (item.buffs.Length > 0)
+        if (EmptySlotCount <= 0)
+            return false;
+        InventorySlot slot = FindItemOnInventory(item);
+        if (!itemDatabase.Items[item.ID].Stackable || slot == null)
         {
             SetEmptySlot(item, amount);
-            return;
+            return true;
         }
+        if (itemDatabase.Items[item.ID].Stackable && slot.Amount < itemDatabase.Items[item.ID].MaxStack)
+        {
+            slot.AddAmount(amount);
+            return true;
+        }
+        else if (itemDatabase.Items[item.ID].Stackable && slot.Amount >= itemDatabase.Items[item.ID].MaxStack)
+        {
+            SetEmptySlot(item, amount);
+            return true;
+        }
+        return true;
+    }
 
+    public int EmptySlotCount
+    {
+        get
+        {
+            int counter = 0;
+            for (int i = 0; i < items.Items.Length; i++)
+            {
+                if (items.Items[i].Item.ID <= -1)
+                {
+                    counter++;
+                }
+            }
+            return counter;
+        }
+    }
+    public InventorySlot FindItemOnInventory(ItemObject item)
+    {
         for (int i = 0; i < items.Items.Length; i++)
         {
-            if (items.Items[i].ID == item.ID && items.Items[i].Amount < itemDatabase.GetItem[item.ID].MaxStack)
+            if (items.Items[i].Item.ID == item.ID)
             {
-                items.Items[i].AddAmount(amount);
-                return;
+                return items.Items[i];
             }
         }
-        SetEmptySlot(item, amount);
+        return null;
     }
 
     public InventorySlot SetEmptySlot(ItemObject item, int amount)
@@ -62,8 +94,23 @@ public class Inventory : ScriptableObject
     public void MoveItem(InventorySlot item1, InventorySlot item2)
     {
         InventorySlot temp = new InventorySlot(item2.ID, item2.Item, item2.Amount);
-        item2.UpdateSlot(item1.ID, item1.Item, item1.Amount);
-        item1.UpdateSlot(temp.ID, temp.Item, temp.Amount);
+
+        if (item1.Item.ID == temp.ID && item1 != item2 && itemDatabase.GetItem[item1.ID].Stackable)
+        {
+            item2.AddAmount(item1.Amount);
+            //item1.UpdateSlot(-1, null, 0);
+            if (item2.Amount > itemDatabase.GetItem[item2.ID].MaxStack)
+            {
+                int amount = item2.Amount - itemDatabase.GetItem[item2.ID].MaxStack;
+                item2.Amount = itemDatabase.GetItem[item2.ID].MaxStack;
+                item1.UpdateSlot(temp.ID, temp.Item, amount);
+            }
+        }
+        else
+        {
+            item2.UpdateSlot(item1.ID, item1.Item, item1.Amount);
+            item1.UpdateSlot(temp.ID, temp.Item, temp.Amount);
+        }
     }
 
     public void RemoveItem(InventorySlot item)
@@ -126,8 +173,8 @@ public class InventoryObject
     [Tooltip("아이템 리스트")]
     [SerializeField]
     private InventorySlot[] items = new InventorySlot[25];
-    public InventorySlot[] Items 
-    { 
+    public InventorySlot[] Items
+    {
         get { return items; }
         set { items = value; }
     }
@@ -148,8 +195,8 @@ public class InventorySlot
     [Tooltip("허용 아이템 타입")]
     [SerializeField]
     private ItemType[] AllowedItems = new ItemType[0];
-    public ItemType[] allowedItems 
-    { 
+    public ItemType[] allowedItems
+    {
         get { return AllowedItems; }
         set { AllowedItems = value; }
     }
@@ -157,8 +204,8 @@ public class InventorySlot
     [Tooltip("User Interface Script")]
     [SerializeField]
     private UserInterface parent;
-    public UserInterface Parent 
-    { 
+    public UserInterface Parent
+    {
         get { return parent; }
         set { parent = value; }
     }
@@ -166,8 +213,8 @@ public class InventorySlot
     [Tooltip("아이템 ID")]
     [SerializeField]
     private int id = -1;
-    public int ID 
-    { 
+    public int ID
+    {
         get { return id; }
         set { id = value; }
     }
@@ -189,7 +236,7 @@ public class InventorySlot
         get { return amount; }
         set { amount = value; }
     }
-    
+
     public InventorySlot()
     {
         id = -1;
@@ -215,10 +262,10 @@ public class InventorySlot
     {
         amount += value;
     }
-    
+
     public bool CanPlaceInSlot(Item item)
     {
-        if (AllowedItems.Length <= 0)
+        if (AllowedItems.Length <= 0 || item == null || item.ID < 0)
             return true;
 
         for (int i = 0; i < AllowedItems.Length; i++)

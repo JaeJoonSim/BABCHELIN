@@ -57,8 +57,17 @@ public abstract class Item : ScriptableObject
         set { description = value; }
     }
 
-    [Tooltip("최대 아이템 개수")]
+    [Tooltip("아이템 스택 유무")]
     [SerializeField]
+    private bool stackable;
+    public bool Stackable
+    {
+        get { return stackable; }
+        set { stackable = value; }
+    }
+
+    [Tooltip("최대 아이템 개수")]
+    [SerializeField, DrawIf("stackable", true)]
     private int maxStack = 100;
     public int MaxStack
     {
