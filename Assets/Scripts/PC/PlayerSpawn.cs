@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    public GameObject PlaterCharacter;
-
+    public GameObject PlayerCharacter;
+    [SerializeField]
+    private Cinemachine.CinemachineVirtualCamera vcam;
     void Start()
     {
-        Instantiate(PlaterCharacter);
+        var playerObj = Instantiate(PlayerCharacter);
+        vcam.Follow = playerObj.transform;
     }
 }
