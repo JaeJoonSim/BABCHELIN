@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public class Chest : MonoBehaviour, Interactable
 {
+    
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
