@@ -15,9 +15,9 @@ public class InteractionPromptUI : MonoBehaviour
     }
 
     [SerializeField]
-    [Tooltip("TextMeshPro")]
-    private TextMeshProUGUI promptText;
-    public TextMeshProUGUI PromptText
+    [Tooltip("UI텍스트 Key")]
+    private LocalizedText promptText;
+    public LocalizedText PromptText
     {
         get { return promptText; }
         set { promptText = value; }
@@ -48,7 +48,7 @@ public class InteractionPromptUI : MonoBehaviour
 
     public void SetUp(string pText)
     {
-        promptText.text = pText;
+        promptText.LocalizationKey = pText;
         uiPanel.SetActive(true);
         IsDisplayed = true;
     }
