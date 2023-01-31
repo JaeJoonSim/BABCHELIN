@@ -19,7 +19,8 @@ public enum Attributes
     Strength,
 }
 
-public abstract class Item : ScriptableObject
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Item")]
+public class Item : ScriptableObject
 {
     [Tooltip("æ∆¿Ã≈€ ID")]
     [SerializeField]

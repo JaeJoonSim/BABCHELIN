@@ -201,8 +201,6 @@ public class InventorySlot
         set { AllowedItems = value; }
     }
 
-    [Tooltip("User Interface Script")]
-    [SerializeField]
     private UserInterface parent;
     public UserInterface Parent
     {

@@ -10,7 +10,6 @@ public class ItemDatabase : ScriptableObject, ISerializationCallbackReceiver
     private Item[] items;
     public Item[] Items { get { return items; } }
 
-    public Dictionary<Item, int> GetId = new Dictionary<Item, int>();
     public Dictionary<int, Item> GetItem = new Dictionary<int, Item>();
 
     public void OnAfterDeserialize()
