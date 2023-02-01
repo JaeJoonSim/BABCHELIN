@@ -8,14 +8,14 @@ public class MoneyScript : MonoBehaviour
     public static int moneyGold;    //골드
     public static int honerCoin;    //명예 코인
     public static int dungeonCoin;  //던전 코인
-    int exchangeRate;               //환율
+    public int exchangeRate;               //환율
     public TMP_Text goldText;
 
     // Start is called before the first frame update
     void Awake()
     {
         DontDestroyOnLoad(this);
-        moneyGold = 100;
+        moneyGold = 1000;   //테스트용 기본 재화 지급
         honerCoin = 100;
         dungeonCoin = 100;
         exchangeRate = 1050;
@@ -38,7 +38,7 @@ public class MoneyScript : MonoBehaviour
     {
         //int per = 100;
 
-        //if (GameObject.Find("Managers").GetComponent<TimeScript>().timeMinute % 5 == 0)    //테스트용 5분마다
+        //if (GameObject.Find("Managers").GetComponent<TimeScript>().timeMinute % 5 == 0)
         //{
         //    per = Random.Range(0, 100);
         //}
