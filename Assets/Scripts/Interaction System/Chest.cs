@@ -35,6 +35,7 @@ public class Chest : MonoBehaviour, Interactable
         {
             offInteraction.Invoke();
             Debug.Log("Close Chest");
+
         }
     }
 }

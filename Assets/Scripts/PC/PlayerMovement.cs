@@ -116,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
     private void Jump()
     {
         CheckGround();
-        if (Input.GetButtonDown("Jump") && isGrounded)
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0)
         {
             rb.AddForce(Vector3.up * pcJumpHeight, ForceMode.VelocityChange);
         }

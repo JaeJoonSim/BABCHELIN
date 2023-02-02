@@ -333,7 +333,9 @@ public class ConsoleSystem : MonoBehaviour
             }
         }
         else
+        {
             Time.timeScale = 1f;
+        }
     }
 
     private void LockUnlockCursor(bool state)

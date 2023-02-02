@@ -27,5 +27,12 @@ public class PanelControll : MonoBehaviour
                 panel[i].SetActive(!panel[i].activeSelf);
             }
         }
+        else if (Input.GetKeyDown(key))
+        {
+            for (int i = 0; i < panel.Length; i++)
+            {
+                panel[i].SetActive(!panel[i].activeSelf);
+            }
+        }
     }
 }

@@ -29,6 +29,7 @@ public class DefaultCommands : CommandBehaviour
     [Command]
     public void help()
     {
+        Debug.Log("< Command List >");
         for (int i = 0; i < Command.List.Count; i++)
         {
             Debug.Log(Command.List[i].MethodInfo.Name);
