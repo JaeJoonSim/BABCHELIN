@@ -30,8 +30,8 @@ public class PlayerInventory : MonoBehaviour
 
     [Tooltip("ø¿∞® √À¡¯¡¶")]
     [SerializeField]
-    private Inventory enhancer;
-    public Inventory Enhancer { get { return enhancer; } }
+    private Inventory accelerator;
+    public Inventory Accelerator { get { return accelerator; } }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -55,13 +55,29 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        if(inventory != null)
-            inventory.Items.Items = new InventorySlot[25];
+        if (inventory != null)
+            inventory.Items.Clear();
         if (radialMenu != null)
-            radialMenu.Items.Items = new InventorySlot[6];
+            radialMenu.Items.Clear();
         if (cookingTable != null)
-            cookingTable.Items.Items = new InventorySlot[4];
-        if (enhancer != null)
-            enhancer.Items.Items = new InventorySlot[20];
+        {
+            cookingTable.Items.Clear();
+            for (int i = 0; i < cookingTable.Items.Items.Length; i++)
+            {
+                cookingTable.Items.Items[i].allowedItems = new ItemType[2];
+                cookingTable.Items.Items[i].allowedItems[0] = ItemType.Food;
+                cookingTable.Items.Items[i].allowedItems[1] = ItemType.Accelerator;
+            }
+        }
+        
+        if (accelerator != null)
+        {
+            accelerator.Items.Clear();
+            for (int i = 0; i < accelerator.Items.Items.Length; i++)
+            {
+                accelerator.Items.Items[i].allowedItems = new ItemType[1];
+                accelerator.Items.Items[i].allowedItems[0] = ItemType.Accelerator;
+            }
+        }
     }
 }

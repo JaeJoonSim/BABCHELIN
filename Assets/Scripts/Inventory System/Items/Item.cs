@@ -6,6 +6,7 @@ using UnityEngine;
 
 public enum ItemType
 {
+    Accelerator,
     Food,
     Equipment,
     Default,
@@ -131,7 +132,11 @@ public class ItemObject
     [Tooltip("아이템 타입")]
     [SerializeField]
     private ItemType type;
-    public ItemType Type { get { return type; } }
+    public ItemType Type 
+    { 
+        get { return type; }
+        set { type = value; }
+    }
 
     public ItemObject()
     {
