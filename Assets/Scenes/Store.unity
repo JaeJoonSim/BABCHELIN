@@ -511,7 +511,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 159165733}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 877891945}
+        m_TargetAssemblyTypeName: Cooking, Assembly-CSharp
+        m_MethodName: CookingStart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &159165733
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1767,6 +1779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b2a14017d735784a8765964eb254165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cook: {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
 --- !u!1 &910596359
 GameObject:
   m_ObjectHideFlags: 0
