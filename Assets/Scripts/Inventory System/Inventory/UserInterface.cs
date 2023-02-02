@@ -24,10 +24,10 @@ public abstract class UserInterface : MonoBehaviour
     private Inventory inventory;
     public Inventory Inventory { get { return inventory; } }
 
-    [Tooltip("인벤토리 <=> 라디알 메뉴")]
+    [Tooltip("상호작용할 다른 데이터베이스\n 0번째 인덱스만 우클릭 상호작용 가능")]
     [SerializeField]
-    private Inventory anotherData;
-    public Inventory AnotherData { get { return anotherData; } }
+    private Inventory[] anotherData;
+    public Inventory[] AnotherData { get { return anotherData; } }
 
     [Tooltip("툴팁")]
     [SerializeField]
@@ -201,11 +201,11 @@ public abstract class UserInterface : MonoBehaviour
         }
         else
         {
-            for (int i = 0; i < anotherData.Items.Items.Length; i++)
+            for (int i = 0; i < anotherData[0].Items.Items.Length; i++)
             {
-                if (anotherData.Items.Items[i].ID <= -1)
+                if (anotherData[0].Items.Items[i].ID <= -1)
                 {
-                    inventory.MoveItem(itemsDisplay[obj], anotherData.Items.Items[i]);
+                    inventory.MoveItem(itemsDisplay[obj], anotherData[0].Items.Items[i]);
                 }
             }
         }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class Door : MonoBehaviour, Interactable
 {
@@ -12,9 +13,15 @@ public class Door : MonoBehaviour, Interactable
     #region Unity Events
     [Space]
     public UnityEvent onInteraction;
+    public UnityEvent offInteraction;
     #endregion
 
-    public bool Interact(Interactor interactor)
+    private void Update()
+    {
+        OffInteract();
+    }
+
+    public bool OnInteract(Interactor interactor)
     {
         var intKey = interactor.GetComponent<InteractionKey>();
 
@@ -29,5 +36,14 @@ public class Door : MonoBehaviour, Interactable
 
         Debug.Log("키가 없습니다!");
         return false;
+    }
+
+    public void OffInteract()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            offInteraction.Invoke();
+            Debug.Log("Close Door");
+        }
     }
 }

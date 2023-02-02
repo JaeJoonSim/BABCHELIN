@@ -157,7 +157,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 0.9999426}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -964,8 +964,8 @@ RectTransform:
   m_Father: {fileID: 955382114}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 0.26276666}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -1276,7 +1276,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.70317197}
+  m_AnchoredPosition: {x: 0, y: 0.00007062613}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &581984809
@@ -1293,7 +1293,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 0}
   inventory: {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
-  anotherData: {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
+  anotherData:
+  - {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
+  - {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
   tooltip: {fileID: 446886424}
   inventoryPrefab: {fileID: 2775245393738803186, guid: 103b6e7c6e7904047beb9bda0db34cf8,
     type: 3}
@@ -1775,7 +1777,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 0}
   inventory: {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
-  anotherData: {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
+  anotherData:
+  - {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
   tooltip: {fileID: 446886424}
   slots:
   - {fileID: 1203470925}
@@ -1923,7 +1926,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerInventory: {fileID: 0}
   inventory: {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
-  anotherData: {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
+  anotherData:
+  - {fileID: 11400000, guid: 82d6fcdd02fa6f041844bc1a12bb6df1, type: 2}
+  - {fileID: 11400000, guid: 8fd727314e1c5304795832af9713bd8d, type: 2}
   tooltip: {fileID: 446886424}
   inventoryPrefab: {fileID: 2775245393738803186, guid: 103b6e7c6e7904047beb9bda0db34cf8,
     type: 3}
@@ -2085,7 +2090,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 23286909}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.925675
+  m_Size: 0.9999426
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2400,9 +2405,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &971702971
 MonoBehaviour:
@@ -3309,8 +3314,7 @@ GameObject:
   - component: {fileID: 1256738984}
   - component: {fileID: 1256738983}
   - component: {fileID: 1256738982}
-  - component: {fileID: 1256738985}
-  - component: {fileID: 1256738987}
+  - component: {fileID: 1256738988}
   m_Layer: 6
   m_Name: Countertop
   m_TagString: Untagged
@@ -3396,20 +3400,7 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1256738979}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &1256738985
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1256738979}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1256738987
+--- !u!114 &1256738988
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3418,11 +3409,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 1256738979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56a1043bea6d0244d8e03a9f41e35109, type: 3}
+  m_Script: {fileID: 11500000, guid: 9ddd842b86e1096409b7b991c72846a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 101
-  PopupUI: {fileID: 1814504223}
+  _promt: Inventory.Test
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1814504223}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  offInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1814504223}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1264545541
 GameObject:
   m_ObjectHideFlags: 0
@@ -3452,7 +3472,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8a704bc67c85b44eb7371ea12cf2fbd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerCharacter: {fileID: 8036864984123898636, guid: 143d622e77b786647b585309a091e814,
+  PlayerCharacter: {fileID: 3054766773539458111, guid: 143d622e77b786647b585309a091e814,
     type: 3}
   vcam: {fileID: 1105384199}
 --- !u!4 &1264545543
@@ -3487,7 +3507,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1310062760
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3803,9 +3823,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -17, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1423126377
 MonoBehaviour:
@@ -4205,7 +4225,8 @@ GameObject:
   - component: {fileID: 1639994119}
   - component: {fileID: 1639994118}
   - component: {fileID: 1639994121}
-  m_Layer: 0
+  - component: {fileID: 1639994122}
+  m_Layer: 6
   m_Name: DimensionATM
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4297,13 +4318,56 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1639994116}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 56a1043bea6d0244d8e03a9f41e35109, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   key: 101
   PopupUI: {fileID: 37602826}
+--- !u!114 &1639994122
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1639994116}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ddd842b86e1096409b7b991c72846a2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _promt: Inventory.Test
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 37602826}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  offInteraction:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 37602826}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1644933519
 GameObject:
   m_ObjectHideFlags: 0
@@ -4581,7 +4645,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1689374702
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4869,7 +4933,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1814504224
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5343,7 +5407,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2404a37f3bd75444aa4ad05d0f228347, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LocalizationKey: 
+  LocalizationKey: Inventory.StartCooking
 --- !u!1 &2019384639
 GameObject:
   m_ObjectHideFlags: 0
