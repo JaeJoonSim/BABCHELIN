@@ -31,6 +31,15 @@ public class Item : ScriptableObject
         set { id = value; }
     }
 
+    [Tooltip("아이템 이름")]
+    [SerializeField]
+    private string title;
+    public string Title
+    {
+        get { return title; }
+        set { title = value; }
+    }
+
     [Tooltip("UI 출력 Sprite")]
     [SerializeField]
     private Sprite uiDisplay;
@@ -50,7 +59,7 @@ public class Item : ScriptableObject
     }
 
     [Tooltip("아이템 설명")]
-    [SerializeField, TextArea(15, 20)]
+    [SerializeField]
     private string description;
     public string Description
     {
@@ -132,7 +141,7 @@ public class ItemObject
 
     public ItemObject(Item item)
     {
-        name = item.name;
+        name = item.Title;
         id = item.ID;
         description = item.Description;
         buffs = new ItemBuff[item.buffs.Length];

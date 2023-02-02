@@ -8,8 +8,8 @@ public class Tooltip : MonoBehaviour
 {
     [Tooltip("아이템 이름 텍스트")]
     [SerializeField]
-    private TextMeshProUGUI itemName;
-    public TextMeshProUGUI ItemName 
+    private LocalizedText itemName;
+    public LocalizedText ItemName 
     { 
         get { return itemName; }
         set { itemName = value; }
@@ -17,8 +17,8 @@ public class Tooltip : MonoBehaviour
 
     [Tooltip("아이템 설명 텍스트")]
     [SerializeField]
-    private TextMeshProUGUI itemDescription;
-    public TextMeshProUGUI ItemDescription
+    private LocalizedText itemDescription;
+    public LocalizedText ItemDescription
     {
         get { return itemDescription; }
         set { itemDescription = value; }
@@ -45,7 +45,7 @@ public class Tooltip : MonoBehaviour
 
     public void SetupTooltip(string name, string description)
     {
-        ItemName.text = name;
-        ItemDescription.text = description;
+        itemName.LocalizationKey = name;
+        itemDescription.LocalizationKey = description;
     }
 }
