@@ -7,7 +7,7 @@ public class PlayerSpawn : MonoBehaviour
     public GameObject PlayerCharacter;
     [SerializeField]
     private Cinemachine.CinemachineVirtualCamera vcam;
-    void Start()
+    void Awake()
     {
         var playerObj = Instantiate(PlayerCharacter);
         vcam.Follow = playerObj.transform;

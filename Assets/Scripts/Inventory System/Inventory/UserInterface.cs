@@ -39,6 +39,11 @@ public abstract class UserInterface : MonoBehaviour
 
     private void Start()
     {
+        if (playerInventory == null)
+        {
+            playerInventory = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerInventory>();
+        }
+
         for (int i = 0; i < inventory.Items.Items.Length; i++)
         {
             inventory.Items.Items[i].Parent = this;

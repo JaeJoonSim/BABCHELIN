@@ -23,6 +23,11 @@ public class PlayerInventory : MonoBehaviour
     private Inventory radialMenu;
     public Inventory RadialMenu { get { return radialMenu; } }
 
+    [Tooltip("ÄíÅ· Å×ÀÌºí")]
+    [SerializeField]
+    private Inventory cookingTable;
+    public Inventory CookingTable { get { return cookingTable; } }
+
     public void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
@@ -45,7 +50,11 @@ public class PlayerInventory : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        inventory.Items.Items = new InventorySlot[25];
-        radialMenu.Items.Items = new InventorySlot[6];
+        if(inventory != null)
+            inventory.Items.Items = new InventorySlot[25];
+        if (radialMenu != null)
+            radialMenu.Items.Items = new InventorySlot[6];
+        if (cookingTable != null)
+            cookingTable.Items.Items = new InventorySlot[4];
     }
 }
