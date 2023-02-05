@@ -30,7 +30,7 @@ public class Inventory : ScriptableObject
 
     public bool AddItem(ItemObject item, int amount)
     {
-        if (EmptySlotCount <= 0)
+        if (EmptySlotCount == false)
             return false;
         InventorySlot slot = FindItemOnInventory(item);
         if (!itemDatabase.Items[item.ID].Stackable || slot == null)
@@ -51,16 +51,16 @@ public class Inventory : ScriptableObject
         return true;
     }
 
-    public int EmptySlotCount
+    public bool EmptySlotCount
     {
         get
         {
-            int counter = 0;
+            bool counter = false;
             for (int i = 0; i < items.Items.Length; i++)
             {
-                if (items.Items[i].Item.ID <= -1)
+                if (items.Items[i].ID <= -1)
                 {
-                    counter++;
+                    counter = true;
                 }
             }
             return counter;
@@ -70,7 +70,7 @@ public class Inventory : ScriptableObject
     {
         for (int i = 0; i < items.Items.Length; i++)
         {
-            if (items.Items[i].Item.ID == item.ID)
+            if (items.Items[i].ID == item.ID)
             {
                 return items.Items[i];
             }

@@ -41,7 +41,6 @@ public class PlayerInventory : MonoBehaviour
             inventory.AddItem(new ItemObject(item.Item), 1);
             Destroy(other.gameObject);
         }
-        
     }
 
     private void Update()
@@ -78,6 +77,7 @@ public class PlayerInventory : MonoBehaviour
                 accelerator.Items.Items[i].allowedItems = new ItemType[1];
                 accelerator.Items.Items[i].allowedItems[0] = ItemType.Accelerator;
             }
+            accelerator.Items.Items[3].allowedItems[0] = ItemType.Accelerator;
         }
     }
 }
