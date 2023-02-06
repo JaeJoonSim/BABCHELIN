@@ -16,7 +16,7 @@ public class ItemDatabase : ScriptableObject, ISerializationCallbackReceiver
     {
         for (int i = 0; i < items.Length; i++)
         {
-            Items[i].ID = i;
+            Items[i].Data.ID = i;
             GetItem.Add(i, items[i]);
         }
     }

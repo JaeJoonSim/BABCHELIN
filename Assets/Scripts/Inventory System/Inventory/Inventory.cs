@@ -38,14 +38,16 @@ public class Inventory : ScriptableObject
             SetEmptySlot(item, amount);
             return true;
         }
-        if (itemDatabase.Items[item.ID].Stackable && slot.Amount < itemDatabase.Items[item.ID].MaxStack)
+        if (itemDatabase.Items[item.ID].Stackable && slot.Amount + amount < itemDatabase.Items[item.ID].MaxStack)
         {
             slot.AddAmount(amount);
             return true;
         }
-        else if (itemDatabase.Items[item.ID].Stackable && slot.Amount >= itemDatabase.Items[item.ID].MaxStack)
+        else if (itemDatabase.Items[item.ID].Stackable && slot.Amount + amount >= itemDatabase.Items[item.ID].MaxStack)
         {
-            SetEmptySlot(item, amount);
+            int temp = amount - (itemDatabase.Items[item.ID].MaxStack - slot.Amount);
+            slot.Amount = itemDatabase.Items[item.ID].MaxStack;
+            SetEmptySlot(item, temp);
             return true;
         }
         return true;
@@ -58,7 +60,7 @@ public class Inventory : ScriptableObject
             bool counter = false;
             for (int i = 0; i < items.Items.Length; i++)
             {
-                if (items.Items[i].ID <= -1)
+                if (items.Items[i].Item.ID <= -1)
                 {
                     counter = true;
                 }
@@ -70,7 +72,7 @@ public class Inventory : ScriptableObject
     {
         for (int i = 0; i < items.Items.Length; i++)
         {
-            if (items.Items[i].ID == item.ID)
+            if (items.Items[i].Item.ID == item.ID)
             {
                 return items.Items[i];
             }
@@ -82,34 +84,34 @@ public class Inventory : ScriptableObject
     {
         for (int i = 0; i < Items.Items.Length; i++)
         {
-            if (Items.Items[i].ID <= -1)
+            if (Items.Items[i].Item.ID <= -1)
             {
-                Items.Items[i].UpdateSlot(item.ID, item, amount);
+                Items.Items[i].UpdateSlot(item, amount);
                 return Items.Items[i];
             }
         }
         return null;
     }
 
-    public void MoveItem(InventorySlot item1, InventorySlot item2)
+    public void SwapItems(InventorySlot item1, InventorySlot item2)
     {
-        InventorySlot temp = new InventorySlot(item2.ID, item2.Item, item2.Amount);
+        InventorySlot temp = new InventorySlot(item2.Item, item2.Amount);
 
-        if (item1.Item.ID == temp.ID && item1 != item2 && itemDatabase.GetItem[item1.ID].Stackable)
+        if (item1.Item.ID == temp.Item.ID && item1 != item2 && itemDatabase.GetItem[item1.Item.ID].Stackable)
         {
             item2.AddAmount(item1.Amount);
-            //item1.UpdateSlot(-1, null, 0);
-            if (item2.Amount > itemDatabase.GetItem[item2.ID].MaxStack)
+
+            if (item2.Amount > itemDatabase.GetItem[item2.Item.ID].MaxStack)
             {
-                int amount = item2.Amount - itemDatabase.GetItem[item2.ID].MaxStack;
-                item2.Amount = itemDatabase.GetItem[item2.ID].MaxStack;
-                item1.UpdateSlot(temp.ID, temp.Item, amount);
+                int amount = item2.Amount - itemDatabase.GetItem[item2.Item.ID].MaxStack;
+                item2.Amount = itemDatabase.GetItem[item2.Item.ID].MaxStack;
+                item1.UpdateSlot(temp.Item, amount);
             }
         }
         else
         {
-            item2.UpdateSlot(item1.ID, item1.Item, item1.Amount);
-            item1.UpdateSlot(temp.ID, temp.Item, temp.Amount);
+            item2.UpdateSlot(item1.Item, item1.Amount);
+            item1.UpdateSlot(temp.Item, temp.Amount);
         }
     }
 
@@ -117,9 +119,9 @@ public class Inventory : ScriptableObject
     {
         for (int i = 0; i < items.Items.Length; i++)
         {
-            if (items.Items[i].ID == item.ID)
+            if (items.Items[i].Item.ID == item.Item.ID)
             {
-                items.Items[i].UpdateSlot(-1, null, 0);
+                items.Items[i].UpdateSlot(null, 0);
             }
         }
     }
@@ -154,7 +156,7 @@ public class Inventory : ScriptableObject
             InventoryObject newItems = (InventoryObject)formatter.Deserialize(stream);
             for (int i = 0; i < items.Items.Length; i++)
             {
-                items.Items[i].UpdateSlot(newItems.Items[i].ID, newItems.Items[i].Item, newItems.Items[i].Amount);
+                items.Items[i].UpdateSlot(newItems.Items[i].Item, newItems.Items[i].Amount);
             }
             stream.Close();
         }
@@ -183,7 +185,7 @@ public class InventoryObject
     {
         for (int i = 0; i < items.Length; i++)
         {
-            items[i].UpdateSlot(-1, new ItemObject(), 0);
+            items[i].RemoveItem();
         }
     }
 }
@@ -208,15 +210,6 @@ public class InventorySlot
         set { parent = value; }
     }
 
-    [Tooltip("아이템 ID")]
-    [SerializeField]
-    private int id = -1;
-    public int ID
-    {
-        get { return id; }
-        set { id = value; }
-    }
-
     [Tooltip("아이템")]
     [SerializeField]
     private ItemObject item;
@@ -235,23 +228,36 @@ public class InventorySlot
         set { amount = value; }
     }
 
+    public Item ItemObject
+    {
+        get
+        {
+            if (item.ID >= 0)
+                return parent.Inventory.ItemDatabase.GetItem[item.ID];
+            return null;
+        }
+    }
+
     public InventorySlot()
     {
-        id = -1;
-        item = null;
+        item = new ItemObject();
         amount = 0;
     }
 
-    public InventorySlot(int id, ItemObject item, int amount)
+    public InventorySlot(ItemObject item, int amount)
     {
-        this.id = id;
         this.item = item;
         this.amount = amount;
     }
 
-    public void UpdateSlot(int id, ItemObject item, int amount)
+    public void RemoveItem()
     {
-        this.id = id;
+        item = new ItemObject();
+        amount = 0;
+    }
+
+    public void UpdateSlot(ItemObject item, int amount)
+    {
         this.item = item;
         this.amount = amount;
     }
@@ -263,7 +269,7 @@ public class InventorySlot
 
     public bool CanPlaceInSlot(Item item)
     {
-        if (AllowedItems.Length <= 0 || item == null || item.ID < 0)
+        if (AllowedItems.Length <= 0 || item == null || item.Data.ID < 0)
             return true;
 
         for (int i = 0; i < AllowedItems.Length; i++)

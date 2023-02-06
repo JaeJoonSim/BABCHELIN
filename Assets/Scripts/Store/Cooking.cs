@@ -40,11 +40,11 @@ public class Cooking : MonoBehaviour
         bool isReady = false;
         bool isCook = false;
         // 필요한 아이템 ID 체크
-        if (cook.Items.Items[0].ID == -1 || cook.Items.Items[1].ID == -1 || cook.Items.Items[2].ID == -1)
+        if (cook.Items.Items[0].Item.ID == -1 || cook.Items.Items[1].Item.ID == -1 || cook.Items.Items[2].Item.ID == -1)
         {
             Debug.Log("요리 재료 부족");
         }
-        else if (cook.Items.Items[3].ID == -1)
+        else if (cook.Items.Items[3].Item.ID == -1)
         {
             Debug.Log("촉진제 부족");
         }

@@ -4,15 +4,6 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
-    [Tooltip("마우스")]
-    [SerializeField]
-    private MouseItem mouseItem = new MouseItem();
-    public MouseItem MouseItem
-    {
-        get { return mouseItem; }
-        set { mouseItem = value; }
-    }
-
     [Tooltip("인벤토리")]
     [SerializeField]
     private Inventory inventory;
@@ -38,8 +29,9 @@ public class PlayerInventory : MonoBehaviour
         var item = other.GetComponent<GroundItem>();
         if (item)
         {
-            inventory.AddItem(new ItemObject(item.Item), 1);
-            Destroy(other.gameObject);
+            ItemObject itemObject = new ItemObject(item.Item);
+            if (inventory.AddItem(itemObject, 1))
+                Destroy(other.gameObject);
         }
     }
 

@@ -23,15 +23,6 @@ public enum Attributes
 [CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Item")]
 public class Item : ScriptableObject
 {
-    [Tooltip("아이템 ID")]
-    [SerializeField]
-    private int id;
-    public int ID
-    {
-        get { return id; }
-        set { id = value; }
-    }
-
     [Tooltip("아이템 이름")]
     [SerializeField]
     private string title;
@@ -86,13 +77,13 @@ public class Item : ScriptableObject
         set { maxStack = value; }
     }
 
-    [Tooltip("버프")]
+    [Tooltip("아이템 오브젝트")]
     [SerializeField]
-    public ItemBuff[] buffs;
-    public ItemBuff[] Buffs
+    private ItemObject data = new ItemObject();
+    public ItemObject Data
     {
-        get { return buffs; }
-        set { buffs = value; }
+        get { return data; }
+        set { data = value; }
     }
 
     public ItemObject CreateItem()
@@ -112,8 +103,12 @@ public class ItemObject
 
     [Tooltip("아이템 ID")]
     [SerializeField]
-    private int id;
-    public int ID { get { return id; } }
+    private int id = -1;
+    public int ID 
+    { 
+        get { return id; }
+        set { id = value; }
+    }
 
     [Tooltip("아이템 설명")]
     [SerializeField, TextArea(15, 20)]
@@ -128,16 +123,7 @@ public class ItemObject
         get { return buffs; }
         set { buffs = value; }
     }
-
-    [Tooltip("아이템 타입")]
-    [SerializeField]
-    private ItemType type;
-    public ItemType Type 
-    { 
-        get { return type; }
-        set { type = value; }
-    }
-
+    
     public ItemObject()
     {
         name = "";
@@ -147,14 +133,13 @@ public class ItemObject
     public ItemObject(Item item)
     {
         name = item.Title;
-        id = item.ID;
+        id = item.Data.ID;
         description = item.Description;
-        buffs = new ItemBuff[item.buffs.Length];
+        buffs = new ItemBuff[item.Data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
-            buffs[i] = new ItemBuff(item.buffs[i].Min, item.buffs[i].Max) { Attribute = item.buffs[i].Attribute };
+            buffs[i] = new ItemBuff(item.Data.buffs[i].Min, item.Data.buffs[i].Max) { Attribute = item.Data.buffs[i].Attribute };
         }
-        type = item.Type;
     }
 }
 

@@ -18,7 +18,7 @@ public class DynamicInterface : UserInterface
 
     public override void CreateSlots()
     {
-        itemsDisplay = new Dictionary<GameObject, InventorySlot>();
+        slotsOnInterface = new Dictionary<GameObject, InventorySlot>();
         for (int i = 0; i < Inventory.Items.Items.Length; i++)
         {
             var obj = Instantiate(inventoryPrefab, Vector3.zero, Quaternion.identity, transform);
@@ -31,7 +31,7 @@ public class DynamicInterface : UserInterface
 
             OnRightClickEvent(obj);
 
-            itemsDisplay.Add(obj, Inventory.Items.Items[i]);
+            slotsOnInterface.Add(obj, Inventory.Items.Items[i]);
         }
     }
 }

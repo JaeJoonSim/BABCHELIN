@@ -15,13 +15,13 @@ public class RadialMenuUI : MonoBehaviour
 
     public Sprite[] sprites;
     public Sprite orginSprite;
-
+    
     private void Update()
     {
         for (int i = 0; i < inventory.Items.Items.Length; i++)
         {
-            if(inventory.Items.Items[i].ID >= 0)
-                sprites[i] = inventory.ItemDatabase.GetItem[inventory.Items.Items[i].ID].UiDisplay;
+            if(inventory.Items.Items[i].Item.ID >= 0)
+                sprites[i] = inventory.ItemDatabase.GetItem[inventory.Items.Items[i].Item.ID].UiDisplay;
             else
                 sprites[i] = orginSprite;
         }
