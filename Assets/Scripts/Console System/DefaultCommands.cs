@@ -17,12 +17,14 @@ public class DefaultCommands : CommandBehaviour
     [Command]
     public void reload_current_scene()
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     [Command]
     public void load_scene(int index)
     {
+        Time.timeScale = 1f;
         SceneManager.LoadScene(index);
     }
 

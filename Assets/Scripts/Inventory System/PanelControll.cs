@@ -20,19 +20,21 @@ public class PanelControll : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(key))
+        if (Input.GetKeyDown(key) && Time.timeScale == 1)
         {
+            Time.timeScale = 0;
             for (int i = 0; i < panel.Length; i++)
             {
                 panel[i].SetActive(!panel[i].activeSelf);
             }
         }
-        else if (Input.GetKeyDown(key))
+        else if (Input.GetKeyDown(key) && Time.timeScale == 0 && panel[0].activeSelf == true)
         {
             for (int i = 0; i < panel.Length; i++)
             {
                 panel[i].SetActive(!panel[i].activeSelf);
             }
+            Time.timeScale = 1;
         }
     }
 }
