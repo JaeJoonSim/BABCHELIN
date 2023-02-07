@@ -53,12 +53,14 @@ public class PlayerInventory : MonoBehaviour
         if (cookingTable != null)
         {
             cookingTable.Items.Clear();
-            for (int i = 0; i < cookingTable.Items.Items.Length; i++)
+            for (int i = 0; i < cookingTable.Items.Items.Length - 1; i++)
             {
                 cookingTable.Items.Items[i].allowedItems = new ItemType[2];
                 cookingTable.Items.Items[i].allowedItems[0] = ItemType.Food;
                 cookingTable.Items.Items[i].allowedItems[1] = ItemType.Accelerator;
             }
+            cookingTable.Items.Items[cookingTable.Items.Items.Length - 1].allowedItems = new ItemType[1];
+            cookingTable.Items.Items[cookingTable.Items.Items.Length - 1].allowedItems[0] = ItemType.Accelerator;
         }
         
         if (accelerator != null)
