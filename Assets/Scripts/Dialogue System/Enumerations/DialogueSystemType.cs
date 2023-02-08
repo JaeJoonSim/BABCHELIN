@@ -5,5 +5,5 @@ using UnityEngine;
 public enum DialogueSystemType
 {
     SingleChoice,
-    MultiChoice,
+    MultipleChoice,
 }
