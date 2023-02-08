@@ -18,18 +18,18 @@ public class DialogueSystemEditorWindow : EditorWindow
         AddStyles();
     }
 
+    #region Elements Addtion
     private void AddGraphView()
     {
-        DialogueSystemGraphView graphView = new DialogueSystemGraphView();
+        DialogueSystemGraphView graphView = new DialogueSystemGraphView(this);
         graphView.StretchToParentSize();
         rootVisualElement.Add(graphView);
     }
 
     private void AddStyles()
     {
-        StyleSheet styleSheet = (StyleSheet)EditorGUIUtility.Load("DialogueSystem/DialogueSystemVariables.uss");
-
-        rootVisualElement.styleSheets.Add(styleSheet);
+        rootVisualElement.AddStyleSheet("DialogueSystem/DialogueSystemVariables.uss");
     }
+    #endregion
 }
 #endif
