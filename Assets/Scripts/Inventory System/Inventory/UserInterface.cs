@@ -185,7 +185,7 @@ public abstract class UserInterface : MonoBehaviour
             {
                 for (int i = 0; i < anotherData[0].Items.Items.Length; i++)
                 {
-                    if (anotherData[0].Items.Items[i].Item.ID <= -1)
+                    if (anotherData[0].Items.Items[i].Item.ID < 0)
                     {
                         inventory.SwapItems(slotsOnInterface[obj], anotherData[0].Items.Items[i]);
                     }

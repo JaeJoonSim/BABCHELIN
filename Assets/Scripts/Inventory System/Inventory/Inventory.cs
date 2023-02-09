@@ -97,7 +97,7 @@ public class Inventory : ScriptableObject
     {
         InventorySlot temp = new InventorySlot(item2.Item, item2.Amount);
 
-        if (item1.Item.ID == temp.Item.ID && item1 != item2 && itemDatabase.GetItem[item1.Item.ID].Stackable)
+        if (temp.Item.ID > 0 && item1.Item.ID == temp.Item.ID && item1 != item2 && itemDatabase.GetItem[item1.Item.ID].Stackable)
         {
             item2.AddAmount(item1.Amount);
 
@@ -121,7 +121,7 @@ public class Inventory : ScriptableObject
         {
             if (items.Items[i].Item.ID == item.Item.ID)
             {
-                items.Items[i].UpdateSlot(null, 0);
+                items.Items[i].RemoveItem();
             }
         }
     }
