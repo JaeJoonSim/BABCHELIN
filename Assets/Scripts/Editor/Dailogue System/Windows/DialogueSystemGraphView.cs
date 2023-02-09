@@ -160,29 +160,28 @@ public class DialogueSystemGraphView : GraphView
             List<Edge> edgesToDelete = new List<Edge>();
             List<DialogueSystemNode> nodesToDelete = new List<DialogueSystemNode>();
 
-            foreach (GraphElement element in selection)
+            foreach (GraphElement selectedelement in selection)
             {
-                if (element is DialogueSystemNode)
+                if (selectedelement is DialogueSystemNode node)
                 {
-                    nodesToDelete.Add((DialogueSystemNode)element);
+                    nodesToDelete.Add(node);
                     continue;
                 }
 
-                if (element.GetType() == edgeType)
+                if (selectedelement.GetType() == edgeType)
                 {
-                    Edge edge = (Edge)element;
+                    Edge edge = (Edge)selectedelement;
                     edgesToDelete.Add(edge);
                     continue;
                 }
 
-                if (element.GetType() != groupType)
+                if (selectedelement.GetType() != groupType)
                 {
                     continue;
                 }
 
-                DialogueSystemGroup group = (DialogueSystemGroup)element;
-
-                RemoveGroup(group);
+                DialogueSystemGroup group = (DialogueSystemGroup)selectedelement;
+                
                 groupsToDelete.Add(group);
             }
 
@@ -249,6 +248,7 @@ public class DialogueSystemGraphView : GraphView
                 if (!(element is DialogueSystemNode))
                     continue;
 
+                DialogueSystemGroup dialogueSystemGroup = (DialogueSystemGroup)group;
                 DialogueSystemNode node = (DialogueSystemNode)element;
 
                 RemoveGroupedNode(node, group);

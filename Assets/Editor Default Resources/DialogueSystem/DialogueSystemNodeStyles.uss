@@ -46,6 +46,10 @@
 .ds-node__filename-text-field > .unity-text-field__input
 {
 	max-width: var(--ds-metrics-window-pixels-1000);
+}
+
+.ds-node__filename-text-field > .unity-text-field__input:focus
+{
 	margin: var(--ds-metrics-window-pixels-4);
 	padding: var(--ds-metrics-window-pixels-4);
 }
@@ -111,7 +115,9 @@
 
 TextField
 {
-	margin-left: var(--ds-metrics-window-pixels-0);
+	margin-left: var(--ds-metrics-window-pixels-2);
+	margin-top: var(--ds-metrics-window-pixels-2);
+	margin-bottom: var(--ds-metrics-window-pixels-2);
 }
 
 .ds-node__custom-data-container > Foldout
