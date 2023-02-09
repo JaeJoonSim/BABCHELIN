@@ -10,6 +10,8 @@ public class DialogueSystemNode : Node
     public List<string> Choices { get; set; }
     public string Text { get; set; }
     public DialogueSystemType DialogueType { get; set; }
+    public DialogueSystemGroup Group { get; set; }
+
     private DialogueSystemGraphView graphView;
     private Color defaultBackgroundColor;
 
@@ -32,9 +34,18 @@ public class DialogueSystemNode : Node
     {
         TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName, callback =>
         {
-            graphView.RemoveUngroupedNode(this);
+            if(Group == null)
+            {
+                graphView.RemoveUngroupedNode(this);
+                DialogueName = callback.newValue;
+                graphView.AddUngroupedNode(this);
+                return;
+            }
+
+            DialogueSystemGroup currentGroup = Group;
+            graphView.RemoveGroupedNode(this, Group);
             DialogueName = callback.newValue;
-            graphView.AddUngroupedNode(this);
+            graphView.AddGroupedNode(this, currentGroup);
         });
 
         dialogueNameTextField.AddClasses(
