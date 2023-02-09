@@ -52,6 +52,7 @@ public class DialogueSystemGraphView : GraphView
         OnGroupElementsAdded();
         OnGroupElementsRemoved();
         OnGroupRenamed();
+        OnGraphViewChange();
 
         AddStyles();
     }
@@ -266,6 +267,40 @@ public class DialogueSystemGraphView : GraphView
             RemoveGroup(dialogueSystemGroup);
             dialogueSystemGroup.oldTitle = dialogueSystemGroup.title;
             AddGroup(dialogueSystemGroup);
+        };
+    }
+
+    private void OnGraphViewChange()
+    {
+        graphViewChanged = (changes) =>
+        {
+            if(changes.edgesToCreate != null)
+            {
+                foreach (Edge edge in changes.edgesToCreate)
+                {
+                    DialogueSystemNode nextNode = (DialogueSystemNode)edge.input.node;
+                    DialogueSystemChoiceSaveData choiceData = (DialogueSystemChoiceSaveData)edge.output.userData;
+
+                    choiceData.NodeID = nextNode.ID;
+                }
+            }
+            
+            if(changes.elementsToRemove != null)
+            {
+                Type edgeType = typeof(Edge);
+
+                foreach(GraphElement element in changes.elementsToRemove)
+                {
+                    if (element.GetType() != edgeType)
+                        continue;
+
+                    Edge edge = (Edge)element;
+                    DialogueSystemChoiceSaveData choiceData = (DialogueSystemChoiceSaveData)edge.output.userData;
+                    choiceData.NodeID = "";
+                }
+            }
+
+            return changes;
         };
     }
     #endregion

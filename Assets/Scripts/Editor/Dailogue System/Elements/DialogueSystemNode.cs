@@ -2,23 +2,26 @@ using UnityEditor.Experimental.GraphView;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
+using System;
 
 #if UNITY_EDITOR
 public class DialogueSystemNode : Node
 {
+    public string ID { get; set; }
     public string DialogueName { get; set; }
-    public List<string> Choices { get; set; }
+    public List<DialogueSystemChoiceSaveData> Choices { get; set; }
     public string Text { get; set; }
     public DialogueSystemType DialogueType { get; set; }
     public DialogueSystemGroup Group { get; set; }
 
-    private DialogueSystemGraphView graphView;
+    protected DialogueSystemGraphView graphView;
     private Color defaultBackgroundColor;
 
     public virtual void Initialize(DialogueSystemGraphView graphView, Vector2 position)
     {
+        ID = Guid.NewGuid().ToString();
         DialogueName = "DialogueName";
-        Choices = new List<string>();
+        Choices = new List<DialogueSystemChoiceSaveData>();
         Text = "Dialogue Text";
         this.graphView = graphView;
         

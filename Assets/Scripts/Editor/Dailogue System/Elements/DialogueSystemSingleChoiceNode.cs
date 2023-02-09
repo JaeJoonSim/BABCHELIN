@@ -10,18 +10,24 @@ public class DialogueSystemSingleChoiceNode : DialogueSystemNode
 
         DialogueType = DialogueSystemType.SingleChoice;
 
-        Choices.Add("Next Dialogue");
+        DialogueSystemChoiceSaveData choiceData = new DialogueSystemChoiceSaveData()
+        {
+            Text = "Next Dialogue"
+        };
+
+        Choices.Add(choiceData);
     }
 
     public override void Draw()
     {
         base.Draw();
 
-        foreach (string choice in Choices)
+        foreach (DialogueSystemChoiceSaveData choice in Choices)
         {
-            Port choicePort = this.CreatePort(choice);
+            Port choicePort = this.CreatePort(choice.Text);
 
-            choicePort.portName = choice;
+            choicePort.userData = choice;
+            
             outputContainer.Add(choicePort);
         }
         RefreshExpandedState();
