@@ -18,6 +18,14 @@ public class PanelControll : MonoBehaviour
     [SerializeField]
     private GameObject[] panel;
 
+    private void Start()
+    {
+        for (int i = 0; i < panel.Length; i++)
+        {
+            panel[i].SetActive(false);
+        }
+    }
+
     private void Update()
     {
         if (Input.GetKeyDown(key) && Time.timeScale == 1)

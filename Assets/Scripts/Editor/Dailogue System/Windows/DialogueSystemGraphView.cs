@@ -11,14 +11,20 @@ public class DialogueSystemGraphView : GraphView
     private DialogueSystemEditorWindow editorWindow;
     private DialogueSystemSearchWindow searchWindow;
 
+    private SerializableDictionary<string, DialogueSystemNodeErrorData> ungroupedNodes;
+
     public DialogueSystemGraphView(DialogueSystemEditorWindow editorWindow)
     {
         this.editorWindow = editorWindow;
+
+        ungroupedNodes = new SerializableDictionary<string, DialogueSystemNodeErrorData>();
 
         // 순서 중요
         AddManipulators();
         AddSearchWindow();
         AddGridBackground();
+
+        OnElementsDeleted();
 
         AddStyles();
     }
@@ -96,10 +102,82 @@ public class DialogueSystemGraphView : GraphView
         Type nodeType = Type.GetType($"DialogueSystem{dialogueType}Node");
         DialogueSystemNode node = (DialogueSystemNode)Activator.CreateInstance(nodeType);
 
-        node.Initialize(position);
+        node.Initialize(this, position);
         node.Draw();
 
+        AddUngroupedNode(node);
+
         return node;
+    }
+    #endregion
+
+    #region Callbacks
+    private void OnElementsDeleted()
+    {
+        deleteSelection = (operationName, askUser) =>
+        {
+            List<DialogueSystemNode> nodesToDelete = new List<DialogueSystemNode>();
+
+            foreach (GraphElement element in selection)
+            {
+                if(element is DialogueSystemNode)
+                {
+                    nodesToDelete.Add((DialogueSystemNode)element);
+                    continue;
+                }
+            }
+
+            foreach (DialogueSystemNode node in nodesToDelete)
+            {
+                RemoveUngroupedNode(node);
+                RemoveElement(node);
+            }
+        };
+    }
+    #endregion
+
+    #region Repeated Elements
+    public void AddUngroupedNode(DialogueSystemNode node)
+    {
+        string nodeName = node.DialogueName;
+
+        if(!ungroupedNodes.ContainsKey(nodeName))
+        {
+            DialogueSystemNodeErrorData nodeErrorData = new DialogueSystemNodeErrorData();
+            nodeErrorData.nodes.Add(node);
+            ungroupedNodes.Add(nodeName, nodeErrorData);
+            return;
+        }
+
+        List<DialogueSystemNode> ungroupedNodesList = ungroupedNodes[nodeName].nodes;
+
+        ungroupedNodesList.Add(node);
+        Color errorColor = ungroupedNodes[nodeName].errorData.color;
+        node.SetErrorStyle(errorColor);
+
+        if (ungroupedNodesList.Count == 2)
+        {
+            ungroupedNodesList[0].SetErrorStyle(errorColor);
+        }
+    }
+
+    public void RemoveUngroupedNode(DialogueSystemNode node)
+    {
+        string nodeName = node.DialogueName;
+        List<DialogueSystemNode> ungroupedNodesList = ungroupedNodes[nodeName].nodes;
+        ungroupedNodesList.Remove(node);
+        node.ResetStlye();
+
+        if(ungroupedNodesList.Count == 1)
+        {
+            ungroupedNodesList[0].ResetStlye();
+            return;
+        }
+
+        if(ungroupedNodesList.Count == 0)
+        {
+            ungroupedNodes.Remove(nodeName);
+        }
     }
     #endregion
 

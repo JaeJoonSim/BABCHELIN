@@ -10,12 +10,17 @@ public class DialogueSystemNode : Node
     public List<string> Choices { get; set; }
     public string Text { get; set; }
     public DialogueSystemType DialogueType { get; set; }
+    private DialogueSystemGraphView graphView;
+    private Color defaultBackgroundColor;
 
-    public virtual void Initialize(Vector2 position)
+    public virtual void Initialize(DialogueSystemGraphView graphView, Vector2 position)
     {
         DialogueName = "DialogueName";
         Choices = new List<string>();
         Text = "Dialogue Text";
+        this.graphView = graphView;
+        
+        defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
 
         SetPosition(new Rect(position, Vector2.zero));
 
@@ -25,7 +30,12 @@ public class DialogueSystemNode : Node
     
     public virtual void Draw()
     {
-        TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName);
+        TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName, callback =>
+        {
+            graphView.RemoveUngroupedNode(this);
+            DialogueName = callback.newValue;
+            graphView.AddUngroupedNode(this);
+        });
 
         dialogueNameTextField.AddClasses(
             "ds-node__textfield",
@@ -55,6 +65,16 @@ public class DialogueSystemNode : Node
         textFoldout.Add(textTextField);
         customDataContainer.Add(textFoldout);
         extensionContainer.Add(customDataContainer);
+    }
+
+    public void SetErrorStyle(Color color)
+    {
+        mainContainer.style.backgroundColor = color;
+    }
+
+    public void ResetStlye()
+    {
+        mainContainer.style.backgroundColor = defaultBackgroundColor;
     }
 }
 #endif
