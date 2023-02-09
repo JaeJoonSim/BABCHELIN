@@ -70,22 +70,22 @@ public class DialogueSystemGraphView : GraphView
         this.AddManipulator(CreateNodeContextualMenu("Add Node (Single Choice)", DialogueSystemType.SingleChoice));
         this.AddManipulator(CreateNodeContextualMenu("Add Node (Multiple Choice)", DialogueSystemType.MultipleChoice));
 
-        this.AddManipulator(CreateGroupContextualMenu());
-    }
-
-    private IManipulator CreateGroupContextualMenu()
-    {
-        ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-            menuEvent => menuEvent.menu.AppendAction("Add Group", actionEvent => AddElement(CreateGroup("Dialogue Group", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
-            );
-
-        return contextualMenuManipulator;
+        this.AddManipulator(CreateGroupContextualMenu("Add Group"));
     }
 
     private IManipulator CreateNodeContextualMenu(string actionTitle, DialogueSystemType dialogueType)
     {
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
             menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+            );
+
+        return contextualMenuManipulator;
+    }
+
+    private IManipulator CreateGroupContextualMenu(string actionTitle)
+    {
+        ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
+            menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => CreateGroup("Dialogue Group", GetLocalMousePosition(actionEvent.eventInfo.localMousePosition)))
             );
 
         return contextualMenuManipulator;
@@ -98,6 +98,18 @@ public class DialogueSystemGraphView : GraphView
         DialogueSystemGroup group = new DialogueSystemGroup(title, localMousePosition);
 
         AddGroup(group);
+        AddElement(group);
+        
+        foreach (GraphElement selectedElement in selection)
+        {
+            if (!(selectedElement is DialogueSystemNode))
+            {
+                continue;
+            }
+
+            DialogueSystemNode node = (DialogueSystemNode)selectedElement;
+            group.AddElement(node);
+        }
 
         return group;
     }
@@ -148,6 +160,17 @@ public class DialogueSystemGraphView : GraphView
 
             foreach (DialogueSystemGroup group in groupsToDelete)
             {
+                List<DialogueSystemNode> groupNodes = new List<DialogueSystemNode>();
+
+                foreach (GraphElement groupElement in group.containedElements)
+                {
+                    if (!(groupElement is DialogueSystemNode))
+                        continue;
+
+                    DialogueSystemNode groupNode = (DialogueSystemNode)groupElement;
+                    groupNodes.Add(groupNode);
+                }
+
                 RemoveElement(group);
             }
 
