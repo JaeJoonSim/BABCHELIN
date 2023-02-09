@@ -15,6 +15,26 @@ public class DialogueSystemGraphView : GraphView
     private SerializableDictionary<string, DialogueSystemGroupErrorData> groups;
     private SerializableDictionary<Group, SerializableDictionary<string, DialogueSystemNodeErrorData>> groupedNodes;
 
+    private int repeatedNamesAmount;
+    
+    public int RepeatedNameAmount
+    {
+        get { return repeatedNamesAmount; }
+        set 
+        { 
+            repeatedNamesAmount = value;
+
+            if (repeatedNamesAmount == 0)
+            {
+                editorWindow.EnableSaving();
+            }
+            if(repeatedNamesAmount == 1)
+            {
+                editorWindow.DisableSaving();
+            }
+        }
+    }
+
     public DialogueSystemGraphView(DialogueSystemEditorWindow editorWindow)
     {
         this.editorWindow = editorWindow;
@@ -242,8 +262,9 @@ public class DialogueSystemGraphView : GraphView
         groupTitleChanged = (group, newTitle) =>
         {
             DialogueSystemGroup dialogueSystemGroup = (DialogueSystemGroup)group;
+            dialogueSystemGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
             RemoveGroup(dialogueSystemGroup);
-            dialogueSystemGroup.oldTitle = newTitle;
+            dialogueSystemGroup.oldTitle = dialogueSystemGroup.title;
             AddGroup(dialogueSystemGroup);
         };
     }
@@ -252,7 +273,7 @@ public class DialogueSystemGraphView : GraphView
     #region Repeated Elements
     public void AddUngroupedNode(DialogueSystemNode node)
     {
-        string nodeName = node.DialogueName;
+        string nodeName = node.DialogueName.ToLower();
 
         if (!ungroupedNodes.ContainsKey(nodeName))
         {
@@ -270,19 +291,21 @@ public class DialogueSystemGraphView : GraphView
 
         if (ungroupedNodesList.Count == 2)
         {
+            ++RepeatedNameAmount;
             ungroupedNodesList[0].SetErrorStyle(errorColor);
         }
     }
 
     public void RemoveUngroupedNode(DialogueSystemNode node)
     {
-        string nodeName = node.DialogueName;
+        string nodeName = node.DialogueName.ToLower();
         List<DialogueSystemNode> ungroupedNodesList = ungroupedNodes[nodeName].nodes;
         ungroupedNodesList.Remove(node);
         node.ResetStlye();
 
         if (ungroupedNodesList.Count == 1)
         {
+            --RepeatedNameAmount;
             ungroupedNodesList[0].ResetStlye();
             return;
         }
@@ -295,7 +318,7 @@ public class DialogueSystemGraphView : GraphView
 
     private void AddGroup(DialogueSystemGroup group)
     {
-        string groupName = group.title;
+        string groupName = group.title.ToLower();
 
         if (!groups.ContainsKey(groupName))
         {
@@ -313,13 +336,14 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupList.Count == 2)
         {
+            ++RepeatedNameAmount;
             groupList[0].SetErrorStyle(errorColor);
         }
     }
 
     private void RemoveGroup(DialogueSystemGroup group)
     {
-        string oldGroupName = group.oldTitle;
+        string oldGroupName = group.oldTitle.ToLower();
 
         List<DialogueSystemGroup> groupList = groups[oldGroupName].Groups;
 
@@ -328,19 +352,20 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupList.Count == 1)
         {
+            --RepeatedNameAmount;
             groupList[0].ResetStyle();
+            return;
         }
 
         if (groupList.Count == 0)
         {
             groups.Remove(oldGroupName);
-            return;
         }
     }
 
     public void AddGroupedNode(DialogueSystemNode node, DialogueSystemGroup group)
     {
-        string nodeName = node.DialogueName;
+        string nodeName = node.DialogueName.ToLower();
 
         node.Group = group;
 
@@ -365,13 +390,14 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupedNodes[group][nodeName].nodes.Count == 2)
         {
+            ++RepeatedNameAmount;
             groupedNodesList[0].SetErrorStyle(errorColor);
         }
     }
 
     public void RemoveGroupedNode(DialogueSystemNode node, Group group)
     {
-        string nodeName = node.DialogueName;
+        string nodeName = node.DialogueName.ToLower();
 
         node.Group = null;
 
@@ -381,6 +407,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupedNodesList.Count == 1)
         {
+            --RepeatedNameAmount;
             groupedNodesList[0].ResetStlye();
             return;
         }

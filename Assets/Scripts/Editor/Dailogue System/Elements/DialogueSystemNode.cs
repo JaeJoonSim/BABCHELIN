@@ -32,12 +32,15 @@ public class DialogueSystemNode : Node
 
     public virtual void Draw()
     {
-        TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName, callback =>
+        TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName, null, callback =>
         {
+            TextField target = (TextField)callback.target;
+            target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
+
             if(Group == null)
             {
                 graphView.RemoveUngroupedNode(this);
-                DialogueName = callback.newValue;
+                DialogueName = target.value;
                 graphView.AddUngroupedNode(this);
                 return;
             }

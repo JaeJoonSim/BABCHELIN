@@ -33,11 +33,12 @@ public static class DialogueSystemElementUtility
         return port;
     }
 
-    public static TextField CreateTextField(string valuie = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
+    public static TextField CreateTextField(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
     {
         TextField textField = new TextField()
         {
-            value = valuie
+            value = value,
+            label = label
         };
 
         if (onValueChanged != null)
@@ -48,9 +49,9 @@ public static class DialogueSystemElementUtility
         return textField;
     }
 
-    public static TextField CreateTextArea(string value = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
+    public static TextField CreateTextArea(string value = null, string label = null, EventCallback<ChangeEvent<string>> onValueChanged = null)
     {
-        TextField textArea = CreateTextField(value, onValueChanged);
+        TextField textArea = CreateTextField(value, label, onValueChanged);
         textArea.multiline = true;
 
         return textArea;
