@@ -29,7 +29,7 @@ public class DialogueSystemNode : Node
         mainContainer.AddToClassList("ds-node__main-container");
         extensionContainer.AddToClassList("ds-node__extention-container");
     }
-    
+
     public virtual void Draw()
     {
         TextField dialogueNameTextField = DialogueSystemElementUtility.CreateTextField(DialogueName, callback =>
@@ -78,6 +78,44 @@ public class DialogueSystemNode : Node
         extensionContainer.Add(customDataContainer);
     }
 
+    #region Override Methods
+    public override void BuildContextualMenu(ContextualMenuPopulateEvent evt)
+    {
+        evt.menu.AppendAction("Disconnect Input Ports", actionEvent => DisconnectInputPorts());
+        evt.menu.AppendAction("Disconnect Output Ports", actionEvent => DisconnectOutputPorts());
+        
+        base.BuildContextualMenu(evt);
+    }
+    #endregion
+
+    #region Utility Methods
+    public void DisconnectAllPorts()
+    {
+        DisconnectInputPorts();
+        DisconnectOutputPorts();
+    }
+    
+    private void DisconnectInputPorts()
+    {
+        DisconnectPorts(inputContainer);
+    }
+    
+    private void DisconnectOutputPorts()
+    {
+        DisconnectPorts(outputContainer);
+    }
+
+    private void DisconnectPorts(VisualElement container)
+    {
+        foreach (Port port in container.Children())
+        {
+            if (!port.connected)
+                continue;
+
+            graphView.DeleteElements(port.connections);
+        }
+    }
+
     public void SetErrorStyle(Color color)
     {
         mainContainer.style.backgroundColor = color;
@@ -87,5 +125,6 @@ public class DialogueSystemNode : Node
     {
         mainContainer.style.backgroundColor = defaultBackgroundColor;
     }
+    #endregion
 }
 #endif

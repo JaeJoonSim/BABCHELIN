@@ -99,7 +99,7 @@ public class DialogueSystemGraphView : GraphView
 
         AddGroup(group);
         AddElement(group);
-        
+
         foreach (GraphElement selectedElement in selection)
         {
             if (!(selectedElement is DialogueSystemNode))
@@ -113,7 +113,6 @@ public class DialogueSystemGraphView : GraphView
 
         return group;
     }
-
 
     public DialogueSystemNode CreateNode(DialogueSystemType dialogueType, Vector2 position)
     {
@@ -135,8 +134,10 @@ public class DialogueSystemGraphView : GraphView
         deleteSelection = (operationName, askUser) =>
         {
             Type groupType = typeof(DialogueSystemGroup);
+            Type edgeType = typeof(Edge);
 
             List<DialogueSystemGroup> groupsToDelete = new List<DialogueSystemGroup>();
+            List<Edge> edgesToDelete = new List<Edge>();
             List<DialogueSystemNode> nodesToDelete = new List<DialogueSystemNode>();
 
             foreach (GraphElement element in selection)
@@ -144,6 +145,13 @@ public class DialogueSystemGraphView : GraphView
                 if (element is DialogueSystemNode)
                 {
                     nodesToDelete.Add((DialogueSystemNode)element);
+                    continue;
+                }
+
+                if (element.GetType() == edgeType)
+                {
+                    Edge edge = (Edge)element;
+                    edgesToDelete.Add(edge);
                     continue;
                 }
 
@@ -171,17 +179,22 @@ public class DialogueSystemGraphView : GraphView
                     groupNodes.Add(groupNode);
                 }
 
+                group.RemoveElements(groupNodes);
+                RemoveGroup(group);
                 RemoveElement(group);
             }
 
+            DeleteElements(edgesToDelete);
+
             foreach (DialogueSystemNode node in nodesToDelete)
             {
-                if(node.Group != null)
+                if (node.Group != null)
                 {
                     node.Group.RemoveElement(node);
                 }
 
                 RemoveUngroupedNode(node);
+                node.DisconnectAllPorts();
                 RemoveElement(node);
             }
         };
@@ -298,7 +311,7 @@ public class DialogueSystemGraphView : GraphView
         Color errorColor = groups[groupName].ErrorData.color;
         group.SetErrorStyle(errorColor);
 
-        if(groupList.Count == 2)
+        if (groupList.Count == 2)
         {
             groupList[0].SetErrorStyle(errorColor);
         }
@@ -331,7 +344,7 @@ public class DialogueSystemGraphView : GraphView
 
         node.Group = group;
 
-        if(!groupedNodes.ContainsKey(group))
+        if (!groupedNodes.ContainsKey(group))
         {
             groupedNodes.Add(group, new SerializableDictionary<string, DialogueSystemNodeErrorData>());
         }
