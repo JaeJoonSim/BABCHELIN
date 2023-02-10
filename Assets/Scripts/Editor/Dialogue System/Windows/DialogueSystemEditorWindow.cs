@@ -8,7 +8,7 @@ public class DialogueSystemEditorWindow : EditorWindow
 {
     private DialogueSystemGraphView graphView;
     private string defaultFileName = "DialoguesFileName";
-    private TextField fileNameTextField;
+    private static TextField fileNameTextField;
     private Button saveButton;
 
     [MenuItem("Window/DialogueSystemEditorWindow")]
@@ -39,10 +39,16 @@ public class DialogueSystemEditorWindow : EditorWindow
         {
             fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
         });
+        
         saveButton = DialogueSystemElementUtility.CreateButton("Save", () => Save());
+
+        Button clearButton = DialogueSystemElementUtility.CreateButton("Clear", () => Clear());
+        Button resetButton = DialogueSystemElementUtility.CreateButton("Reset", () => ResetGraph());
 
         toolbar.Add(fileNameTextField);
         toolbar.Add(saveButton);
+        toolbar.Add(clearButton);
+        toolbar.Add(resetButton);
 
         toolbar.AddStyleSheet("DialogueSystem/DialogueSystemToolbarStyles.uss");
 
@@ -72,9 +78,26 @@ public class DialogueSystemEditorWindow : EditorWindow
         DialogueSystemIOUtility.Initialize(graphView, fileNameTextField.value);
         DialogueSystemIOUtility.Save();
     }
+
+    private void Clear()
+    {
+        graphView.ClearGraph();
+    }
+
+    private void ResetGraph()
+    {
+        Clear();
+
+        UpdateFileName(defaultFileName);
+    }
     #endregion
 
     #region Utility Methods
+    public static void UpdateFileName(string newFileName)
+    {
+        fileNameTextField.value = newFileName;
+    }
+
     public void EnableSaving()
     {
         saveButton.SetEnabled(true);

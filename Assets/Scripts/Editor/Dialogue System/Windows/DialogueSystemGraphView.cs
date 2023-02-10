@@ -516,6 +516,17 @@ public class DialogueSystemGraphView : GraphView
         Vector2 localMousePosition = contentViewContainer.WorldToLocal(worldMousePosition);
         return localMousePosition;
     }
+
+    public void ClearGraph()
+    {
+        graphElements.ForEach(graphElement => RemoveElement(graphElement));
+
+        groups.Clear();
+        groupedNodes.Clear();
+        ungroupedNodes.Clear();
+
+        NameErrorsAmount = 0;
+    }
     #endregion
 }
 #endif
