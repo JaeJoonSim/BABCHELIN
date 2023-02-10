@@ -11,24 +11,26 @@ public class DialogueSystemGraphView : GraphView
     private DialogueSystemEditorWindow editorWindow;
     private DialogueSystemSearchWindow searchWindow;
 
+    private MiniMap miniMap;
+
     private SerializableDictionary<string, DialogueSystemNodeErrorData> ungroupedNodes;
     private SerializableDictionary<string, DialogueSystemGroupErrorData> groups;
     private SerializableDictionary<Group, SerializableDictionary<string, DialogueSystemNodeErrorData>> groupedNodes;
 
     private int nameErrorAmount;
-    
+
     public int NameErrorsAmount
     {
         get { return nameErrorAmount; }
-        set 
-        { 
+        set
+        {
             nameErrorAmount = value;
 
             if (nameErrorAmount == 0)
             {
                 editorWindow.EnableSaving();
             }
-            if(nameErrorAmount == 1)
+            if (nameErrorAmount == 1)
             {
                 editorWindow.DisableSaving();
             }
@@ -46,6 +48,7 @@ public class DialogueSystemGraphView : GraphView
         // 순서 중요
         AddManipulators();
         AddSearchWindow();
+        AddMiniMap();
         AddGridBackground();
 
         OnElementsDeleted();
@@ -55,6 +58,7 @@ public class DialogueSystemGraphView : GraphView
         OnGraphViewChange();
 
         AddStyles();
+        AddMinimapStyles();
     }
 
     #region Override Methods
@@ -141,8 +145,8 @@ public class DialogueSystemGraphView : GraphView
         DialogueSystemNode node = (DialogueSystemNode)Activator.CreateInstance(nodeType);
 
         node.Initialize(nodeName, this, position);
-        
-        if(shouldDraw)
+
+        if (shouldDraw)
         {
             node.Draw();
         }
@@ -186,7 +190,7 @@ public class DialogueSystemGraphView : GraphView
                 }
 
                 DialogueSystemGroup group = (DialogueSystemGroup)selectedelement;
-                
+
                 groupsToDelete.Add(group);
             }
 
@@ -294,7 +298,7 @@ public class DialogueSystemGraphView : GraphView
     {
         graphViewChanged = (changes) =>
         {
-            if(changes.edgesToCreate != null)
+            if (changes.edgesToCreate != null)
             {
                 foreach (Edge edge in changes.edgesToCreate)
                 {
@@ -304,12 +308,12 @@ public class DialogueSystemGraphView : GraphView
                     choiceData.NodeID = nextNode.ID;
                 }
             }
-            
-            if(changes.elementsToRemove != null)
+
+            if (changes.elementsToRemove != null)
             {
                 Type edgeType = typeof(Edge);
 
-                foreach(GraphElement element in changes.elementsToRemove)
+                foreach (GraphElement element in changes.elementsToRemove)
                 {
                     if (element.GetType() != edgeType)
                         continue;
@@ -491,6 +495,19 @@ public class DialogueSystemGraphView : GraphView
         nodeCreationRequest = context => SearchWindow.Open(new SearchWindowContext(context.screenMousePosition), searchWindow);
     }
 
+    private void AddMiniMap()
+    {
+        miniMap = new MiniMap()
+        {
+            anchored = true
+        };
+
+        miniMap.SetPosition(new Rect(15, 50, 200, 180));
+        Add(miniMap);
+
+        miniMap.visible = false;
+    }
+
     private void AddGridBackground()
     {
         GridBackground gridBackground = new GridBackground();
@@ -504,6 +521,18 @@ public class DialogueSystemGraphView : GraphView
             "DialogueSystem/DialogueSystemGraphViewStyles.uss",
             "DialogueSystem/DialogueSystemNodeStyles.uss"
             );
+    }
+
+    private void AddMinimapStyles()
+    {
+        StyleColor backgroundColor = new StyleColor(new Color32(29, 29, 30, 255));
+        StyleColor borderColor = new StyleColor(new Color32(51, 51, 51, 255));
+
+        miniMap.style.backgroundColor = backgroundColor;
+        miniMap.style.borderTopColor = borderColor;
+        miniMap.style.borderRightColor = borderColor;
+        miniMap.style.borderBottomColor = borderColor;
+        miniMap.style.borderLeftColor = borderColor;
     }
     #endregion
 
@@ -530,6 +559,11 @@ public class DialogueSystemGraphView : GraphView
         ungroupedNodes.Clear();
 
         NameErrorsAmount = 0;
+    }
+
+    public void ToggelMiniMap()
+    {
+        miniMap.visible = !miniMap.visible;
     }
     #endregion
 }

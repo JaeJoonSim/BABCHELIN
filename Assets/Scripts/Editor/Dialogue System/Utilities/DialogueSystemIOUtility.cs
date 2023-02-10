@@ -5,6 +5,7 @@ using UnityEditor;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
+#if UNITY_EDITOR
 public static class DialogueSystemIOUtility
 {
     private static DialogueSystemGraphView graphView;
@@ -449,3 +450,4 @@ public static class DialogueSystemIOUtility
     }
     #endregion
 }
+#endif

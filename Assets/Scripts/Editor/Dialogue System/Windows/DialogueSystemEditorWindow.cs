@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
@@ -10,6 +11,7 @@ public class DialogueSystemEditorWindow : EditorWindow
     private string defaultFileName = "DialoguesFileName";
     private static TextField fileNameTextField;
     private Button saveButton;
+    private Button miniMapButton;
 
     [MenuItem("Window/DialogueSystemEditorWindow")]
     public static void ShowExample()
@@ -45,12 +47,14 @@ public class DialogueSystemEditorWindow : EditorWindow
         Button loadButton = DialogueSystemElementUtility.CreateButton("Load", () => Load());
         Button clearButton = DialogueSystemElementUtility.CreateButton("Clear", () => Clear());
         Button resetButton = DialogueSystemElementUtility.CreateButton("Reset", () => ResetGraph());
+        miniMapButton = DialogueSystemElementUtility.CreateButton("MiniMap", () => ToggleMiniMap());
 
         toolbar.Add(fileNameTextField);
         toolbar.Add(saveButton);
         toolbar.Add(loadButton);
         toolbar.Add(clearButton);
         toolbar.Add(resetButton);
+        toolbar.Add(miniMapButton);
 
         toolbar.AddStyleSheet("DialogueSystem/DialogueSystemToolbarStyles.uss");
 
@@ -103,6 +107,12 @@ public class DialogueSystemEditorWindow : EditorWindow
         Clear();
 
         UpdateFileName(defaultFileName);
+    }
+
+    private void ToggleMiniMap()
+    {
+        graphView.ToggelMiniMap();
+        miniMapButton.ToggleInClassList("ds-toolbar__button__selected");
     }
     #endregion
 
