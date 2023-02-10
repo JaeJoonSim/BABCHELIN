@@ -18,10 +18,10 @@ public class DialogueSystemNode : Node
     protected DialogueSystemGraphView graphView;
     private Color defaultBackgroundColor;
 
-    public virtual void Initialize(DialogueSystemGraphView graphView, Vector2 position)
+    public virtual void Initialize(string nodeName, DialogueSystemGraphView graphView, Vector2 position)
     {
         ID = Guid.NewGuid().ToString();
-        DialogueName = "DialogueName";
+        DialogueName = nodeName;
         Choices = new List<DialogueSystemChoiceSaveData>();
         Text = "Dialogue Text";
         this.graphView = graphView;

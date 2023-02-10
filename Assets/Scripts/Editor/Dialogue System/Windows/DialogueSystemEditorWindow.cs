@@ -1,4 +1,4 @@
-using System;
+using System.IO;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -39,14 +39,16 @@ public class DialogueSystemEditorWindow : EditorWindow
         {
             fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
         });
-        
+
         saveButton = DialogueSystemElementUtility.CreateButton("Save", () => Save());
 
+        Button loadButton = DialogueSystemElementUtility.CreateButton("Load", () => Load());
         Button clearButton = DialogueSystemElementUtility.CreateButton("Clear", () => Clear());
         Button resetButton = DialogueSystemElementUtility.CreateButton("Reset", () => ResetGraph());
 
         toolbar.Add(fileNameTextField);
         toolbar.Add(saveButton);
+        toolbar.Add(loadButton);
         toolbar.Add(clearButton);
         toolbar.Add(resetButton);
 
@@ -64,7 +66,7 @@ public class DialogueSystemEditorWindow : EditorWindow
     #region Toolbar Actions
     private void Save()
     {
-        if(string.IsNullOrEmpty(fileNameTextField.value))
+        if (string.IsNullOrEmpty(fileNameTextField.value))
         {
             EditorUtility.DisplayDialog(
                 "Invalid file name",
@@ -77,6 +79,18 @@ public class DialogueSystemEditorWindow : EditorWindow
 
         DialogueSystemIOUtility.Initialize(graphView, fileNameTextField.value);
         DialogueSystemIOUtility.Save();
+    }
+
+    private void Load()
+    {
+        string filePath = EditorUtility.OpenFilePanel("Dialogue Graphs", "Assets/Scripts/Editor/Dialogue Data/Graphs", "asset");
+
+        if (string.IsNullOrEmpty(filePath))
+            return;
+
+        Clear();
+        DialogueSystemIOUtility.Initialize(graphView, Path.GetFileNameWithoutExtension(filePath));
+        DialogueSystemIOUtility.Load();
     }
 
     private void Clear()

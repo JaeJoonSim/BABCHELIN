@@ -97,7 +97,7 @@ public class DialogueSystemGraphView : GraphView
     private IManipulator CreateNodeContextualMenu(string actionTitle, DialogueSystemType dialogueType)
     {
         ContextualMenuManipulator contextualMenuManipulator = new ContextualMenuManipulator(
-            menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode(dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
+            menuEvent => menuEvent.menu.AppendAction(actionTitle, actionEvent => AddElement(CreateNode("DialogueName", dialogueType, GetLocalMousePosition(actionEvent.eventInfo.localMousePosition))))
             );
 
         return contextualMenuManipulator;
@@ -135,13 +135,17 @@ public class DialogueSystemGraphView : GraphView
         return group;
     }
 
-    public DialogueSystemNode CreateNode(DialogueSystemType dialogueType, Vector2 position)
+    public DialogueSystemNode CreateNode(string nodeName, DialogueSystemType dialogueType, Vector2 position, bool shouldDraw = true)
     {
         Type nodeType = Type.GetType($"DialogueSystem{dialogueType}Node");
         DialogueSystemNode node = (DialogueSystemNode)Activator.CreateInstance(nodeType);
 
-        node.Initialize(this, position);
-        node.Draw();
+        node.Initialize(nodeName, this, position);
+        
+        if(shouldDraw)
+        {
+            node.Draw();
+        }
 
         AddUngroupedNode(node);
 

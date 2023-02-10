@@ -5,9 +5,9 @@ using UnityEngine.UIElements;
 #if UNITY_EDITOR
 public class DialogueSystemMultipleChoiceNode : DialogueSystemNode
 {
-    public override void Initialize(DialogueSystemGraphView graphView , Vector2 position)
+    public override void Initialize(string nodeName, DialogueSystemGraphView graphView , Vector2 position)
     {
-        base.Initialize(graphView, position);
+        base.Initialize(nodeName, graphView, position);
 
         DialogueType = DialogueSystemType.MultipleChoice;
 
