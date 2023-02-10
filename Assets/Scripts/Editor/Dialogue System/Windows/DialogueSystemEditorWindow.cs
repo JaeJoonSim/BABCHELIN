@@ -1,3 +1,4 @@
+using System;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine.UIElements;
@@ -5,6 +6,7 @@ using UnityEngine.UIElements;
 #if UNITY_EDITOR
 public class DialogueSystemEditorWindow : EditorWindow
 {
+    private DialogueSystemGraphView graphView;
     private string defaultFileName = "DialoguesFileName";
     private TextField fileNameTextField;
     private Button saveButton;
@@ -25,7 +27,7 @@ public class DialogueSystemEditorWindow : EditorWindow
     #region Elements Addtion
     private void AddGraphView()
     {
-        DialogueSystemGraphView graphView = new DialogueSystemGraphView(this);
+        graphView = new DialogueSystemGraphView(this);
         graphView.StretchToParentSize();
         rootVisualElement.Add(graphView);
     }
@@ -37,7 +39,7 @@ public class DialogueSystemEditorWindow : EditorWindow
         {
             fileNameTextField.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
         });
-        saveButton = DialogueSystemElementUtility.CreateButton("Save");
+        saveButton = DialogueSystemElementUtility.CreateButton("Save", () => Save());
 
         toolbar.Add(fileNameTextField);
         toolbar.Add(saveButton);
@@ -50,6 +52,25 @@ public class DialogueSystemEditorWindow : EditorWindow
     private void AddStyles()
     {
         rootVisualElement.AddStyleSheet("DialogueSystem/DialogueSystemVariables.uss");
+    }
+    #endregion
+
+    #region Toolbar Actions
+    private void Save()
+    {
+        if(string.IsNullOrEmpty(fileNameTextField.value))
+        {
+            EditorUtility.DisplayDialog(
+                "Invalid file name",
+                "please ensure the file name you've type in is valid",
+                "Roger!"
+                );
+
+            return;
+        }
+
+        DialogueSystemIOUtility.Initialize(graphView, fileNameTextField.value);
+        DialogueSystemIOUtility.Save();
     }
     #endregion
 

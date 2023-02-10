@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.UIElements;
 using UnityEngine;
 using System;
+using System.Linq;
 
 #if UNITY_EDITOR
 public class DialogueSystemNode : Node
@@ -24,7 +25,7 @@ public class DialogueSystemNode : Node
         Choices = new List<DialogueSystemChoiceSaveData>();
         Text = "Dialogue Text";
         this.graphView = graphView;
-        
+
         defaultBackgroundColor = new Color(29f / 255f, 29f / 255f, 30f / 255f);
 
         SetPosition(new Rect(position, Vector2.zero));
@@ -40,7 +41,22 @@ public class DialogueSystemNode : Node
             TextField target = (TextField)callback.target;
             target.value = callback.newValue.RemoveWhitespaces().RemoveSpecialCharacters();
 
-            if(Group == null)
+            if(string.IsNullOrEmpty(target.value))
+            {
+                if (!string.IsNullOrEmpty(DialogueName))
+                {
+                    ++graphView.NameErrorsAmount;
+                }
+            }
+            else
+            {
+                if(string.IsNullOrEmpty(DialogueName))
+                {
+                    --graphView.NameErrorsAmount;
+                }
+            }
+
+            if (Group == null)
             {
                 graphView.RemoveUngroupedNode(this);
                 DialogueName = target.value;
@@ -59,7 +75,7 @@ public class DialogueSystemNode : Node
             "ds-node__filename-textfield",
             "ds-node__textfield__hidden"
             );
-        
+
         titleContainer.Insert(0, dialogueNameTextField);
 
         Port inputPort = this.CreatePort("Dialogue Connection", Orientation.Horizontal, Direction.Input, Port.Capacity.Multi);
@@ -72,7 +88,10 @@ public class DialogueSystemNode : Node
 
         Foldout textFoldout = DialogueSystemElementUtility.CreateFoldout("Dialogue Text");
 
-        TextField textTextField = DialogueSystemElementUtility.CreateTextArea(Text);
+        TextField textTextField = DialogueSystemElementUtility.CreateTextArea(Text, null, callback =>
+        {
+            Text = callback.newValue;
+        });
 
         textTextField.AddClasses(
             "ds-node__textfield",
@@ -89,7 +108,7 @@ public class DialogueSystemNode : Node
     {
         evt.menu.AppendAction("Disconnect Input Ports", actionEvent => DisconnectInputPorts());
         evt.menu.AppendAction("Disconnect Output Ports", actionEvent => DisconnectOutputPorts());
-        
+
         base.BuildContextualMenu(evt);
     }
     #endregion
@@ -100,12 +119,12 @@ public class DialogueSystemNode : Node
         DisconnectInputPorts();
         DisconnectOutputPorts();
     }
-    
+
     private void DisconnectInputPorts()
     {
         DisconnectPorts(inputContainer);
     }
-    
+
     private void DisconnectOutputPorts()
     {
         DisconnectPorts(outputContainer);
@@ -120,6 +139,12 @@ public class DialogueSystemNode : Node
 
             graphView.DeleteElements(port.connections);
         }
+    }
+
+    public bool IsStartingNode()
+    {
+        Port inputPort = (Port)inputContainer.Children().First();
+        return !inputPort.connected;
     }
 
     public void SetErrorStyle(Color color)

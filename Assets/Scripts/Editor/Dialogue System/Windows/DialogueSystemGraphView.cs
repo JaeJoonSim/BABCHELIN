@@ -15,20 +15,20 @@ public class DialogueSystemGraphView : GraphView
     private SerializableDictionary<string, DialogueSystemGroupErrorData> groups;
     private SerializableDictionary<Group, SerializableDictionary<string, DialogueSystemNodeErrorData>> groupedNodes;
 
-    private int repeatedNamesAmount;
+    private int nameErrorAmount;
     
-    public int RepeatedNameAmount
+    public int NameErrorsAmount
     {
-        get { return repeatedNamesAmount; }
+        get { return nameErrorAmount; }
         set 
         { 
-            repeatedNamesAmount = value;
+            nameErrorAmount = value;
 
-            if (repeatedNamesAmount == 0)
+            if (nameErrorAmount == 0)
             {
                 editorWindow.EnableSaving();
             }
-            if(repeatedNamesAmount == 1)
+            if(nameErrorAmount == 1)
             {
                 editorWindow.DisableSaving();
             }
@@ -264,6 +264,22 @@ public class DialogueSystemGraphView : GraphView
         {
             DialogueSystemGroup dialogueSystemGroup = (DialogueSystemGroup)group;
             dialogueSystemGroup.title = newTitle.RemoveWhitespaces().RemoveSpecialCharacters();
+
+            if (string.IsNullOrEmpty(dialogueSystemGroup.title))
+            {
+                if (!string.IsNullOrEmpty(dialogueSystemGroup.oldTitle))
+                {
+                    ++NameErrorsAmount;
+                }
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(dialogueSystemGroup.oldTitle))
+                {
+                    --NameErrorsAmount;
+                }
+            }
+
             RemoveGroup(dialogueSystemGroup);
             dialogueSystemGroup.oldTitle = dialogueSystemGroup.title;
             AddGroup(dialogueSystemGroup);
@@ -326,7 +342,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (ungroupedNodesList.Count == 2)
         {
-            ++RepeatedNameAmount;
+            ++NameErrorsAmount;
             ungroupedNodesList[0].SetErrorStyle(errorColor);
         }
     }
@@ -340,7 +356,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (ungroupedNodesList.Count == 1)
         {
-            --RepeatedNameAmount;
+            --NameErrorsAmount;
             ungroupedNodesList[0].ResetStlye();
             return;
         }
@@ -371,7 +387,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupList.Count == 2)
         {
-            ++RepeatedNameAmount;
+            ++NameErrorsAmount;
             groupList[0].SetErrorStyle(errorColor);
         }
     }
@@ -387,7 +403,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupList.Count == 1)
         {
-            --RepeatedNameAmount;
+            --NameErrorsAmount;
             groupList[0].ResetStyle();
             return;
         }
@@ -425,7 +441,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupedNodes[group][nodeName].nodes.Count == 2)
         {
-            ++RepeatedNameAmount;
+            ++NameErrorsAmount;
             groupedNodesList[0].SetErrorStyle(errorColor);
         }
     }
@@ -442,7 +458,7 @@ public class DialogueSystemGraphView : GraphView
 
         if (groupedNodesList.Count == 1)
         {
-            --RepeatedNameAmount;
+            --NameErrorsAmount;
             groupedNodesList[0].ResetStlye();
             return;
         }
