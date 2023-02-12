@@ -110,6 +110,15 @@ public class ItemObject
         set { id = value; }
     }
 
+    [Tooltip("아이템 가격")]
+    [SerializeField]
+    private int price = 0;
+    public int PRICE
+    {
+        get { return price; }
+        set { price = value; }
+    }
+
     [Tooltip("아이템 설명")]
     [SerializeField, TextArea(15, 20)]
     private string description;
