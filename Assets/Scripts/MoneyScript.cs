@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class MoneyScript : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class MoneyScript : MonoBehaviour
     public static int honerCoin;    //명예 코인
     public static int dungeonCoin;  //던전 코인
     public int exchangeRate;               //환율
+    public Image arrow;
+    public int[] rateList;               //환율 변화 저장용
     public TMP_Text goldText;
 
     // Start is called before the first frame update
@@ -43,7 +46,13 @@ public class MoneyScript : MonoBehaviour
         //    per = Random.Range(0, 100);
         //}
 
-        int per = Random.Range(0, 100);
+        int per = Random.Range(0, 100); //환율 변화 확률
+
+        rateList[4] = rateList[3];
+        rateList[3] = rateList[2];
+        rateList[2] = rateList[1];
+        rateList[1] = rateList[0];
+        rateList[0] = exchangeRate;
 
         if (0 <= per && per < 5)
         {
@@ -73,6 +82,19 @@ public class MoneyScript : MonoBehaviour
         else
         {
 
+        }
+
+        if(exchangeRate > rateList[0])
+        {
+            arrow.color = Color.green;
+        }
+        else if (exchangeRate < rateList[0])
+        {
+            arrow.color = Color.red;
+        }
+        else
+        {
+            arrow.color = Color.gray;
         }
     }
 }

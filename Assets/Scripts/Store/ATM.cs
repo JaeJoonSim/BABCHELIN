@@ -7,6 +7,7 @@ public class ATM : MonoBehaviour
 {
     public TMP_Text rateText;
     MoneyScript rate;
+    public TMP_Text[] rateTextList;
 
     public TMP_InputField payText;
     int pay;
@@ -21,6 +22,12 @@ public class ATM : MonoBehaviour
     void Update()
     {
         rateText.text = rate.exchangeRate.ToString();
+
+        for(int i = 0; i < 5; i++)
+        {
+            rateTextList[i].text = rate.rateList[i].ToString();
+        }
+
     }
 
     public void Exchange() //È¯Àü
