@@ -6,10 +6,10 @@ using UnityEngine;
 
 public enum ItemType
 {
+    Default,
     Accelerator,
     Food,
     Equipment,
-    Default,
 }
 
 public enum Attributes
@@ -137,6 +137,7 @@ public class ItemObject
     {
         name = "";
         id = -1;
+        price = 0;
     }
 
     public ItemObject(Item item)
@@ -144,6 +145,7 @@ public class ItemObject
         name = item.Title;
         id = item.Data.ID;
         description = item.Description;
+        price = item.Data.PRICE;
         buffs = new ItemBuff[item.Data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
