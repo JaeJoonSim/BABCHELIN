@@ -11,9 +11,9 @@ public class TimeScript : MonoBehaviour
     public int timeMinute;  //테스트용 public 선언
     string AMPM;
 
-    enum TIMESTATE { Morning, Afternoon, Dawn };
+    public enum TIMESTATE { Morning, Afternoon, Dawn };
 
-    TIMESTATE state;
+    public TIMESTATE timeState { get; set; }
 
     void Start()
     {
@@ -31,15 +31,15 @@ public class TimeScript : MonoBehaviour
     {
         if(7 <= timeHour && timeHour < 11)
         {
-            state = TIMESTATE.Morning;
+            timeState = TIMESTATE.Morning;
         }
         else if (11 <= timeHour && timeHour < 17)
         {
-            state = TIMESTATE.Afternoon;
+            timeState = TIMESTATE.Afternoon;
         }
         else if(17 <= timeHour || timeHour < 7)
         {
-            state = TIMESTATE.Dawn;
+            timeState = TIMESTATE.Dawn;
         }
     }
 
