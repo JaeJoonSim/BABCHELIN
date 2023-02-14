@@ -108,6 +108,13 @@ public class Cooking : MonoBehaviour
             // 인벤토리에 아이템 추가
             //iceBox.AddItem(itemDatabase.Items[0].CreateItem(), 1);
             int a = cook.Items.Items[0].Item.PRICE + cook.Items.Items[1].Item.PRICE + cook.Items.Items[2].Item.PRICE + cook.Items.Items[3].Item.PRICE;  //가격 측정
+            
+            for(int i = 0; i < 4; i++)
+            {
+                cook.Items.Items[i].RemoveItem();
+            }
+
+            Debug.Log("음식 가격 = " + a);
             CookingUI.SetActive(true);
         }
     }
