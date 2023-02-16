@@ -47,6 +47,10 @@ public class DialogueSystemInspector : Editor
 
         DrawFiltersArea();
 
+        List<string> dialogueNames;
+        string dialogueFolderPath = $"Assets/Dialogue Data/Dialogues/{currentDialogueContainer.name}";
+        string dialogueInfoMessage;
+
         if (groupedDialoguesProperty.boolValue)
         {
             List<string> dialogueGroupNames = currentDialogueContainer.GetDialogueGroupNames();
@@ -57,9 +61,26 @@ public class DialogueSystemInspector : Editor
                 return;
             }
             DrawDialogueGroupArea(currentDialogueContainer, dialogueGroupNames);
+
+            DialogueSystemGroupSO dialogueGroup = (DialogueSystemGroupSO)dialogueGroupProperty.objectReferenceValue;
+            dialogueNames = currentDialogueContainer.GetGroupedDialogueNames(dialogueGroup);
+            dialogueFolderPath += $"/Groups/{dialogueGroup.GroupName}/Dialogues";
+            dialogueInfoMessage = "이 Dialogue Group에 대화가 없습니다.";
+        }
+        else
+        {
+            dialogueNames = currentDialogueContainer.GetUnGroupedDialogueNames();
+            dialogueFolderPath += "/Global/Dialogues";
+            dialogueInfoMessage = "이 Dialogue에는 대화가 없습니다.";
         }
 
-        DrawDialogueArea();
+        if(dialogueNames.Count == 0)
+        {
+            StopDrawing(dialogueInfoMessage);
+            return;
+        }
+
+        DrawDialogueArea(dialogueNames, dialogueFolderPath);
 
         serializedObject.ApplyModifiedProperties();
     }
@@ -101,10 +122,23 @@ public class DialogueSystemInspector : Editor
         DialogueSystemInspectorUtility.DrawSpace();
     }
 
-    private void DrawDialogueArea()
+    private void DrawDialogueArea(List<string> dialogueNames, string dialogueFolderPath)
     {
         DialogueSystemInspectorUtility.DrawHeader("Dialogue");
-        selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty.intValue, new string[] { });
+
+        int oldSelectedDialogueIndex = selectedDialogueIndexProperty.intValue;
+        DialogueSystemDialogueSO oldDialogue = (DialogueSystemDialogueSO)dialogueProperty.objectReferenceValue;
+        bool isOldDialougeNull = oldDialogue == null;
+        string oldDialougeName = isOldDialougeNull ? "" : oldDialogue.DialogueName;
+
+        UpdateIndexOnNamesListUpdate(dialogueNames, selectedDialogueIndexProperty, oldSelectedDialogueIndex, oldDialougeName, isOldDialougeNull);
+
+        selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty.intValue, dialogueNames.ToArray());
+
+        string selectedDialogueName = dialogueNames[selectedDialogueIndexProperty.intValue];
+        DialogueSystemDialogueSO selectedDialogue = DialogueSystemIOUtility.LoadAsset<DialogueSystemDialogueSO>(dialogueFolderPath, selectedDialogueName);
+        dialogueProperty.objectReferenceValue = selectedDialogue;
+
         dialogueProperty.DrawPropertyField();
     }
 
