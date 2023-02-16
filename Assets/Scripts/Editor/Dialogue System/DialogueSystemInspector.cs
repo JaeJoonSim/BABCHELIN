@@ -45,10 +45,6 @@ public class DialogueSystemInspector : Editor
 
         DrawFiltersArea();
 
-        List<string> dialogueNames;
-        string dialogueFolderPath = $"Assets/Dialogue Data/Dialogues/{dialogueContainer.FileName}";
-        string dialogueInfoMessege;
-
         if (groupedDialoguesProperty.boolValue)
         {
             List<string> dialogueGroupNames = dialogueContainer.GetDialogueGroupNames();
@@ -60,26 +56,9 @@ public class DialogueSystemInspector : Editor
             }
             
             DrawDialogueGroupArea(dialogueContainer, dialogueGroupNames);
-
-            DialogueSystemGroupSO dialogueGroup = (DialogueSystemGroupSO)dialogueGroupProperty.objectReferenceValue;
-            dialogueNames = dialogueContainer.GetGroupedDialogueNames(dialogueGroup);
-            dialogueFolderPath += $"/Groups/{dialogueGroup.GroupName}/Dialogues";
-            dialogueInfoMessege = "There are no Dialogues in this Dialogue Group.";
-        }
-        else
-        {
-            dialogueNames = dialogueContainer.GetUngroupedDialogueNames();
-            dialogueFolderPath += "/Global/Dialogues";
-            dialogueInfoMessege = "There are no Ungrouped Dialogues in this Dialogue Group.";
         }
 
-        if (dialogueNames.Count == 0)
-        {
-            StopDrawing(dialogueInfoMessege);
-            return;
-        }
-
-        DrawDialogueArea(dialogueNames, dialogueFolderPath);
+        DrawDialogueArea();
         serializedObject.ApplyModifiedProperties();
     }
 
@@ -118,23 +97,12 @@ public class DialogueSystemInspector : Editor
         DialogueSystemInspectorUtility.DrawSpace();
     }
 
-    private void DrawDialogueArea(List<string> dialogueNames, string dialogueFolderPath)
+    private void DrawDialogueArea()
     {
         DialogueSystemInspectorUtility.DrawHeader("Dialogue");
-        int oldSelectdDialogueIndex = selectedDialogueIndexProperty.intValue;
-        DialogueSystemDialogueSO oldDialogue = (DialogueSystemDialogueSO)dialogueProperty.objectReferenceValue;
-
-        bool isOldDialogueNull = oldDialogue == null;
-        string OldDialogueName = isOldDialogueNull ? "" : oldDialogue.DialogueName;
-
-        UpdateIndexOnNamesListUpdate(dialogueNames, selectedDialogueIndexProperty, oldSelectdDialogueIndex, OldDialogueName, isOldDialogueNull);
-
-        selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty, dialogueNames.ToArray());
-        string selectedDialogueName = dialogueNames[selectedDialogueIndexProperty.intValue];
-        DialogueSystemDialogueSO selectedDialogue = DialogueSystemIOUtility.LoadAsset<DialogueSystemDialogueSO>(dialogueFolderPath, selectedDialogueName);
-        dialogueProperty.objectReferenceValue = selectedDialogue;
-
+        selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty, new string[] { });
         dialogueProperty.DrawPropertyField();
+        DialogueSystemInspectorUtility.DrawSpace();
     }
 
     private void StopDrawing(string reason)
