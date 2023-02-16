@@ -83,6 +83,15 @@ public class DialogueSystemInspector : Editor
     private void DrawDialogueGroupArea(DialogueSystemContainerSO dialogueContainer, List<string> dialogueGroupNames)
     {
         DialogueSystemInspectorUtility.DrawHeader("Dialogue Group");
+
+        int oldSelectedDialogueGroupIndex = selectedDialogueGroupIndexProperty.intValue;
+        DialogueSystemGroupSO oldDialogueGroup = (DialogueSystemGroupSO)dialogueGroupProperty.objectReferenceValue;
+
+        bool isOldDialougeGroupNull = oldDialogueGroup == null;
+        string oldDialougeGroupName = isOldDialougeGroupNull ? "" : oldDialogueGroup.GroupName;
+
+        UpdateIndexOnNamesListUpdate(dialogueGroupNames, selectedDialogueGroupIndexProperty, oldSelectedDialogueGroupIndex, oldDialougeGroupName, isOldDialougeGroupNull);
+
         selectedDialogueGroupIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue Group", selectedDialogueGroupIndexProperty.intValue, dialogueGroupNames.ToArray());
 
         string selectedDialogueGroupName = dialogueGroupNames[selectedDialogueGroupIndexProperty.intValue];
@@ -103,6 +112,32 @@ public class DialogueSystemInspector : Editor
     {
         DialogueSystemInspectorUtility.DrawHelpBox(reason);
         serializedObject.ApplyModifiedProperties();
+    }
+    #endregion
+
+    #region Index Methods
+    private void UpdateIndexOnNamesListUpdate(List<string> optionNames, SerializedProperty indexProperty, int oldSelectedPropertyIndex, string oldPropertyName, bool isOldPropertyNull)
+    {
+        if (isOldPropertyNull)
+        {
+            indexProperty.intValue = 0;
+            return;
+        }
+
+        bool oldIndexIsOutBoundsOfNamesListCount = oldSelectedPropertyIndex > optionNames.Count - 1;
+        bool oldNameIsDiffrentThanSelectedName = oldIndexIsOutBoundsOfNamesListCount || oldPropertyName != optionNames[oldSelectedPropertyIndex];
+
+        if (oldNameIsDiffrentThanSelectedName)
+        {
+            if (optionNames.Contains(oldPropertyName))
+            {
+                indexProperty.intValue = optionNames.IndexOf(oldPropertyName);
+            }
+            else
+            {
+                indexProperty.intValue = 0;
+            }
+        }
     }
     #endregion
 }
