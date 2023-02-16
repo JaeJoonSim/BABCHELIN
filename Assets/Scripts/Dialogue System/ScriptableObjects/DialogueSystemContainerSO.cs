@@ -14,14 +14,4 @@ public class DialogueSystemContainerSO : ScriptableObject
         DialogueGroups = new SerializableDictionary<DialogueSystemGroupSO, List<DialogueSystemDialogueSO>>();
         UngroupedDialogues = new List<DialogueSystemDialogueSO>();
     }
-
-    public List<string> GetDialogueGroupNames()
-    {
-        List<string> dialogueGroupNames = new List<string>();
-        foreach (DialogueSystemGroupSO dialogueGroup in DialogueGroups.Keys)
-        {
-            dialogueGroupNames.Add(dialogueGroup.GroupName);
-        }
-        return dialogueGroupNames;
-    }
 }

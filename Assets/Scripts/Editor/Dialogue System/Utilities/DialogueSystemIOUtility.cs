@@ -383,7 +383,7 @@ public static class DialogueSystemIOUtility
     #endregion
 
     #region Utility Methods
-    public static void CreateFolder(string path, string folderName)
+    private static void CreateFolder(string path, string folderName)
     {
         if (AssetDatabase.IsValidFolder($"{path}/{folderName}"))
         {
@@ -392,7 +392,7 @@ public static class DialogueSystemIOUtility
         AssetDatabase.CreateFolder(path, folderName);
     }
 
-    public static void RemoveFolder(string fullPath)
+    private static void RemoveFolder(string fullPath)
     {
         FileUtil.DeleteFileOrDirectory($"{fullPath}.meta");
         FileUtil.DeleteFileOrDirectory($"{fullPath}/");
@@ -412,18 +412,18 @@ public static class DialogueSystemIOUtility
         return asset;
     }
 
-    public static T LoadAsset<T>(string path, string assetName) where T : ScriptableObject
+    private static T LoadAsset<T>(string path, string assetName) where T : ScriptableObject
     {
         string fullPath = $"{path}/{assetName}.asset";
         return AssetDatabase.LoadAssetAtPath<T>(fullPath);
     }
 
-    public static void RemoveAsset(string path, string assetName)
+    private static void RemoveAsset(string path, string assetName)
     {
         AssetDatabase.DeleteAsset($"{path}/{assetName}.asset");
     }
 
-    public static void SaveAsset(UnityEngine.Object asset)
+    private static void SaveAsset(UnityEngine.Object asset)
     {
         EditorUtility.SetDirty(asset);
 
