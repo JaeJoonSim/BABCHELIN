@@ -34,17 +34,31 @@ public class DialogueSystemInspector : Editor
     public override void OnInspectorGUI()
     {
         serializedObject.Update();
-        
+
         DrawDialogueContainerArea();
-        
-        if(dialogueContainerProperty.objectReferenceValue == null)
+
+        DialogueSystemContainerSO currentDialogueContainer = (DialogueSystemContainerSO)dialogueContainerProperty.objectReferenceValue;
+
+        if (currentDialogueContainer == null)
         {
             StopDrawing("인스펙터를 활성화 하려면 Dialogue Container를 선택해 주세요.");
             return;
         }
 
         DrawFiltersArea();
-        DrawDialogueGroupArea();
+
+        if (groupedDialoguesProperty.boolValue)
+        {
+            List<string> dialogueGroupNames = currentDialogueContainer.GetDialogueGroupNames();
+
+            if(dialogueGroupNames.Count == 0)
+            {
+                StopDrawing("그룹화된 대화가 없습니다.");
+                return;
+            }
+            DrawDialogueGroupArea(currentDialogueContainer, dialogueGroupNames);
+        }
+
         DrawDialogueArea();
 
         serializedObject.ApplyModifiedProperties();
@@ -66,10 +80,14 @@ public class DialogueSystemInspector : Editor
         DialogueSystemInspectorUtility.DrawSpace();
     }
 
-    private void DrawDialogueGroupArea()
+    private void DrawDialogueGroupArea(DialogueSystemContainerSO dialogueContainer, List<string> dialogueGroupNames)
     {
         DialogueSystemInspectorUtility.DrawHeader("Dialogue Group");
-        selectedDialogueGroupIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue Group", selectedDialogueGroupIndexProperty.intValue, new string[] { });
+        selectedDialogueGroupIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue Group", selectedDialogueGroupIndexProperty.intValue, dialogueGroupNames.ToArray());
+
+        string selectedDialogueGroupName = dialogueGroupNames[selectedDialogueGroupIndexProperty.intValue];
+        DialogueSystemGroupSO selectedDialogueGroup = DialogueSystemIOUtility.LoadAsset<DialogueSystemGroupSO>($"Assets/Dialogue Data/Dialogues/{dialogueContainer.name}/Groups/{selectedDialogueGroupName}", selectedDialogueGroupName);
+        dialogueGroupProperty.objectReferenceValue = selectedDialogueGroup;
         dialogueGroupProperty.DrawPropertyField();
         DialogueSystemInspectorUtility.DrawSpace();
     }
@@ -80,7 +98,7 @@ public class DialogueSystemInspector : Editor
         selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty.intValue, new string[] { });
         dialogueProperty.DrawPropertyField();
     }
-    
+
     private void StopDrawing(string reason)
     {
         DialogueSystemInspectorUtility.DrawHelpBox(reason);

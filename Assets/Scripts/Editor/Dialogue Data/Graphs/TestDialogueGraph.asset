@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b34e498d7cbcafc46bb20968c5354544, type: 3}
   m_Name: TestDialogueGraph
   m_EditorClassIdentifier: 
-  <FileName>k__BackingField: TestDialogue
+  <FileName>k__BackingField: 
   <Groups>k__BackingField:
   - <ID>k__BackingField: 774d7553-07c8-4f86-a698-5f397ca806a1
-    <Name>k__BackingField: TestGroup
-    <Position>k__BackingField: {x: 190.99998, y: 8.000004}
+    <Name>k__BackingField: TestGroup1
+    <Position>k__BackingField: {x: 191, y: 7.999996}
+  - <ID>k__BackingField: 9472ad12-ee8c-46b3-add9-46b764030bc7
+    <Name>k__BackingField: TestGroup2
+    <Position>k__BackingField: {x: 234, y: 602.99994}
   <Nodes>k__BackingField:
   - <ID>k__BackingField: 2cf9a468-b554-459b-8379-58d3dc96aa2e
     <Name>k__BackingField: Test1
@@ -76,11 +79,61 @@ MonoBehaviour:
     <GroupID>k__BackingField: 774d7553-07c8-4f86-a698-5f397ca806a1
     <DialogueType>k__BackingField: 0
     <Position>k__BackingField: {x: 1442, y: 248}
+  - <ID>k__BackingField: d507f59a-c2a7-4cc9-a5fa-d7ad4fad8c3c
+    <Name>k__BackingField: Test11
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 9472ad12-ee8c-46b3-add9-46b764030bc7
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 259, y: 662}
+  - <ID>k__BackingField: 816e1d13-e6f7-4ba7-9ec8-0db9254a9055
+    <Name>k__BackingField: Test12
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 9472ad12-ee8c-46b3-add9-46b764030bc7
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 671, y: 662}
+  - <ID>k__BackingField: b091b6a8-4281-4689-96cb-713acf529e26
+    <Name>k__BackingField: Test2
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Choice
+      <NodeID>k__BackingField: 849a0751-5f12-4cbd-b051-a452d5c8bae0
+    - <Text>k__BackingField: Next Choice
+      <NodeID>k__BackingField: 11ae8653-b86b-44ef-8001-fb31e1c684da
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 1
+    <Position>k__BackingField: {x: 1124, y: 662}
+  - <ID>k__BackingField: 849a0751-5f12-4cbd-b051-a452d5c8bae0
+    <Name>k__BackingField: Test1
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 1554, y: 618}
+  - <ID>k__BackingField: 11ae8653-b86b-44ef-8001-fb31e1c684da
+    <Name>k__BackingField: Test3
+    <Text>k__BackingField: Dialogue Text
+    <Choices>k__BackingField:
+    - <Text>k__BackingField: Next Dialogue
+      <NodeID>k__BackingField: 
+    <GroupID>k__BackingField: 
+    <DialogueType>k__BackingField: 0
+    <Position>k__BackingField: {x: 1570, y: 783}
   <OldGroupNames>k__BackingField: []
-  <OldUnGroupedNodeNames>k__BackingField: []
+  <OldUnGroupedNodeNames>k__BackingField:
+  - Test2
+  - Test1
+  - Test3
   <OldGroupedNodeNames>k__BackingField:
     list:
-    - Key: TestGroup
+    - Key: TestGroup1
       Value:
       - Test1
       - Test2
@@ -88,3 +141,7 @@ MonoBehaviour:
       - Test4
       - Test5
       - Test6
+    - Key: TestGroup2
+      Value:
+      - Test11
+      - Test12
