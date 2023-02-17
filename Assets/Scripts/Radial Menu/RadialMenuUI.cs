@@ -13,6 +13,10 @@ public class RadialMenuUI : MonoBehaviour
     [SerializeField]
     private Inventory inventory;
 
+    [Tooltip("현재 장착 장비 UI")]
+    [SerializeField]
+    private Image equipItemUI;
+
     public Sprite[] sprites;
     public Sprite orginSprite;
     
@@ -37,7 +41,19 @@ public class RadialMenuUI : MonoBehaviour
             int selected = radialMenu.Hide();
             if (selected >= 0)
             {
-                Debug.Log($"Selected : {inventory.Items.Items[selected].Item.Name}");
+                if (inventory.Items.Items[selected].ItemObject.Type != ItemType.Equipment)
+                {
+                    Debug.Log($"Selected : {inventory.Items.Items[selected].Item.Name} 사용");
+                    inventory.Items.Items[selected].Amount--;
+                    if (inventory.Items.Items[selected].Amount <= 0)
+                    {
+                        inventory.Items.Items[selected].RemoveItem();
+                    }
+                }
+                else
+                {
+                    equipItemUI.sprite = inventory.Items.Items[selected].ItemObject.UiDisplay;
+                }
             }
         }
     }
