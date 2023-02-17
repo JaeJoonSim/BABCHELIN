@@ -39,7 +39,7 @@ public class RadialMenuUI : MonoBehaviour
         else if (Input.GetKeyUp(key))
         {
             int selected = radialMenu.Hide();
-            if (selected >= 0)
+            if (selected >= 0 && inventory.Items.Items[selected].Item.ID > 0)
             {
                 if (inventory.Items.Items[selected].ItemObject.Type != ItemType.Equipment)
                 {
