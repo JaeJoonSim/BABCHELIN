@@ -24,6 +24,11 @@ public class PlayerInventory : MonoBehaviour
     private Inventory accelerator;
     public Inventory Accelerator { get { return accelerator; } }
 
+    [Tooltip("던전 입장")]
+    [SerializeField]
+    private Inventory dungeonEnter;
+    public Inventory DungeonEnter { get { return dungeonEnter; } }
+
     public void OnTriggerEnter(Collider other)
     {
         var item = other.GetComponent<GroundItem>();
@@ -62,7 +67,7 @@ public class PlayerInventory : MonoBehaviour
             cookingTable.Items.Items[cookingTable.Items.Items.Length - 1].allowedItems = new ItemType[1];
             cookingTable.Items.Items[cookingTable.Items.Items.Length - 1].allowedItems[0] = ItemType.Accelerator;
         }
-        
+
         if (accelerator != null)
         {
             accelerator.Items.Clear();
@@ -72,6 +77,11 @@ public class PlayerInventory : MonoBehaviour
                 accelerator.Items.Items[i].allowedItems[0] = ItemType.Accelerator;
             }
             accelerator.Items.Items[3].allowedItems[0] = ItemType.Accelerator;
+        }
+
+        if (dungeonEnter != null)
+        {
+            dungeonEnter.Items.Clear();
         }
     }
 }
