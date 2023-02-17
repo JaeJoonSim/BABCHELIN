@@ -73,9 +73,9 @@ public class DialogueSystemEditorWindow : EditorWindow
         if (string.IsNullOrEmpty(fileNameTextField.value))
         {
             EditorUtility.DisplayDialog(
-                "Invalid file name",
-                "please ensure the file name you've type in is valid",
-                "Roger!"
+                "잘못된 파일 이름",
+                "입력한 파일 이름이 올바른지 확인하십시오",
+                "알았따!"
                 );
 
             return;

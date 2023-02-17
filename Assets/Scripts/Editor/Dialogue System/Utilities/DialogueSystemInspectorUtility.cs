@@ -1,8 +1,16 @@
+using System;
 using UnityEditor;
 
 #if UNITY_EDITOR
 public static class DialogueSystemInspectorUtility
 {
+    public static void DrawDisableField(Action action)
+    {
+        EditorGUI.BeginDisabledGroup(true);
+        action.Invoke();
+        EditorGUI.EndDisabledGroup();
+    }
+
     public static void DrawHeader(string label)
     {
         EditorGUILayout.LabelField(label, EditorStyles.boldLabel);

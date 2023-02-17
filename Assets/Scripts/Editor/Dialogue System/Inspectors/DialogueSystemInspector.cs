@@ -47,6 +47,8 @@ public class DialogueSystemInspector : Editor
 
         DrawFiltersArea();
 
+        bool currentStartingDialogueOnlyFilter = startingDialoguesOnlyProperty.boolValue;
+
         List<string> dialogueNames;
         string dialogueFolderPath = $"Assets/Dialogue Data/Dialogues/{currentDialogueContainer.name}";
         string dialogueInfoMessage;
@@ -55,7 +57,7 @@ public class DialogueSystemInspector : Editor
         {
             List<string> dialogueGroupNames = currentDialogueContainer.GetDialogueGroupNames();
 
-            if(dialogueGroupNames.Count == 0)
+            if (dialogueGroupNames.Count == 0)
             {
                 StopDrawing("그룹화된 대화가 없습니다.");
                 return;
@@ -63,18 +65,18 @@ public class DialogueSystemInspector : Editor
             DrawDialogueGroupArea(currentDialogueContainer, dialogueGroupNames);
 
             DialogueSystemGroupSO dialogueGroup = (DialogueSystemGroupSO)dialogueGroupProperty.objectReferenceValue;
-            dialogueNames = currentDialogueContainer.GetGroupedDialogueNames(dialogueGroup);
+            dialogueNames = currentDialogueContainer.GetGroupedDialogueNames(dialogueGroup, currentStartingDialogueOnlyFilter);
             dialogueFolderPath += $"/Groups/{dialogueGroup.GroupName}/Dialogues";
-            dialogueInfoMessage = "이 Dialogue Group에 대화가 없습니다.";
+            dialogueInfoMessage = (currentStartingDialogueOnlyFilter ? "Starting " : "") + " Dialogue Group에 대화가 없습니다.";
         }
         else
         {
-            dialogueNames = currentDialogueContainer.GetUnGroupedDialogueNames();
+            dialogueNames = currentDialogueContainer.GetUnGroupedDialogueNames(currentStartingDialogueOnlyFilter);
             dialogueFolderPath += "/Global/Dialogues";
-            dialogueInfoMessage = "이 Dialogue에는 대화가 없습니다.";
+            dialogueInfoMessage = (currentStartingDialogueOnlyFilter ? "Starting " : "") + "Dialogue에 대화가 없습니다.";
         }
 
-        if(dialogueNames.Count == 0)
+        if (dialogueNames.Count == 0)
         {
             StopDrawing(dialogueInfoMessage);
             return;
@@ -118,7 +120,7 @@ public class DialogueSystemInspector : Editor
         string selectedDialogueGroupName = dialogueGroupNames[selectedDialogueGroupIndexProperty.intValue];
         DialogueSystemGroupSO selectedDialogueGroup = DialogueSystemIOUtility.LoadAsset<DialogueSystemGroupSO>($"Assets/Dialogue Data/Dialogues/{dialogueContainer.name}/Groups/{selectedDialogueGroupName}", selectedDialogueGroupName);
         dialogueGroupProperty.objectReferenceValue = selectedDialogueGroup;
-        dialogueGroupProperty.DrawPropertyField();
+        DialogueSystemInspectorUtility.DrawDisableField(() => dialogueGroupProperty.DrawPropertyField());
         DialogueSystemInspectorUtility.DrawSpace();
     }
 
@@ -139,12 +141,15 @@ public class DialogueSystemInspector : Editor
         DialogueSystemDialogueSO selectedDialogue = DialogueSystemIOUtility.LoadAsset<DialogueSystemDialogueSO>(dialogueFolderPath, selectedDialogueName);
         dialogueProperty.objectReferenceValue = selectedDialogue;
 
-        dialogueProperty.DrawPropertyField();
+        DialogueSystemInspectorUtility.DrawDisableField(() => dialogueProperty.DrawPropertyField());
     }
 
-    private void StopDrawing(string reason)
+    private void StopDrawing(string reason, MessageType messageType = MessageType.Info)
     {
-        DialogueSystemInspectorUtility.DrawHelpBox(reason);
+        DialogueSystemInspectorUtility.DrawHelpBox(reason, messageType);
+        DialogueSystemInspectorUtility.DrawSpace();
+        DialogueSystemInspectorUtility.DrawHelpBox("런타임에서 Property가 작동하려면 대화를 선택해야 합니다!", MessageType.Warning);
+
         serializedObject.ApplyModifiedProperties();
     }
     #endregion

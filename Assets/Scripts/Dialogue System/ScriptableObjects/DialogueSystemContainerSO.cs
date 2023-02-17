@@ -27,25 +27,32 @@ public class DialogueSystemContainerSO : ScriptableObject
         return dialogueGroupNames;
     }
 
-    public List<string> GetGroupedDialogueNames(DialogueSystemGroupSO dialogueGroup)
+    public List<string> GetGroupedDialogueNames(DialogueSystemGroupSO dialogueGroup, bool startingDialoguesOnly)
     {
         List<DialogueSystemDialogueSO> groupedDialogues = DialogueGroups[dialogueGroup];
         List<string> groupedDialogueNames = new List<string>();
 
         foreach (DialogueSystemDialogueSO groupedDialogue in groupedDialogues)
         {
+            if (startingDialoguesOnly && !groupedDialogue.IsStartingDialogue)
+                continue;
+            
+
             groupedDialogueNames.Add(groupedDialogue.DialogueName);
         }
 
         return groupedDialogueNames;
     }
 
-    public List<string> GetUnGroupedDialogueNames()
+    public List<string> GetUnGroupedDialogueNames(bool startingDialoguesOnly)
     {
         List<string> ungroupedDialogueNames = new List<string>();
 
         foreach (DialogueSystemDialogueSO ungroupedDialogue in UngroupedDialogues)
         {
+            if (startingDialoguesOnly && !ungroupedDialogue.IsStartingDialogue)
+                continue;
+            
             ungroupedDialogueNames.Add(ungroupedDialogue.DialogueName);
         }
 
