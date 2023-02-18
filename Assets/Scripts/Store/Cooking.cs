@@ -1,15 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Cooking : MonoBehaviour
 {
     TimeScript timeState;
+    public Image cookImage;
 
-    [Tooltip("완성품 인벤토리")]
+    [Tooltip("냉장고 인벤토리")]
     [SerializeField]
-    private Inventory iceBox;
-    public Inventory IceBox { get { return iceBox; } }
+    private Inventory refrigerator;
+    public Inventory Refrigerator { get { return refrigerator; } }
 
     [Tooltip("요리작업대")]
     [SerializeField]
@@ -40,7 +42,11 @@ public class Cooking : MonoBehaviour
     public void CookingStart()
     {
         bool isReady = false;
-        bool isCook = false;
+        //bool isCook = false;
+        int price = 0;          //음식 가격
+        int perfection = 40;    //기본 완성도 40
+        int proficiency = 0;    //기본 숙련도 0;
+
         // 필요한 아이템 ID 체크
         if (cook.Items.Items[0].Item.ID == -1 || cook.Items.Items[1].Item.ID == -1 || cook.Items.Items[2].Item.ID == -1)
         {
@@ -62,61 +68,61 @@ public class Cooking : MonoBehaviour
 
         if (isReady == true)
         {
-            if (cook.Items.Items[0].Item.Name == "Inventory.Lettuce")   // 필요한 아이템 ID 체크
+            if (cook.Items.Items[0].Item.Name == "Inventory.Lettuce")   //메인 재료 체크
             {
                 if (cook.Items.Items[1].Item.Name == "Inventory.Meat" && cook.Items.Items[2].Item.Name == "Inventory.Sandwich" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("고기 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
                 else if(cook.Items.Items[1].Item.Name == "Inventory.Sandwich" && cook.Items.Items[2].Item.Name == "Inventory.Meat" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("고기 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
             }
             else if(cook.Items.Items[0].Item.Name == "Inventory.Meat")  
             {
                 if (cook.Items.Items[1].Item.Name == "Inventory.Sandwich" && cook.Items.Items[2].Item.Name == "Inventory.Lettuce" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("야채 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
                 else if (cook.Items.Items[1].Item.Name == "Inventory.Lettuce" && cook.Items.Items[2].Item.Name == "Inventory.Sandwich" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("야채 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
             }
             else if (cook.Items.Items[0].Item.Name == "Inventory.Sandwich")
             {
                 if (cook.Items.Items[1].Item.Name == "Inventory.Meat" && cook.Items.Items[2].Item.Name == "Inventory.Lettuce" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("누드 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
                 else if (cook.Items.Items[1].Item.Name == "Inventory.Lettuce" && cook.Items.Items[2].Item.Name == "Inventory.Meat" && cook.Items.Items[3].Item.Name == "Inventory.Salt")
                 {
-                    Debug.Log("누드 샌드위치 완성");
-                    isCook = true;
+                    cookImage.sprite = itemDatabase.Items[6].UiDisplay;             //음식 이미지 띄우기
+                    refrigerator.AddItem(itemDatabase.Items[6].CreateItem(), 1);    // 냉장고에 아이템 추가
                 }
             }
-        }
 
-        if (isCook == true)
-        {
-            // 인벤토리에 아이템 추가
-            //iceBox.AddItem(itemDatabase.Items[0].CreateItem(), 1);
-            int a = cook.Items.Items[0].Item.PRICE + cook.Items.Items[1].Item.PRICE + cook.Items.Items[2].Item.PRICE + cook.Items.Items[3].Item.PRICE;  //가격 측정
-            
-            for(int i = 0; i < 4; i++)
+            price = cook.Items.Items[0].Item.PRICE + cook.Items.Items[1].Item.PRICE + cook.Items.Items[2].Item.PRICE + cook.Items.Items[3].Item.PRICE;  //가격 측정
+            perfection += proficiency;          //완성도 측정
+
+
+            for (int i = 0; i < 4; i++)
             {
                 cook.Items.Items[i].RemoveItem();
             }
 
-            Debug.Log("음식 가격 = " + a);
+
+            Debug.Log("음식 가격 = " + price);
+            Debug.Log("음식 완성도 = " + perfection);
             CookingUI.SetActive(true);
         }
+
     }
 
 
