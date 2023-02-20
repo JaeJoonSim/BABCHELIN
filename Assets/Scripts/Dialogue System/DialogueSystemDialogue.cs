@@ -1,6 +1,5 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 public class DialogueSystemDialogue : MonoBehaviour
 {
@@ -13,4 +12,14 @@ public class DialogueSystemDialogue : MonoBehaviour
 
     [SerializeField] private int selectedDialogueGroupIndex;
     [SerializeField] private int selectedDialogueIndex;
+
+    [SerializeField] private int currentSelect;
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentSelect++;
+        }
+    }
 }

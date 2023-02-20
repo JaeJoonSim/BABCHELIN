@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
-using System;
+using UnityEngine;
 
 #if UNITY_EDITOR
 [CustomEditor(typeof(DialogueSystemDialogue))]
@@ -18,6 +16,8 @@ public class DialogueSystemInspector : Editor
     private SerializedProperty selectedDialogueGroupIndexProperty;
     private SerializedProperty selectedDialogueIndexProperty;
 
+    private SerializedProperty currentSelectProperty;
+
     private void OnEnable()
     {
         dialogueContainerProperty = serializedObject.FindProperty("dialogueContainer");
@@ -29,6 +29,8 @@ public class DialogueSystemInspector : Editor
 
         selectedDialogueGroupIndexProperty = serializedObject.FindProperty("selectedDialogueGroupIndex");
         selectedDialogueIndexProperty = serializedObject.FindProperty("selectedDialogueIndex");
+
+        currentSelectProperty = serializedObject.FindProperty("currentSelect");
     }
 
     public override void OnInspectorGUI()
@@ -135,13 +137,23 @@ public class DialogueSystemInspector : Editor
 
         UpdateIndexOnNamesListUpdate(dialogueNames, selectedDialogueIndexProperty, oldSelectedDialogueIndex, oldDialougeName, isOldDialougeNull);
 
-        selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty.intValue, dialogueNames.ToArray());
+        //selectedDialogueIndexProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", selectedDialogueIndexProperty.intValue, dialogueNames.ToArray());
+        currentSelectProperty.intValue = DialogueSystemInspectorUtility.DrawPopup("Dialogue", currentSelectProperty.intValue, dialogueNames.ToArray());
 
-        string selectedDialogueName = dialogueNames[selectedDialogueIndexProperty.intValue];
+        if (selectedDialogueIndexProperty.intValue > dialogueNames.Count - 1)
+            selectedDialogueIndexProperty.intValue = dialogueNames.Count - 1;
+
+        if (currentSelectProperty.intValue > dialogueNames.Count - 1)
+            currentSelectProperty.intValue = dialogueNames.Count - 1;
+
+        string selectedDialogueName = dialogueNames[currentSelectProperty.intValue];
         DialogueSystemDialogueSO selectedDialogue = DialogueSystemIOUtility.LoadAsset<DialogueSystemDialogueSO>(dialogueFolderPath, selectedDialogueName);
         dialogueProperty.objectReferenceValue = selectedDialogue;
 
         DialogueSystemInspectorUtility.DrawDisableField(() => dialogueProperty.DrawPropertyField());
+
+        DialogueSystemInspectorUtility.DrawSpace();
+        currentSelectProperty.DrawPropertyField();
     }
 
     private void StopDrawing(string reason, MessageType messageType = MessageType.Info)
