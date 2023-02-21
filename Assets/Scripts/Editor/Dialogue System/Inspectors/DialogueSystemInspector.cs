@@ -16,6 +16,7 @@ public class DialogueSystemInspector : Editor
     private SerializedProperty selectedDialogueGroupIndexProperty;
     private SerializedProperty selectedDialogueIndexProperty;
 
+    private SerializedProperty dialoguePanelProperty;
     private SerializedProperty textUIProperty;
     private SerializedProperty choiceButton1Property;
     private SerializedProperty choiceButton2Property;
@@ -31,7 +32,8 @@ public class DialogueSystemInspector : Editor
 
         selectedDialogueGroupIndexProperty = serializedObject.FindProperty("selectedDialogueGroupIndex");
         selectedDialogueIndexProperty = serializedObject.FindProperty("selectedDialogueIndex");
-        
+
+        dialoguePanelProperty = serializedObject.FindProperty("dialoguePanel");
         textUIProperty = serializedObject.FindProperty("textUI");
         choiceButton1Property = serializedObject.FindProperty("choiceButton1");
         choiceButton2Property = serializedObject.FindProperty("choiceButton2");
@@ -158,6 +160,7 @@ public class DialogueSystemInspector : Editor
     {
         DialogueSystemInspectorUtility.DrawHeader("UI");
 
+        dialoguePanelProperty.DrawPropertyField();
         textUIProperty.DrawPropertyField();
         choiceButton1Property.DrawPropertyField();
         choiceButton2Property.DrawPropertyField();
