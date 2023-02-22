@@ -14,8 +14,7 @@ public class DialogueSystemDialogue : MonoBehaviour
 
     [SerializeField] private int selectedDialogueGroupIndex;
     [SerializeField] private int selectedDialogueIndex;
-
-    [SerializeField] private GameObject dialoguePanel;
+    
     [SerializeField] private TextMeshProUGUI textUI;
     [SerializeField] private Button choiceButton1;
     [SerializeField] private Button choiceButton2;
@@ -24,7 +23,7 @@ public class DialogueSystemDialogue : MonoBehaviour
 
     private bool onTypeisRunning = false;
 
-    private void Start()
+    private void OnEnable()
     {
         textUI.text = "";
         currentDialogue = dialogue;
@@ -34,18 +33,25 @@ public class DialogueSystemDialogue : MonoBehaviour
 
         ChooseButton(currentDialogue, choiceButton1, 0);
         ChooseButton(currentDialogue, choiceButton2, 1);
+
+    }
+
+    private void Update()
+    {
+        SetDialogueTimeScale();
     }
 
     private void OnOptionChosen(int choiceIndex = 0)
     {
-        if (!onTypeisRunning)
+        if (!onTypeisRunning && gameObject.activeSelf)
         {
             textUI.text = "";
             DialogueSystemDialogueSO nextDialogue = currentDialogue.Choices[choiceIndex].NextDialogue;
 
             if (nextDialogue == null)
             {
-                dialoguePanel.SetActive(false);
+                gameObject.SetActive(false);
+                Time.timeScale = 1;
                 return;
             }
 
@@ -86,8 +92,20 @@ public class DialogueSystemDialogue : MonoBehaviour
         foreach (char item in text)
         {
             textUI.text += item;
-            yield return new WaitForSeconds(interval);
+            yield return new WaitForSecondsRealtime(interval);
         }
         onTypeisRunning = false;
+    }
+
+    private void SetDialogueTimeScale()
+    {
+        if (gameObject.activeSelf)
+        {
+            Time.timeScale = 0;
+        }
+        else
+        {
+            Time.timeScale = 1;
+        }
     }
 }
