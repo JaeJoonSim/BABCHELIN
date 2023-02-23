@@ -47,6 +47,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     [SerializeField]
+    [Tooltip("구르기 속도")]
+    private float pcRollingSpeed;
+    public float PcRollingSpeed
+    {
+        get { return pcRollingSpeed; }
+        set { pcRollingSpeed = value; }
+    }
+
+    [SerializeField]
     [Tooltip("땅 레이어 체크")]
     private LayerMask whatIsGround;
     public LayerMask WhatIsGround
@@ -68,31 +77,32 @@ public class PlayerMovement : MonoBehaviour
         get { return pcWRTrigger; }
         set { pcWRTrigger = value; }
     }
-    
+
     #endregion
 
     #region Private Value
 
     private Rigidbody rb;
-    private Animator animator;
+    private Animator anim;
 
     private Vector3 moveDir;
-    private float groundDistance = .3f;
-    private bool isGrounded;
+    private float groundDistance = .2f;
+    public bool isGrounded;
 
     #endregion
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-        animator = GetComponent<Animator>();
+        anim = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        PlayerAnimation();
         PlayerInput();
+        PlayerAnimation();
         Jump();
+        Rolling();
     }
 
     private void FixedUpdate()
@@ -102,6 +112,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMove()
     {
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+            moveDir = Vector3.zero;
+
+        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fall"))
+            moveDir /= 10;
+
         if (moveDir != Vector3.zero)
         {
             if (pcWRTrigger)
@@ -117,17 +133,32 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-        moveDir.x = Input.GetAxisRaw("Horizontal");
-        moveDir.z = Input.GetAxisRaw("Vertical");
-        moveDir.Normalize();
+
+            moveDir.x = Input.GetAxisRaw("Horizontal");
+            moveDir.z = Input.GetAxisRaw("Vertical");
+            moveDir.Normalize();
+
     }
 
     private void Jump()
     {
         CheckGround();
-        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0)
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0 && 
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("Landing") &&
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") &&
+            !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
         {
             rb.AddForce(Vector3.up * pcJumpHeight, ForceMode.VelocityChange);
+        }
+    }
+
+    private void Rolling()
+    {
+        CheckGround();
+        if (Input.GetKeyUp(KeyCode.LeftShift) && isGrounded && Time.timeScale != 0)
+        {
+            anim.SetTrigger("isRolling");
+            rb.AddForce(moveDir * pcRollingSpeed, ForceMode.VelocityChange);
         }
     }
 
@@ -135,7 +166,8 @@ public class PlayerMovement : MonoBehaviour
     {
         RaycastHit hit;
 
-        if (Physics.Raycast(transform.position + (Vector3.up * 0.2f), Vector3.down, out hit, groundDistance, whatIsGround))
+        Debug.DrawRay(transform.position + (Vector3.up * 0.1f), Vector3.down * groundDistance, Color.black);
+        if (Physics.Raycast(transform.position + (Vector3.up * 0.1f), Vector3.down, out hit, groundDistance, whatIsGround))
         {
             isGrounded = true;
         }
@@ -149,11 +181,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (moveDir != Vector3.zero)
         {
-            animator.SetBool("isRun", true);
+            if (pcWRTrigger == false)
+                anim.SetBool("isRun", true);
+            else if (pcWRTrigger == true)
+                anim.SetBool("isWalk", true);
         }
         else
         {
-            animator.SetBool("isRun", false);
+            anim.SetBool("isRun", false);
+            anim.SetBool("isWalk", false);
         }
+
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0)
+            anim.SetTrigger("isJump");
+
+        if (isGrounded)
+            anim.SetBool("isGround", true);
+        else
+            anim.SetBool("isGround", false);
     }
 }
