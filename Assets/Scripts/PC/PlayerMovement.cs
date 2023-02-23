@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Spine.Unity;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -73,6 +74,7 @@ public class PlayerMovement : MonoBehaviour
     #region Private Value
 
     private Rigidbody rb;
+    private Animator animator;
 
     private Vector3 moveDir;
     private float groundDistance = .3f;
@@ -83,15 +85,22 @@ public class PlayerMovement : MonoBehaviour
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
+        PlayerAnimation();
         PlayerInput();
         Jump();
     }
 
     private void FixedUpdate()
+    {
+        PlayerMove();
+    }
+
+    private void PlayerMove()
     {
         if (moveDir != Vector3.zero)
         {
@@ -133,6 +142,18 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isGrounded = false;
+        }
+    }
+
+    private void PlayerAnimation()
+    {
+        if (moveDir != Vector3.zero)
+        {
+            animator.SetBool("isRun", true);
+        }
+        else
+        {
+            animator.SetBool("isRun", false);
         }
     }
 }
