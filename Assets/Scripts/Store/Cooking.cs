@@ -2,11 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class Cooking : MonoBehaviour
 {
     TimeScript timeState;
     public Image cookImage;
+    public Slider perfectionBar;
+    public TMP_Text perfectionText;
 
     [Tooltip("냉장고 인벤토리")]
     [SerializeField]
@@ -120,6 +123,8 @@ public class Cooking : MonoBehaviour
 
             Debug.Log("음식 가격 = " + price);
             Debug.Log("음식 완성도 = " + perfection);
+            perfectionBar.value = perfection;
+            perfectionText.text = perfection.ToString();
             CookingUI.SetActive(true);
         }
 

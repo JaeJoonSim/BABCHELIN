@@ -119,13 +119,22 @@ public class ItemObject
         set { price = value; }
     }
 
-    [Tooltip("아이템 가격")]
+    [Tooltip("아이템 숙련도")]
     [SerializeField]
     private int proficiency = 0;
     public int PROFICIENCY
     {
         get { return proficiency; }
         set { proficiency = value; }
+    }
+
+    [Tooltip("아이템 신선도")]
+    [SerializeField]
+    private float freshness = 7200;
+    public float FRESHNESS
+    {
+        get { return freshness; }
+        set { freshness = value; }
     }
 
     [Tooltip("아이템 설명")]
