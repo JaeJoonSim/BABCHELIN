@@ -20,7 +20,7 @@ public class MoneyScript : MonoBehaviour
         DontDestroyOnLoad(this);
         moneyGold = 1000;   //테스트용 기본 재화 지급
         honerCoin = 100;
-        dungeonCoin = 100;
+        dungeonCoin = 1000;
         exchangeRate = 1050;
 
         InvokeRepeating("ExchangeRateFluctuations", 5f, 5f);    //테스트용 5초마다 환율 변동
