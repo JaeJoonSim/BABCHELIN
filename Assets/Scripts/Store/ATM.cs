@@ -26,14 +26,6 @@ public class ATM : MonoBehaviour
     {
         rateText.text = rate.exchangeRate.ToString();
 
-        //int a = 0;
-        //if (int.Parse(payText.text) % 10 != 0 && int.Parse(payText.text) > 10)
-        //{
-        //    a = int.Parse(payText.text);
-        //    a -= a % 10;
-        //    payText.text = a.ToString();
-        //}
-
         for (int i = 0; i < 5; i++)
         {
             rateTextList[i].text = rate.rateList[i].ToString();
@@ -83,6 +75,13 @@ public class ATM : MonoBehaviour
     public void SumPayThou()
     {
         payBtnTxt = int.Parse(payText.text) + 1000;
+        payText.text = payBtnTxt.ToString();
+    }
+
+    public void aband()     //입력 종료시 1의 자리 버림
+    {
+        payBtnTxt = int.Parse(payText.text);
+        payBtnTxt -= payBtnTxt % 10;
         payText.text = payBtnTxt.ToString();
     }
 }
