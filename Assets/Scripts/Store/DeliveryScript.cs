@@ -22,6 +22,9 @@ public class DeliveryScript : MonoBehaviour
     void Start()
     {
         PieceInput.text = "0";
+
+        PieceSlider.onValueChanged.AddListener(OnSliderChanged);
+        PieceInput.onValueChanged.AddListener(OnFieldChanged);
     }
 
     // Update is called once per frame
@@ -52,16 +55,6 @@ public class DeliveryScript : MonoBehaviour
             PieceInput.text = 99.ToString();
         }
 
-        PieceSlider.value = int.Parse(PieceInput.text);
-        //if(PieceSlider.value < int.Parse(PieceInput.text))
-        //{
-        //    PieceInput.text = ((int)PieceSlider.value).ToString();
-        //}
-        //else
-        //{
-        //    PieceSlider.value = int.Parse(PieceInput.text);
-        //}
-
         if (int.Parse(PieceInput.text) > MoneyScript.moneyGold)
         {
             int p = MoneyScript.moneyGold / piecePrice;
@@ -78,5 +71,24 @@ public class DeliveryScript : MonoBehaviour
     public void AddBtn()
     {
         BasketUI.SetActive(false);
+    }
+
+    private void OnSliderChanged(float number)      //InputField - Slider 연동용 함수
+    {
+        if (PieceInput.text != number.ToString())
+        {
+            PieceInput.text = number.ToString();
+        }
+    }
+
+    private void OnFieldChanged(string text)        //InputField - Slider 연동용 함수
+    {
+        if (PieceSlider.value.ToString() != text)
+        {
+            if (float.TryParse(text, out float number))
+            {
+                PieceSlider.value = number;
+            }
+        }
     }
 }
