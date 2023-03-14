@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public interface Interactable
+﻿public interface Interactable
 {
     public string InteractionPrompt { get; }
-    public bool Interact(Interactor interactor);
+    public bool OnInteract(Interactor interactor);
+    public void OffInteract();
 }
