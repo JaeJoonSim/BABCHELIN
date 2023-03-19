@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public enum ItemType
 {
+    Default,
+    Accelerator,
     Food,
     Equipment,
-    Default,
 }
 
 public enum Attributes
@@ -18,15 +20,16 @@ public enum Attributes
     Strength,
 }
 
-public abstract class Item : ScriptableObject
+[CreateAssetMenu(fileName = "New Item", menuName = "Inventory System/Item")]
+public class Item : ScriptableObject
 {
-    [Tooltip("아이템 ID")]
+    [Tooltip("아이템 이름")]
     [SerializeField]
-    private int id;
-    public int ID
+    private string title;
+    public string Title
     {
-        get { return id; }
-        set { id = value; }
+        get { return title; }
+        set { title = value; }
     }
 
     [Tooltip("UI 출력 Sprite")]
@@ -48,7 +51,7 @@ public abstract class Item : ScriptableObject
     }
 
     [Tooltip("아이템 설명")]
-    [SerializeField, TextArea(15, 20)]
+    [SerializeField]
     private string description;
     public string Description
     {
@@ -56,8 +59,17 @@ public abstract class Item : ScriptableObject
         set { description = value; }
     }
 
-    [Tooltip("최대 아이템 개수")]
+    [Tooltip("아이템 스택 유무")]
     [SerializeField]
+    private bool stackable;
+    public bool Stackable
+    {
+        get { return stackable; }
+        set { stackable = value; }
+    }
+
+    [Tooltip("최대 아이템 개수")]
+    [SerializeField, DrawIf("stackable", true)]
     private int maxStack = 100;
     public int MaxStack
     {
@@ -65,13 +77,13 @@ public abstract class Item : ScriptableObject
         set { maxStack = value; }
     }
 
-    [Tooltip("버프")]
+    [Tooltip("아이템 오브젝트")]
     [SerializeField]
-    public ItemBuff[] buffs;
-    public ItemBuff[] Buffs
+    private ItemObject data = new ItemObject();
+    public ItemObject Data
     {
-        get { return buffs; }
-        set { buffs = value; }
+        get { return data; }
+        set { data = value; }
     }
 
     public ItemObject CreateItem()
@@ -91,8 +103,35 @@ public class ItemObject
 
     [Tooltip("아이템 ID")]
     [SerializeField]
-    private int id;
-    public int ID { get { return id; } }
+    private int id = -1;
+    public int ID 
+    { 
+        get { return id; }
+        set { id = value; }
+    }
+
+    [Tooltip("아이템 가격")]
+    [SerializeField]
+    private int price = 0;
+    public int PRICE
+    {
+        get { return price; }
+        set { price = value; }
+    }
+
+    [Tooltip("아이템 가격")]
+    [SerializeField]
+    private int proficiency = 0;
+    public int PROFICIENCY
+    {
+        get { return proficiency; }
+        set { proficiency = value; }
+    }
+
+    [Tooltip("아이템 설명")]
+    [SerializeField, TextArea(15, 20)]
+    private string description;
+    public string Description { get { return description; } }
 
     [Tooltip("버프")]
     [SerializeField]
@@ -102,15 +141,24 @@ public class ItemObject
         get { return buffs; }
         set { buffs = value; }
     }
+    
+    public ItemObject()
+    {
+        name = "";
+        id = -1;
+        price = 0;
+    }
 
     public ItemObject(Item item)
     {
-        name = item.name;
-        id = item.ID;
-        buffs = new ItemBuff[item.buffs.Length];
+        name = item.Title;
+        id = item.Data.ID;
+        description = item.Description;
+        price = item.Data.PRICE;
+        buffs = new ItemBuff[item.Data.buffs.Length];
         for (int i = 0; i < buffs.Length; i++)
         {
-            buffs[i] = new ItemBuff(item.buffs[i].Min, item.buffs[i].Max) { Attribute = item.buffs[i].Attribute };
+            buffs[i] = new ItemBuff(item.Data.buffs[i].Min, item.Data.buffs[i].Max) { Attribute = item.Data.buffs[i].Attribute };
         }
     }
 }

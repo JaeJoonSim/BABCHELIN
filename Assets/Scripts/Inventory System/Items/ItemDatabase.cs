@@ -10,14 +10,13 @@ public class ItemDatabase : ScriptableObject, ISerializationCallbackReceiver
     private Item[] items;
     public Item[] Items { get { return items; } }
 
-    public Dictionary<Item, int> GetId = new Dictionary<Item, int>();
     public Dictionary<int, Item> GetItem = new Dictionary<int, Item>();
 
     public void OnAfterDeserialize()
     {
         for (int i = 0; i < items.Length; i++)
         {
-            Items[i].ID = i;
+            Items[i].Data.ID = i;
             GetItem.Add(i, items[i]);
         }
     }

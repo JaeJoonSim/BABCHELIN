@@ -66,7 +66,8 @@ public class Interactor : MonoBehaviour
             {
                 if (!IntUI.IsDisplayed) intUI.SetUp(interactable.InteractionPrompt);
 
-                if (Keyboard.current.eKey.wasPressedThisFrame) interactable.Interact(this);
+                if (Keyboard.current.eKey.wasPressedThisFrame) interactable.OnInteract(this);
+                if (Keyboard.current.escapeKey.wasPressedThisFrame) interactable.OffInteract();
             }
         }
         else
