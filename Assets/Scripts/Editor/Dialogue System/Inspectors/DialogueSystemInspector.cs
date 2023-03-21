@@ -31,7 +31,7 @@ public class DialogueSystemInspector : Editor
 
         selectedDialogueGroupIndexProperty = serializedObject.FindProperty("selectedDialogueGroupIndex");
         selectedDialogueIndexProperty = serializedObject.FindProperty("selectedDialogueIndex");
-        
+
         textUIProperty = serializedObject.FindProperty("textUI");
         choiceButton1Property = serializedObject.FindProperty("choiceButton1");
         choiceButton2Property = serializedObject.FindProperty("choiceButton2");
