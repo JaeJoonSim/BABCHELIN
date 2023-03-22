@@ -17,6 +17,9 @@ public class TimeScript : MonoBehaviour
     public float fadeTime = 1.0f; // 페이드인아웃 시간
     //private bool isFading = false;
 
+    public Image testimg;
+    float rotationSpeed = 0.5f; // 회전 속도, 초당 90도 회전
+
     public enum TIMESTATE { Afternoon, Night };
 
     public TIMESTATE timeState { get; set; }
@@ -31,6 +34,7 @@ public class TimeScript : MonoBehaviour
     {
         GameTime();
         TimeState();
+        RotateImage();
     }
 
     void TimeState()
@@ -81,6 +85,12 @@ public class TimeScript : MonoBehaviour
         inGameTime.text = AMPM + " " + string.Format("{0:D2}", timeHour) + ":" + string.Format("{0:D2}", timeMinute);
     }
 
+
+    void RotateImage()
+    {
+        testimg.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // 이미지 회전
+    }
+
     private IEnumerator FadeInOut(float startAlpha, float endAlpha)
     {
         // 페이드아웃
@@ -112,4 +122,6 @@ public class TimeScript : MonoBehaviour
             yield return null;
         }
     }
+
+
 }
