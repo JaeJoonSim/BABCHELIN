@@ -10,13 +10,20 @@ public class DeliveryScript : MonoBehaviour
     public TMP_Text IngreName;
     public TMP_Text IngrePrice;
     public GameObject BasketUI;
-
     int piecePrice;
+
     public TMP_Text TotalPrice;
     public TMP_InputField PieceInput;
     public Slider PieceSlider;
 
-    int t;
+    [Tooltip("재료아이템 목록")]
+    [SerializeField]
+    private Item[] items;
+    public Item[] Items { get { return items; } }
+
+    public Button button;
+    public GameObject ListPanel;
+    public GameObject BasketPanel;
 
     // Start is called before the first frame update
     void Start()
@@ -25,6 +32,7 @@ public class DeliveryScript : MonoBehaviour
 
         PieceSlider.onValueChanged.AddListener(OnSliderChanged);
         PieceInput.onValueChanged.AddListener(OnFieldChanged);
+        SetBtn();
     }
 
     // Update is called once per frame
@@ -33,7 +41,7 @@ public class DeliveryScript : MonoBehaviour
         Basket();
     }
 
-    public void IngreSet(int a)
+    void IngreSet()
     {
         GameObject clickObject = EventSystem.current.currentSelectedGameObject;
         IngreImage.sprite = clickObject.transform.GetChild(0).gameObject.GetComponent<Image>().sprite;
@@ -43,7 +51,7 @@ public class DeliveryScript : MonoBehaviour
         BasketUI.SetActive(true);
     }
 
-    void Basket()
+    void Basket()       //장바구니 추가 함수
     {
         if (string.IsNullOrEmpty(PieceInput.text))
         {
@@ -90,5 +98,25 @@ public class DeliveryScript : MonoBehaviour
                 PieceSlider.value = number;
             }
         }
+    }
+
+    public void SetBtn()        //버튼 생성 함수
+    {
+        for(int a = 0; a < Items.Length; a++)
+        {
+            Button BtnList = Instantiate(button);
+            BtnList.onClick.AddListener(IngreSet);
+
+            BtnList.transform.GetChild(0).GetComponent<Image>().sprite = Items[a].UiDisplay;
+            BtnList.transform.GetChild(1).GetComponent<TMP_Text>().text = Items[a].Data.Name;
+            BtnList.transform.GetChild(2).GetComponent<TMP_Text>().text = Items[a].Data.PRICE.ToString();
+
+            BtnList.transform.SetParent(ListPanel.transform);
+        }
+    }
+
+    public void AddToCart()
+    {
+
     }
 }
