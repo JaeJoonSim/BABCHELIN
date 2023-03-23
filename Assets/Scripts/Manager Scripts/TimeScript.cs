@@ -18,14 +18,16 @@ public class TimeScript : MonoBehaviour
     //private bool isFading = false;
 
     public Image testimg;
-    float rotationSpeed = 0.5f; // 회전 속도, 초당 90도 회전
+    float rotationSpeed = -0.5f; // 회전 속도
 
     public enum TIMESTATE { Afternoon, Night };
 
     public TIMESTATE timeState { get; set; }
+    public bool isNight;
 
     void Start()
     {
+        isNight = false;
         AMPM = "AM";
     }
 
@@ -46,6 +48,7 @@ public class TimeScript : MonoBehaviour
                 StartCoroutine(FadeInOut(0.0f, 1.0f));
             }
             timeState = TIMESTATE.Afternoon;
+            isNight = false;
         }
         else
         {
@@ -54,6 +57,7 @@ public class TimeScript : MonoBehaviour
                 StartCoroutine(FadeInOut(0.0f, 1.0f));
             }
             timeState = TIMESTATE.Night;
+            isNight = true;
         }
     }
 

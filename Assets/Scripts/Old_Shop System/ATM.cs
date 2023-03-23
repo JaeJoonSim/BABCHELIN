@@ -33,34 +33,34 @@ public class ATM : MonoBehaviour
 
     }
 
-    public void Exchange() //환전
-    {
-        pay = int.Parse(payText.text);
+    //public void Exchange() //환전
+    //{
+    //    pay = int.Parse(payText.text);
 
-        if(pay < 500)
-        {
-            Debug.Log("최소 500원부터 환전 가능");
-            return;
-        }
+    //    if(pay < 500)
+    //    {
+    //        Debug.Log("최소 500원부터 환전 가능");
+    //        return;
+    //    }
 
-        if(pay <= MoneyScript.dungeonCoin)
-        {
-            if(pay % 10 != 0)
-            {
-                pay -= pay % 10;
-            }
+    //    if(pay <= MoneyScript.dungeonCoin)
+    //    {
+    //        if(pay % 10 != 0)
+    //        {
+    //            pay -= pay % 10;
+    //        }
 
-            MoneyScript.dungeonCoin -= pay;
-            MoneyScript.moneyGold += (pay * rate.exchangeRate);
-        }
-        else
-        {
-            Debug.Log("던전 코인 부족");
-            Debug.Log(MoneyScript.dungeonCoin + "까지만 입력 가능합니다");
-        }
+    //        MoneyScript.dungeonCoin -= pay;
+    //        MoneyScript.moneyGold += (pay * rate.exchangeRate);
+    //    }
+    //    else
+    //    {
+    //        Debug.Log("던전 코인 부족");
+    //        Debug.Log(MoneyScript.dungeonCoin + "까지만 입력 가능합니다");
+    //    }
 
-        payText.text = 0.ToString();
-    }
+    //    payText.text = 0.ToString();
+    //}
 
     public void SumPayTen()
     {

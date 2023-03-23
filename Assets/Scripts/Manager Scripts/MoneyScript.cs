@@ -7,8 +7,7 @@ using UnityEngine.UI;
 public class MoneyScript : MonoBehaviour
 {
     public static int moneyGold;    //골드
-    public static int honerCoin;    //명예 코인
-    public static int dungeonCoin;  //던전 코인
+    public static int carriageCoin; //마차 코인
     public int exchangeRate;               //환율
     public Image arrow;
     public int[] rateList;               //환율 변화 저장용
@@ -19,8 +18,7 @@ public class MoneyScript : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         moneyGold = 1000;   //테스트용 기본 재화 지급
-        honerCoin = 100;
-        dungeonCoin = 1000;
+        carriageCoin = 100;
         exchangeRate = 1050;
 
         InvokeRepeating("ExchangeRateFluctuations", 5f, 5f);    //테스트용 5초마다 환율 변동
