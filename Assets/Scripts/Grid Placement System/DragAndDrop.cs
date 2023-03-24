@@ -13,7 +13,8 @@ public class DragAndDrop : MonoBehaviour
     private Renderer rend;
     public Material matGrid, matDefault;
     private bool isdraging = false;
-
+    private bool placementAble = true;
+    private Vector3 previousPoint;
 
     void Start()
     {
@@ -35,7 +36,7 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDrag()
     {
-        if (isdraging)
+        if (isdraging && placementAble == true)
         {
             mousepos = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(mousepos);
@@ -52,6 +53,23 @@ public class DragAndDrop : MonoBehaviour
                         transform.position = new Vector3(PosX, LastPosY, PosZ);
                     }
                 }
+            }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if(collision.gameObject.CompareTag("Placement Object"))
+        {
+            if (gameObject.transform.position == collision.gameObject.transform.position)
+            {
+                Debug.Log("==");
+                placementAble = false;
+                //gameObject.transform.position = new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z);
+            }
+            else
+            {
+                placementAble = true;
             }
         }
     }
