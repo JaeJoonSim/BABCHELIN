@@ -21,9 +21,13 @@ public class CarriageScript : MonoBehaviour
     {
         if(timeScript.isNight == true)
         {
-            if (cook.Items.Items[0].Item.ID == -1 || cook.Items.Items[1].Item.ID == -1 || cook.Items.Items[2].Item.ID == -1 || cook.Items.Items[3].Item.ID == -1)
+            if (cook.Items.Items[0].Item.ID == -1)
             {
-                Debug.Log("요리 재료 부족");
+                Debug.Log("메인 재료를 추가해야 합니다.");
+            }
+            else if(cook.Items.Items[1].Item.ID == -1 || cook.Items.Items[2].Item.ID == -1 || cook.Items.Items[3].Item.ID == -1)
+            {
+                Debug.Log("서브 재료를 추가해야 합니다.");
             }
             else
             {
