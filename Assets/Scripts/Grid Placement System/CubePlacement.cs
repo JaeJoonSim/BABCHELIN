@@ -16,6 +16,7 @@ public class CubePlacement : MonoBehaviour
     void Start()
     {
         rend = GameObject.Find("Ground").GetComponent<Renderer>();
+        rend.material = matGrid;
     }
 
     

@@ -19,17 +19,18 @@ public class DragAndDrop : MonoBehaviour
     {
         plain = GameObject.Find("Ground");
         rend = plain.GetComponent<Renderer>();
-
     }
 
     private void OnMouseDown()
     {
         isdraging = true;
+        rend.material = matGrid;
     }
 
     private void OnMouseUp()
     {
         isdraging = false;
+        rend.material = matDefault;
     }
 
     private void OnMouseDrag()
@@ -41,7 +42,6 @@ public class DragAndDrop : MonoBehaviour
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, mask))
             {
-                //if (hit.collider.gameObject == gameObject)
                 {
                     int PosX = (int)Mathf.Round(hit.point.x);
                     int PosZ = (int)Mathf.Round(hit.point.z);
@@ -53,18 +53,6 @@ public class DragAndDrop : MonoBehaviour
                     }
                 }
             }
-        }
-    }
-
-    void Update()
-    {
-        if (isdraging)
-        {
-            rend.material = matGrid;
-        }
-        else if (!isdraging)
-        {
-            rend.material = matDefault;
         }
     }
 }
