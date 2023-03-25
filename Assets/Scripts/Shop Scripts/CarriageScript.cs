@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CarriageScript : MonoBehaviour
 {
     public GameObject Manager;
+    public Button OpenBtn;
+    ColorBlock OpenBtnColor;
     TimeScript timeScript;
 
     [Tooltip("요리작업대")]
@@ -14,29 +17,38 @@ public class CarriageScript : MonoBehaviour
 
     private void Start()
     {
-
+        OpenBtnColor = OpenBtn.colors;
         timeScript = Manager.GetComponent<TimeScript>();
     }
-    public void OpenCarriage()
+
+    private void Update()
+    {
+        OpenButtonActive();
+    }
+    public void OpenButtonActive()
     {
         if(timeScript.isNight == true)
         {
             if (cook.Items.Items[0].Item.ID == -1)
             {
-                Debug.Log("메인 재료를 추가해야 합니다.");
+                OpenBtnColor.normalColor = new Color(100f, 100f, 100f, 210f);
+                OpenBtn.interactable = false;
             }
             else if(cook.Items.Items[1].Item.ID == -1 || cook.Items.Items[2].Item.ID == -1 || cook.Items.Items[3].Item.ID == -1)
             {
-                Debug.Log("서브 재료를 추가해야 합니다.");
+                OpenBtnColor.normalColor = new Color(100f, 100f, 100f, 210f);
+                OpenBtn.interactable = false;
             }
             else
             {
-                Debug.Log("마차 오픈");
+                OpenBtnColor.normalColor = new Color(255f, 255f, 255f, 255f);
+                OpenBtn.interactable = true;
             }
         }
         else
         {
-            Debug.Log("밤에만 오픈 가능");
+            OpenBtnColor.normalColor = new Color(100f, 100f, 100f, 210f);
+            OpenBtn.interactable = false;
         }
     }
 }
