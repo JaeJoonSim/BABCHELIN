@@ -13,6 +13,8 @@ public class CubePlacement : MonoBehaviour
     private Renderer rend;
     public Material matGrid,matDefault;
 
+    private Vector3 unablePoint;
+
     void Start()
     {
         rend = GameObject.Find("Ground").GetComponent<Renderer>();
@@ -39,12 +41,20 @@ public class CubePlacement : MonoBehaviour
                 rend.material = matGrid;
             }
 
-            if(Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && transform.position != unablePoint)
             {
                 Instantiate(ObjToPlace, transform.position, Quaternion.identity);
                 Destroy(gameObject);
                 rend.material = matDefault;
             }
+        }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Placement Object"))
+        {
+            unablePoint = collision.transform.position;
         }
     }
 }

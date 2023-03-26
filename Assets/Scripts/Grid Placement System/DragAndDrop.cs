@@ -12,9 +12,9 @@ public class DragAndDrop : MonoBehaviour
     private GameObject plain;
     private Renderer rend;
     public Material matGrid, matDefault;
-    private bool isdraging = false;
-    private bool placementAble = true;
+    public bool isdraging = false;
     private Vector3 previousPoint;
+    private Vector3 unablePoint;
 
     void Start()
     {
@@ -24,6 +24,9 @@ public class DragAndDrop : MonoBehaviour
 
     private void OnMouseDown()
     {
+        if(isdraging == false)
+            previousPoint = transform.position;
+        
         isdraging = true;
         rend.material = matGrid;
     }
@@ -32,11 +35,14 @@ public class DragAndDrop : MonoBehaviour
     {
         isdraging = false;
         rend.material = matDefault;
+        
+        if (transform.position == unablePoint)
+            transform.position = previousPoint;
     }
 
     private void OnMouseDrag()
     {
-        if (isdraging && placementAble == true)
+        if (isdraging)
         {
             mousepos = Input.mousePosition;
             Ray ray = Camera.main.ScreenPointToRay(mousepos);
@@ -61,15 +67,9 @@ public class DragAndDrop : MonoBehaviour
     {
         if(collision.gameObject.CompareTag("Placement Object"))
         {
-            if (gameObject.transform.position == collision.gameObject.transform.position)
+            if (gameObject.transform.position == collision.gameObject.transform.position && isdraging == true)
             {
-                Debug.Log("==");
-                placementAble = false;
-                //gameObject.transform.position = new Vector3(transform.position.x - 1f, transform.position.y, transform.position.z);
-            }
-            else
-            {
-                placementAble = true;
+                unablePoint = collision.transform.position;
             }
         }
     }
