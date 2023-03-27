@@ -9,6 +9,7 @@ using System.Linq;
 
 public class BehaviourTreeView : GraphView
 {
+    public Action<NodeView> OnNodeSelected;
     public new class UxmlFactory : UxmlFactory<BehaviourTreeView, GraphView.UxmlTraits> { }
     BehaviourTree tree;
 
@@ -133,6 +134,7 @@ public class BehaviourTreeView : GraphView
     private void CreateNodeView(BTNode node)
     {
         NodeView nodeView = new NodeView(node);
+        nodeView.OnNodeSelected = OnNodeSelected;
         AddElement(nodeView);
     }
 }

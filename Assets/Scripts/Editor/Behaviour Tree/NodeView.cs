@@ -6,6 +6,7 @@ using UnityEditor.Experimental.GraphView;
 
 public class NodeView : UnityEditor.Experimental.GraphView.Node
 {
+    public Action<NodeView> OnNodeSelected;
     public BTNode node;
     public Port input;
     public Port output;
@@ -72,5 +73,15 @@ public class NodeView : UnityEditor.Experimental.GraphView.Node
         base.SetPosition(newPos);
         node.position.x = newPos.xMin;
         node.position.y = newPos.yMin;
+    }
+
+    public override void OnSelected()
+    {
+        base.OnSelected();
+
+        if(OnNodeSelected != null)
+        {
+            OnNodeSelected.Invoke(this);
+        }
     }
 }

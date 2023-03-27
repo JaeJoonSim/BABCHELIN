@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class CompositeNode : BTNode
 {
-    public List<BTNode> children = new List<BTNode>();
+    [HideInInspector] public List<BTNode> children = new List<BTNode>();
 }

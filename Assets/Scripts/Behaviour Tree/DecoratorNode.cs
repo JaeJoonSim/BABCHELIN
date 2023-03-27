@@ -4,5 +4,5 @@ using UnityEngine;
 
 public abstract class DecoratorNode : BTNode
 {
-    public BTNode child;
+    [HideInInspector] public BTNode child;
 }
