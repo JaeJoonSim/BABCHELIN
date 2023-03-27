@@ -35,6 +35,11 @@ public abstract class BTNode : ScriptableObject
         return state;
     }
 
+    public virtual BTNode Clone()
+    {
+        return Instantiate(this);
+    }
+
     protected abstract void OnStart();
     protected abstract void OnStop();
     protected abstract State OnUpdate();
