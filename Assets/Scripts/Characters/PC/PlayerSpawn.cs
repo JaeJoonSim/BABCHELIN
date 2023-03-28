@@ -5,11 +5,19 @@ using UnityEngine;
 public class PlayerSpawn : MonoBehaviour
 {
     public GameObject PlayerCharacter;
+    private GameObject playerObj;
     [SerializeField]
     private Cinemachine.CinemachineVirtualCamera vcam;
+    public Cinemachine.CinemachineVirtualCamera Vcam { set { vcam = value; } }
     void Awake()
     {
-        var playerObj = Instantiate(PlayerCharacter);
-        vcam.Follow = playerObj.transform;
+        playerObj = Instantiate(PlayerCharacter);
+        if(vcam != null)
+            vcam.Follow = playerObj.transform;
+    }
+    public void SetFollow() 
+    {
+        if (vcam != null)
+            vcam.Follow = playerObj.transform;
     }
 }

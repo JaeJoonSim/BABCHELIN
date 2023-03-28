@@ -8,6 +8,9 @@ public class DungeonGenerator : MonoBehaviour
 	private int distanceBetween;
     private ArrGenerator aGenerator;
 
+    [SerializeField]
+    private Cinemachine.CinemachineVirtualCamera vcam;
+
     void Start()
     {
         aGenerator = GetComponent<ArrGenerator>();
@@ -27,5 +30,9 @@ public class DungeonGenerator : MonoBehaviour
         }
         aGenerator.ConnectDoor();
         aGenerator.ValidRoomList[0].roomObj.SetActive(true);
+        PlayerSpawn setVcam = aGenerator.ValidRoomList[0].roomObj.GetComponent<PlayerSpawn>();
+        setVcam.Vcam = vcam;
+        setVcam.SetFollow();
+
     }
 }
