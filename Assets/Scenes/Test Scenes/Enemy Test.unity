@@ -231,7 +231,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 951804392}
   m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: -1.213, y: 4, z: -5.74}
+  m_LocalPosition: {x: -1.213, y: 5.47, z: -6.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -598,7 +598,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1283691218}
   m_LocalRotation: {x: 0.30070576, y: 0, z: 0, w: 0.953717}
-  m_LocalPosition: {x: -1.213, y: 4, z: -5.74}
+  m_LocalPosition: {x: -1.213, y: 5.47, z: -6.98}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -652,7 +652,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BindingMode: 1
-  m_FollowOffset: {x: 0, y: 4, z: -4.825}
+  m_FollowOffset: {x: 0, y: 5.47, z: -6.065}
   m_XDamping: 1
   m_YDamping: 1
   m_ZDamping: 1
@@ -925,6 +925,12 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.688317, y: 0.5004202, z: 0.3124661}
   m_Center: {x: 0.0101778805, y: 0.2497899, z: 0.1847548}
+--- !u!198 &1989151072 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 6674718957281731481, guid: 143d622e77b786647b585309a091e814,
+    type: 3}
+  m_PrefabInstance: {fileID: 8467855553204577898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &3705539360483100949
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1181,6 +1187,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: PC
       objectReference: {fileID: 0}
+    - target: {fileID: 2036142942431523466, guid: 143d622e77b786647b585309a091e814,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2036142942431523466, guid: 143d622e77b786647b585309a091e814,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8467855553431651877, guid: 143d622e77b786647b585309a091e814,
+        type: 3}
+      propertyPath: attackEffect
+      value: 
+      objectReference: {fileID: 1989151072}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d622e77b786647b585309a091e814, type: 3}
 --- !u!4 &8587052751895415799 stripped

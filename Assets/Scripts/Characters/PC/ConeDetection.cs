@@ -9,6 +9,8 @@ public class ConeDetection : MonoBehaviour
     [Tooltip("공격 딜레이")]
     [SerializeField] private float attackDelay = 1f;
     private float lastAttackTime;
+    [Tooltip("공격 이펙트")]
+    [SerializeField] private ParticleSystem attackEffect;
 
     [Space]
     [Tooltip("검출 각도")]
@@ -27,13 +29,16 @@ public class ConeDetection : MonoBehaviour
         Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
 
         TargetDetection(mouseDirection);
-    }
 
-    private Vector3 EulerToVector(float angle)
-    {
-        angle += transform.eulerAngles.y;
-        angle *= Mathf.Deg2Rad;
-        return new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
+        if (Input.GetMouseButtonDown(0))
+        {
+            Quaternion newRotation = Quaternion.LookRotation(mouseDirection);
+            attackEffect.transform.rotation = newRotation;
+
+            Vector3 effectPosition = transform.position + mouseDirection;
+            attackEffect.transform.position = new Vector3(effectPosition.x, attackEffect.transform.position.y, effectPosition.z);
+            attackEffect.Play();
+        }
     }
 
     private void TargetDetection(Vector3 mouseDirection)
