@@ -302,7 +302,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   attackDelay: 1
-  attackEffect: {fileID: 0}
+  attackEffect: {fileID: 6674718957281731481}
   detectionAngle: 90
   detectionDistance: 3
   detectionLayer:
@@ -736,6 +736,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 191556063279426973}
     m_Modifications:
+    - target: {fileID: 12191103527991197, guid: 304b758cc18b58c4998bf97bf1ba533a,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6434338519200359849, guid: 304b758cc18b58c4998bf97bf1ba533a,
         type: 3}
       propertyPath: m_Name
@@ -749,7 +754,7 @@ PrefabInstance:
     - target: {fileID: 7620663369015619636, guid: 304b758cc18b58c4998bf97bf1ba533a,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7620663369015619636, guid: 304b758cc18b58c4998bf97bf1ba533a,
         type: 3}
@@ -801,6 +806,12 @@ PrefabInstance:
 --- !u!4 &2036142942431523466 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7620663369015619636, guid: 304b758cc18b58c4998bf97bf1ba533a,
+    type: 3}
+  m_PrefabInstance: {fileID: 8467855552306561726}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &6674718957281731481 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 2964072541101662503, guid: 304b758cc18b58c4998bf97bf1ba533a,
     type: 3}
   m_PrefabInstance: {fileID: 8467855552306561726}
   m_PrefabAsset: {fileID: 0}

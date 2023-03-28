@@ -16,6 +16,7 @@ public class Enemy : MonoBehaviour
             Instantiate(damageText, damageTextCanvas);
         }
     }
+    [SerializeField] private float knockBackForce;
 
     [Tooltip("Damage Text")]
     [SerializeField] private GameObject damageText;
@@ -35,7 +36,16 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player is in range " + other.gameObject.name);
+            KnockBack(other);
         }
+    }
+
+    private void KnockBack(Collider other)
+    {
+        Vector3 directionVector = other.transform.position - transform.position;
+        Vector3 hitDirection = directionVector.normalized;
+        PlayerMovement playerMovement;
+        playerMovement = other.gameObject.GetComponentInParent<PlayerMovement>();
+        playerMovement.Rigid.AddForce(hitDirection * knockBackForce, ForceMode.VelocityChange);
     }
 }

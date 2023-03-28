@@ -63,7 +63,7 @@ public class ConeDetection : MonoBehaviour
                 targetList.Add(objs[i].gameObject);
                 Debug.DrawLine(transform.position, targetPosition, Color.red);
 
-                if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
+                if (Input.GetMouseButton(0) && Time.time - lastAttackTime >= attackDelay)
                 {
                     objs[i].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
                     objs[i].gameObject.GetComponentInParent<Enemy>().hitDamage = Mathf.RoundToInt(damageAmount);
@@ -89,7 +89,7 @@ public class ConeDetection : MonoBehaviour
 
     private void PlayEffect(Vector3 mouseDirection)
     {
-        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
+        if (Input.GetMouseButton(0) && Time.time - lastAttackTime >= attackDelay)
         {
             Quaternion newRotation = Quaternion.LookRotation(mouseDirection);
             attackEffect.transform.rotation = newRotation;

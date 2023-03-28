@@ -83,6 +83,10 @@ public class PlayerMovement : MonoBehaviour
     #region Private Value
 
     private Rigidbody rb;
+    public Rigidbody Rigid
+    {
+        get { return rb; }
+    }
     private Animator anim;
 
     private Vector3 moveDir;
