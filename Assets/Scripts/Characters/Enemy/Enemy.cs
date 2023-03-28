@@ -24,11 +24,6 @@ public class Enemy : MonoBehaviour
         boxCollider = GetComponentInChildren<BoxCollider>();
     }
 
-    private void Update()
-    {
-
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player"))

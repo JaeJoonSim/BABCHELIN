@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class ConeDetection : MonoBehaviour
 {
+    [Tooltip("공격력")]
     [SerializeField] private int damage;
+    [Tooltip("공격 딜레이")]
     [SerializeField] private float attackDelay = 1f;
     private float lastAttackTime;
 
+    [Space]
+    [Tooltip("검출 각도")]
     [SerializeField] private float detectionAngle;
+    [Tooltip("검출 거리")]
     [SerializeField] private float detectionDistance;
+    [Tooltip("검출 레이어")]
     [SerializeField] private LayerMask detectionLayer;
     [SerializeField] private List<GameObject> targetList = new List<GameObject>();
 
@@ -48,7 +54,7 @@ public class ConeDetection : MonoBehaviour
         }
     }
 
-    private void AttackEnemy(Collider[] objs, float radianRange, int i, Vector3 targetPosition, float targetRadian, float distance)
+    private void AttackEnemy(Collider[] objs, float radianRange, int Length, Vector3 targetPosition, float targetRadian, float distance)
     {
         if (targetRadian > radianRange)
         {
@@ -59,12 +65,12 @@ public class ConeDetection : MonoBehaviour
 
             var damageAmount = damagePercent * damage;
 
-            targetList.Add(objs[i].gameObject);
+            targetList.Add(objs[Length].gameObject);
             Debug.DrawLine(transform.position, targetPosition, Color.red);
 
             if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
             {
-                objs[i].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
+                objs[Length].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
                 lastAttackTime = Time.time;
             }
         }
