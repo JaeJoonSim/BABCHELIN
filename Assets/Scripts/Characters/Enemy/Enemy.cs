@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,8 +21,15 @@ public class Enemy : MonoBehaviour
     [SerializeField] private GameObject damageText;
     [Tooltip("Damage Text Canvas")]
     [SerializeField] private Transform damageTextCanvas;
+    [Tooltip("HP Bar")]
+    [SerializeField] private Image hpBar;
 
     [HideInInspector] public int hitDamage;
+
+    private void Update()
+    {
+        hpBar.fillAmount = (float)currentHp / maxHp;
+    }
 
     private void OnTriggerEnter(Collider other)
     {
