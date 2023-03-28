@@ -12,17 +12,16 @@ public class Enemy : MonoBehaviour
         set
         {
             currentHp = value;
+            Instantiate(damageText, damageTextCanvas);
         }
     }
 
-    private Rigidbody rb;
-    [SerializeField] private BoxCollider boxCollider;
+    [Tooltip("Damage Text")]
+    [SerializeField] private GameObject damageText;
+    [Tooltip("Damage Text Canvas")]
+    [SerializeField] private Transform damageTextCanvas;
 
-    private void Awake()
-    {
-        rb = GetComponent<Rigidbody>();
-        boxCollider = GetComponentInChildren<BoxCollider>();
-    }
+    [HideInInspector] public int hitDamage;
 
     private void OnTriggerEnter(Collider other)
     {

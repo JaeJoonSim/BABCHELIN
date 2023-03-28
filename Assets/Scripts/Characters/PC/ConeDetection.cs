@@ -6,6 +6,10 @@ public class ConeDetection : MonoBehaviour
 {
     [Tooltip("공격력")]
     [SerializeField] private int damage;
+    public int Damage
+    {
+        get { return damage; }
+    }
     [Tooltip("공격 딜레이")]
     [SerializeField] private float attackDelay = 1f;
     private float lastAttackTime;
@@ -29,16 +33,7 @@ public class ConeDetection : MonoBehaviour
         Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
 
         TargetDetection(mouseDirection);
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            Quaternion newRotation = Quaternion.LookRotation(mouseDirection);
-            attackEffect.transform.rotation = newRotation;
-
-            Vector3 effectPosition = transform.position + mouseDirection;
-            attackEffect.transform.position = new Vector3(effectPosition.x, attackEffect.transform.position.y, effectPosition.z);
-            attackEffect.Play();
-        }
+        PlayEffect(mouseDirection);
     }
 
     private void TargetDetection(Vector3 mouseDirection)
@@ -55,28 +50,24 @@ public class ConeDetection : MonoBehaviour
             var targetDirection = (targetPosition - transform.position).normalized;
             var targetRadian = Vector3.Dot(mouseDirection, targetDirection);
             var distance = Vector3.Distance(transform.position, targetPosition);
-            AttackEnemy(objs, radianRange, i, targetPosition, targetRadian, distance);
-        }
-    }
 
-    private void AttackEnemy(Collider[] objs, float radianRange, int Length, Vector3 targetPosition, float targetRadian, float distance)
-    {
-        if (targetRadian > radianRange)
-        {
-            var damagePercent = 1f;
-
-            if (distance > detectionDistance * 0.6f)
-                damagePercent = 0.6f;
-
-            var damageAmount = damagePercent * damage;
-
-            targetList.Add(objs[Length].gameObject);
-            Debug.DrawLine(transform.position, targetPosition, Color.red);
-
-            if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
+            if (targetRadian > radianRange)
             {
-                objs[Length].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
-                lastAttackTime = Time.time;
+                var damagePercent = 1f;
+
+                if (distance > detectionDistance * 0.6f)
+                    damagePercent = 0.6f;
+
+                var damageAmount = damagePercent * damage;
+
+                targetList.Add(objs[i].gameObject);
+                Debug.DrawLine(transform.position, targetPosition, Color.red);
+
+                if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
+                {
+                    objs[i].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
+                    objs[i].gameObject.GetComponentInParent<Enemy>().hitDamage = Mathf.RoundToInt(damageAmount);
+                }
             }
         }
     }
@@ -94,5 +85,19 @@ public class ConeDetection : MonoBehaviour
         }
 
         return Vector3.zero;
+    }
+
+    private void PlayEffect(Vector3 mouseDirection)
+    {
+        if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
+        {
+            Quaternion newRotation = Quaternion.LookRotation(mouseDirection);
+            attackEffect.transform.rotation = newRotation;
+
+            Vector3 effectPosition = transform.position + mouseDirection;
+            attackEffect.transform.position = new Vector3(effectPosition.x, attackEffect.transform.position.y, effectPosition.z);
+            attackEffect.Play();
+            lastAttackTime = Time.time;
+        }
     }
 }
