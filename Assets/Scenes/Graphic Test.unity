@@ -238,7 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiPanel: {fileID: 1925498217}
-  promptText: {fileID: 931684971}
+  promptText: {fileID: 0}
   isDisplayed: 0
 --- !u!1 &70377795
 GameObject:
@@ -277,7 +277,9 @@ MonoBehaviour:
   pcRunMSpd: 0
   pcJumpHeight: 0
   pcJumpDelay: 0
-  forceGravity: -9.81
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 0
   pcWRTrigger: 0
 --- !u!54 &70377798
 Rigidbody:
@@ -508,6 +510,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _promt: Open Door
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls: []
+  offInteraction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &330585543
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1482,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _promt: Open Chest
+  onInteraction:
+    m_PersistentCalls:
+      m_Calls: []
+  offInteraction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1398668523
 GameObject:
   m_ObjectHideFlags: 0
