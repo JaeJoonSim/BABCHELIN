@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class ConeDetection : MonoBehaviour
 {
-    public float detectionAngle;
-    public float detectionDistance;
-    public LayerMask detectionLayer;
-    public List<GameObject> targetList = new List<GameObject>();
+    [SerializeField] private int damage;
+    [SerializeField] private float attackDelay = 1f;
+    private float lastAttackTime;
+
+    [SerializeField] private float detectionAngle;
+    [SerializeField] private float detectionDistance;
+    [SerializeField] private LayerMask detectionLayer;
+    [SerializeField] private List<GameObject> targetList = new List<GameObject>();
 
     private void Update()
     {
@@ -36,13 +40,32 @@ public class ConeDetection : MonoBehaviour
 
         for (int i = 0; i < objs.Length; i++)
         {
-            var targetDirection = (objs[i].transform.position - transform.position).normalized;
+            var targetPosition = objs[i].transform.position;
+            var targetDirection = (targetPosition - transform.position).normalized;
             var targetRadian = Vector3.Dot(mouseDirection, targetDirection);
+            var distance = Vector3.Distance(transform.position, targetPosition);
+            AttackEnemy(objs, radianRange, i, targetPosition, targetRadian, distance);
+        }
+    }
 
-            if (targetRadian > radianRange)
+    private void AttackEnemy(Collider[] objs, float radianRange, int i, Vector3 targetPosition, float targetRadian, float distance)
+    {
+        if (targetRadian > radianRange)
+        {
+            var damagePercent = 1f;
+
+            if (distance > detectionDistance * 0.6f)
+                damagePercent = 0.6f;
+
+            var damageAmount = damagePercent * damage;
+
+            targetList.Add(objs[i].gameObject);
+            Debug.DrawLine(transform.position, targetPosition, Color.red);
+
+            if (Input.GetMouseButtonDown(0) && Time.time - lastAttackTime >= attackDelay)
             {
-                targetList.Add(objs[i].gameObject);
-                Debug.DrawLine(transform.position, objs[i].transform.position, Color.red);
+                objs[i].gameObject.GetComponentInParent<Enemy>().CurrentHp -= Mathf.RoundToInt(damageAmount);
+                lastAttackTime = Time.time;
             }
         }
     }
