@@ -17,6 +17,7 @@ public class Enemy : MonoBehaviour
         }
     }
     [SerializeField] private float knockBackForce;
+    [SerializeField] private float knockbackDuration = 0.5f;
 
     [Tooltip("Damage Text")]
     [SerializeField] private GameObject damageText;
@@ -47,5 +48,7 @@ public class Enemy : MonoBehaviour
         PlayerMovement playerMovement;
         playerMovement = other.gameObject.GetComponentInParent<PlayerMovement>();
         playerMovement.Rigid.AddForce(hitDirection * knockBackForce, ForceMode.VelocityChange);
+        
+        playerMovement.StartCoroutine(playerMovement.KnockedBack(knockbackDuration));
     }
 }

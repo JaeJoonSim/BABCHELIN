@@ -92,6 +92,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDir;
     private float groundDistance = .2f;
     public bool isGrounded;
+    public bool isKnockedBack;
 
     #endregion
 
@@ -137,17 +138,22 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerInput()
     {
-
+        if (!isKnockedBack)
+        {
             moveDir.x = Input.GetAxisRaw("Horizontal");
             moveDir.z = Input.GetAxisRaw("Vertical");
             moveDir.Normalize();
-
+        }
+        else
+        {
+            moveDir = Vector3.zero;
+        }
     }
 
     private void Jump()
     {
         CheckGround();
-        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0 && 
+        if (Input.GetButtonDown("Jump") && isGrounded && Time.timeScale != 0 &&
             !anim.GetCurrentAnimatorStateInfo(0).IsName("Landing") &&
             !anim.GetCurrentAnimatorStateInfo(0).IsName("Fall") &&
             !anim.GetCurrentAnimatorStateInfo(0).IsName("Jump"))
@@ -203,5 +209,12 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("isGround", true);
         else
             anim.SetBool("isGround", false);
+    }
+
+    public IEnumerator KnockedBack(float duration)
+    {
+        isKnockedBack = true;
+        yield return new WaitForSeconds(duration);
+        isKnockedBack = false;
     }
 }
