@@ -16,8 +16,19 @@ public class Enemy : MonoBehaviour
             Instantiate(damageText, damageTextCanvas);
         }
     }
+    [SerializeField] private int damage;
+
+    [Space]
     [SerializeField] private float knockBackForce;
+    public float KnockBackForce
+    {
+        get { return knockBackForce; }
+    }
     [SerializeField] private float knockbackDuration = 0.5f;
+    public float KnockbackDuration
+    {
+        get { return knockbackDuration; }
+    }
 
     [Tooltip("Damage Text")]
     [SerializeField] private GameObject damageText;
@@ -37,18 +48,7 @@ public class Enemy : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            KnockBack(other);
+            other.GetComponentInParent<Player>().CurrentHp -= damage;
         }
-    }
-
-    private void KnockBack(Collider other)
-    {
-        Vector3 directionVector = other.transform.position - transform.position;
-        Vector3 hitDirection = directionVector.normalized;
-        PlayerMovement playerMovement;
-        playerMovement = other.gameObject.GetComponentInParent<PlayerMovement>();
-        playerMovement.Rigid.AddForce(hitDirection * knockBackForce, ForceMode.VelocityChange);
-        
-        playerMovement.StartCoroutine(playerMovement.KnockedBack(knockbackDuration));
     }
 }
