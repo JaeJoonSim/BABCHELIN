@@ -43,7 +43,7 @@ public class ConeDetection : MonoBehaviour
         targetList.Clear();
 
         var radianRange = Mathf.Cos((detectionAngle / 2) * Mathf.Deg2Rad);
-
+            
         for (int i = 0; i < objs.Length; i++)
         {
             var targetPosition = objs[i].transform.position;
