@@ -28,9 +28,12 @@ public class BehaviourTree : ScriptableObject
         Undo.RecordObject(this, "Behaviour Tree (CreateNode)");
         nodes.Add(node);
 
-        AssetDatabase.AddObjectToAsset(node, this);
+        if (!Application.isPlaying)
+        {
+            AssetDatabase.AddObjectToAsset(node, this);
+        }
         Undo.RegisterCreatedObjectUndo(node, "Behaviour Tree (CreateNode)");
-        
+
         AssetDatabase.SaveAssets();
         return node;
     }
@@ -39,10 +42,10 @@ public class BehaviourTree : ScriptableObject
     {
         Undo.RecordObject(this, "Behaviour Tree (DeleteNode)");
         nodes.Remove(node);
-        
+
         //AssetDatabase.RemoveObjectFromAsset(node);
         Undo.DestroyObjectImmediate(node);
-        
+
         AssetDatabase.SaveAssets();
     }
 
@@ -99,8 +102,8 @@ public class BehaviourTree : ScriptableObject
             EditorUtility.SetDirty(composite);
         }
     }
-    
-    public List<BTNode>GetChildren(BTNode parent)
+
+    public List<BTNode> GetChildren(BTNode parent)
     {
         List<BTNode> children = new List<BTNode>();
         DecoratorNode decorator = parent as DecoratorNode;
@@ -123,12 +126,28 @@ public class BehaviourTree : ScriptableObject
 
         return children;
     }
+#endif
+
+    public void Traverse(BTNode node, System.Action<BTNode> visiter)
+    {
+        if (node)
+        {
+            visiter.Invoke(node);
+            var children = GetChildren(node);
+            children.ForEach((n) => Traverse(n, visiter));
+        }
+    }
 
     public BehaviourTree Clone()
     {
         BehaviourTree tree = Instantiate(this);
         tree.rootNode = tree.rootNode.Clone();
+        tree.nodes = new List<BTNode>();
+        Traverse(tree.rootNode, (n) =>
+        {
+            tree.nodes.Add(n);
+        });
+
         return tree;
     }
-#endif
 }
