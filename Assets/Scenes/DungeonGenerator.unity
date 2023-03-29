@@ -636,6 +636,63 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1246366087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246366089}
+  - component: {fileID: 1246366088}
+  m_Layer: 0
+  m_Name: DungeonManeger
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1246366088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246366087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0877123b6f5fc5b4e995eb0e9a88a114, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  direction4:
+  - {x: -1, y: 0, z: 0}
+  - {x: 1, y: 0, z: 0}
+  - {x: 0, y: 0, z: -1}
+  - {x: 0, y: 0, z: 1}
+  maxRoomCount: 15
+  curRoomCount: 0
+  maxDistance: 5
+  roomList:
+  - {fileID: 4635302759626500814, guid: b62197fdcf58828468a4ec027d402d24, type: 3}
+  - {fileID: 4635302759626500814, guid: dc06a020452f66441ab7a8962f278d81, type: 3}
+  - {fileID: 4635302759626500814, guid: 9c001e1fa65d83b459cf379670246d04, type: 3}
+--- !u!4 &1246366089
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246366087}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1966779733}
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1586170781
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,7 +891,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f01d4bd3cb0f254b80b6c4777293d4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceBetween: 3
+  distanceBetween: 2
   vcam: {fileID: 1700303489}
 --- !u!114 &1966779732
 MonoBehaviour:
@@ -848,18 +905,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f576ceda9bb42949bf51a5c4a1d816f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction4:
-  - {x: -1, y: 0, z: 0}
-  - {x: 1, y: 0, z: 0}
-  - {x: 0, y: 0, z: -1}
-  - {x: 0, y: 0, z: 1}
-  minRoomCnt: 4
-  currRoomCnt: 0
-  maxDistance: 5
   startRoomPos: {x: 0, y: 0, z: 0}
-  roomList:
-  - {fileID: 4635302759626500814, guid: b62197fdcf58828468a4ec027d402d24, type: 3}
-  - {fileID: 4635302759626500814, guid: dc06a020452f66441ab7a8962f278d81, type: 3}
 --- !u!4 &1966779733
 Transform:
   m_ObjectHideFlags: 0
@@ -867,13 +913,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1966779730}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_Father: {fileID: 1246366089}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &420310531843060186
 PrefabInstance:
