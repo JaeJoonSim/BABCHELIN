@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d285eb63c2cdd74180de7cfceaa96ad, type: 3}
+  m_Name: BehaviourTree_RandomMove
+  m_EditorClassIdentifier: 
+  rootNode:
+    rid: 6896501539278159872
+  nodes:
+  - rid: 6896501539278159872
+  - rid: 6896501539278159873
+  - rid: 6896501539278159874
+  - rid: 6896501539278159875
+  - rid: 6896501539278159876
+  - rid: 6896501539278159877
+  treeState: 0
+  blackboard:
+    moveToPosition: {x: 0, y: 0, z: 0}
+  viewPosition: {x: 381, y: 4, z: 0}
+  viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
+  references:
+    version: 2
+    RefIds:
+    - rid: 6896501539278159872
+      type: {class: RootNode, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 52cf5fa2-adfb-4f4b-aedf-5052be190c7f
+        position: {x: 0, y: 0}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 6896501539278159873
+    - rid: 6896501539278159873
+      type: {class: Repeat, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 422d84b2ab50f1b44a5500255c51c505
+        position: {x: -0.00002002716, y: 109.844986}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 6896501539278159874
+        restartOnSuccess: 1
+        restartOnFailure: 0
+    - rid: 6896501539278159874
+      type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 8306611f90ba1f045a8c5174ba86b5e4
+        position: {x: -0.000020503998, y: 226.52252}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 6896501539278159875
+        - rid: 6896501539278159876
+        - rid: 6896501539278159877
+    - rid: 6896501539278159875
+      type: {class: Wait, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 896e3b7592bd9dd4989c8a7db3746cc3
+        position: {x: -179.09503, y: 371}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        duration: 1
+    - rid: 6896501539278159876
+      type: {class: RandomPosition, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: a566cbed372e7db4a9b9dd44fd87e3ff
+        position: {x: 0, y: 371.00006}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        min: {x: -10, y: -10}
+        max: {x: 10, y: 10}
+    - rid: 6896501539278159877
+      type: {class: MoveToPosition, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 2b991c4e79c5d824bb52acd937a8cc1b
+        position: {x: 177.00246, y: 371}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        speed: 5
+        stoppingDistance: 0.1
+        updateRotation: 1
+        acceleration: 40
+        tolerance: 1
