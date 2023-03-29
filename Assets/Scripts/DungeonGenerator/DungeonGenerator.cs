@@ -19,10 +19,10 @@ public class DungeonGenerator : MonoBehaviour
         GameObject roomObj;
         for (int i = 0; i < DungeonManeger.Instance.ValidRoomList.Count; i++)
         {
-            Vector3 pos = new Vector3((DungeonManeger.Instance.ValidRoomList[i].centerPos.z - aGenerator.StartRoomPos.z)
+            Vector3 pos = new Vector3((DungeonManeger.Instance.ValidRoomList[i].centerPos.z - DungeonManeger.Instance.StartRoomPos.z)
                                            * (DungeonManeger.Instance.ValidRoomList[i].roomObj.transform.localScale.x * 10 + distanceBetween),
                                            0,
-                                           -(DungeonManeger.Instance.ValidRoomList[i].centerPos.x - aGenerator.StartRoomPos.x)
+                                           -(DungeonManeger.Instance.ValidRoomList[i].centerPos.x - DungeonManeger.Instance.StartRoomPos.x)
                                            * (DungeonManeger.Instance.ValidRoomList[i].roomObj.transform.localScale.z * 10 + distanceBetween));
             roomObj = Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             roomObj.name = DungeonManeger.Instance.ValidRoomList[i].roomID;

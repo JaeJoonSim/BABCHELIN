@@ -5,10 +5,7 @@ using UnityEngine;
 public class ArrGenerator : MonoBehaviour
 {
     
-    //Ω√¿€πÊ ¡¬«•
-    [SerializeField]
-    private Vector3Int startRoomPos;
-    public Vector3Int StartRoomPos { get { return startRoomPos; } }
+
 
 
 
@@ -19,9 +16,12 @@ public class ArrGenerator : MonoBehaviour
         int x = Random.Range(0, DungeonManeger.Instance.MaxDistance * 2);
         int z = Random.Range(0, DungeonManeger.Instance.MaxDistance * 2);
 
-        startRoomPos = new Vector3Int(z, 0, x);
-        DungeonManeger.Instance.PosArr[startRoomPos.z, startRoomPos.x] = AddSingleRoom(startRoomPos, "Start");
-        DungeonManeger.Instance.ValidRoomList.Add(DungeonManeger.Instance.PosArr[startRoomPos.z, startRoomPos.x]);
+        DungeonManeger.Instance.StartRoomPos = new Vector3Int(z, 0, x);
+        DungeonManeger.Instance.CurPcPos = DungeonManeger.Instance.StartRoomPos;
+        DungeonManeger.Instance.PosArr[DungeonManeger.Instance.StartRoomPos.z, DungeonManeger.Instance.StartRoomPos.x] 
+            = AddSingleRoom(DungeonManeger.Instance.StartRoomPos, "Start");
+        DungeonManeger.Instance.ValidRoomList.Add(
+            DungeonManeger.Instance.PosArr[DungeonManeger.Instance.StartRoomPos.z, DungeonManeger.Instance.StartRoomPos.x]);
         DungeonManeger.Instance.CurRoomCount++;
 
         while (true)

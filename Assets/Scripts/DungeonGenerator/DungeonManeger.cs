@@ -29,6 +29,17 @@ public class DungeonManeger : Singleton<DungeonManeger>
     private int maxDistance = 5;
     public int MaxDistance { get { return maxDistance; } }
 
+    //시작방 좌표
+    [SerializeField]
+    private Vector3Int startRoomPos;
+    public Vector3Int StartRoomPos { get { return startRoomPos; } set { startRoomPos = value; } }
+
+    //캐릭터의 현재 방 좌표
+    [SerializeField]
+    private Vector3Int curPcPos;
+    public Vector3Int CurPcPos { get { return curPcPos; } set { curPcPos = value; } }
+
+    //던전 룸 프리팹 리스트
     [SerializeField]
     private List<GameObject> roomList = new List<GameObject>();
     public List<GameObject> RoomList { get { return roomList; } }
@@ -38,12 +49,14 @@ public class DungeonManeger : Singleton<DungeonManeger>
     public List<RoomInfo> ValidRoomList { get { return validRoomList; } set { validRoomList = value; } }
 
     private RoomInfo[,] posArr = new RoomInfo[10, 10];
-    public RoomInfo[,] PosArr { get { return posArr; } set {  posArr = value; } }
+    public RoomInfo[,] PosArr { get { return posArr; } set { posArr = value; } }
 
-
+    //미니맵 변수들
+    //미니맵 카메라
+    [SerializeField]
+    private Transform minimapCamera;
 
     //func
-
     public void Awake()
     {
         //배열 초기화
@@ -51,6 +64,20 @@ public class DungeonManeger : Singleton<DungeonManeger>
         RealaseRoomPos();
     }
 
+    //방이동시 호출 ( 0 == 상, 1 == 하, 2 == 좌, 3 == 우)
+    public void MoveToOtherRoom(int direction)
+    {
+        if (direction > 0 && 3 < direction)
+            return;
+
+        posArr[curPcPos.z, curPcPos.x].roomObj.SetActive(false);
+        curPcPos += direction4[direction];
+        posArr[curPcPos.z, curPcPos.x].roomObj.SetActive(true);
+
+        minimapCamera.position = posArr[curPcPos.z, curPcPos.x].roomObj.transform.position + new Vector3(0, 20, 0);
+    }
+
+    //배열////////////////////////////////////////////////////////////////////////////////
     //배열 범위 체크용
     public bool PossibleArr(Vector3Int pos)
     {
@@ -83,4 +110,5 @@ public class DungeonManeger : Singleton<DungeonManeger>
             }
         }
     }
+    ///
 }
