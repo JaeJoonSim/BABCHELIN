@@ -25,6 +25,7 @@ public class DungeonGenerator : MonoBehaviour
                                            -(DungeonManeger.Instance.ValidRoomList[i].centerPos.x - DungeonManeger.Instance.StartRoomPos.x)
                                            * (DungeonManeger.Instance.ValidRoomList[i].roomObj.transform.localScale.z * 10 + distanceBetween));
             roomObj = Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
+            Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             roomObj.name = DungeonManeger.Instance.ValidRoomList[i].roomID;
             roomObj.transform.parent = transform;
             DungeonManeger.Instance.ValidRoomList[i].roomObj = roomObj;

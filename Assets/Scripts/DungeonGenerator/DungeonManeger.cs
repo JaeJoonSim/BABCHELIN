@@ -55,6 +55,8 @@ public class DungeonManeger : Singleton<DungeonManeger>
     //미니맵 카메라
     [SerializeField]
     private Transform minimapCamera;
+    [SerializeField]
+    private GameObject visitedTile;
 
     //func
     public void Awake()
@@ -75,6 +77,12 @@ public class DungeonManeger : Singleton<DungeonManeger>
         posArr[curPcPos.z, curPcPos.x].roomObj.SetActive(true);
 
         minimapCamera.position = posArr[curPcPos.z, curPcPos.x].roomObj.transform.position + new Vector3(0, 20, 0);
+
+        if (!posArr[curPcPos.z, curPcPos.x].isVisited)
+        {
+            posArr[curPcPos.z, curPcPos.x].isVisited = true;
+            Instantiate(visitedTile, posArr[curPcPos.z, curPcPos.x].roomObj.transform.position + new Vector3(0, 10, 0), Quaternion.identity);
+        }
     }
 
     //배열////////////////////////////////////////////////////////////////////////////////

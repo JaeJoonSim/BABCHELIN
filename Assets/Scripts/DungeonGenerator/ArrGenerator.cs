@@ -4,11 +4,6 @@ using UnityEngine;
 
 public class ArrGenerator : MonoBehaviour
 {
-    
-
-
-
-
     public void CreatedRoom()
     {
         DungeonManeger.Instance.CurRoomCount = 0;
@@ -39,7 +34,6 @@ public class ArrGenerator : MonoBehaviour
         DungeonManeger.Instance.ValidRoomList[DungeonManeger.Instance.ValidRoomList.Count - 1].roomObj 
             = DungeonManeger.Instance.RoomList[DungeonManeger.Instance.RoomList.Count - 1];
     }
-
     private RoomInfo AddSingleRoom(Vector3Int pos, string name)
     {
         //방 초기화
@@ -47,6 +41,7 @@ public class ArrGenerator : MonoBehaviour
         single.roomID = name + "(" + pos.z + ", " + pos.x + ")";
         single.centerPos = pos;
         //single.validRoom = true;
+        single.isVisited = false;
 
         if (DungeonManeger.Instance.RoomList.Count > 0)
         {

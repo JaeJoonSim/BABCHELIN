@@ -15,4 +15,6 @@ public class RoomInfo
     public Vector3Int centerPos;
     // 号持失;
     //public bool validRoom;
+    //号 号庚 食採
+    public bool isVisited;
 }
