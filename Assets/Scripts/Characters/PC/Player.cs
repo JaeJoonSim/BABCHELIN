@@ -19,6 +19,7 @@ public class Player : MonoBehaviour
     private Rigidbody rb;
     private PlayerMovement playerMovement;
     private MeshRenderer meshRenderer;
+    public Collider playerTrigger;
 
     private void Start()
     {
@@ -37,24 +38,42 @@ public class Player : MonoBehaviour
 
     private void KnockBack(Collider other)
     {
-        Vector3 directionVector = transform.position  - other.transform.position;
+        Vector3 directionVector = transform.position - other.transform.position;
         Vector3 hitDirection = directionVector.normalized;
-        Enemy enemy;
-        enemy = other.gameObject.GetComponentInParent<Enemy>();
-        rb.AddForce(hitDirection * enemy.KnockBackForce, ForceMode.VelocityChange);
+        Enemy enemy = other.gameObject.GetComponentInParent<Enemy>();
 
-        playerMovement.StartCoroutine(playerMovement.KnockedBack(enemy.KnockbackDuration));
+        StartCoroutine(ApplyKnockBack(hitDirection, enemy.KnockBackForce, enemy.KnockbackDuration));
     }
 
     IEnumerator BlinkEffect()
     {
         float blinkInterval = 0.1f;
-        int blinkCount = 5;
+        int blinkCount = 3;
+
+        playerTrigger.enabled = false;
+
         for (int i = 0; i < blinkCount * 2; i++)
         {
             meshRenderer.enabled = !meshRenderer.enabled;
             yield return new WaitForSeconds(blinkInterval);
         }
         meshRenderer.enabled = true;
+        playerTrigger.enabled = true;
+    }
+
+    IEnumerator ApplyKnockBack(Vector3 hitDirection, float knockBackForce, float knockBackDuration)
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < knockBackDuration)
+        {
+            float deltaTime = Time.deltaTime;
+            elapsedTime += deltaTime;
+
+            Vector3 moveDirection = hitDirection * knockBackForce * deltaTime;
+            transform.position += moveDirection;
+
+            yield return null;
+        }
     }
 }

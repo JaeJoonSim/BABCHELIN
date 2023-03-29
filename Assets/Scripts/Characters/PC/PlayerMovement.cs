@@ -210,11 +210,4 @@ public class PlayerMovement : MonoBehaviour
         else
             anim.SetBool("isGround", false);
     }
-
-    public IEnumerator KnockedBack(float duration)
-    {
-        isKnockedBack = true;
-        yield return new WaitForSeconds(duration);
-        isKnockedBack = false;
-    }
 }

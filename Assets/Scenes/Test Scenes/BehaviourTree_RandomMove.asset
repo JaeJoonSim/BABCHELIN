@@ -16,15 +16,16 @@ MonoBehaviour:
     rid: 6896501539278159872
   nodes:
   - rid: 6896501539278159872
-  - rid: 6896501539278159873
   - rid: 6896501539278159874
   - rid: 6896501539278159875
   - rid: 6896501539278159876
   - rid: 6896501539278159877
+  - rid: 6896501543691091969
+  - rid: 6896501543691091974
   treeState: 0
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
-  viewPosition: {x: 381, y: 4, z: 0}
+  viewPosition: {x: 312, y: 29, z: 0}
   viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
   references:
     version: 2
@@ -41,22 +42,7 @@ MonoBehaviour:
         description: 
         drawGizmos: 0
         child:
-          rid: 6896501539278159873
-    - rid: 6896501539278159873
-      type: {class: Repeat, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 422d84b2ab50f1b44a5500255c51c505
-        position: {x: -0.00002002716, y: 109.844986}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-        child:
-          rid: 6896501539278159874
-        restartOnSuccess: 1
-        restartOnFailure: 0
+          rid: 6896501543691091974
     - rid: 6896501539278159874
       type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
       data:
@@ -78,7 +64,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 896e3b7592bd9dd4989c8a7db3746cc3
-        position: {x: -179.09503, y: 371}
+        position: {x: -74.99997, y: 360.655}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
         description: 
@@ -90,7 +76,7 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: a566cbed372e7db4a9b9dd44fd87e3ff
-        position: {x: 0, y: 371.00006}
+        position: {x: 103.99997, y: 360.655}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
         description: 
@@ -103,13 +89,44 @@ MonoBehaviour:
         state: 0
         started: 0
         guid: 2b991c4e79c5d824bb52acd937a8cc1b
-        position: {x: 177.00246, y: 371}
+        position: {x: 281, y: 360.655}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
         description: 
         drawGizmos: 0
         speed: 5
         stoppingDistance: 0.1
-        updateRotation: 1
+        updateRotation: 0
         acceleration: 40
         tolerance: 1
+    - rid: 6896501543691091969
+      type: {class: DetectionNode, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 9cec30fc5931f14498543f374f4b8a57
+        position: {x: -245.00002, y: 360.655}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 1
+        layer:
+          serializedVersion: 2
+          m_Bits: 512
+        detectionRadius: 5
+        isDetected: 0
+    - rid: 6896501543691091974
+      type: {class: Repeat, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 5115c98a7e0046c4b933a0104707d935
+        position: {x: 0, y: 106.937515}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+        description: 
+        drawGizmos: 0
+        child:
+          rid: 6896501539278159874
+        restartOnSuccess: 1
+        restartOnFailure: 0
