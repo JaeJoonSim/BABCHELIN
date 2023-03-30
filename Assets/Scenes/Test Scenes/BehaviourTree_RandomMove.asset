@@ -16,17 +16,27 @@ MonoBehaviour:
     rid: 6896501539278159872
   nodes:
   - rid: 6896501539278159872
-  - rid: 6896501539278159874
-  - rid: 6896501539278159875
-  - rid: 6896501539278159876
-  - rid: 6896501539278159877
-  - rid: 6896501543691091969
   - rid: 6896501543691091974
+  - rid: 6896501551400222726
+  - rid: 6896501551400222729
+  - rid: 6896501551400222730
+  - rid: 6896501551400222731
+  - rid: 6896501551400222732
+  - rid: 6896501551400222736
+  - rid: 6896501551400222737
+  - rid: 6896501551400222738
+  - rid: 6896501551400222739
+  - rid: 6896501551400222740
+  - rid: 6896501551400222742
+  - rid: 6896501551400222743
+  - rid: 6896501551400222744
   treeState: 0
   blackboard:
     moveToPosition: {x: 0, y: 0, z: 0}
-  viewPosition: {x: 312, y: 29, z: 0}
-  viewScale: {x: 0.7561437, y: 0.7561437, z: 1}
+    target: {fileID: 0}
+    isDetected: 0
+  viewPosition: {x: 533, y: -289, z: 0}
+  viewScale: {x: 1, y: 1, z: 1}
   references:
     version: 2
     RefIds:
@@ -39,82 +49,12 @@ MonoBehaviour:
         position: {x: 0, y: 0}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
         description: 
         drawGizmos: 0
         child:
           rid: 6896501543691091974
-    - rid: 6896501539278159874
-      type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 8306611f90ba1f045a8c5174ba86b5e4
-        position: {x: -0.000020503998, y: 226.52252}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-        children:
-        - rid: 6896501539278159875
-        - rid: 6896501539278159876
-        - rid: 6896501539278159877
-    - rid: 6896501539278159875
-      type: {class: Wait, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 896e3b7592bd9dd4989c8a7db3746cc3
-        position: {x: -74.99997, y: 360.655}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-        duration: 1
-    - rid: 6896501539278159876
-      type: {class: RandomPosition, ns: , asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: a566cbed372e7db4a9b9dd44fd87e3ff
-        position: {x: 103.99997, y: 360.655}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-        min: {x: -10, y: -10}
-        max: {x: 10, y: 10}
-    - rid: 6896501539278159877
-      type: {class: MoveToPosition, ns: , asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 2b991c4e79c5d824bb52acd937a8cc1b
-        position: {x: 281, y: 360.655}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 0
-        speed: 5
-        stoppingDistance: 0.1
-        updateRotation: 0
-        acceleration: 40
-        tolerance: 1
-    - rid: 6896501543691091969
-      type: {class: DetectionNode, ns: , asm: Assembly-CSharp}
-      data:
-        state: 0
-        started: 0
-        guid: 9cec30fc5931f14498543f374f4b8a57
-        position: {x: -245.00002, y: 360.655}
-        blackboard:
-          moveToPosition: {x: 0, y: 0, z: 0}
-        description: 
-        drawGizmos: 1
-        layer:
-          serializedVersion: 2
-          m_Bits: 512
-        detectionRadius: 5
-        isDetected: 0
     - rid: 6896501543691091974
       type: {class: Repeat, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
       data:
@@ -124,9 +64,221 @@ MonoBehaviour:
         position: {x: 0, y: 106.937515}
         blackboard:
           moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
         description: 
         drawGizmos: 0
         child:
-          rid: 6896501539278159874
+          rid: 6896501551400222726
         restartOnSuccess: 1
         restartOnFailure: 0
+    - rid: 6896501551400222726
+      type: {class: Selector, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 2113546a875e8eb43a12a005d77bc9b6
+        position: {x: 0, y: 249}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        children:
+        - rid: 6896501551400222740
+        - rid: 6896501551400222736
+        - rid: 6896501551400222729
+    - rid: 6896501551400222729
+      type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: bb15b3ddaa2e4b3468443e0ab5521e74
+        position: {x: 603.95996, y: 403}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: Random Position Patrol
+        drawGizmos: 0
+        children:
+        - rid: 6896501551400222730
+        - rid: 6896501551400222731
+        - rid: 6896501551400222732
+    - rid: 6896501551400222730
+      type: {class: Wait, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 21a451ba38c52aa47bc91acfc1677ad7
+        position: {x: 400.95996, y: 546}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        duration: 1
+    - rid: 6896501551400222731
+      type: {class: RandomPosition, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 8d17ced59a639534b89d421e8add7ef1
+        position: {x: 563.95996, y: 546}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        min: {x: -10, y: -10}
+        max: {x: 10, y: 10}
+    - rid: 6896501551400222732
+      type: {class: MoveToPosition, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: b8bb325f9e4fedb478b446a52cb3709a
+        position: {x: 753.95996, y: 546}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        speed: 5
+        stoppingDistance: 0.1
+        updateRotation: 0
+        acceleration: 40
+        tolerance: 1
+    - rid: 6896501551400222736
+      type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 263e4f333a2f34140b6105495cb85627
+        position: {x: 0, y: 397}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: "n\uC758 \uBC94\uC704 \uC548\uC5D0 \uB4E4\uC5B4\uC654\uC744\uB54C
+          Player\uC758 \uC704\uCE58\uB85C \uC774\uB3D9, \uB51C\uB808\uC774 1\uCD08"
+        drawGizmos: 0
+        children:
+        - rid: 6896501551400222737
+        - rid: 6896501551400222738
+        - rid: 6896501551400222739
+    - rid: 6896501551400222737
+      type: {class: DetectionNode, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: d2525ea5988c5b4488d992d71ad8112b
+        position: {x: -167, y: 559}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        detectionRadius: 5
+        targetLayer:
+          serializedVersion: 2
+          m_Bits: 512
+    - rid: 6896501551400222738
+      type: {class: MoveToPlayer, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 6e7b0f3779d774246b3ef2fd83a701bd
+        position: {x: 0, y: 559}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        speed: 5
+        stoppingDistance: 0.1
+        updateRotation: 0
+        acceleration: 40
+        tolerance: 1
+    - rid: 6896501551400222739
+      type: {class: Wait, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 2c17d5580f3069a40bd63face41bd37c
+        position: {x: 165, y: 559}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        duration: 1
+    - rid: 6896501551400222740
+      type: {class: Sequencer, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: b7dd5917b90d60c4ab64a9b2427863c9
+        position: {x: -613, y: 394}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: "n\uC758 \uBC94\uC704 \uC548\uC5D0 \uB4E4\uC5B4\uC654\uC744
+          \uB54C Attack, \uB51C\uB808\uC774 2\uCD08"
+        drawGizmos: 0
+        children:
+        - rid: 6896501551400222742
+        - rid: 6896501551400222744
+        - rid: 6896501551400222743
+    - rid: 6896501551400222742
+      type: {class: DetectionNode, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 546293a84840cf3419a81b7fd50ec7c2
+        position: {x: -779, y: 541}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        detectionRadius: 1.5
+        targetLayer:
+          serializedVersion: 2
+          m_Bits: 512
+    - rid: 6896501551400222743
+      type: {class: Wait, ns: BehaviourTreeSystem, asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: 88e76be323450f040b803d9cc015d10b
+        position: {x: -431, y: 541}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0
+        duration: 2
+    - rid: 6896501551400222744
+      type: {class: Attack, ns: , asm: Assembly-CSharp}
+      data:
+        state: 0
+        started: 0
+        guid: d89f5fc229693ac44907ace75f916741
+        position: {x: -613, y: 541}
+        blackboard:
+          moveToPosition: {x: 0, y: 0, z: 0}
+          target: {fileID: 0}
+          isDetected: 0
+        description: 
+        drawGizmos: 0

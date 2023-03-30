@@ -19,6 +19,7 @@ namespace BehaviourTreeSystem {
         public BoxCollider boxCollider;
         public CapsuleCollider capsuleCollider;
         public CharacterController characterController;
+        public Enemy enemy;
         // Add other game specific systems here
 
         public static Context CreateFromGameObject(GameObject gameObject) {
@@ -33,8 +34,7 @@ namespace BehaviourTreeSystem {
             context.boxCollider = gameObject.GetComponent<BoxCollider>();
             context.capsuleCollider = gameObject.GetComponent<CapsuleCollider>();
             context.characterController = gameObject.GetComponent<CharacterController>();
-            
-            // Add whatever else you need here...
+            context.enemy = gameObject.GetComponent<Enemy>();
 
             return context;
         }

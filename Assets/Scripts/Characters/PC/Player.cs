@@ -13,12 +13,15 @@ public class Player : MonoBehaviour
         {
             currentHp = value;
             StartCoroutine(BlinkEffect());
+            StartCoroutine(DisablePlayerTriggerForOffDamagedTime());
         }
     }
 
     private Rigidbody rb;
     private PlayerMovement playerMovement;
     private MeshRenderer meshRenderer;
+
+    public float offDamagedTime = 1.0f;
     public Collider playerTrigger;
 
     private void Start()
@@ -50,15 +53,12 @@ public class Player : MonoBehaviour
         float blinkInterval = 0.1f;
         int blinkCount = 3;
 
-        playerTrigger.enabled = false;
-
         for (int i = 0; i < blinkCount * 2; i++)
         {
             meshRenderer.enabled = !meshRenderer.enabled;
             yield return new WaitForSeconds(blinkInterval);
         }
         meshRenderer.enabled = true;
-        playerTrigger.enabled = true;
     }
 
     IEnumerator ApplyKnockBack(Vector3 hitDirection, float knockBackForce, float knockBackDuration)
@@ -75,5 +75,12 @@ public class Player : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    IEnumerator DisablePlayerTriggerForOffDamagedTime()
+    {
+        playerTrigger.enabled = false;
+        yield return new WaitForSeconds(offDamagedTime);
+        playerTrigger.enabled = true;
     }
 }

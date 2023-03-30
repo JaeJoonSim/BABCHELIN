@@ -6,13 +6,12 @@ using BehaviourTreeSystem;
 [System.Serializable]
 public class DetectionNode : ActionNode
 {
-    public LayerMask layer;
     public float detectionRadius;
-    public bool isDetected;
+    public LayerMask targetLayer;
 
     protected override void OnStart()
     {
-        isDetected = false;
+        blackboard.isDetected = false;
     }
 
     protected override void OnStop()
@@ -21,11 +20,11 @@ public class DetectionNode : ActionNode
 
     protected override State OnUpdate()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(context.transform.position, detectionRadius, layer);
+        Collider[] hitColliders = Physics.OverlapSphere(context.transform.position, detectionRadius, targetLayer);
         if (hitColliders.Length > 0)
         {
-            isDetected = true;
-            Debug.Log("°¨Áö");
+            blackboard.target = hitColliders[0].gameObject;
+            blackboard.isDetected = true;
             return State.Success;
         }
 

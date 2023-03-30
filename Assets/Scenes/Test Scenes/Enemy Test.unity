@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 23800000, guid: 01877b45fc2619d44bcc94e47dd23365, type: 2}
+--- !u!4 &543835530 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 467895058057717019, guid: e0b8da73350cb6141858f37cd630263e,
+    type: 3}
+  m_PrefabInstance: {fileID: 467895059800101570}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &951804392
 GameObject:
   m_ObjectHideFlags: 0
@@ -655,6 +661,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1886065005
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1886065007}
+  - component: {fileID: 1886065006}
+  m_Layer: 0
+  m_Name: Attack Trigger
+  m_TagString: Enemy
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!65 &1886065006
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886065005}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.4, y: 0.5004202, z: 0.3124661}
+  m_Center: {x: 0.33, y: 0.2497899, z: 0.1847548}
+--- !u!4 &1886065007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1886065005}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.171}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 543835530}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &467895059800101570
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -721,6 +772,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 467895058057717022, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: attackCollider
+      value: 
+      objectReference: {fileID: 1886065006}
+    - target: {fileID: 467895058463743472, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: m_Name
+      value: Body Trigger
+      objectReference: {fileID: 0}
+    - target: {fileID: 467895058463743478, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.688317
+      objectReference: {fileID: 0}
+    - target: {fileID: 467895058463743478, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.0101778805
+      objectReference: {fileID: 0}
+    - target: {fileID: 467895058463743478, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8796734260064024322, guid: e0b8da73350cb6141858f37cd630263e,
         type: 3}
