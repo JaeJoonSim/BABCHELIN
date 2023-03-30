@@ -14,6 +14,7 @@ public class Enemy : MonoBehaviour
         set
         {
             currentHp = value;
+            anim.SetTrigger("IsHit");
             Instantiate(damageText, damageTextCanvas);
         }
     }
@@ -83,7 +84,7 @@ public class Enemy : MonoBehaviour
             other.GetComponentInParent<Player>().CurrentHp -= damage;
         }
     }
-    
+
     private void CheckAnim()
     {
         if (anim.GetCurrentAnimatorStateInfo(0).IsName("attack") &&
