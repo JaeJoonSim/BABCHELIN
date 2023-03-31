@@ -45,7 +45,7 @@ public class MoveToPlayer : ActionNode
         {
             if (context.animator != null)
             {
-                context.animator.SetBool("IsMoving", false);
+                //context.animator.SetBool("IsMoving", false);
             }
 
             return State.Success;

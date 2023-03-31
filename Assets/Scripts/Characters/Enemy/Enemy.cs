@@ -16,8 +16,12 @@ public class Enemy : MonoBehaviour
             currentHp = value;
             anim.SetTrigger("IsHit");
             Instantiate(damageText, damageTextCanvas);
+            behaviourTree.enabled = false;
+            if (currentHp > 0)
+                StartCoroutine(EnableBehaviourTree());
         }
     }
+
     [SerializeField] private int damage;
 
     [Space]
@@ -49,12 +53,14 @@ public class Enemy : MonoBehaviour
 
     private Animator anim;
     private BehaviourTreeRunner behaviourTree;
+    private BoxCollider[] boxCollider;
     private bool isDie = false;
 
     private void Start()
     {
         anim = GetComponentInChildren<Animator>();
         behaviourTree = GetComponent<BehaviourTreeRunner>();
+        boxCollider = GetComponentsInChildren<BoxCollider>();
         attackCollider.enabled = false;
     }
 
@@ -72,6 +78,12 @@ public class Enemy : MonoBehaviour
     private void Die()
     {
         isDie = true;
+        for (int i = 0; i < boxCollider.Length; i++)
+        {
+            if (boxCollider[i] != null && boxCollider[i].isTrigger == true)
+                boxCollider[i].enabled = false;
+        }
+
         behaviourTree.enabled = false;
         anim.SetBool("IsDead", true);
         Destroy(gameObject, 3.0f);
@@ -96,5 +108,11 @@ public class Enemy : MonoBehaviour
         {
             attackCollider.enabled = false;
         }
+    }
+
+    private IEnumerator EnableBehaviourTree()
+    {
+        yield return new WaitForSeconds(anim.GetCurrentAnimatorStateInfo(0).length);
+        behaviourTree.enabled = true;
     }
 }
