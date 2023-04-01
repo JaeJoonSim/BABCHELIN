@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using TMPro;
 
 public class CookingScript : MonoBehaviour
 {
@@ -13,6 +14,7 @@ public class CookingScript : MonoBehaviour
 
     float openTime;
 
+    public TMP_Text TimeLimitText;
     public GameObject CarriageObj;
     CarriageScript carriageScript;
 
@@ -49,6 +51,7 @@ public class CookingScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        TimeLimitText.text = Mathf.Round(openTime).ToString();
         CookingTimeLimit();
         QWERImageSetting();
         PlayerInputKey();
