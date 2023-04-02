@@ -14,18 +14,49 @@ public class DungeonManeger : Singleton<DungeonManeger>
         new Vector3Int(0, 0, 1)       // right
     };
 
-    public Dictionary<int, List<Vector3Int>> downPatten = new Dictionary<int, List<Vector3Int>>
+    public Dictionary<int, List<Vector3Int>> upPatten = new Dictionary<int, List<Vector3Int>>
     {
-        {  0, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(-1, 0, 1),   new Vector3Int(0, 0, 2),   new Vector3Int(-1, 0, 2) } }, // ¤±
-        {  1, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(0, 0, 2),    new Vector3Int(-1, 0, 2)    } }, // ¦¯
-        {  2, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(0, 0, 2),    new Vector3Int(1, 0, 2)     } }, // ¦®
-        {  3, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(0, 0, 2)                                 } }, // ¾Æ·¡ |
-        {  4, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(-1, 0, 1)                                } }, // ¾Æ·¡ |
-        {  5, new List<Vector3Int>      { new Vector3Int(0, 0, 1),   new Vector3Int(1, 0, 1)                                 } }, // ¾Æ·¡ |
-        {  6, new List<Vector3Int>      { new Vector3Int(0, 0, 1)                                                            } }, // ¾Æ·¡ |
+        {  0, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-1, 0, 1),   new Vector3Int(-2, 0, 0),   new Vector3Int(-2, 0, 1) } }, // ¤±
+        {  1, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-2, 0, 0),   new Vector3Int(-2, 0, -1)   } }, // »ó»ó¿ì
+        {  2, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-2, 0, 0),   new Vector3Int(-2, 0, 1)    } }, // »ó»óÁÂ
+        {  3, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-2, 0, 0)                                } }, // »ó»ó
+        {  4, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-1, 0, 1)                                } }, // »ó¿ì
+        {  5, new List<Vector3Int>      { new Vector3Int(-1, 0, 0), new Vector3Int(-1, 0, -1)                               } }, // »óÁÂ
+        {  6, new List<Vector3Int>      { new Vector3Int(-1, 0, 0)                                                          } }, // »ó
     };
 
+    public Dictionary<int, List<Vector3Int>> downPatten = new Dictionary<int, List<Vector3Int>>
+    {
+        {  0, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(1, 0, -1),   new Vector3Int(2, 0, 0),    new Vector3Int(2, 0, -1) } }, // ¤±
+        {  1, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(2, 0, 0),    new Vector3Int(2, 0, -1)    } }, // ÇÏÇÏ¿ì
+        {  2, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(2, 0, 0),    new Vector3Int(2, 0, 1)     } }, // ÇÏÇÏÁÂ
+        {  3, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(2, 0, 0)                                 } }, // ÇÏÇÏ
+        {  4, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(1, 0, 1)                                 } }, // ÇÏ¿ì
+        {  5, new List<Vector3Int>      { new Vector3Int(1, 0, 0),  new Vector3Int(1, 0, -1)                                } }, // ÇÏÁÂ
+        {  6, new List<Vector3Int>      { new Vector3Int(1, 0, 0)                                                           } }, // ÇÏ
+    };
 
+    public Dictionary<int, List<Vector3Int>> leftPatten = new Dictionary<int, List<Vector3Int>>
+    {
+        {  0, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(-1, 0, -1),   new Vector3Int(0, 0, -2),  new Vector3Int(-2, 0, -2) } }, // ¤±
+        {  1, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(0, 0, -2),    new Vector3Int(-1, 0, -2)  } }, // ÁÂÁÂ»ó
+        {  2, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(0, 0, -2),    new Vector3Int(1, 0, -2)   } }, // ÁÂÁÂÇÏ
+        {  3, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(0, 0, -2)                                } }, // ÁÂÁÂ
+        {  4, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(-1, 0, -1)                               } }, // ÁÂ»ó
+        {  5, new List<Vector3Int>      { new Vector3Int(0, 0, -1), new Vector3Int(1, 0, -1)                                } }, // ÁÂÇÏ
+        {  6, new List<Vector3Int>      { new Vector3Int(0, 0, -1),                                                         } }, // ÁÂ .
+    };
+
+    public Dictionary<int, List<Vector3Int>> rightPatten = new Dictionary<int, List<Vector3Int>>
+    {
+        {  0, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(1, 0, 1),   new Vector3Int(0, 0, 2),      new Vector3Int(2, 0, 2) } }, // ¤±
+        {  1, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, 2),    new Vector3Int(-1, 0, 2)     } }, // ¿ì¿ì»ó
+        {  2, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, 2),    new Vector3Int(1, 0, 2)      } }, // ¿ì¿ìÇÏ
+        {  3, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(0, 0, 2)                                  } }, // ¿ì¿ì
+        {  4, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(-1, 0, 1)                                 } }, // ¿ì»ó
+        {  5, new List<Vector3Int>      { new Vector3Int(0, 0, 1), new Vector3Int(1, 0, 1)                                  } }, // ¿ìÇÏ
+        {  6, new List<Vector3Int>      { new Vector3Int(0, 0, 1),                                                          } }, // ¿ì
+    };
 
     // ÃÖ¼Ò ¹æ °¹¼ö
     [SerializeField]
