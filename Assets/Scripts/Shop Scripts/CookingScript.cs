@@ -29,6 +29,9 @@ public class CookingScript : MonoBehaviour
     int inputKeyNum;
     bool isSuccess;
 
+    public GameObject OrderPrefab;
+    public GameObject OrderGrid;
+    GameObject orderObject;
     //public GameObject RecipePrefab;
     //GameObject RecipePrefabObj;
 
@@ -70,11 +73,21 @@ public class CookingScript : MonoBehaviour
 
     void RecipeImageSetting()
     {
-        
-        for(int a = 0; a < RecipeObject.Length; a++)        //주문 레시피 개수만큼 루프
+        for (int a = 0; a < 5; a++)        //주문 레시피 개수만큼 루프
         {
             recipeNumArray[a] = Random.Range(0, carriageScript.FoodNumArray.Count);             //손님이 주문하는 것 랜덤으로 임시 구현. 손님 AI로 대체될 듯
-            RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[a]] + 1].UiDisplay;     //요리된 음식 아이템 데이터베이스의  recipeNum+1번째 아이템의 이미지 띄우기       //*미완성  완성요리 데이터베이스 작업 필요.  items -> FoodItem 식으로 바꿀 예정
+            //RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[a]] + 1].UiDisplay;     //요리된 음식 아이템 데이터베이스의  recipeNum+1번째 아이템의 이미지 띄우기       //*미완성  완성요리 데이터베이스 작업 필요.  items -> FoodItem 식으로 바꿀 예정
+
+            if (a == 0)
+            {
+                RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[a]] + 1].UiDisplay;     //요리된 음식 아이템 데이터베이스의  recipeNum+1번째 아이템의 이미지 띄우기       //*미완성  완성요리 데이터베이스 작업 필요.  items -> FoodItem 식으로 바꿀 예정
+            }
+            else
+            {
+                orderObject = Instantiate(OrderPrefab);
+                orderObject.transform.SetParent(OrderGrid.transform);
+                orderObject.transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[a]] + 1].UiDisplay;
+            }
         }
         
         nowRecipeNumArray = carriageScript.AbleRecipeNumArray[recipeNumArray[0]];
@@ -96,21 +109,31 @@ public class CookingScript : MonoBehaviour
         //}
     }
 
-    public void CookingComplete()
+    void CookingComplete()
     {
         //돈 올라가는 부분 작업 예정
 
-        for(int a = 0; a < 4; a++)
+        RecipeObject[0].transform.GetChild(0).GetComponent<Image>().sprite = OrderGrid.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite;
+
+        for (int a = 0; a < 3; a++)
         {
-            RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = RecipeObject[a + 1].transform.GetChild(0).GetComponent<Image>().sprite;
+            Debug.Log("이미지 변경");
+            OrderGrid.transform.GetChild(a).transform.GetChild(0).GetComponent<Image>().sprite = OrderGrid.transform.GetChild(a + 1).transform.GetChild(0).GetComponent<Image>().sprite;
+            //RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = RecipeObject[a + 1].transform.GetChild(0).GetComponent<Image>().sprite;
         }
         for(int a = 0; a < 4; a++)
         {
+            Debug.Log(recipeNumArray[a]);
             recipeNumArray[a] = recipeNumArray[a + 1];
         }
 
+        Destroy(OrderGrid.transform.GetChild(3).gameObject);
+        orderObject = Instantiate(OrderPrefab);
+        orderObject.transform.SetParent(OrderGrid.transform);
+
         recipeNumArray[4] = Random.Range(0, carriageScript.FoodNumArray.Count);
-        RecipeObject[4].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
+        OrderGrid.transform.GetChild(3).transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
+        //RecipeObject[4].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
 
 
         nowRecipeNumArray = carriageScript.AbleRecipeNumArray[recipeNumArray[0]];
@@ -187,7 +210,6 @@ public class CookingScript : MonoBehaviour
             // 정답 리스트를 모두 맞춘 경우
             if (inputKeyNum == nowRecipeNumArray.Length)
             {
-                Debug.Log("정답입니다.");
                 inputList.Clear(); // 플레이어 입력 리스트 초기화
                 inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
                 CookingComplete();
@@ -195,7 +217,6 @@ public class CookingScript : MonoBehaviour
         }
         else
         {
-            Debug.Log("틀렸습니다. 처음부터 다시 입력해주세요.");
             inputList.Clear(); // 플레이어 입력 리스트 초기화
             inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
         }
@@ -212,6 +233,11 @@ public class CookingScript : MonoBehaviour
             list[k] = list[n];
             list[n] = value;
         }
+    }
+
+    void RecipeTimeLimit()
+    {
+        
     }
 
 }
