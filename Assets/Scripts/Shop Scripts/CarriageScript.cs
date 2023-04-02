@@ -44,6 +44,7 @@ public class CarriageScript : MonoBehaviour
         OpenBtnColor = OpenBtn.colors;
         timeScript = Manager.GetComponent<TimeScript>();
         recipeScript = Manager.GetComponent<RecipeScript>();
+        gameObject.SetActive(false);
     }
 
     private void Update()

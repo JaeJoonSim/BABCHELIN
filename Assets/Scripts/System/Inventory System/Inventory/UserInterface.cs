@@ -5,8 +5,6 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.Events;
-using AmplifyShaderEditor;
-using static UnityEditor.Progress;
 
 public abstract class UserInterface : MonoBehaviour
 {

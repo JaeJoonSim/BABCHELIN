@@ -3636,7 +3636,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 904334824}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.9999968
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -6447,7 +6447,7 @@ MonoBehaviour:
   RecipeUI: {fileID: 2113795538}
   ingreIDArray: 
   FoodNumArray: 
-  RecipePrefab: {fileID: 5394599635528735411, guid: 7a7aa48d5a6f8df48a60b74b09a9a9fd,
+  RecipePrefab: {fileID: 5394599635528735411, guid: 12ff3268335bdcf45a9f2fdb6ba29f74,
     type: 3}
   RecipeContent: {fileID: 1258178580}
   CookingUI: {fileID: 1926167289}
@@ -8916,7 +8916,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 0.9999968}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -10833,7 +10833,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000058638093}
+  m_AnchoredPosition: {x: 0, y: -0.000018397912}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1053704934
@@ -20825,7 +20825,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1926167290
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20862,6 +20862,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   items: {fileID: 11400000, guid: f30b086e4fcfa99438735715bfa5d50c, type: 2}
+  TimeLimitText: {fileID: 476315144}
   CarriageObj: {fileID: 590414728}
   RecipeObject:
   - {fileID: 1324621161}
