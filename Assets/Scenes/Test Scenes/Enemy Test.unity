@@ -181,7 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9030570ddd19bc4b8517cfa33a4d704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
 --- !u!1 &951804392
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +624,7 @@ GameObject:
   - component: {fileID: 1283691221}
   - component: {fileID: 1283691220}
   - component: {fileID: 1283691219}
+  - component: {fileID: 1283691224}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -765,6 +765,24 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 45, y: 0, z: 0}
+--- !u!320 &1283691224
+PlayableDirector:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1283691218}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_PlayableAsset: {fileID: 11400000, guid: e9a78a9f044fae74ebbc59c56d292c24, type: 2}
+  m_InitialState: 1
+  m_WrapMode: 2
+  m_DirectorUpdateMode: 1
+  m_InitialTime: 0
+  m_SceneBindings: []
+  m_ExposedReferences:
+    m_References:
+    - ff51df41e4aab3e4aa0f1f6901667472: {fileID: 1636328211}
 --- !u!1 &1316674920
 GameObject:
   m_ObjectHideFlags: 3
@@ -1006,6 +1024,12 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!1 &1636328211 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 191556063279427047, guid: 143d622e77b786647b585309a091e814,
+    type: 3}
+  m_PrefabInstance: {fileID: 8467855553204577898}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1711291152
 GameObject:
   m_ObjectHideFlags: 0
@@ -1064,7 +1088,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9030570ddd19bc4b8517cfa33a4d704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
 --- !u!1001 &467895059800101570
 PrefabInstance:
   m_ObjectHideFlags: 0
