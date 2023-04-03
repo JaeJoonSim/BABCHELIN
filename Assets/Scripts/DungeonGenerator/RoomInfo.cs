@@ -14,7 +14,7 @@ public class RoomInfo
     // 泅犁 规狼 困摹
     public Vector3Int centerPos;
     // 规积己;
-    //public bool validRoom;
+    public bool validRoom;
     //规 规巩 咯何
     public bool isVisited;
 }
