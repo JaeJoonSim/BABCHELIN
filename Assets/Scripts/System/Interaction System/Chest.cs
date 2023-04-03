@@ -26,7 +26,7 @@ public class Chest : MonoBehaviour, Interactable
         if (!UIManagerScript.OnUI)
         {
             onInteraction.Invoke();
-            Debug.Log("OnInteracted with Chest");
+            Debug.Log($"{gameObject.name} : OnInteracted with Chest");
             UIManagerScript.OnUI = true;
         }
         return true;
