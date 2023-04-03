@@ -17,7 +17,7 @@ public class TimeScript : MonoBehaviour
     public float fadeTime = 1.0f; // 페이드인아웃 시간
     //private bool isFading = false;
 
-    public Image testimg;
+    //public Image testimg;
     float rotationSpeed = -0.5f; // 회전 속도
 
     public enum TIMESTATE { Afternoon, Night };
@@ -92,7 +92,7 @@ public class TimeScript : MonoBehaviour
 
     void RotateImage()
     {
-        testimg.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // 이미지 회전
+        //testimg.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // 이미지 회전
     }
 
     private IEnumerator FadeInOut(float startAlpha, float endAlpha)
