@@ -22,7 +22,8 @@ public class TimeScript : MonoBehaviour
 
     public enum TIMESTATE { Afternoon, Night };
 
-    public TIMESTATE timeState { get; set; }
+    [SerializeField] private TIMESTATE timeState;
+    public TIMESTATE TimeState { get; set; }
     public bool isNight;
 
     void Start()
@@ -35,11 +36,11 @@ public class TimeScript : MonoBehaviour
     void Update()
     {
         GameTime();
-        TimeState();
+        TimeStateFucn();
         RotateImage();
     }
 
-    void TimeState()
+    void TimeStateFucn()
     {
         if (7 <= timeHour && timeHour < 18)
         {
