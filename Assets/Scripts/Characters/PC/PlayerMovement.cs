@@ -117,7 +117,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMove()
     {
-        if(!UIManagerScript.OnUI)
+        if (!UIManagerScript.OnUI)
         {
             if (anim.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
                 moveDir = Vector3.zero;
