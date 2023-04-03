@@ -27,13 +27,16 @@ public class ConeDetection : MonoBehaviour
 
     private void Update()
     {
-        Vector3 mouseDirection = GetMouseDirection();
-        Debug.DrawRay(transform.position, mouseDirection * detectionDistance);
-        Debug.DrawRay(transform.position, Quaternion.AngleAxis(detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
-        Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
+        if (!UIManagerScript.OnUI)
+        {
+            Vector3 mouseDirection = GetMouseDirection();
+            Debug.DrawRay(transform.position, mouseDirection * detectionDistance);
+            Debug.DrawRay(transform.position, Quaternion.AngleAxis(detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
+            Debug.DrawRay(transform.position, Quaternion.AngleAxis(-detectionAngle / 2, Vector3.up) * mouseDirection * detectionDistance);
 
-        TargetDetection(mouseDirection);
-        PlayEffect(mouseDirection);
+            TargetDetection(mouseDirection);
+            PlayEffect(mouseDirection);
+        }
     }
 
     private void TargetDetection(Vector3 mouseDirection)
