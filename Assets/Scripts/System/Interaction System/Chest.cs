@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class Chest : MonoBehaviour, Interactable
 {
-
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
@@ -35,7 +34,6 @@ public class Chest : MonoBehaviour, Interactable
         {
             offInteraction.Invoke();
             Debug.Log("Close Chest");
-
         }
     }
 }

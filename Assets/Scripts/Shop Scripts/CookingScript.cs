@@ -35,6 +35,10 @@ public class CookingScript : MonoBehaviour
     //public GameObject RecipePrefab;
     //GameObject RecipePrefabObj;
 
+    public Slider timeGaugeBar;
+    private float maxOrderTime = 10f;
+    private float currentOrderTime;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -49,6 +53,9 @@ public class CookingScript : MonoBehaviour
         RecipeImageSetting();
 
         QWERNumSetting();
+
+        timeGaugeBar.maxValue = maxOrderTime;
+        //currentOrderTime = maxOrderTime;
     }
 
     // Update is called once per frame
@@ -58,6 +65,7 @@ public class CookingScript : MonoBehaviour
         CookingTimeLimit();
         QWERImageSetting();
         PlayerInputKey();
+        RecipeTimeLimit();
     }
 
     void CookingTimeLimit()
@@ -111,7 +119,11 @@ public class CookingScript : MonoBehaviour
 
     void CookingComplete()
     {
-        //돈 올라가는 부분 작업 예정
+        if(isSuccess)
+        {
+            //돈 올라가는 부분 작업 예정
+            MoneyScript.moneyGold += 1000;
+        }
 
         RecipeObject[0].transform.GetChild(0).GetComponent<Image>().sprite = OrderGrid.transform.GetChild(0).transform.GetChild(0).GetComponent<Image>().sprite;
 
@@ -131,8 +143,10 @@ public class CookingScript : MonoBehaviour
         orderObject = Instantiate(OrderPrefab);
         orderObject.transform.SetParent(OrderGrid.transform);
 
+        Debug.Log("이미지 생성");
         recipeNumArray[4] = Random.Range(0, carriageScript.FoodNumArray.Count);
-        OrderGrid.transform.GetChild(3).transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
+        orderObject.transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
+        //OrderGrid.transform.GetChild(3).transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
         //RecipeObject[4].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
 
 
@@ -143,6 +157,8 @@ public class CookingScript : MonoBehaviour
         }
 
         Shuffle(QWERImageNum);
+
+        timeGaugeBar.value = maxOrderTime;
     }
 
     void QWERNumSetting()
@@ -210,6 +226,7 @@ public class CookingScript : MonoBehaviour
             // 정답 리스트를 모두 맞춘 경우
             if (inputKeyNum == nowRecipeNumArray.Length)
             {
+                isSuccess = true;
                 inputList.Clear(); // 플레이어 입력 리스트 초기화
                 inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
                 CookingComplete();
@@ -237,7 +254,16 @@ public class CookingScript : MonoBehaviour
 
     void RecipeTimeLimit()
     {
-        
+        if (timeGaugeBar.value > 0)
+        {
+            //currentOrderTime -= Time.deltaTime;
+            timeGaugeBar.value -= Time.deltaTime;
+        }
+        else
+        {
+            isSuccess = false;
+            CookingComplete();
+        }
     }
 
 }
