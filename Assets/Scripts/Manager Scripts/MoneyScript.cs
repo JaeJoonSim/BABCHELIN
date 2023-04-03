@@ -17,7 +17,7 @@ public class MoneyScript : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        DontDestroyOnLoad(this);
+        //DontDestroyOnLoad(this);
         moneyGold = 1000;   //테스트용 기본 재화 지급
         carriageCoin = 1000;
         exchangeRate = 1050;
