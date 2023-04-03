@@ -6,6 +6,8 @@ public class ArrGenerator : MonoBehaviour
 {
     public void CreatedRoom()
     {
+        int count = 0;
+
         DungeonManeger.Instance.CurRoomCount = 0;
         //시작방 랜덤 위치(시작 방 주변으로 방생성하기 위해 랜덤)
         int x = Random.Range(0, DungeonManeger.Instance.MaxDistance * 2);
@@ -21,8 +23,10 @@ public class ArrGenerator : MonoBehaviour
 
         DungeonManeger.Instance.CurRoomCount++;
 
-        while (true)
+        while (count < 100)
         {
+            count++;
+            //Debug.Log(count);
             if (!(DungeonManeger.Instance.MaxRoomCont <= DungeonManeger.Instance.CurRoomCount))
             {
                 //랜덤 좌표 추출
