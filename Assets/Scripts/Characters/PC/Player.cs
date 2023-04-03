@@ -12,22 +12,24 @@ public class Player : MonoBehaviour
         set
         {
             currentHp = value;
-            StartCoroutine(BlinkEffect());
-            StartCoroutine(DisablePlayerTriggerForOffDamagedTime());
+            Debug.Log("Ãæµ¹ Player");
+            if (playerTrigger.enabled)
+            {
+                StartCoroutine(BlinkEffect());
+                KnockBack(enemyCollider);
+                StartCoroutine(DisablePlayerTriggerForOffDamagedTime());
+            }
         }
     }
 
-    private Rigidbody rb;
-    private PlayerMovement playerMovement;
     private MeshRenderer meshRenderer;
+    private Collider enemyCollider;
 
     public float offDamagedTime = 1.0f;
     public Collider playerTrigger;
 
     private void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        playerMovement = GetComponent<PlayerMovement>();
         meshRenderer = GetComponent<MeshRenderer>();
     }
 
@@ -35,17 +37,21 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            KnockBack(other);
+            enemyCollider = other;
+            
         }
     }
 
     private void KnockBack(Collider other)
     {
-        Vector3 directionVector = transform.position - other.transform.position;
-        Vector3 hitDirection = directionVector.normalized;
-        Enemy enemy = other.gameObject.GetComponentInParent<Enemy>();
+        if (playerTrigger.enabled && other != null)
+        {
+            Vector3 directionVector = transform.position - other.transform.position;
+            Vector3 hitDirection = directionVector.normalized;
+            Enemy enemy = other.gameObject.GetComponentInParent<Enemy>();
 
-        StartCoroutine(ApplyKnockBack(hitDirection, enemy.KnockBackForce, enemy.KnockbackDuration));
+            StartCoroutine(ApplyKnockBack(hitDirection, enemy.KnockBackForce, enemy.KnockbackDuration));
+        }
     }
 
     IEnumerator BlinkEffect()
@@ -71,6 +77,7 @@ public class Player : MonoBehaviour
             elapsedTime += deltaTime;
 
             Vector3 moveDirection = hitDirection * knockBackForce * deltaTime;
+            moveDirection.y = 0f;
             transform.position += moveDirection;
 
             yield return null;
