@@ -6,7 +6,6 @@ using UnityEngine.InputSystem;
 
 public class Chest : MonoBehaviour, Interactable
 {
-
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
@@ -24,8 +23,12 @@ public class Chest : MonoBehaviour, Interactable
 
     public bool OnInteract(Interactor interactor)
     {
-        onInteraction.Invoke();
-        Debug.Log("OnInteracted with Chest");
+        if (!UIManagerScript.OnUI)
+        {
+            onInteraction.Invoke();
+            Debug.Log("OnInteracted with Chest");
+            UIManagerScript.OnUI = true;
+        }
         return true;
     }
 
@@ -35,7 +38,7 @@ public class Chest : MonoBehaviour, Interactable
         {
             offInteraction.Invoke();
             Debug.Log("Close Chest");
-
+            UIManagerScript.OnUI = false;
         }
     }
 }

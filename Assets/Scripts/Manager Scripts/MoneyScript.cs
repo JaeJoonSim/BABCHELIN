@@ -11,14 +11,15 @@ public class MoneyScript : MonoBehaviour
     public int exchangeRate;               //환율
     public Image arrow;
     public int[] rateList;               //환율 변화 저장용
-    public TMP_Text goldText;
+    public TMP_Text moneyGoldText;
+    public TMP_Text carriageCoinText;
 
     // Start is called before the first frame update
     void Awake()
     {
         DontDestroyOnLoad(this);
         moneyGold = 1000;   //테스트용 기본 재화 지급
-        carriageCoin = 100;
+        carriageCoin = 1000;
         exchangeRate = 1050;
 
         InvokeRepeating("ExchangeRateFluctuations", 5f, 5f);    //테스트용 5초마다 환율 변동
@@ -32,7 +33,8 @@ public class MoneyScript : MonoBehaviour
             moneyGold = 999999999;
         }
 
-        goldText.text = moneyGold.ToString();
+        moneyGoldText.text = moneyGold.ToString();
+        carriageCoinText.text = carriageCoin.ToString();
     }
 
     void ExchangeRateFluctuations() //환율 변동 함수

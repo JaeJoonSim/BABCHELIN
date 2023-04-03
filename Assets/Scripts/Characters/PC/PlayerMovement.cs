@@ -117,21 +117,24 @@ public class PlayerMovement : MonoBehaviour
 
     private void PlayerMove()
     {
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
-            moveDir = Vector3.zero;
-
-        if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fall"))
-            moveDir /= 10;
-
-        if (moveDir != Vector3.zero)
+        if (!UIManagerScript.OnUI)
         {
-            if (pcWRTrigger)
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Landing"))
+                moveDir = Vector3.zero;
+
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Fall"))
+                moveDir /= 10;
+
+            if (moveDir != Vector3.zero)
             {
-                rb.MovePosition(transform.position + moveDir * pcWalkMSpd * Time.deltaTime);
-            }
-            else
-            {
-                rb.MovePosition(transform.position + moveDir * pcRunMSpd * Time.deltaTime);
+                if (pcWRTrigger)
+                {
+                    rb.MovePosition(transform.position + moveDir * pcWalkMSpd * Time.deltaTime);
+                }
+                else
+                {
+                    rb.MovePosition(transform.position + moveDir * pcRunMSpd * Time.deltaTime);
+                }
             }
         }
     }
