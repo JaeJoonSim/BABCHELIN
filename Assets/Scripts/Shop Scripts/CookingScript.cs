@@ -234,6 +234,7 @@ public class CookingScript : MonoBehaviour
         }
         else
         {
+            timeGaugeBar.value -= 2;
             inputList.Clear(); // 플레이어 입력 리스트 초기화
             inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
         }
