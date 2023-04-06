@@ -18,7 +18,7 @@ public class TimeScript : MonoBehaviour
     //private bool isFading = false;
 
     //public Image testimg;
-    float rotationSpeed = -0.5f; // 회전 속도
+    //float rotationSpeed = -0.5f; // 회전 속도
 
     public enum TIMESTATE { Afternoon, Night };
 
