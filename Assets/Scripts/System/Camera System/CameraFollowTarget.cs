@@ -163,7 +163,7 @@ public class CameraFollowTarget : MonoBehaviour
     {
         IN_CONVERSATION = false;
 
-        CamWobbleSettings = 1f;
+        CamWobbleSettings = 0f;
 
     }
 
