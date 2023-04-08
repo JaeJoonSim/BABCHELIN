@@ -15,6 +15,8 @@ public class StateMachine : MonoBehaviour
         HitRight = 7,
         HitRecover = 8,
         CustomAnimation = 9,
+        GameOver = 10,
+        FinalGameOver = 11
     }
 
     public delegate void StateChange(State NewState, State PrevState);
