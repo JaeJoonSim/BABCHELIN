@@ -19,7 +19,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         public AnimationReferenceAsset DefaultAnimation;
 
         public AnimationReferenceAsset Animation;
-
         public AnimationReferenceAsset AddAnimation;
 
         public bool DisableMixDuration;
@@ -40,6 +39,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
     public AnimationReferenceAsset Idle;
     public AnimationReferenceAsset Moving;
+    public AnimationReferenceAsset Dodge;
 
     private TrackEntry Track;
     private StateMachine.State cs;
@@ -221,6 +221,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 break;
             case StateMachine.State.Moving:
                 anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                break;
+            case StateMachine.State.Dodging:
+                anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
+                break;
+            default:
+                if (Idle != null && anim.AnimationState != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                }
                 break;
         }
 

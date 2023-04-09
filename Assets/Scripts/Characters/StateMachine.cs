@@ -16,7 +16,9 @@ public class StateMachine : MonoBehaviour
         HitRecover = 8,
         CustomAnimation = 9,
         GameOver = 10,
-        FinalGameOver = 11
+        FinalGameOver = 11,
+        Dieing = 12,
+        Dead = 13,
     }
 
     public delegate void StateChange(State NewState, State PrevState);
@@ -46,7 +48,7 @@ public class StateMachine : MonoBehaviour
                 currentState = value;
                 if (IsPlayer)
                 {
-                    //Debug.Log(value);
+                    Debug.Log(value);
                 }
             }
         }

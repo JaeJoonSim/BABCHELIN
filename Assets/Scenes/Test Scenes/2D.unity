@@ -510,6 +510,7 @@ GameObject:
   - component: {fileID: 278565349}
   - component: {fileID: 278565352}
   - component: {fileID: 278565353}
+  - component: {fileID: 278565357}
   - component: {fileID: 278565355}
   - component: {fileID: 278565356}
   m_Layer: 0
@@ -587,7 +588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 0
+  IsPlayer: 1
   currentState: 0
   facingAngle: 0
   LookAngle: 0
@@ -612,6 +613,11 @@ MonoBehaviour:
   speed: 0
   xDir: 0
   yDir: 0
+  DodgeTimer: 0
+  DodgeSpeed: 5
+  DodgeDuration: 0.6
+  DodgeMaxDuration: 0.6
+  DodgeDelay: 2
 --- !u!114 &278565355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -646,6 +652,32 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
+--- !u!114 &278565357
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278565348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 775a433098686974eb6e49d8e7135bf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraBone: {fileID: 1478524019}
+  DodgeDelay: 0
+  _state: {fileID: 0}
+  Spine: {fileID: 1879063479}
+  simpleSpineAnimator: {fileID: 0}
+  originalMaterial: {fileID: 0}
+  BW_Material: {fileID: 0}
+  circleCollider2D: {fileID: 0}
+  GoToAndStopping: 0
+  IdleOnEnd: 0
+  LookToObject: {fileID: 0}
+  HoldingAttack: 0
+  DodgeQueued: 0
+  AllowDodging: 1
 --- !u!1 &278854820
 GameObject:
   m_ObjectHideFlags: 0
@@ -3634,6 +3666,7 @@ MonoBehaviour:
   Animations: []
   Idle: {fileID: 11400000, guid: 5cb1c20efae9e5748a6306e97c786cc8, type: 2}
   Moving: {fileID: 11400000, guid: 6d89242300e0c204197f3589f69028af, type: 2}
+  Dodge: {fileID: 11400000, guid: 6f09088c87d6dd142968642e8770610b, type: 2}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0

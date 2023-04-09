@@ -11,14 +11,24 @@ public class PlayerController : BaseMonoBehaviour
 
     public Transform SpineTransform;
 
+    [Header("이동")]
     [HideInInspector] public float defaultRunSpeed = 5.5f;
     public float runSpeed = 5.5f;
     public static float MinInputForMovement = 0.3f;
 
+    [Header("이동 체크")]
     public float forceDir;
     public float speed;
     public float xDir;
     public float yDir;
+
+    [Space, Header("구르기")]
+    public float DodgeTimer;
+    public float DodgeSpeed = 12f;
+    public float DodgeDuration = 0.3f;
+    public float DodgeMaxDuration = 0.5f;
+    public float DodgeDelay = 0.3f;
+    private float DodgeCollisionDelay;
 
     private float VZ;
     private float Z;
@@ -59,6 +69,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Moving;
                 }
                 break;
+                
             case StateMachine.State.Moving:
                 if (Time.timeScale == 0f)
                 {
@@ -77,7 +88,35 @@ public class PlayerController : BaseMonoBehaviour
                 state.LookAngle = state.facingAngle;
                 speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
                 break;
+
+            case StateMachine.State.Dodging:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                forceDir = state.facingAngle;
+                if (DodgeCollisionDelay < 0f)
+                {
+                    speed = Mathf.Lerp(speed, DodgeSpeed, 2f * Time.deltaTime);
+                }
+                DodgeCollisionDelay -= Time.deltaTime;
+                DodgeTimer += Time.deltaTime;
+                if (DodgeTimer < 0.1f && (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement))
+                {
+                    state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
+                }
+                if ((!Input.GetKey(KeyCode.LeftShift) && DodgeTimer > DodgeDuration) || DodgeTimer > DodgeMaxDuration)
+                {
+                    DodgeTimer = 0f;
+                    DodgeCollisionDelay = 0f;
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+                break;
         }
 
+    }
+
+    private IEnumerator Delay(float delay, Action callback)
+    {
+        yield return new WaitForSeconds(delay);
+        callback?.Invoke();
     }
 }
