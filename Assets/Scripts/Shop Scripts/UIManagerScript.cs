@@ -22,11 +22,11 @@ public class UIManagerScript : MonoBehaviour
     {
         if(OnUI)
         {
-            PlayerPrefab.GetComponent<PlayerMovement>().enabled = false;
+            //PlayerPrefab.GetComponent<PlayerMovement>().enabled = false;
         }
         else
         {
-            PlayerPrefab.GetComponent<PlayerMovement>().enabled = true;
+            //PlayerPrefab.GetComponent<PlayerMovement>().enabled = true;
         }
     }
 

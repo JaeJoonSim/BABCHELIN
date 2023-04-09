@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,4 +29,13 @@ public class Utils : MonoBehaviour
         }
     }
 
+    public static float GetAngle(Vector3 fromPosition, Vector3 toPosition)
+    {
+        return Mathf.Repeat(Mathf.Atan2(toPosition.y - fromPosition.y, toPosition.x - fromPosition.x) * 57.29578f, 360f);
+    }
+
+    public static float GetAngleR(Vector3 fromPosition, Vector3 toPosition)
+    {
+        return Mathf.Repeat(Mathf.Atan2(toPosition.y - fromPosition.y, toPosition.x - fromPosition.x), (float)Math.PI * 2f);
+    }
 }
