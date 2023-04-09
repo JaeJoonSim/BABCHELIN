@@ -46,7 +46,7 @@ public class StateMachine : MonoBehaviour
                 currentState = value;
                 if (IsPlayer)
                 {
-                    Debug.Log(value);
+                    //Debug.Log(value);
                 }
             }
         }
