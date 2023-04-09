@@ -509,6 +509,9 @@ GameObject:
   - component: {fileID: 278565350}
   - component: {fileID: 278565349}
   - component: {fileID: 278565352}
+  - component: {fileID: 278565353}
+  - component: {fileID: 278565355}
+  - component: {fileID: 278565356}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -590,6 +593,59 @@ MonoBehaviour:
   LookAngle: 0
   isDefending: 0
   Timer: 0
+--- !u!114 &278565353
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278565348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3877b2dd243ca7b41b51c4c0e79876b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SpineTransform: {fileID: 1879063478}
+  defaultRunSpeed: 5.5
+  runSpeed: 3
+  forceDir: 0
+  speed: 0
+  xDir: 0
+  yDir: 0
+--- !u!114 &278565355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278565348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 040209aa6d4ddda41b73b5f5a9a2dffa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vx: 0
+  vy: 0
+  moveVX: 0
+  moveVY: 0
+  speed: 0
+  maxSpeed: 0.05
+  SpeedMultiplier: 1
+--- !u!114 &278565356
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278565348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e741851cba3ad425c91ecf922cc6b379, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _data:
+    _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
+    _objectReferences: []
 --- !u!1 &278854820
 GameObject:
   m_ObjectHideFlags: 0
