@@ -62,7 +62,16 @@ public class Health : BaseMonoBehaviour
     [SerializeField] public float _totalHP = 1f;
     [SerializeField] public float _HP;
 
+    public bool untouchable;
+    public bool invincible;
     public bool isPlayer;
+
+    public float DamageModifier = 1f;
+    public float MeleeAttackVulnerability = 1f;
+
+    public bool ScreenshakeOnHit = true;
+    public bool ScreenshakeOnDie = true;
+    public float ScreenShakeOnDieIntensity = 2f;
 
     public virtual float totalHP
     {
@@ -86,6 +95,7 @@ public class Health : BaseMonoBehaviour
     public event HitAction OnHitEarly;
     public event HealthEvent OnDamaged;
     public event StasisEvent OnStasisCleared;
+    [HideInInspector] public DealDamageEvent damageEventQueue;
     #endregion
 
     #region List
@@ -130,30 +140,77 @@ public class Health : BaseMonoBehaviour
         allUnits.Remove(this);
     }
 
-    // Late DO...
-    public static void DamageAllEnemies(float damage)
+    public virtual bool DealDamage(float Damage, GameObject Attacker, Vector3 AttackLocation, bool BreakBlocking = false, AttackTypes AttackType = AttackTypes.Melee, bool dealDamageImmediately = false, AttackFlags AttackFlags = (AttackFlags)0)
     {
-
-    }
-
-    //public virtual bool DealDamage(float Damage, GameObject Attacker, Vector3 AttackLocation, bool BreakBlocking = false, AttackTypes AttackType = AttackTypes.Melee, bool dealDamageImmediately = false, AttackFlags AttackFlags = (AttackFlags)0)
-    //{
-    //    if(!base.enabled)
-    //    {
-    //        return false;
-    //    }
-    //    if(state != null && dealDamageImmediately && (state.CURRENT_STATE == StateMachine.State.Dodging || state.CURRENT_STATE == StateMachine.State.InActive))
-    //    {
-    //        return false;
-    //    }
-    //    if(isPlayer && (state.CURRENT_STATE == StateMachine.State.CustomAnimation))
-    //    {
-    //        return false;
-    //    }
-    //    if(Attacker != null)
-    //    {
-    //        Velocity = AttackLocation - Attacker.transform.position;
-    //    }
+        if (!base.enabled)
+        {
+            return false;
+        }
+        if (invincible)
+        {
+            return false;
+        }
+        if (untouchable)
+        {
+            return false;
+        }
+        if (state != null && !dealDamageImmediately && (state.CURRENT_STATE == StateMachine.State.Dodging || state.CURRENT_STATE == StateMachine.State.InActive))
+        {
+            return false;
+        }
+        if (Attacker == base.gameObject)
+        {
+            return false;
+        }
+        if (isPlayer && (state.CURRENT_STATE == StateMachine.State.CustomAnimation || PlayerAction.Instance.GoToAndStopping))
+        {
+            return false;
+        }
+        if (Attacker != null)
+        {
+            Velocity = AttackLocation - Attacker.transform.position;
+        }
+        if (isPlayer)
+        {
+            if (dealDamageImmediately)
+            {
+                damageEventQueue = null;
+            }
+            if (!dealDamageImmediately)
+            {
+                if (damageEventQueue == null)
+                {
+                    damageEventQueue = new DealDamageEvent(Time.unscaledTime, Damage, Attacker, AttackLocation, BreakBlocking, AttackType);
+                    return true;
+                }
+                return false;
+            }
+        }
+        if (this.OnHitEarly != null)
+        {
+            this.OnHitEarly(Attacker, AttackLocation, AttackType);
+        }
+        this.OnDamaged?.Invoke(Attacker, AttackLocation, Damage);
+        Damage *= DamageModifier;
+        if (AttackType == AttackTypes.Melee)
+        {
+            Damage *= MeleeAttackVulnerability;
+        }
+        float angle = Utils.GetAngle(base.transform.position, AttackLocation);
         
-    //}
+        
+        if (Damage > 0f)
+        {
+            HP -= Damage;
+        }
+        
+        HP = Mathf.Clamp(HP, 0f, float.MaxValue);
+        
+        if (ScreenshakeOnHit && !(ScreenshakeOnDie))
+        {
+            CameraManager.shakeCamera(ScreenShakeOnDieIntensity / 3f);
+        }
+        
+        return true;
+    }
 }

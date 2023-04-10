@@ -114,6 +114,11 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
+    private void OnHit()
+    {
+
+    }
+
     private IEnumerator Delay(float delay, Action callback)
     {
         yield return new WaitForSeconds(delay);
