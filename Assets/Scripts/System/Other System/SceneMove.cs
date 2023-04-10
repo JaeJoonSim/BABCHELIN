@@ -10,7 +10,7 @@ public class SceneMove : MonoBehaviour
     private string sceneName;
 
     // 콜라이더 접촉
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {

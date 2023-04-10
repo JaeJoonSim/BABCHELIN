@@ -20,8 +20,8 @@ public class DungeonGenerator : MonoBehaviour
         for (int i = 0; i < DungeonManeger.Instance.ValidRoomList.Count; i++)
         {
             Vector3 pos = new Vector3((DungeonManeger.Instance.ValidRoomList[i].centerPos.z - DungeonManeger.Instance.StartRoomPos.z) * 20 + distanceBetween,
-                                           0,
-                                           -(DungeonManeger.Instance.ValidRoomList[i].centerPos.x - DungeonManeger.Instance.StartRoomPos.x) * 20 + distanceBetween);
+                                           -(DungeonManeger.Instance.ValidRoomList[i].centerPos.x - DungeonManeger.Instance.StartRoomPos.x) * 20 + distanceBetween,
+                                           0);
             roomObj = Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             //Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             roomObj.name = DungeonManeger.Instance.ValidRoomList[i].roomID;
@@ -38,5 +38,6 @@ public class DungeonGenerator : MonoBehaviour
         setVcam.Vcam = vcam;
         setVcam.SetFollow();
 
+        DungeonManeger.Instance.MoveToOtherRoom(-1);
     }
 }

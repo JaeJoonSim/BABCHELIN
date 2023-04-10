@@ -7,6 +7,7 @@ public class RoomInfo
 {
     //룸 이름
     public string roomID;
+    public string name;
     //룸 오브젝트
     public GameObject roomObj;
     // 룸에 소속된 오브젝트 info
