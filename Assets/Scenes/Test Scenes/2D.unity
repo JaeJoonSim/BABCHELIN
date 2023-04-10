@@ -513,6 +513,7 @@ GameObject:
   - component: {fileID: 278565357}
   - component: {fileID: 278565355}
   - component: {fileID: 278565356}
+  - component: {fileID: 278565358}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -678,6 +679,35 @@ MonoBehaviour:
   HoldingAttack: 0
   DodgeQueued: 0
   AllowDodging: 1
+--- !u!114 &278565358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 278565348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8909664dc1875314f90dc7533df190dd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  state: {fileID: 0}
+  _totalHP: 10
+  _HP: 0
+  untouchable: 0
+  invincible: 0
+  isPlayer: 1
+  DamageModifier: 1
+  MeleeAttackVulnerability: 1
+  ScreenshakeOnHit: 1
+  ScreenshakeOnDie: 1
+  ScreenShakeOnDieIntensity: 2
+  OnHitCallback:
+    m_PersistentCalls:
+      m_Calls: []
+  OnDieCallback:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &278854820
 GameObject:
   m_ObjectHideFlags: 0
@@ -4145,6 +4175,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHp: 10
   currentHp: 10
+  meshRenderer: {fileID: 0}
+  enemyCollider: {fileID: 0}
   offDamagedTime: 1
   playerTrigger: {fileID: 8574111909331905608}
 --- !u!199 &240325917743301561
@@ -4233,11 +4265,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 3
   attackDelay: 1
+  lastAttackTime: 0
   attackEffect: {fileID: 3052315600707048707}
   detectionAngle: 90
   detectionDistance: 3
   detectionLayer:
-    serializedVersion: 2
     m_Bits: 256
   targetList: []
 --- !u!198 &3052315600707048707
