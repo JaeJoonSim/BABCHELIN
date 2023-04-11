@@ -1,3 +1,4 @@
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,7 +16,7 @@ public class ArrGenerator : MonoBehaviour
 
         DungeonManeger.Instance.StartRoomPos = new Vector3Int(z, 0, x);
         DungeonManeger.Instance.CurPcPos = DungeonManeger.Instance.StartRoomPos;
-        DungeonManeger.Instance.PosArr[DungeonManeger.Instance.StartRoomPos.z, DungeonManeger.Instance.StartRoomPos.x] 
+        DungeonManeger.Instance.PosArr[DungeonManeger.Instance.StartRoomPos.z, DungeonManeger.Instance.StartRoomPos.x]
             = AddSingleRoom(DungeonManeger.Instance.StartRoomPos, "Start");
 
         DungeonManeger.Instance.ValidRoomList.Add(
@@ -30,25 +31,26 @@ public class ArrGenerator : MonoBehaviour
             if (!(DungeonManeger.Instance.MaxRoomCont <= DungeonManeger.Instance.CurRoomCount))
             {
                 //·£´ý ÁÂÇ¥ ÃßÃâ
-                int randRoomIdx = Random.Range(0, DungeonManeger.Instance.ValidRoomList.Count-1);
+                int randRoomIdx = Random.Range(0, DungeonManeger.Instance.ValidRoomList.Count - 1);
                 MakeRoomArray(DungeonManeger.Instance.ValidRoomList[randRoomIdx].centerPos);
             }
             else
                 break;
         }
 
-        DungeonManeger.Instance.ValidRoomList[DungeonManeger.Instance.ValidRoomList.Count - 1].roomObj 
-            = DungeonManeger.Instance.RoomList[DungeonManeger.Instance.RoomList.Count - 1];
+        ChangeSingleRoom(DungeonManeger.Instance.ValidRoomList[DungeonManeger.Instance.ValidRoomList.Count - 1], "Boss");
+
     }
     private RoomInfo AddSingleRoom(Vector3Int pos, string name)
     {
         //¹æ ÃÊ±âÈ­
         RoomInfo single = new RoomInfo();
         single.roomID = name + "(" + pos.z + ", " + pos.x + ")";
+        single.name = name;
         single.centerPos = pos;
         single.validRoom = true;
         single.isVisited = false;
-
+        single.minimapObj = null;
         if (DungeonManeger.Instance.RoomList.Count > 0)
         {
             switch (name)
@@ -56,6 +58,7 @@ public class ArrGenerator : MonoBehaviour
                 case "Null":
                     single.roomObj = null;
                     single.validRoom = false;
+                    single.isVisited = true;
                     break;
                 case "Start":
                     single.roomObj = DungeonManeger.Instance.RoomList[0];
@@ -78,10 +81,32 @@ public class ArrGenerator : MonoBehaviour
         {
             single.child = single.roomObj.GetComponent<RoomChild>();
         }
-       
+
 
         return single;
     }
+
+    private void ChangeSingleRoom(RoomInfo value, string name)
+    {
+        value.name = name;
+        switch (name)
+        {
+            case "Null":
+                value.roomObj = null;
+                value.validRoom = false;
+                value.isVisited = true;
+                break;
+            case "Single":
+                value.roomObj = DungeonManeger.Instance.RoomList[1];
+                break;
+            case "Boss":
+                value.roomObj = DungeonManeger.Instance.RoomList[DungeonManeger.Instance.RoomList.Count - 1];
+                break;
+            default:
+                break;
+        }
+    }
+
     //·»´ý ¸Ê ¹è¿­ »ý¼º
     private void MakeRoomArray(Vector3Int start)
     {

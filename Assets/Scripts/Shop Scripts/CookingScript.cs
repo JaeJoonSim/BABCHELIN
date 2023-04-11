@@ -37,7 +37,9 @@ public class CookingScript : MonoBehaviour
 
     public Slider timeGaugeBar;
     private float maxOrderTime = 10f;
-    private float currentOrderTime;
+
+    bool isBlinking;
+    int blinkCount;
 
     // Start is called before the first frame update
     void Start()
@@ -55,7 +57,9 @@ public class CookingScript : MonoBehaviour
         QWERNumSetting();
 
         timeGaugeBar.maxValue = maxOrderTime;
-        //currentOrderTime = maxOrderTime;
+
+        isBlinking = false;
+        blinkCount = 0;
     }
 
     // Update is called once per frame
@@ -104,17 +108,6 @@ public class CookingScript : MonoBehaviour
         {
             RecipeObject[0].transform.GetChild(a + 1).GetComponent<Image>().sprite = items.Items[nowRecipeNumArray[a]].UiDisplay;
         }
-
-        //for (int a = 0; a < items.Items.Length; a++)    //재료 아이템 데이터베이스 ID 비교 후 레시피에 재료 이미지 띄우기
-        //{
-        //    for (int b = 0; b < 4; b++)
-        //    {
-        //        if (carriageScript.AbleRecipeNumArray[recipeNum][b] == items.Items[a].Data.ID)
-        //        {
-        //            RecipeObject[0].transform.GetChild(b).GetComponent<Image>().sprite = items.Items[a].UiDisplay;
-        //        }
-        //    }
-        //}
     }
 
     void CookingComplete()
@@ -131,7 +124,6 @@ public class CookingScript : MonoBehaviour
         {
             Debug.Log("이미지 변경");
             OrderGrid.transform.GetChild(a).transform.GetChild(0).GetComponent<Image>().sprite = OrderGrid.transform.GetChild(a + 1).transform.GetChild(0).GetComponent<Image>().sprite;
-            //RecipeObject[a].transform.GetChild(0).GetComponent<Image>().sprite = RecipeObject[a + 1].transform.GetChild(0).GetComponent<Image>().sprite;
         }
         for(int a = 0; a < 4; a++)
         {
@@ -146,8 +138,6 @@ public class CookingScript : MonoBehaviour
         Debug.Log("이미지 생성");
         recipeNumArray[4] = Random.Range(0, carriageScript.FoodNumArray.Count);
         orderObject.transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
-        //OrderGrid.transform.GetChild(3).transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
-        //RecipeObject[4].transform.GetChild(0).GetComponent<Image>().sprite = items.Items[carriageScript.FoodNumArray[recipeNumArray[4]] + 1].UiDisplay;
 
 
         nowRecipeNumArray = carriageScript.AbleRecipeNumArray[recipeNumArray[0]];
@@ -178,7 +168,7 @@ public class CookingScript : MonoBehaviour
         {
             if(QWERImageNum[a] == -1)
             {
-                RecipeKeyImgObject.transform.GetChild(a).GetComponent<Image>().color = new Color(0f, 0f, 0f, 40f);      //빈칸 채우기 소스 나오기 전 임시 코드
+                RecipeKeyImgObject.transform.GetChild(a).GetComponent<Image>().color = new Color(0f, 0f, 0f, 40f);      //빈칸 이미지 소스 나오기 전 임시 코드
             }
             else
             {
@@ -221,12 +211,14 @@ public class CookingScript : MonoBehaviour
     {
         if (nowRecipeNumArray[inputKeyNum] == inputList[inputKeyNum])
         {
+            RecipeObject[0].transform.GetChild(inputKeyNum + 1).GetChild(0).gameObject.SetActive(true);
             inputKeyNum++;
 
             // 정답 리스트를 모두 맞춘 경우
             if (inputKeyNum == nowRecipeNumArray.Length)
             {
                 isSuccess = true;
+                CheckImageReset(); // 체크 이미지 초기화
                 inputList.Clear(); // 플레이어 입력 리스트 초기화
                 inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
                 CookingComplete();
@@ -235,8 +227,19 @@ public class CookingScript : MonoBehaviour
         else
         {
             timeGaugeBar.value -= 2;
+            Shuffle(QWERImageNum);      //입력 이미지 섞기
+            InvokeRepeating("BlinkImage", 0.5f, 0.5f);      //이미지 깜빡
+            CheckImageReset();          //체크 이미지 초기화
             inputList.Clear(); // 플레이어 입력 리스트 초기화
             inputKeyNum = 0; // 현재 검사할 정답 리스트의 인덱스 초기화
+        }
+    }
+
+    void CheckImageReset()
+    {
+        for(int a = 0; a < 4; a++)
+        {
+            RecipeObject[0].transform.GetChild(a + 1).GetChild(0).gameObject.SetActive(false);
         }
     }
 
@@ -257,7 +260,6 @@ public class CookingScript : MonoBehaviour
     {
         if (timeGaugeBar.value > 0)
         {
-            //currentOrderTime -= Time.deltaTime;
             timeGaugeBar.value -= Time.deltaTime;
         }
         else
@@ -267,4 +269,25 @@ public class CookingScript : MonoBehaviour
         }
     }
 
+    void BlinkImage()       //이미지 깜빡거리는 함수
+    {
+        if (4 <= blinkCount) //4번 깜빡
+        {
+            CancelInvoke("BlinkImage");
+            blinkCount = 0;
+        }
+
+        isBlinking = !isBlinking; // 반전
+
+        if (!isBlinking)
+        {
+            RecipeObject[0].GetComponent<Image>().color = Color.red;
+        }
+        else
+        {
+            RecipeObject[0].GetComponent<Image>().color = Color.white;
+        }
+
+        blinkCount++;
+    }
 }

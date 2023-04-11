@@ -50,15 +50,15 @@ public class Interactor : MonoBehaviour
         set { intUI = value; }
     }
 
-    private readonly Collider[] _colliders = new Collider[10];
+    private readonly Collider2D[] _colliders = new Collider2D[10];
 
     private Interactable interactable;
 
     private void Update()
     {
-        numFound = Physics.OverlapSphereNonAlloc(intPoint.position, intRange, _colliders, intMask);
+        numFound = Physics2D.OverlapCircleNonAlloc(intPoint.position, intRange, _colliders, intMask);
 
-        if(numFound > 0)
+        if (numFound > 0)
         {
             interactable = _colliders[0].GetComponent<Interactable>();
 

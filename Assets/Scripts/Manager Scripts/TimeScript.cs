@@ -6,6 +6,7 @@ using TMPro;
 
 public class TimeScript : MonoBehaviour
 {
+
     public TMP_Text inGameTime;
     float time;
     public int timeHour;
@@ -18,7 +19,7 @@ public class TimeScript : MonoBehaviour
     //private bool isFading = false;
 
     //public Image testimg;
-    float rotationSpeed = -0.5f; // 회전 속도
+    //float rotationSpeed = -0.5f; // 회전 속도
 
     public enum TIMESTATE { Afternoon, Night };
 
@@ -37,7 +38,7 @@ public class TimeScript : MonoBehaviour
     {
         GameTime();
         TimeStateFucn();
-        RotateImage();
+        //RotateImage();
     }
 
     void TimeStateFucn()
@@ -64,8 +65,8 @@ public class TimeScript : MonoBehaviour
 
     void GameTime()
     {
-        time += Time.deltaTime * 12; //게임 시간 = 현실 시간 x 12
-
+        //Debug.Log(GameManager.instance._UnscaledTime);
+        time += GameManager.DeltaTime / 5; //게임 시간 = 현실 시간 x 12     GameManager 에 있는 static DeltaTime 사용
         if (time >= 60) //분단위 증가
         {
             timeMinute++;
@@ -88,12 +89,6 @@ public class TimeScript : MonoBehaviour
         }
 
         inGameTime.text = AMPM + " " + string.Format("{0:D2}", timeHour) + ":" + string.Format("{0:D2}", timeMinute);
-    }
-
-
-    void RotateImage()
-    {
-        //testimg.transform.Rotate(0f, 0f, rotationSpeed * Time.deltaTime); // 이미지 회전
     }
 
     private IEnumerator FadeInOut(float startAlpha, float endAlpha)
