@@ -10,6 +10,8 @@ public class RoomInfo
     public string name;
     //룸 오브젝트
     public GameObject roomObj;
+    //미니맵 오브젝트
+    public GameObject minimapObj;
     // 룸에 소속된 오브젝트 info
     public RoomChild child;
     // 현재 방의 위치

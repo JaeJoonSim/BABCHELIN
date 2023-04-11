@@ -38,6 +38,6 @@ public class DungeonGenerator : MonoBehaviour
         setVcam.Vcam = vcam;
         setVcam.SetFollow();
 
-        DungeonManeger.Instance.MoveToOtherRoom(-1);
+        DungeonManeger.Instance.SetStartRoom();
     }
 }

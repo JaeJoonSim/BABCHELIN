@@ -50,7 +50,7 @@ public class ArrGenerator : MonoBehaviour
         single.centerPos = pos;
         single.validRoom = true;
         single.isVisited = false;
-
+        single.minimapObj = null;
         if (DungeonManeger.Instance.RoomList.Count > 0)
         {
             switch (name)

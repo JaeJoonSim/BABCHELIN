@@ -100,9 +100,14 @@ public class DungeonManeger : Singleton<DungeonManeger>
     [SerializeField]
     private Transform minimapCamera;
     [SerializeField]
-    private GameObject visitedTile;
+    private GameObject minimapTile;
+
     [SerializeField]
-    private GameObject BossTile;
+    private List<Material> minimapTileMaterial;
+    /*
+    0 == 방문한
+    1 == 보스방
+    */
 
     //func
     public void Awake()
@@ -110,7 +115,19 @@ public class DungeonManeger : Singleton<DungeonManeger>
         //배열 초기화
         PosArr = (RoomInfo[,])ResizeArray(PosArr, new int[] { (MaxDistance * 2), (MaxDistance * 2) });
         RealaseRoomPos();
-       
+
+    }
+
+    public void SetStartRoom()
+    {
+        posArr[curPcPos.z, curPcPos.x].minimapObj = Instantiate(minimapTile,
+                                            posArr[curPcPos.z, curPcPos.x].roomObj.transform.position + new Vector3(0, 0, -10),
+                                            minimapTile.transform.rotation);
+
+        posArr[curPcPos.z, curPcPos.x].isVisited = true;
+
+        MoveToOtherRoom(-1);
+
     }
 
     //방이동시 호출 ( 0 == 상, 1 == 하, 2 == 좌, 3 == 우)
@@ -119,20 +136,22 @@ public class DungeonManeger : Singleton<DungeonManeger>
         if (direction > -1 && 3 < direction)
             return;
 
-       
-        if(direction != -1)
+        if (direction != -1)
         {
             posArr[curPcPos.z, curPcPos.x].roomObj.SetActive(false);
             curPcPos += direction4[direction];
             posArr[curPcPos.z, curPcPos.x].roomObj.SetActive(true);
         }
-       
+
+        if (posArr[curPcPos.z, curPcPos.x].name == "Start"|| posArr[curPcPos.z, curPcPos.x].name == "Single")
+        {
+            posArr[curPcPos.z, curPcPos.x].minimapObj.GetComponent<MeshRenderer>().material = minimapTileMaterial[0];
+        }
 
         minimapCamera.position = posArr[curPcPos.z, curPcPos.x].roomObj.transform.position + new Vector3(0, 0, -20);
 
-
-
         Vector3Int direction4Pos;
+
         for (int dir = 0; dir < direction4.Count; dir++)
         {
             direction4Pos = curPcPos + direction4[dir];
@@ -146,20 +165,18 @@ public class DungeonManeger : Singleton<DungeonManeger>
             if (!posArr[direction4Pos.z, direction4Pos.x].isVisited && posArr[direction4Pos.z, direction4Pos.x].roomObj != null)
             {
                 posArr[direction4Pos.z, direction4Pos.x].isVisited = true;
+                posArr[direction4Pos.z, direction4Pos.x].minimapObj = Instantiate(minimapTile,
+                            posArr[direction4Pos.z, direction4Pos.x].roomObj.transform.position + new Vector3(0, 0, -10),
+                            minimapTile.transform.rotation);
+
                 switch (posArr[direction4Pos.z, direction4Pos.x].name)
                 {
                     case "Boss":
-                        Instantiate(BossTile, 
-                            posArr[direction4Pos.z, direction4Pos.x].roomObj.transform.position + new Vector3(0, 0, -10), 
-                            visitedTile.transform.rotation);
+                        posArr[direction4Pos.z, direction4Pos.x].minimapObj.GetComponent<MeshRenderer>().material = minimapTileMaterial[1];
                         break;
                     default:
-                        Instantiate(visitedTile, 
-                            posArr[direction4Pos.z, direction4Pos.x].roomObj.transform.position + new Vector3(0, 0, -10), 
-                            visitedTile.transform.rotation);
                         break;
                 }
-                
             }
         }
     }
