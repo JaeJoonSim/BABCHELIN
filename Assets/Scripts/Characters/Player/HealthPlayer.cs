@@ -3,6 +3,9 @@ using UnityEngine;
 
 public class HealthPlayer : Health
 {
+    public bool ScreenShakeOnHit = true;
+    public float ShakeIntensity = 10f;
+
     protected override void Start()
     {
         base.Start();
@@ -15,7 +18,9 @@ public class HealthPlayer : Health
 
         // ³Ë¹é ±¸Çö, ÇÊ¿ä ÄÄÆ÷³ÍÆ® Rigidbody2D
         // ...
-        
+
+        if (CameraManager.instance != null && ScreenShakeOnHit)
+            CameraManager.shakeCamera(ShakeIntensity, true);
         StartCoroutine(InvincibilityAndBlink(recoveryTime));
     }
 
