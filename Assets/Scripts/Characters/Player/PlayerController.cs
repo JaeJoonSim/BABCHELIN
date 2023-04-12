@@ -128,7 +128,6 @@ public class PlayerController : BaseMonoBehaviour
     {
         if(!health.isInvincible)
         {
-            Debug.Log($"health.isInvincible: {health.isInvincible} return");
             return;
         }
 
@@ -141,7 +140,7 @@ public class PlayerController : BaseMonoBehaviour
             state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
         }
         forceDir = state.facingAngle + 180f;
-        CameraManager.shakeCamera(100f);
+        CameraManager.shakeCamera(10f, 0f - state.facingAngle);
 
         GameManager.GetInstance().HitStop();
     }

@@ -1,5 +1,5 @@
-using System.Collections;
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CameraManager : BaseMonoBehaviour
@@ -12,32 +12,47 @@ public class CameraManager : BaseMonoBehaviour
     }
 
     private static float shakeAmount;
+
     private static float ShakeSpeedX;
+
     private static float ShakeX;
+
     private static float ShakeSpeedY;
+
     private static float ShakeY;
+
     private static float ShakeZ;
-    private static float settings_ScreenShakeIntensity;
-    private float Lerp;
+
+    private static float settings_ScreenShakeIntensity = 1f;
+
+    [HideInInspector] public Vector3 shakeOffset;
 
     public static CameraManager instance;
 
     [SerializeField]
     private Camera cameraRef;
+
     public float TestShakeAmount = 0.4f;
+
     public float Modifier = 0.1f;
+
     public float DropOff = 5f;
+
     public ShakeMode MyShakeMode;
 
-    public float EZModifier = 3f;
-    public float EZRoughness = 4f;
-    public float EZDuration = 0.4f;
-    private float prevEZShakeIntensity;
-    private float prevEZShakeTimestamp;
-    private bool IsShakingForDuration;
+    private float Lerp;
 
-    [Space]
-    public static float ScreenShakeSettings = 1f;
+    public float EZModifier = 3f;
+
+    public float EZRoughness = 4f;
+
+    public float EZDuration = 0.4f;
+
+    private float prevEZShakeIntensity;
+
+    private float prevEZShakeTimestamp;
+
+    private bool IsShakingForDuration;
 
     public Camera CameraRef
     {
@@ -66,8 +81,14 @@ public class CameraManager : BaseMonoBehaviour
         DoShake();
     }
 
+    private void TestShake()
+    {
+        shakeCamera(TestShakeAmount);
+    }
+
     private void DoShake()
     {
+        Vector3 shakeOffset = Vector3.zero;
         switch (MyShakeMode)
         {
             case ShakeMode.Wobble:
@@ -75,7 +96,7 @@ public class CameraManager : BaseMonoBehaviour
                 ShakeX += (ShakeSpeedX *= 0.6f);
                 ShakeSpeedY += (0f - ShakeY) * 0.3f;
                 ShakeY += (ShakeSpeedY *= 0.6f);
-                base.transform.position = new Vector3(ShakeX, ShakeY) * ScreenShakeSettings * Time.deltaTime;
+                shakeOffset = new Vector3(ShakeX, ShakeY) * settings_ScreenShakeIntensity * Time.deltaTime;
                 break;
             case ShakeMode.Shake:
                 if (ShakeX > 0f)
@@ -88,9 +109,16 @@ public class CameraManager : BaseMonoBehaviour
                         ShakeX = (ShakeY = (ShakeZ = 0f));
                     }
                 }
-                base.transform.position = UnityEngine.Random.insideUnitSphere * ShakeX * Time.deltaTime;
+                shakeOffset = UnityEngine.Random.insideUnitSphere * ShakeX * Time.deltaTime;
                 break;
         }
+        SetShakeOffset(shakeOffset);
+    }
+
+
+    public static float getScreenshakeSettings()
+    {
+        return settings_ScreenShakeIntensity;
     }
 
     public void shakeCamera1(float intensity, float direction)
@@ -130,7 +158,7 @@ public class CameraManager : BaseMonoBehaviour
                 cameraShaker.DefaultPosInfluence = Vector3.one * 0.35f;
                 cameraShaker.DefaultRotInfluence = Vector3.one * 0.35f;
             }
-            CameraShaker.Instance.ShakeOnce(intensity * EZModifier * ScreenShakeSettings, EZRoughness, 0.1f, EZDuration);
+            CameraShaker.Instance.ShakeOnce(intensity * EZModifier * getScreenshakeSettings(), EZRoughness, 0.1f, EZDuration);
         }
     }
 
@@ -144,13 +172,13 @@ public class CameraManager : BaseMonoBehaviour
                     instance.EZShake(intensity, stackShakes);
                     break;
                 case ShakeMode.Wobble:
-                    ShakeSpeedX = intensity * Mathf.Cos(direction * ((float)Math.PI / 180f)) * ScreenShakeSettings;
-                    ShakeSpeedY = intensity * Mathf.Sin(direction * ((float)Math.PI / 180f)) * ScreenShakeSettings;
+                    ShakeSpeedX = intensity * Mathf.Cos(direction * ((float)Math.PI / 180f)) * getScreenshakeSettings();
+                    ShakeSpeedY = intensity * Mathf.Sin(direction * ((float)Math.PI / 180f)) * getScreenshakeSettings();
                     break;
                 case ShakeMode.Shake:
-                    ShakeX = intensity * ScreenShakeSettings;
-                    ShakeY = intensity * ScreenShakeSettings;
-                    ShakeZ = intensity * ScreenShakeSettings;
+                    ShakeX = intensity * getScreenshakeSettings();
+                    ShakeY = intensity * getScreenshakeSettings();
+                    ShakeZ = intensity * getScreenshakeSettings();
                     break;
             }
         }
@@ -172,6 +200,11 @@ public class CameraManager : BaseMonoBehaviour
         ShakeZ = 0f;
         ShakeSpeedX = 0f;
         ShakeSpeedY = 0f;
+    }
+
+    public void SetShakeOffset(Vector3 offset)
+    {
+        shakeOffset = offset;
     }
 
     private IEnumerator DoShakeCameraForDuration(float intensityMin, float intensityMax, float duration, bool StackShakes = true)

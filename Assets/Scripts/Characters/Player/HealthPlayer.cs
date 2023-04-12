@@ -11,11 +11,6 @@ public class HealthPlayer : Health
 
     private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage)
     {
-        Vector3 knockbackDirection = (transform.position - attackLocation).normalized;
-
-        // ³Ë¹é ±¸Çö, ÇÊ¿ä ÄÄÆ÷³ÍÆ® Rigidbody2D
-        // ...
-        
         StartCoroutine(InvincibilityAndBlink(recoveryTime));
     }
 
