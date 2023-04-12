@@ -9,18 +9,16 @@ public class HealthPlayer : Health
     protected override void Start()
     {
         base.Start();
-        OnDamaged.AddListener(ApplyKnockbackAndChangeState);
+        OnDamaged += ApplyKnockbackAndChangeState;
     }
 
-    private void ApplyKnockbackAndChangeState(float damage, Vector3 attackLocation)
+    private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage)
     {
         Vector3 knockbackDirection = (transform.position - attackLocation).normalized;
 
         // ³Ë¹é ±¸Çö, ÇÊ¿ä ÄÄÆ÷³ÍÆ® Rigidbody2D
         // ...
-
-        if (CameraManager.instance != null && ScreenShakeOnHit)
-            CameraManager.shakeCamera(ShakeIntensity, true);
+        
         StartCoroutine(InvincibilityAndBlink(recoveryTime));
     }
 

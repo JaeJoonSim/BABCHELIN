@@ -11,28 +11,37 @@ public class Health : MonoBehaviour
 
     [SerializeField] protected float recoveryTime = 2.0f;
     protected MeshRenderer meshRenderer;
-    protected bool isInvincible = false;
+    [HideInInspector] public bool isInvincible = false;
 
-    [Space]
-    public UnityEvent<float, Vector3> OnDamaged;
+    public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation);
+    public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage);
+
+    public event HitAction OnHit;
+    public event HealthEvent OnDamaged;
 
     protected virtual void Start()
     {
         state = GetComponent<StateMachine>();
         currentHealth = maxHealth;
         meshRenderer = GetComponentInChildren<MeshRenderer>();
-        OnDamaged.AddListener(ApplyChangeToHitState);
+        OnDamaged += ApplyChangeToHitState;
     }
 
-    public void Damaged(float damage, Vector3 attackLocation)
+    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
     {
         if (IsInvincible()) return;
+        if (Attacker == base.gameObject) return;
 
         currentHealth -= damage;
 
         if (OnDamaged != null)
         {
-            OnDamaged.Invoke(damage, attackLocation);
+            OnDamaged?.Invoke(gameObject, attackLocation, damage);
+        }
+
+        if (OnHit != null)
+        {
+            OnHit?.Invoke(Attacker, attackLocation);
         }
 
         if (currentHealth <= 0)
@@ -70,7 +79,7 @@ public class Health : MonoBehaviour
         state.ChangeToIdleState();
     }
 
-    protected virtual void ApplyChangeToHitState(float damage, Vector3 attackLocation)
+    protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage)
     {
         state.ChangeToHitState(attackLocation);
     }
