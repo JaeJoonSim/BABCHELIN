@@ -37,7 +37,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public bool AutomaticallySetFacing = true;
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
+    
     public AnimationReferenceAsset Idle;
+    public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset Moving;
     public AnimationReferenceAsset Dodge;
 
@@ -191,7 +193,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 if (animation.State == StateMachine.State.Moving)
                 {
-                    Track = anim.AnimationState.SetAnimation(AnimationTrack, animation.Animation, animation.Looping);
+                    if (StartMoving != null)
+                    {
+                        anim.AnimationState.SetAnimation(AnimationTrack, StartMoving, loop: false);
+                        Track = anim.AnimationState.AddAnimation(AnimationTrack, animation.Animation, loop: true, 0f);
+                    }
+                    else
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, animation.Animation, animation.Looping);
+                    }
                     return;
                 }
                 if (animation.AddAnimation == null)
@@ -220,7 +230,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                 break;
             case StateMachine.State.Moving:
-                anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                if (StartMoving != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, StartMoving, loop: true);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Moving, loop: true, 0.2f);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                }
                 break;
             case StateMachine.State.Dodging:
                 anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
