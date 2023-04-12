@@ -35,7 +35,6 @@ public class CameraManager : BaseMonoBehaviour
     private float prevEZShakeIntensity;
     private float prevEZShakeTimestamp;
     private bool IsShakingForDuration;
-    [HideInInspector] public Vector3 shakeOffset;
 
     [Space]
     public static float ScreenShakeSettings = 1f;
@@ -69,7 +68,6 @@ public class CameraManager : BaseMonoBehaviour
 
     private void DoShake()
     {
-        Vector3 shakeOffset = Vector3.zero;
         switch (MyShakeMode)
         {
             case ShakeMode.Wobble:
@@ -77,7 +75,7 @@ public class CameraManager : BaseMonoBehaviour
                 ShakeX += (ShakeSpeedX *= 0.6f);
                 ShakeSpeedY += (0f - ShakeY) * 0.3f;
                 ShakeY += (ShakeSpeedY *= 0.6f);
-                shakeOffset = new Vector3(ShakeX, ShakeY) * ScreenShakeSettings * Time.deltaTime;
+                base.transform.position = new Vector3(ShakeX, ShakeY) * ScreenShakeSettings * Time.deltaTime;
                 break;
             case ShakeMode.Shake:
                 if (ShakeX > 0f)
@@ -90,10 +88,9 @@ public class CameraManager : BaseMonoBehaviour
                         ShakeX = (ShakeY = (ShakeZ = 0f));
                     }
                 }
-                shakeOffset = UnityEngine.Random.insideUnitSphere * ShakeX * Time.deltaTime;
+                base.transform.position = UnityEngine.Random.insideUnitSphere * ShakeX * Time.deltaTime;
                 break;
         }
-        SetShakeOffset(shakeOffset);
     }
 
     public void shakeCamera1(float intensity, float direction)
@@ -211,10 +208,5 @@ public class CameraManager : BaseMonoBehaviour
             yield return null;
         }
         Time.timeScale = 1f;
-    }
-
-    public void SetShakeOffset(Vector3 offset)
-    {
-        shakeOffset = offset;
     }
 }

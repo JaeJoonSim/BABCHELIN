@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class HealthPlayer : Health
 {
-    public bool ScreenShakeOnHit = true;
-    public float ShakeIntensity = 10f;
-
     protected override void Start()
     {
         base.Start();

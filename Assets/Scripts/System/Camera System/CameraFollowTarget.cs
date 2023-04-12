@@ -297,14 +297,7 @@ public class CameraFollowTarget : MonoBehaviour
             IsMoving = false;
         }
         Vector3 position = ((!(TargetCamera == null) || float.IsNaN(CurrentPosition.x) || float.IsNaN(CurrentPosition.y) || float.IsNaN(CurrentPosition.z)) ? (CurrentTargetCameraPosition + CamWobble * 0.1f * CamWobbleSettings) : CurrentPosition);
-        if (CameraManager.instance != null)
-        {
-            base.transform.position = position + CameraManager.instance.shakeOffset;
-        }
-        else
-        {
-            base.transform.position = position;
-        }
+        base.transform.position = position;
     }
 
     public void SetCameraLimits(Bounds Limits)
