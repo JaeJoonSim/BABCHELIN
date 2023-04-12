@@ -82,4 +82,21 @@ public class StateMachine : MonoBehaviour
     {
         LookAngle = facingAngle;
     }
+
+    public void ChangeToHitState(Vector3 attackLocation)
+    {
+        if (transform.position.x > attackLocation.x)
+        {
+            CURRENT_STATE = State.HitLeft;
+        }
+        else
+        {
+            CURRENT_STATE = State.HitRight;
+        }
+    }
+
+    public void ChangeToIdleState()
+    {
+        CURRENT_STATE = State.Idle;
+    }
 }

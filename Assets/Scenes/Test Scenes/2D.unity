@@ -616,8 +616,8 @@ MonoBehaviour:
   yDir: 0
   DodgeTimer: 0
   DodgeSpeed: 5
-  DodgeDuration: 0.6
-  DodgeMaxDuration: 0.6
+  DodgeDuration: 0.5
+  DodgeMaxDuration: 0.5
   DodgeDelay: 2
 --- !u!114 &278565355
 MonoBehaviour:
@@ -691,21 +691,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8909664dc1875314f90dc7533df190dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  state: {fileID: 0}
-  _totalHP: 10
-  _HP: 0
-  untouchable: 0
-  invincible: 0
-  isPlayer: 1
-  DamageModifier: 1
-  MeleeAttackVulnerability: 1
-  ScreenshakeOnHit: 1
-  ScreenshakeOnDie: 1
-  ScreenShakeOnDieIntensity: 2
-  OnHitCallback:
-    m_PersistentCalls:
-      m_Calls: []
-  OnDieCallback:
+  maxHealth: 10
+  currentHealth: 0
+  recoveryTime: 2
+  OnDamaged:
     m_PersistentCalls:
       m_Calls: []
 --- !u!1 &278854820
@@ -4173,12 +4162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ff91e04d2be864db5b35ff666c9ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHp: 10
-  currentHp: 10
-  meshRenderer: {fileID: 0}
-  enemyCollider: {fileID: 0}
-  offDamagedTime: 1
-  playerTrigger: {fileID: 8574111909331905608}
 --- !u!199 &240325917743301561
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4263,15 +4246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30b6c341d39ba4841bd8d0a38a21cdfd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 3
-  attackDelay: 1
-  lastAttackTime: 0
-  attackEffect: {fileID: 3052315600707048707}
-  detectionAngle: 90
-  detectionDistance: 3
-  detectionLayer:
-    m_Bits: 256
-  targetList: []
 --- !u!198 &3052315600707048707
 ParticleSystem:
   m_ObjectHideFlags: 0

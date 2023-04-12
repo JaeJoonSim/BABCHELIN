@@ -77,7 +77,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 if (Mathf.Abs(xDir) < MinInputForMovement && Mathf.Abs(yDir) < MinInputForMovement)
                 {
-                    state.CURRENT_STATE = StateMachine.State.Idle;
+                    state.ChangeToIdleState();
                     break;
                 }
                 forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
