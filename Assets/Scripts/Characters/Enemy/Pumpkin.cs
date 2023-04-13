@@ -6,6 +6,11 @@ public class Pumpkin : UnitObject
 {
     public Transform SpineTransform;
 
+    public float Damaged = 1f;
+    bool hasAppliedDamage = false;
+
+    [Space]
+
     [SerializeField] Transform target;
     [SerializeField] float detectionRange = 10f;
     [SerializeField] float AttackDistance = 2f;
@@ -27,6 +32,10 @@ public class Pumpkin : UnitObject
 
     private void Start()
     {
+        if (target == null)
+        {
+            target = GameObject.FindGameObjectWithTag("Player").transform;
+        }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
@@ -51,7 +60,6 @@ public class Pumpkin : UnitObject
             case StateMachine.State.Idle:
                 SpineTransform.localPosition = Vector3.zero;
                 speed += (0f - speed) / 3f * GameManager.DeltaTime;
-
                 break;
 
             case StateMachine.State.Moving:
@@ -74,7 +82,17 @@ public class Pumpkin : UnitObject
 
                 float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
-                if (distanceToPlayer > AttackDistance)
+                if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
+                {
+                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    hasAppliedDamage = true;
+                }
+                else if (AttackTimer < AttackDuration / 2f)
+                {
+                    hasAppliedDamage = false;
+                }
+
+                if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration)
                 {
                     AttackTimer = 0f;
                     state.CURRENT_STATE = StateMachine.State.Idle;
@@ -92,6 +110,8 @@ public class Pumpkin : UnitObject
                     AttackTimer = 0f;
                     state.CURRENT_STATE = StateMachine.State.Attacking;
                 }
+
+                
                 break;
         }
     }
