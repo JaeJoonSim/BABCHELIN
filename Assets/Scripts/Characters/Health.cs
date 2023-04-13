@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     protected StateMachine state;
 
     [SerializeField] protected float recoveryTime = 2.0f;
+
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
 
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour
 
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
     {
+        Debug.Log("Hit Test");
         if (IsInvincible()) return;
         if (Attacker == base.gameObject) return;
 

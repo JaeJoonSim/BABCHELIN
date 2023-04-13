@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TestScripts : MonoBehaviour
 {
-    public HealthPlayer player;
+    public Health player;
     // Start is called before the first frame update
     void Start()
     {

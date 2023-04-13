@@ -42,6 +42,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset Moving;
     public AnimationReferenceAsset Dodge;
+    public AnimationReferenceAsset Attack;
+    public AnimationReferenceAsset Hit;
 
     private TrackEntry Track;
     private StateMachine.State cs;
@@ -242,6 +244,19 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 break;
             case StateMachine.State.Dodging:
                 anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
+                break;
+            case StateMachine.State.Attacking:
+                if(Attack != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
+                }
+                break;
+            case StateMachine.State.HitLeft:
+            case StateMachine.State.HitRight:
+                if(Hit != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
+                }
                 break;
             default:
                 if (Idle != null && anim.AnimationState != null)
