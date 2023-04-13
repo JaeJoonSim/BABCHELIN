@@ -816,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 1
+  IsPlayer: 0
   currentState: 0
   facingAngle: 0
   LookAngle: 0
@@ -4579,6 +4579,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3275738440347693760, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: IsPlayer
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3275738440347693763, guid: e0b8da73350cb6141858f37cd630263e,
         type: 3}
       propertyPath: m_RootOrder
@@ -4644,6 +4649,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pumpkin
       objectReference: {fileID: 0}
+    - target: {fileID: 3275738441309354176, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: Hit
+      value: 
+      objectReference: {fileID: 11400000, guid: dcd933fefbbd1a7409ba8c90cdd0b107,
+        type: 2}
+    - target: {fileID: 3275738441309354176, guid: e0b8da73350cb6141858f37cd630263e,
+        type: 3}
+      propertyPath: Dead
+      value: 
+      objectReference: {fileID: 11400000, guid: 832eaa7b4f223364faa6b829904ddd72,
+        type: 2}
     - target: {fileID: 3275738441309354177, guid: e0b8da73350cb6141858f37cd630263e,
         type: 3}
       propertyPath: m_Mesh

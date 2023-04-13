@@ -58,6 +58,9 @@ public class Pumpkin : UnitObject
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
+                if (isPlayerInRange)
+                    state.CURRENT_STATE = StateMachine.State.Moving;
+
                 SpineTransform.localPosition = Vector3.zero;
                 speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 break;
@@ -73,6 +76,10 @@ public class Pumpkin : UnitObject
                 state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                 state.LookAngle = state.facingAngle;
                 speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+
+                if (!isPlayerInRange)
+                    state.ChangeToIdleState();
+
                 break;
 
             case StateMachine.State.Attacking:
@@ -110,8 +117,6 @@ public class Pumpkin : UnitObject
                     AttackTimer = 0f;
                     state.CURRENT_STATE = StateMachine.State.Attacking;
                 }
-
-                
                 break;
         }
     }
@@ -139,7 +144,7 @@ public class Pumpkin : UnitObject
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                state.CURRENT_STATE = StateMachine.State.Moving;
+                //state.CURRENT_STATE = StateMachine.State.Moving;
                 if (distanceToPlayer <= AttackDistance)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
@@ -152,7 +157,7 @@ public class Pumpkin : UnitObject
             }
             else
             {
-                state.ChangeToIdleState();
+
                 agent.isStopped = true;
                 xDir = 0f;
                 yDir = 0f;

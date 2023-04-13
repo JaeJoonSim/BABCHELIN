@@ -33,7 +33,6 @@ public class Health : BaseMonoBehaviour
 
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
     {
-        Debug.Log("Hit Test");
         if (IsInvincible()) return;
         if (Attacker == base.gameObject) return;
 
