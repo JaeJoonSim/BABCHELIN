@@ -109,9 +109,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 0
+  maxHealth: 10
   currentHealth: 0
-  recoveryTime: 2
+  recoveryTime: 0.5
   isInvincible: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
@@ -171,6 +171,7 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 3275738441309354236}
+  Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
   AttackDistance: 1.5

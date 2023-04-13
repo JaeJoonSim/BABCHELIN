@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Health : MonoBehaviour
+public class Health : BaseMonoBehaviour
 {
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
     protected StateMachine state;
+    protected Rigidbody2D rb;
 
     [SerializeField] protected float recoveryTime = 2.0f;
 
@@ -22,9 +23,11 @@ public class Health : MonoBehaviour
 
     protected virtual void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateMachine>();
         currentHealth = maxHealth;
         meshRenderer = GetComponentInChildren<MeshRenderer>();
+
         OnDamaged += ApplyChangeToHitState;
     }
 
@@ -83,6 +86,7 @@ public class Health : MonoBehaviour
 
     protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage)
     {
+        StartCoroutine(InvincibilityAndBlink(recoveryTime));
         state.ChangeToHitState(attackLocation);
     }
 }

@@ -846,6 +846,10 @@ MonoBehaviour:
   DodgeDuration: 0.5
   DodgeMaxDuration: 0.5
   DodgeDelay: 2
+  SuctionSpeed: 1
+  SuctionAngle: 30
+  SuctionRange: 10
+  SuctionDelay: 1
 --- !u!114 &278565355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -896,6 +900,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CameraBone: {fileID: 1478524019}
   DodgeDelay: 0
+  ShotDelay: 0
+  SuctionDelay: 0
   _state: {fileID: 0}
   Spine: {fileID: 1879063479}
   simpleSpineAnimator: {fileID: 0}
@@ -908,6 +914,8 @@ MonoBehaviour:
   HoldingAttack: 0
   DodgeQueued: 0
   AllowDodging: 1
+  toMousedirection: {x: 0, y: 0, z: 0}
+  playerAngle: 0
 --- !u!114 &278565358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,6 +932,8 @@ MonoBehaviour:
   currentHealth: 0
   recoveryTime: 2
   isInvincible: 0
+  controller: {fileID: 0}
+  KnockbackForce: 2
 --- !u!1 &278854820
 GameObject:
   m_ObjectHideFlags: 0

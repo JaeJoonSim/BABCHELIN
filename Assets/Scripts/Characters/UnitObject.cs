@@ -83,36 +83,6 @@ public class UnitObject : BaseMonoBehaviour
         CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
     }
 
-    public void DoKnockBack(GameObject Attacker, float KnockbackModifier, float Duration, bool appendForce = true)
-    {
-        if (!(rb == null))
-        {
-            if (knockRoutine != null)
-            {
-                StopCoroutine(knockRoutine);
-            }
-            if (!appendForce)
-            {
-                rb.velocity = Vector3.zero;
-            }
-            float angle = Utils.GetAngle(Attacker.transform.position, base.transform.position) * ((float)Math.PI / 180f);
-            knockRoutine = StartCoroutine(ApplyForceRoutine(angle, KnockbackModifier, Duration));
-        }
-    }
-
-    public void DoKnockBack(float angle, float KnockbackModifier, float Duration, bool appendForce = true)
-    {
-        if (knockRoutine != null)
-        {
-            StopCoroutine(knockRoutine);
-        }
-        if (!appendForce)
-        {
-            rb.velocity = Vector3.zero;
-        }
-        knockRoutine = StartCoroutine(ApplyForceRoutine(angle, KnockbackModifier, Duration));
-    }
-
     private IEnumerator ApplyForceRoutine(float angle, float KnockbackModifier, float Duration)
     {
         Vector3 vector = new Vector2(25f * Mathf.Cos(angle), 25f * Mathf.Sin(angle));
