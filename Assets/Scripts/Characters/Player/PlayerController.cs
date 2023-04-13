@@ -31,6 +31,12 @@ public class PlayerController : BaseMonoBehaviour
     public float DodgeDelay = 0.3f;
     private float DodgeCollisionDelay;
 
+    [Header("Èí¼ö")]
+    public float SuctionSpeed = 1f;
+    public float SuctionAngle = 30f;
+    public float SuctionRange = 10f;
+    public float SuctionDelay = 1f;
+
     private float VZ;
     private float Z;
 
