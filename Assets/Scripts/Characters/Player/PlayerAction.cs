@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class PlayerAction : BaseMonoBehaviour
@@ -17,7 +18,14 @@ public class PlayerAction : BaseMonoBehaviour
     private PlayerController _playerController;
     private UnitObject _unitObject;
 
+    [Header("µô·¹ÀÌ")]
+    //È¸ÇÇ µô·¹ÀÌ
     public float DodgeDelay;
+    //°ø°Ý µô·¹ÀÌ
+    public float ShotDelay;
+    //Èí¼ö µô·¹ÀÌ
+    public float SuctionDelay;
+
 
     public StateMachine _state;
     public SkeletonAnimation Spine;
@@ -40,6 +48,10 @@ public class PlayerAction : BaseMonoBehaviour
     public bool HoldingAttack;
     public bool DodgeQueued;
     public bool AllowDodging = true;
+
+    //°ø°Ý°ú Èí¼ö¿¡ »ç¿ëÇÒ º¯¼ö
+    public Vector3 toMousedirection;
+    public float playerAngle = 0;
 
     public PlayerController playerController
     {
@@ -81,6 +93,7 @@ public class PlayerAction : BaseMonoBehaviour
     public Vector3 PreviousPosition { get; private set; }
 
     public static event PlayerEvent OnDodge;
+    public static event PlayerEvent OnSuction;
 
     private void Awake()
     {
@@ -99,16 +112,25 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeDelay -= Time.deltaTime;
         }
-        DodgeRoll();
+
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            DodgeRoll();
+            Shot();
+            Suction();
+        }
+       
+
         PreviousPosition = base.transform.position;
     }
 
     public bool DodgeRoll()
     {
-        if (!AllowDodging || state.CURRENT_STATE == StateMachine.State.Dead)
+        if (!AllowDodging)
         {
             return false;
         }
+
         StateMachine.State cURRENT_STATE = state.CURRENT_STATE;
         
         if(DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
@@ -129,4 +151,75 @@ public class PlayerAction : BaseMonoBehaviour
         }
         return false;
     }
+
+    public bool Shot()
+    { 
+
+
+        return false; 
+    }
+    public bool Suction() 
+    {
+        playerAngle = GetMouseAngle();
+        FindVisibleTargets();
+       
+        return false;
+    }
+
+    public float GetMouseAngle()
+    {
+        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(transform.position);
+        Vector2 mouseScreenPointPosition = Input.mousePosition;
+        toMousedirection = (mouseScreenPointPosition - screenPointPosition).normalized;
+        return GetAngle(screenPointPosition, mouseScreenPointPosition);
+    }
+
+    float GetAngle(Vector2 start, Vector2 end)
+    {
+        Vector2 v2 = end - start;
+        return Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
+    }
+
+    public void FindVisibleTargets()
+    {
+        Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, playerController.SuctionRange, 1 << 20);
+
+        for (int i = 0; i < targetInRange.Length; i++)
+        {
+            
+            Vector2 dirToTarget = (targetInRange[i].transform.position - transform.position).normalized;
+            if (Vector3.Angle(toMousedirection, dirToTarget) <=  playerController.SuctionAngle / 2)
+            {
+                Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
+            }
+        }
+
+    }
+
+    public void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
+
+        UnityEditor.Handles.DrawWireArc(transform.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+
+        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
+        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
+
+        UnityEditor.Handles.DrawLine(transform.position, transform.position + viewAngleA * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(transform.position, transform.position + viewAngleB * playerController.SuctionRange);
+
+#endif
+
+    }
+
+    public Vector3 DirFromAngle(float angleDegrees, bool angleIsGlobal)
+    {
+        if (!angleIsGlobal)
+        {
+            angleDegrees += playerAngle;
+        }
+
+        return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees ) * Mathf.Deg2Rad), 0);
+    }
+
 }
