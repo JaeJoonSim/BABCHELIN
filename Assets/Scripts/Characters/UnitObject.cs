@@ -18,8 +18,9 @@ public class UnitObject : BaseMonoBehaviour
     private Vector2 positionLastFrame;
 
     public bool UseDeltaTime { get; set; } = true;
-    private Coroutine knockRoutine;
     private Vector3 previousPosition = Vector3.zero;
+
+    protected bool isDead = false;
 
     public virtual void Awake()
     {
@@ -81,13 +82,5 @@ public class UnitObject : BaseMonoBehaviour
     public virtual void OnHit(GameObject Attacker, Vector3 AttackLocation)
     {
         CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
-    }
-
-    private IEnumerator ApplyForceRoutine(float angle, float KnockbackModifier, float Duration)
-    {
-        Vector3 vector = new Vector2(25f * Mathf.Cos(angle), 25f * Mathf.Sin(angle));
-        rb.velocity = vector * KnockbackModifier;
-        yield return new WaitForSeconds(Duration);
-        knockRoutine = null;
     }
 }

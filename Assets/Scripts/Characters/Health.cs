@@ -17,7 +17,9 @@ public class Health : BaseMonoBehaviour
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage);
+    public delegate void DieAction();
 
+    public event DieAction OnDie;
     public event HitAction OnHit;
     public event HealthEvent OnDamaged;
 
@@ -62,6 +64,9 @@ public class Health : BaseMonoBehaviour
     protected virtual void Die()
     {
         // 사망 로직 구현
+        Debug.Log($"{base.gameObject.name} Dead");
+        state.CURRENT_STATE = StateMachine.State.Dead;
+        OnDie?.Invoke();
     }
 
     protected IEnumerator InvincibilityAndBlink(float duration)
@@ -80,7 +85,8 @@ public class Health : BaseMonoBehaviour
         meshRenderer.enabled = true;
         isInvincible = false;
 
-        state.ChangeToIdleState();
+        if(currentHealth > 0)
+            state.ChangeToIdleState();
     }
 
     protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage)

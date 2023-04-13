@@ -40,12 +40,17 @@ public class Pumpkin : UnitObject
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+        health.OnDie += OnDie;
     }
 
     public override void Update()
     {
         base.Update();
-        FollowTarget();
+
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            FollowTarget();
+        }
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
@@ -55,69 +60,69 @@ public class Pumpkin : UnitObject
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        switch (state.CURRENT_STATE)
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            case StateMachine.State.Idle:
-                if (isPlayerInRange)
-                    state.CURRENT_STATE = StateMachine.State.Moving;
+            switch (state.CURRENT_STATE)
+            {
+                case StateMachine.State.Idle:
+                    if (isPlayerInRange)
+                        state.CURRENT_STATE = StateMachine.State.Moving;
 
-                SpineTransform.localPosition = Vector3.zero;
-                speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                break;
-
-            case StateMachine.State.Moving:
-                AttackTimer = 0f;
-                if (Time.timeScale == 0f)
-                {
+                    SpineTransform.localPosition = Vector3.zero;
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
-                }
-                forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-
-                state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                state.LookAngle = state.facingAngle;
-                speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-
-                if (!isPlayerInRange)
-                    state.ChangeToIdleState();
-
-                break;
-
-            case StateMachine.State.Attacking:
-                SpineTransform.localPosition = Vector3.zero;
-                forceDir = state.facingAngle;
-                AttackTimer += Time.deltaTime;
-
-                float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-                if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
-                {
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
-                    hasAppliedDamage = true;
-                }
-                else if (AttackTimer < AttackDuration / 2f)
-                {
-                    hasAppliedDamage = false;
-                }
-
-                if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration)
-                {
+                case StateMachine.State.Moving:
                     AttackTimer = 0f;
-                    state.CURRENT_STATE = StateMachine.State.Idle;
-                }
-                else if (AttackTimer < 0.1f)
-                {
-                    state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
-                }
-                else if (AttackTimer >= AttackDuration && AttackTimer < AttackDuration + AttackDelay)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Idle;
-                }
-                else if (AttackTimer >= AttackDuration + AttackDelay)
-                {
-                    AttackTimer = 0f;
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                }
-                break;
+                    if (Time.timeScale == 0f)
+                    {
+                        break;
+                    }
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+
+                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
+                    state.LookAngle = state.facingAngle;
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+
+                    if (!isPlayerInRange)
+                        state.ChangeToIdleState();
+                    break;
+                case StateMachine.State.Attacking:
+                    SpineTransform.localPosition = Vector3.zero;
+                    forceDir = state.facingAngle;
+                    AttackTimer += Time.deltaTime;
+
+                    float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+                    if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
+                    {
+                        playerHealth.Damaged(gameObject, transform.position, Damaged);
+                        hasAppliedDamage = true;
+                    }
+                    else if (AttackTimer < AttackDuration / 2f)
+                    {
+                        hasAppliedDamage = false;
+                    }
+
+                    if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration)
+                    {
+                        AttackTimer = 0f;
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                    else if (AttackTimer < 0.1f)
+                    {
+                        state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
+                    }
+                    else if (AttackTimer >= AttackDuration && AttackTimer < AttackDuration + AttackDelay)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                    else if (AttackTimer >= AttackDuration + AttackDelay)
+                    {
+                        AttackTimer = 0f;
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
+                    break;
+            }
         }
     }
 
@@ -157,12 +162,17 @@ public class Pumpkin : UnitObject
             }
             else
             {
-
                 agent.isStopped = true;
                 xDir = 0f;
                 yDir = 0f;
             }
         }
+    }
+
+    public void OnDie()
+    {
+        state.CURRENT_STATE = StateMachine.State.Dead;
+        Destroy(gameObject, 5f);
     }
 
     private void OnDrawGizmos()
