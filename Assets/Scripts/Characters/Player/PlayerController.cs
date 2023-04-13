@@ -8,6 +8,7 @@ public class PlayerController : BaseMonoBehaviour
     [HideInInspector] UnitObject unitObject;
     private StateMachine state;
     private CircleCollider2D circleCollider2D;
+    private Health health;
 
     public Transform SpineTransform;
 
@@ -39,6 +40,15 @@ public class PlayerController : BaseMonoBehaviour
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         defaultRunSpeed = runSpeed;
+    }
+
+    private void OnEnable()
+    {
+        health = base.gameObject.GetComponent<Health>();
+        if (health != null)
+        {
+            health.OnHit += OnHit;
+        }
     }
 
     private void Update()
@@ -77,7 +87,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 if (Mathf.Abs(xDir) < MinInputForMovement && Mathf.Abs(yDir) < MinInputForMovement)
                 {
-                    state.CURRENT_STATE = StateMachine.State.Idle;
+                    state.ChangeToIdleState();
                     break;
                 }
                 forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
@@ -114,9 +124,25 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    private void OnHit()
+    private void OnHit(GameObject Attacker, Vector3 AttackLocation)
     {
+        if(!health.isInvincible)
+        {
+            return;
+        }
 
+        if(Attacker == null)
+        {
+            state.facingAngle = Utils.GetAngle(base.transform.position, AttackLocation);
+        }
+        else
+        {
+            state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
+        }
+        forceDir = state.facingAngle + 180f;
+        CameraManager.shakeCamera(10f, 0f - state.facingAngle);
+
+        GameManager.GetInstance().HitStop();
     }
 
     private IEnumerator Delay(float delay, Action callback)

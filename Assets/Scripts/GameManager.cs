@@ -31,6 +31,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        instance = this;
+    }
+
     private void Update()
     {
         _UnscaledTime = Time.unscaledTime;
