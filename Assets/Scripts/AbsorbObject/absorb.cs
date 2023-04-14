@@ -18,5 +18,5 @@ public class absorb : Singleton<absorb>
     public float absorbKeepTime = 1f;
 
 
-=
+
 }
