@@ -41,7 +41,7 @@ public class PlayerAction : BaseMonoBehaviour
     public bool IdleOnEnd;
     public GameObject LookToObject;
     private Action GoToCallback;
-    
+
     private float maxDuration = -1f;
     private float startMoveTimestamp;
 
@@ -52,6 +52,7 @@ public class PlayerAction : BaseMonoBehaviour
     //공격과 흡수에 사용할 변수
     public Vector3 toMousedirection;
     public float playerAngle = 0;
+    Collider2D[] targetInRange;
 
     public PlayerController playerController
     {
@@ -104,11 +105,12 @@ public class PlayerAction : BaseMonoBehaviour
     {
         circleCollider2D = GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
+        targetInRange = null;
     }
 
     private void Update()
     {
-        if(state.CURRENT_STATE != StateMachine.State.Dodging)
+        if (state.CURRENT_STATE != StateMachine.State.Dodging)
         {
             DodgeDelay -= Time.deltaTime;
         }
@@ -119,7 +121,7 @@ public class PlayerAction : BaseMonoBehaviour
             Shot();
             Suction();
         }
-       
+
 
         PreviousPosition = base.transform.position;
     }
@@ -132,13 +134,13 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         StateMachine.State cURRENT_STATE = state.CURRENT_STATE;
-        
-        if(DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
+
+        if (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
         {
             DodgeQueued = true;
         }
 
-        if(state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
         {
             DodgeQueued = false;
             _ = state.facingAngle;
@@ -153,16 +155,17 @@ public class PlayerAction : BaseMonoBehaviour
     }
 
     public bool Shot()
-    { 
+    {
 
 
-        return false; 
+        return false;
     }
-    public bool Suction() 
+    public bool Suction()
     {
         playerAngle = GetMouseAngle();
+
         FindVisibleTargets();
-       
+
         return false;
     }
 
@@ -182,14 +185,30 @@ public class PlayerAction : BaseMonoBehaviour
 
     public void FindVisibleTargets()
     {
-        Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, playerController.SuctionRange, 1 << 20);
+        if (targetInRange != null)
+        {
+            for (int i = 0; i < targetInRange.Length; i++)
+            {
+                absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
+                if (absorb != null)
+                {
+                    absorb.inAbsorbArea = false;
+                }
+            }
+        }
+        targetInRange = Physics2D.OverlapCircleAll(transform.position, playerController.SuctionRange, 1 << 20);
 
         for (int i = 0; i < targetInRange.Length; i++)
         {
-            
+
             Vector2 dirToTarget = (targetInRange[i].transform.position - transform.position).normalized;
-            if (Vector3.Angle(toMousedirection, dirToTarget) <=  playerController.SuctionAngle / 2)
+            if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.SuctionAngle / 2)
             {
+                absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
+                if (absorb != null)
+                {
+                    absorb.inAbsorbArea = true;
+                }
                 Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
             }
         }
@@ -219,7 +238,7 @@ public class PlayerAction : BaseMonoBehaviour
             angleDegrees += playerAngle;
         }
 
-        return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees ) * Mathf.Deg2Rad), 0);
+        return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees) * Mathf.Deg2Rad), 0);
     }
 
 }
