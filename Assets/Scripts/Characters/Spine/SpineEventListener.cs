@@ -4,7 +4,22 @@ using UnityEngine;
 
 public class SpineEventListener : MonoBehaviour
 {
-    public SimpleSpineEventListener spineEventListener;
+    private SimpleSpineEventListener spineEventListener;
+
+    [Header("Particle")]
+    public ParticleSystem Moving;
+
+    private void Start()
+    {
+        if (spineEventListener == null)
+        {
+            spineEventListener = base.GetComponent<SimpleSpineEventListener>();
+        }
+        if (spineEventListener != null)
+        {
+            spineEventListener.OnSpineEvent += OnSpineEvent;
+        }
+    }
 
     public void OnSpineEvent(string EventName)
     {
@@ -12,15 +27,9 @@ public class SpineEventListener : MonoBehaviour
         {
             case "land":
                 Debug.Log("land");
+                if (Moving != null)
+                    Moving.Play();
                 break;
-        }
-    }
-
-    private void Start()
-    {
-        if (spineEventListener != null)
-        {
-            spineEventListener.OnSpineEvent += OnSpineEvent;
         }
     }
 }
