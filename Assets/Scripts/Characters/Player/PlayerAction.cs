@@ -28,15 +28,19 @@ public class PlayerAction : BaseMonoBehaviour
 
 
     public StateMachine _state;
+
+    [Space, Header("Spine")]
     public SkeletonAnimation Spine;
     public SimpleSpineAnimator simpleSpineAnimator;
 
+    [Space]
     public Material originalMaterial;
     public Material BW_Material;
 
     [HideInInspector] public CircleCollider2D circleCollider2D;
     private Skin PlayerSkin;
 
+    [Space, Header("Debugging")]
     public bool GoToAndStopping;
     public bool IdleOnEnd;
     public GameObject LookToObject;
@@ -45,9 +49,11 @@ public class PlayerAction : BaseMonoBehaviour
     private float maxDuration = -1f;
     private float startMoveTimestamp;
 
-    public bool HoldingAttack;
     public bool DodgeQueued;
     public bool AllowDodging = true;
+
+    [Space]
+    public bool HoldingAttack;
 
     //공격과 흡수에 사용할 변수
     public Vector3 toMousedirection;
@@ -240,5 +246,4 @@ public class PlayerAction : BaseMonoBehaviour
 
         return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees) * Mathf.Deg2Rad), 0);
     }
-
 }

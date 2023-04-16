@@ -1425,9 +1425,9 @@ MonoBehaviour:
   GoToAndStopping: 0
   IdleOnEnd: 0
   LookToObject: {fileID: 0}
-  HoldingAttack: 0
   DodgeQueued: 0
   AllowDodging: 1
+  HoldingAttack: 0
   toMousedirection: {x: 0, y: 0, z: 0}
   playerAngle: 0
 --- !u!114 &278565358
@@ -1446,6 +1446,7 @@ MonoBehaviour:
   currentHealth: 0
   recoveryTime: 0.5
   isInvincible: 0
+  untouchable: 0
   controller: {fileID: 0}
   KnockbackForce: 2
   RetryPanel: {fileID: 922185891}
@@ -3891,6 +3892,8 @@ GameObject:
   - component: {fileID: 1250605876}
   - component: {fileID: 1250605881}
   - component: {fileID: 1250605880}
+  - component: {fileID: 1250605882}
+  - component: {fileID: 1250605883}
   m_Layer: 0
   m_Name: Spine
   m_TagString: Untagged
@@ -4065,6 +4068,32 @@ MonoBehaviour:
   flipBy180DegreeRotation: 0
   skeletonRenderer: {fileID: 1250605876}
   skeletonGraphic: {fileID: 0}
+--- !u!114 &1250605882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250605875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5474901574f4d4da1fece14bd3f8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnimation: {fileID: 1250605876}
+--- !u!114 &1250605883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250605875}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebd507ed873682b41839e119b79e75f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spineEventListener: {fileID: 1250605882}
 --- !u!1 &1258136958
 GameObject:
   m_ObjectHideFlags: 0

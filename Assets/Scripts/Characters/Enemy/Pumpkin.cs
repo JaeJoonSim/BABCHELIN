@@ -172,7 +172,6 @@ public class Pumpkin : UnitObject
     public void OnDie()
     {
         agent.speed = 0f;
-        state.CURRENT_STATE = StateMachine.State.Dead;
         Destroy(gameObject, 5f);
     }
 

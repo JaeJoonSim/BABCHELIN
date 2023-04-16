@@ -14,6 +14,7 @@ public class Health : BaseMonoBehaviour
 
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
+    [HideInInspector] public bool untouchable = false;
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage);
@@ -58,13 +59,14 @@ public class Health : BaseMonoBehaviour
 
     protected virtual bool IsInvincible()
     {
-        return false;
+        return untouchable || isInvincible;
     }
 
     protected virtual void Die()
     {
         // 사망 로직 구현
         Debug.Log($"{base.gameObject.name} Dead");
+        untouchable = true;
         state.CURRENT_STATE = StateMachine.State.Dead;
         OnDie?.Invoke();
     }
