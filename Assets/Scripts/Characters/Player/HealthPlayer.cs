@@ -7,9 +7,13 @@ public class HealthPlayer : Health
     [HideInInspector] public PlayerController controller;
     public float KnockbackForce = 2f;
 
+    [SerializeField] private GameObject RetryPanel;
+
     protected override void Start()
     {
         base.Start();
+        if(RetryPanel.activeSelf)
+            RetryPanel.SetActive(false);
         controller = GetComponent<PlayerController>();
         OnDamaged += ApplyKnockbackAndChangeState;
     }
@@ -40,5 +44,13 @@ public class HealthPlayer : Health
         base.Die();
         controller.speed = 0;
         // 플레이어 사망 로직 구현
+
+        StartCoroutine(RetryPanelCoroutine());
+    }
+
+    private IEnumerator RetryPanelCoroutine()
+    {
+        yield return new WaitForSeconds(3f);
+        RetryPanel.SetActive(true);
     }
 }

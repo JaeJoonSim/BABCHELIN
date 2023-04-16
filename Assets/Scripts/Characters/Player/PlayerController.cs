@@ -126,6 +126,8 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
+            case StateMachine.State.Dead:
+                break;
         }
 
     }

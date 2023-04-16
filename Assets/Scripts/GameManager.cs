@@ -82,4 +82,9 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSecondsRealtime(SleepDuration);
         Time.timeScale = 1f;
     }
+
+    public void ChangeScene(string SceneName)
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+    }
 }
