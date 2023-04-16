@@ -38,6 +38,7 @@ public class HealthPlayer : Health
     protected override void Die()
     {
         base.Die();
+        controller.speed = 0;
         // 플레이어 사망 로직 구현
     }
 }
