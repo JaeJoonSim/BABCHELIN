@@ -37,6 +37,7 @@ public class DungeonUI : MonoBehaviour
         UltimateGauge = PlayerUI.transform.GetChild(3).GetComponent<Image>();
         DefaultUltIcon = PlayerUI.transform.GetChild(4).GetComponent<Image>();
         ActiveUltIcon = PlayerUI.transform.GetChild(5).GetComponent<Image>();
+        playerController = GetComponentInParent<PlayerController>();
     }
 
     // Update is called once per frame
