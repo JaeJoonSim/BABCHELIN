@@ -233,6 +233,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
+            playerController.absorbEffet.transform.localRotation = Quaternion.Euler(new Vector3(0, state.facingAngle,0 ));
             playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
             playerController.absorbEffet.Play();
         }
