@@ -7,28 +7,31 @@ public class DungeonUI : MonoBehaviour
 {
 
     [SerializeField] Transform player;
-
     private Health playerHealth;
 
-    Slider PlayerHP;
-    Slider BulletGauge;
-    Image UltimateGauge;
+    private GameObject PlayerUI;
+    private Image PlayerHPGauge;
+    private Image BulletGauge;
+    private GameObject PlayerBulletGaugeBackground;
+    private Image PlayerBulletGauge;
+    private Image UltimateGauge;
 
     // Start is called before the first frame update
     void Start()
     {
-        //if (player == null)
-        //{
-        //    player = GameObject.FindGameObjectWithTag("Player").transform;
-        //}
-        ////playerHealth = player.GetComponent<HealthPlayer>();
+        if (player == null)
+        {
+            player = GameObject.FindGameObjectWithTag("Player").transform;
+        }
+        playerHealth = player.GetComponent<HealthPlayer>();
 
-        //PlayerHP = this.transform.GetChild(1).GetComponent<Slider>();
-        //BulletGauge = this.transform.GetChild(2).GetComponent<Slider>();
-        //PlayerHP.maxValue = player.GetComponent<HealthPlayer>().playerMaxHP();
-        //BulletGauge.maxValue = player.GetComponent<HealthPlayer>().playerMaxHP();
+        PlayerUI = this.transform.GetChild(0).gameObject;
 
-        UltimateGauge = this.transform.GetChild(0).GetChild(0).GetComponent<Image>();
+        PlayerHPGauge = PlayerUI.transform.GetChild(0).GetComponent<Image>();
+        BulletGauge = PlayerUI.transform.GetChild(1).GetComponent<Image>();
+        PlayerBulletGaugeBackground = this.transform.GetChild(1).gameObject;
+        PlayerBulletGauge = PlayerBulletGaugeBackground.transform.GetChild(0).GetComponent<Image>();
+        UltimateGauge = PlayerUI.transform.GetChild(2).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -39,8 +42,10 @@ public class DungeonUI : MonoBehaviour
 
     private void GaugeManagement()
     {
-        //PlayerHP.value = player.GetComponent<HealthPlayer>().playerCurrentHP();             //현재 HP
-        //BulletGauge.value = player.GetComponent<HealthPlayer>().playerCurrentHP();          //현재 총알 게이지
+        PlayerHPGauge.fillAmount = player.GetComponent<HealthPlayer>().CurrentHP() / 100;
+        BulletGauge.fillAmount = player.GetComponent<HealthPlayer>().CurrentHP() / 100;
+        PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
         UltimateGauge.fillAmount += Time.deltaTime / 10;
+        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + 0.7f, player.position.y + 0.7f, 0));
     }
 }
