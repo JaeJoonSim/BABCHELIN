@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
 using static UnityEditor.PlayerSettings;
@@ -122,10 +123,12 @@ public class PlayerAction : BaseMonoBehaviour
             DodgeDelay -= Time.deltaTime;
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Dead )
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             DodgeRoll();
+            ChangeAttack();
             Shot();
+            ShotDelay -= Time.deltaTime;
             Absorb();
         }
 
@@ -160,16 +163,40 @@ public class PlayerAction : BaseMonoBehaviour
         }
         return false;
     }
+    public bool ChangeAttack()
+    {
+        float wheelInput = Input.GetAxis("Mouse ScrollWheel");
+        if (wheelInput > 0)
+        {
+            playerController.CurAttack = (++playerController.CurAttack)%3;
+            Debug.Log(playerController.CurAttack);
+        }
+        else if (wheelInput < 0)
+        {
+            playerController.CurAttack--;
+            if (playerController.CurAttack < 0)
+            {
+                playerController.CurAttack = 2;
+            }
+            Debug.Log(playerController.CurAttack);
+        }
 
+        return true; 
+    }
     public bool Shot()
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
         {
             playerAngle = GetMouseAngle();
-            Instantiate(playerController.SmallAttack, transform.position, Quaternion.Euler(new Vector3(0,0, playerAngle)));
+            if(ShotDelay <= 0f)
+            {
+                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, playerAngle)));
+                ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            }
+
         }
 
-            return false;
+        return true;
     }
     public bool Absorb()
     {
@@ -193,10 +220,11 @@ public class PlayerAction : BaseMonoBehaviour
                     }
                 }
             }
+            targetInRange = null;
         }
 
 
-            return false;
+        return false;
     }
 
     public float GetMouseAngle()

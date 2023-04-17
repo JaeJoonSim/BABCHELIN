@@ -38,7 +38,11 @@ public class PlayerController : BaseMonoBehaviour
     public float SuctionDelay = 1f;
 
     [Header("АјАн")]
-    public GameObject SmallAttack;
+    public GameObject[] Attack;
+    public int CurAttack;
+    public float[] AttackSpeed;
+
+
 
     private float VZ;
     private float Z;
