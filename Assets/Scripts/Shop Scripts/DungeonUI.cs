@@ -15,6 +15,8 @@ public class DungeonUI : MonoBehaviour
     private GameObject PlayerBulletGaugeBackground;
     private Image PlayerBulletGauge;
     private Image UltimateGauge;
+    private Image DefaultUltIcon;
+    public Image ActiveUltIcon;
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +33,9 @@ public class DungeonUI : MonoBehaviour
         BulletGauge = PlayerUI.transform.GetChild(1).GetComponent<Image>();
         PlayerBulletGaugeBackground = this.transform.GetChild(1).gameObject;
         PlayerBulletGauge = PlayerBulletGaugeBackground.transform.GetChild(0).GetComponent<Image>();
-        UltimateGauge = PlayerUI.transform.GetChild(2).GetComponent<Image>();
+        UltimateGauge = PlayerUI.transform.GetChild(3).GetComponent<Image>();
+        DefaultUltIcon = PlayerUI.transform.GetChild(4).GetComponent<Image>();
+        ActiveUltIcon = PlayerUI.transform.GetChild(5).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -46,6 +50,17 @@ public class DungeonUI : MonoBehaviour
         BulletGauge.fillAmount = player.GetComponent<HealthPlayer>().CurrentHP() / 100;
         PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
         UltimateGauge.fillAmount += Time.deltaTime / 10;
-        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + 0.7f, player.position.y + 0.7f, 0));
+        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + 0.7f, player.position.y + 0.7f, player.position.z));
+
+        if(UltimateGauge.fillAmount == 1)
+        {
+            DefaultUltIcon.gameObject.SetActive(false);
+            ActiveUltIcon.gameObject.SetActive(true);
+        }
+        else
+        {
+            DefaultUltIcon.gameObject.SetActive(true);
+            ActiveUltIcon.gameObject.SetActive(false);
+        }
     }
 }

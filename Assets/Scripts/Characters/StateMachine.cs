@@ -19,6 +19,9 @@ public class StateMachine : MonoBehaviour
         FinalGameOver = 11,
         Dieing = 12,
         Dead = 13,
+        Absorbing = 14,
+
+
     }
 
     public delegate void StateChange(State NewState, State PrevState);

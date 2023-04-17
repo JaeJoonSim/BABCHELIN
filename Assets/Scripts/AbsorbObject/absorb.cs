@@ -17,6 +17,10 @@ public class absorb : Singleton<absorb>
     [Header("범위 밖 유지시간")]
     public float absorbKeepTime = 1f;
 
+    [Header("흡수 위치")]
+    public Transform Player;
+    [Header("흡수 속도")]
+    public float speed;
 
 
 }

@@ -37,6 +37,13 @@ public class PlayerController : BaseMonoBehaviour
     public float SuctionRange = 10f;
     public float SuctionDelay = 1f;
 
+    [Header("АјАн")]
+    public GameObject[] Attack;
+    public int CurAttack;
+    public float[] AttackSpeed;
+
+
+
     private float VZ;
     private float Z;
 
@@ -85,7 +92,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Moving;
                 }
                 break;
-                
+    
             case StateMachine.State.Moving:
                 if (Time.timeScale == 0f)
                 {
@@ -126,6 +133,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
+
             case StateMachine.State.Dead:
                 break;
         }
