@@ -26,7 +26,7 @@ public class SpineEventListener : MonoBehaviour
         switch (EventName)
         {
             case "land":
-                Debug.Log("land");
+                //Debug.Log("land");
                 if (Moving != null)
                     Moving.Play();
                 break;
