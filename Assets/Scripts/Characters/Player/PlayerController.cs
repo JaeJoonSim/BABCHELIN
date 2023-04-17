@@ -39,6 +39,8 @@ public class PlayerController : BaseMonoBehaviour
     public ParticleSystem absorbEffet;
 
     [Header("АјАн")]
+    public float BulletGauge;
+
     public GameObject[] Attack;
     public int CurAttack;
     public float[] AttackSpeed;
