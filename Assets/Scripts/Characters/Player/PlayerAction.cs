@@ -342,7 +342,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
-            playerController.addBullet(-20);
+            playerController.addBullet(-10);
             Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
             if (playerController.AttackEffet[playerController.CurAttack] != null)
             {
