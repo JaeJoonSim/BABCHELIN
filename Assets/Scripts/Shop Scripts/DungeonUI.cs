@@ -8,6 +8,7 @@ public class DungeonUI : MonoBehaviour
 
     [SerializeField] Transform player;
     private Health playerHealth;
+    private PlayerController playerController;
 
     private GameObject PlayerUI;
     private Image PlayerHPGauge;
@@ -47,7 +48,7 @@ public class DungeonUI : MonoBehaviour
     private void GaugeManagement()
     {
         PlayerHPGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
-        BulletGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
+        BulletGauge.fillAmount = playerController.BulletGauge / 1000f;
         PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
         UltimateGauge.fillAmount += Time.deltaTime / 10;
         PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + .7f, player.position.y + 0.7f, player.position.z));
