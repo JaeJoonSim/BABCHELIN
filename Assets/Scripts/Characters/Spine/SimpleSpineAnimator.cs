@@ -37,10 +37,16 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public bool AutomaticallySetFacing = true;
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
-    
+
     public AnimationReferenceAsset Idle;
+    public AnimationReferenceAsset NorthIdle;
+
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset Moving;
+    public AnimationReferenceAsset NorthMoving;
+    public AnimationReferenceAsset SouthMoving;
+    public AnimationReferenceAsset StopMoving;
+
     public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Attack;
     public AnimationReferenceAsset Hit;
@@ -191,7 +197,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 if (animation.State == StateMachine.State.Idle)
                 {
-                    Track = anim.AnimationState.SetAnimation(AnimationTrack, animation.Animation, loop: true);
+                    if (StopMoving != null)
+                    {
+                        anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: false);
+                        Track = anim.AnimationState.AddAnimation(AnimationTrack, animation.Animation, loop: true, 0f);
+                    }
+                    else
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, animation.Animation, loop: true);
+                    }
                     return;
                 }
                 if (animation.State == StateMachine.State.Moving)
@@ -247,20 +261,20 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
                 break;
             case StateMachine.State.Attacking:
-                if(Attack != null)
+                if (Attack != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
                 }
                 break;
             case StateMachine.State.HitLeft:
             case StateMachine.State.HitRight:
-                if(Hit != null)
+                if (Hit != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
                 }
                 break;
             case StateMachine.State.Dead:
-                if(Dead != null)
+                if (Dead != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Dead, loop: false);
                 }
@@ -632,10 +646,55 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             Dir = ((state.facingAngle > 90f && state.facingAngle < 270f) ? 1 : (-1)) * ((!ReverseFacing) ? (-1) : 1);
         }
 
+        if (NorthIdle != null && CurrentState == StateMachine.State.Idle)
+        {
+            if (state.facingAngle > 40f && state.facingAngle < 140f)
+            {
+                if (Track != null && Track.Animation != NorthIdle.Animation)
+                {
+                    Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
+                }
+            }
+            else if (Track != null && Track.Animation != Idle.Animation)
+            {
+                Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+            }
+        }
+
         SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
         if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
         {
             return;
+        }
+        if (NorthMoving != null && CurrentState == StateMachine.State.Moving)
+        {
+            if (state.facingAngle > 40f && state.facingAngle < 140f)
+            {
+                if (state.facingAngle > 70f && state.facingAngle < 110f)
+                {
+                    if (Track.Animation != NorthMoving.Animation)
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthMoving, loop: true);
+                    }
+                }
+            }
+            else if ((SouthMoving == null || (SouthMoving != null && state.facingAngle < 220f && state.facingAngle > 320f)) && Track.Animation != Moving.Animation)
+            {
+                Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+            }
+        }
+        if (!(SouthMoving != null) || CurrentState != StateMachine.State.Moving)
+        {
+            return;
+        }
+        if (state.facingAngle > 220f && state.facingAngle < 320f)
+        {
+            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthMoving, loop: true);
+
+        }
+        else if ((NorthMoving == null || (NorthMoving != null && (state.facingAngle < 40f || state.facingAngle > 140f))) && Track.Animation != Moving.Animation)
+        {
+            Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
         }
     }
 }
