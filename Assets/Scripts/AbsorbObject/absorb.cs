@@ -14,6 +14,14 @@ public class absorb : Singleton<absorb>
 
     public float absorbTimeLarge = 1f;
 
+    [Header("사이즈별 탄환 충전량")]
+
+    public int addBulletSmall = 20;
+
+    public int addBulletMedium = 50;
+
+    public int addBulletLarge = 100;
+
     [Header("범위 밖 유지시간")]
     public float absorbKeepTime = 1f;
 

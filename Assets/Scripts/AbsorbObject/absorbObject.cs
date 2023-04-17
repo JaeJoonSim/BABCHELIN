@@ -6,6 +6,8 @@ public class absorbObject : MonoBehaviour
     [SerializeField]
     private absorb.objectSize size;
 
+    private int addBullet;
+
     [Header("Èí¼ö½Ã°£")]
     [SerializeField]
     private float absorbTime;
@@ -33,12 +35,15 @@ public class absorbObject : MonoBehaviour
         {
             case absorb.objectSize.small:
                 absorbTime = absorb.Instance.absorbTimeSmall;
+                addBullet = absorb.Instance.addBulletSmall;
                 break;
             case absorb.objectSize.medium:
                 absorbTime = absorb.Instance.absorbTimeMedium;
+                addBullet = absorb.Instance.addBulletMedium;
                 break;
             case absorb.objectSize.large:
                 absorbTime = absorb.Instance.absorbTimeLarge;
+                addBullet = absorb.Instance.addBulletLarge;
                 break;
             default:
                 break;
@@ -106,7 +111,11 @@ public class absorbObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isAbsorb && collision.tag == "Player")
+        {
+            collision.GetComponent<PlayerController>().addBullet(addBullet);
             Destroy(gameObject);
+        }
+ 
     }
 
 }

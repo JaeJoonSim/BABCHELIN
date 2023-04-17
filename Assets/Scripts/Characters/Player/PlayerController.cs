@@ -39,7 +39,8 @@ public class PlayerController : BaseMonoBehaviour
     public ParticleSystem absorbEffet;
 
     [Header("АјАн")]
-    public float BulletGauge;
+    public int BulletGauge;
+    public int maxBulletGauge;
 
     public GameObject[] Attack;
     public int CurAttack;
@@ -191,6 +192,21 @@ public class PlayerController : BaseMonoBehaviour
         CameraManager.shakeCamera(10f, 0f - state.facingAngle);
 
         GameManager.GetInstance().HitStop();
+    }
+
+    public void addBullet(int add)
+    {
+        BulletGauge += add;
+
+        if (BulletGauge > maxBulletGauge) 
+        {
+            BulletGauge = maxBulletGauge;
+        }
+        if (BulletGauge <= 0)
+        {
+            BulletGauge = 0;
+        }
+
     }
 
     private IEnumerator Delay(float delay, Action callback)

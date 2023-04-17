@@ -122,12 +122,13 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            getMouseInfo();
             DodgeRoll();
             ChangeAttack();
             Shot();
-            ShotDelay -= Time.deltaTime;
             Absorb();
+
+            ShotDelay -= Time.deltaTime;
+
         }
 
         playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
@@ -192,6 +193,12 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
         {
+            getMouseInfo();
+            if (playerController.BulletGauge < 20)
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+                return false;
+            }
 
             if (ShotDelay <= 0f)
             {
@@ -227,15 +234,12 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Absorb()
     {
-        if (Input.GetMouseButton(1))
-        {
-
-        }
-
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
+            getMouseInfo();
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
+
 
             playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
             playerController.absorbEffet.Play();
@@ -334,6 +338,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
+            playerController.addBullet(-20);
             Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
             if (playerController.AttackEffet[playerController.CurAttack] != null)
             {
