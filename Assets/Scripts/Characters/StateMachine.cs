@@ -22,6 +22,7 @@ public class StateMachine : MonoBehaviour
         Absorbing = 14,
 
 
+
     }
 
     public delegate void StateChange(State NewState, State PrevState);
