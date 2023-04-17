@@ -140,6 +140,19 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
 
+            case StateMachine.State.Attacking:
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+                break;
+
             case StateMachine.State.Dead:
                 break;
         }

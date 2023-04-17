@@ -197,10 +197,14 @@ public class PlayerAction : BaseMonoBehaviour
 
             if (ShotDelay <= 0f)
             {
+                state.CURRENT_STATE = StateMachine.State.Attacking;
                 Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             }
-
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
            

@@ -31,22 +31,26 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         }
     }
 
-    public int AnimationTrack;
+    public int AnimationTrack = 0;
+    public int SecondaryTrack = 1;
     private StateMachine state;
     private SkeletonAnimation _anim;
     public bool AutomaticallySetFacing = true;
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
 
+    [Header("Idle")]
     public AnimationReferenceAsset Idle;
     public AnimationReferenceAsset NorthIdle;
 
+    [Space, Header("Move")]
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset Moving;
     public AnimationReferenceAsset NorthMoving;
     public AnimationReferenceAsset SouthMoving;
     public AnimationReferenceAsset StopMoving;
 
+    [Space, Header("Action")]
     public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Attack;
     public AnimationReferenceAsset Hit;
@@ -263,7 +267,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Attacking:
                 if (Attack != null)
                 {
-                    anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
+                    anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: true);
                 }
                 break;
             case StateMachine.State.HitLeft:
