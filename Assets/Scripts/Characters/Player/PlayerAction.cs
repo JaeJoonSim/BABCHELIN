@@ -231,11 +231,19 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Absorb()
     {
+        if (Input.GetMouseButton(1))
+        {
+            playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
+            playerController.absorbEffet.Play();
+        }
 
         if (state.CURRENT_STATE != StateMachine.State.Absorbing && state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
             state.CURRENT_STATE = StateMachine.State.Absorbing;
             FindVisibleTargets();
+  
+
+
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
         {
@@ -257,7 +265,7 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
             targetInRange = null;
-
+            playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
         return false;

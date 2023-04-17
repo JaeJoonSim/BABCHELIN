@@ -36,6 +36,7 @@ public class PlayerController : BaseMonoBehaviour
     public float SuctionAngle = 30f;
     public float SuctionRange = 10f;
     public float SuctionDelay = 1f;
+    public ParticleSystem absorbEffet;
 
     [Header("АјАн")]
     public GameObject[] Attack;
