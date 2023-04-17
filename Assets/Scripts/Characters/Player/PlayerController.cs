@@ -74,7 +74,7 @@ public class PlayerController : BaseMonoBehaviour
 
         xDir = Input.GetAxis("Horizontal");
         yDir = Input.GetAxis("Vertical");
-        if(state.CURRENT_STATE == StateMachine.State.Moving)
+        if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
         }
@@ -82,10 +82,13 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        if(state.CURRENT_STATE != StateMachine.State.Dodging)
-            state.facingAngle = Utils.GetMouseAngle(transform.position);
+        if (state.CURRENT_STATE != StateMachine.State.Dodging)
+            state.facingAngle = Utils.GetMouseAngle(transform.position); 
 
-            muzzleBone.position = muzzle.GetChild(0).position;
+        //if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+        //    state.facingAngle = Utils.GetMouseAngle(transform.position);
+
+        muzzleBone.position = muzzle.GetChild(0).position;
 
         switch (state.CURRENT_STATE)
         {
@@ -98,7 +101,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Moving;
                 }
                 break;
-    
+
             case StateMachine.State.Moving:
                 if (Time.timeScale == 0f)
                 {
@@ -110,7 +113,7 @@ public class PlayerController : BaseMonoBehaviour
                     break;
                 }
                 forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                if(unitObject.vx != 0f || unitObject.vy != 0f)
+                if (unitObject.vx != 0f || unitObject.vy != 0f)
                 {
                     //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
                 }
@@ -161,12 +164,12 @@ public class PlayerController : BaseMonoBehaviour
 
     private void OnHit(GameObject Attacker, Vector3 AttackLocation)
     {
-        if(!health.isInvincible)
+        if (!health.isInvincible)
         {
             return;
         }
 
-        if(Attacker == null)
+        if (Attacker == null)
         {
             state.facingAngle = Utils.GetAngle(base.transform.position, AttackLocation);
         }

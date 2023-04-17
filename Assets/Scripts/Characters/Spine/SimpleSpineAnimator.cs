@@ -53,6 +53,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     [Space, Header("Action")]
     public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Attack;
+    public AnimationReferenceAsset Absorb;
     public AnimationReferenceAsset Hit;
     public AnimationReferenceAsset Dead;
 
@@ -268,6 +269,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 if (Attack != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: true);
+                }
+                break;
+            case StateMachine.State.Absorbing:
+                if(Absorb != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Absorb, loop: true);
                 }
                 break;
             case StateMachine.State.HitLeft:

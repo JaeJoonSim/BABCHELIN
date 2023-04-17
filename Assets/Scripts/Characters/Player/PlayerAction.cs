@@ -113,6 +113,8 @@ public class PlayerAction : BaseMonoBehaviour
         circleCollider2D = GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         targetInRange = null;
+
+        Spine.AnimationState.Event += OnSpineEvent;
     }
 
     private void Update()
@@ -198,7 +200,7 @@ public class PlayerAction : BaseMonoBehaviour
             if (ShotDelay <= 0f)
             {
                 state.CURRENT_STATE = StateMachine.State.Attacking;
-                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+                
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             }
         }
@@ -214,13 +216,14 @@ public class PlayerAction : BaseMonoBehaviour
     public bool Absorb()
     {
 
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        if (state.CURRENT_STATE != StateMachine.State.Absorbing && state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
-
+            state.CURRENT_STATE = StateMachine.State.Absorbing;
             FindVisibleTargets();
         }
-        else
+        else if(state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
         {
+            state.CURRENT_STATE = StateMachine.State.Idle;
             if (targetInRange != null)
             {
                 for (int i = 0; i < targetInRange.Length; i++)
@@ -235,14 +238,11 @@ public class PlayerAction : BaseMonoBehaviour
                             absorb.inAbsorbArea = false;
                         }
                     }
-                    
-                  
                 }
             }
             targetInRange = null;
 
         }
-
 
         return false;
     }
@@ -282,7 +282,6 @@ public class PlayerAction : BaseMonoBehaviour
                 Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
             }
         }
-
     }
 
     public void OnDrawGizmos()
@@ -309,5 +308,13 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees) * Mathf.Deg2Rad), 0);
+    }
+
+    private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        if (e.Data.Name == "shot")
+        {
+            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+        }
     }
 }
