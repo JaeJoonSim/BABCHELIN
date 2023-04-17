@@ -42,7 +42,8 @@ public class PlayerController : BaseMonoBehaviour
     public int CurAttack;
     public float[] AttackSpeed;
 
-
+    public Transform muzzle;
+    public Transform muzzleBone;
 
     private float VZ;
     private float Z;
@@ -83,6 +84,8 @@ public class PlayerController : BaseMonoBehaviour
 
         if(state.CURRENT_STATE != StateMachine.State.Dodging)
             state.facingAngle = Utils.GetMouseAngle(transform.position);
+
+            muzzleBone.position = muzzle.GetChild(0).position;
 
         switch (state.CURRENT_STATE)
         {
