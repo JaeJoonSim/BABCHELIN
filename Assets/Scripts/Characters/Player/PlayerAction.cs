@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -121,11 +122,11 @@ public class PlayerAction : BaseMonoBehaviour
             DodgeDelay -= Time.deltaTime;
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        if (state.CURRENT_STATE != StateMachine.State.Dead )
         {
             DodgeRoll();
             Shot();
-            Suction();
+            Absorb();
         }
 
 
@@ -162,17 +163,40 @@ public class PlayerAction : BaseMonoBehaviour
 
     public bool Shot()
     {
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
+        {
+            playerAngle = GetMouseAngle();
+            Instantiate(playerController.SmallAttack, transform.position, Quaternion.Euler(new Vector3(0,0, playerAngle)));
+        }
 
-
-        return false;
+            return false;
     }
-    public bool Suction()
+    public bool Absorb()
     {
-        playerAngle = GetMouseAngle();
 
-        FindVisibleTargets();
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        {
+            //state.CURRENT_STATE = StateMachine.State.Absorbing;
+            playerAngle = GetMouseAngle();
+            FindVisibleTargets();
+        }
+        else
+        {
+            if (targetInRange != null)
+            {
+                for (int i = 0; i < targetInRange.Length; i++)
+                {
+                    absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
+                    if (absorb != null)
+                    {
+                        absorb.inAbsorbArea = false;
+                    }
+                }
+            }
+        }
 
-        return false;
+
+            return false;
     }
 
     public float GetMouseAngle()
