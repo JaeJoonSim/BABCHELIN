@@ -233,18 +233,17 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (Input.GetMouseButton(1))
         {
-            playerController.absorbEffet.transform.localRotation = Quaternion.Euler(new Vector3(0, state.facingAngle,0 ));
-            playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
-            playerController.absorbEffet.Play();
+
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Absorbing && state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
-            state.CURRENT_STATE = StateMachine.State.Absorbing;
+            if (state.CURRENT_STATE != StateMachine.State.Absorbing)
+                state.CURRENT_STATE = StateMachine.State.Absorbing;
+
+            playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
+            playerController.absorbEffet.Play();
             FindVisibleTargets();
-  
-
-
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
         {
