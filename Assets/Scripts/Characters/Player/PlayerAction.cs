@@ -196,7 +196,11 @@ public class PlayerAction : BaseMonoBehaviour
             getMouseInfo();
             if (playerController.BulletGauge < 20)
             {
-                state.CURRENT_STATE = StateMachine.State.Idle;
+                if (state.CURRENT_STATE == StateMachine.State.Attacking)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+
                 return false;
             }
 
