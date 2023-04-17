@@ -59,7 +59,6 @@ public class PlayerAction : BaseMonoBehaviour
 
     //공격과 흡수에 사용할 변수
     public Vector3 toMousedirection;
-    public float playerAngle = 0;
     Collider2D[] targetInRange;
 
     public PlayerController playerController
@@ -133,13 +132,14 @@ public class PlayerAction : BaseMonoBehaviour
             Absorb();
         }
 
+        playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
+        playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position)/100, 0, 0);
 
         PreviousPosition = base.transform.position;
     }
 
     void getMouseInfo()
     {
-        playerAngle = Utils.GetMouseAngle(transform.position);
         toMousedirection = Utils.GetMouseDirection(transform.position);
     }
 
@@ -197,11 +197,13 @@ public class PlayerAction : BaseMonoBehaviour
 
             if (ShotDelay <= 0f)
             {
-                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, playerAngle)));
+                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             }
 
         }
+
+           
 
         return true;
     }
@@ -210,6 +212,7 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
+
             FindVisibleTargets();
         }
         else
@@ -233,6 +236,7 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
             targetInRange = null;
+
         }
 
 
@@ -297,7 +301,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (!angleIsGlobal)
         {
-            angleDegrees += playerAngle;
+            angleDegrees += state.facingAngle;
         }
 
         return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees) * Mathf.Deg2Rad), 0);

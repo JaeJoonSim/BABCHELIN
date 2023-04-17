@@ -55,4 +55,10 @@ public class Utils : MonoBehaviour
         Vector2 mouseScreenPointPosition = Input.mousePosition;
         return (mouseScreenPointPosition - screenPointPosition).normalized;
     }
+    public static float GetMouseDistance(Vector3 pos)
+    {
+        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
+        Vector2 mouseScreenPointPosition = Input.mousePosition;
+        return Vector3.Distance(screenPointPosition, mouseScreenPointPosition);
+    }
 }
