@@ -46,11 +46,11 @@ public class DungeonUI : MonoBehaviour
 
     private void GaugeManagement()
     {
-        PlayerHPGauge.fillAmount = player.GetComponent<HealthPlayer>().CurrentHP() / 100;
-        BulletGauge.fillAmount = player.GetComponent<HealthPlayer>().CurrentHP() / 100;
+        PlayerHPGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
+        BulletGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
         PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
         UltimateGauge.fillAmount += Time.deltaTime / 10;
-        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + 0.7f, player.position.y + 0.7f, player.position.z));
+        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + .7f, player.position.y + 0.7f, player.position.z));
 
         if(UltimateGauge.fillAmount == 1)
         {
