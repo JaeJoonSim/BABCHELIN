@@ -125,6 +125,7 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
+            getMouseInfo();
             DodgeRoll();
             ChangeAttack();
             Shot();
@@ -134,6 +135,12 @@ public class PlayerAction : BaseMonoBehaviour
 
 
         PreviousPosition = base.transform.position;
+    }
+
+    void getMouseInfo()
+    {
+        playerAngle = Utils.GetMouseAngle(transform.position);
+        toMousedirection = Utils.GetMouseDirection(transform.position);
     }
 
     public bool DodgeRoll()
@@ -187,8 +194,8 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
         {
-            playerAngle = GetMouseAngle();
-            if(ShotDelay <= 0f)
+
+            if (ShotDelay <= 0f)
             {
                 Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, playerAngle)));
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
@@ -203,8 +210,6 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
-            //state.CURRENT_STATE = StateMachine.State.Absorbing;
-            playerAngle = GetMouseAngle();
             FindVisibleTargets();
         }
         else
@@ -213,11 +218,18 @@ public class PlayerAction : BaseMonoBehaviour
             {
                 for (int i = 0; i < targetInRange.Length; i++)
                 {
-                    absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
-                    if (absorb != null)
+                    if (!targetInRange[i])
+                        continue;
+                    absorbObject absorb;
+                    if (absorb = targetInRange[i].gameObject.GetComponent<absorbObject>())
                     {
-                        absorb.inAbsorbArea = false;
+                        if (absorb != null)
+                        {
+                            absorb.inAbsorbArea = false;
+                        }
                     }
+                    
+                  
                 }
             }
             targetInRange = null;
@@ -227,19 +239,6 @@ public class PlayerAction : BaseMonoBehaviour
         return false;
     }
 
-    public float GetMouseAngle()
-    {
-        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(transform.position);
-        Vector2 mouseScreenPointPosition = Input.mousePosition;
-        toMousedirection = (mouseScreenPointPosition - screenPointPosition).normalized;
-        return GetAngle(screenPointPosition, mouseScreenPointPosition);
-    }
-
-    float GetAngle(Vector2 start, Vector2 end)
-    {
-        Vector2 v2 = end - start;
-        return Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
-    }
 
     public void FindVisibleTargets()
     {
@@ -247,10 +246,15 @@ public class PlayerAction : BaseMonoBehaviour
         {
             for (int i = 0; i < targetInRange.Length; i++)
             {
-                absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
-                if (absorb != null)
+                if (!targetInRange[i])
+                    continue;
+                absorbObject absorb;
+                if (absorb = targetInRange[i].gameObject.GetComponent<absorbObject>())
                 {
-                    absorb.inAbsorbArea = false;
+                    if (absorb != null)
+                    {
+                        absorb.inAbsorbArea = false;
+                    }
                 }
             }
         }

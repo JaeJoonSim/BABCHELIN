@@ -81,6 +81,9 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
+        if(state.CURRENT_STATE != StateMachine.State.Dodging)
+            state.facingAngle = Utils.GetMouseAngle(transform.position);
+
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
@@ -106,7 +109,7 @@ public class PlayerController : BaseMonoBehaviour
                 forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                 if(unitObject.vx != 0f || unitObject.vy != 0f)
                 {
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
+                    //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
                 }
                 state.LookAngle = state.facingAngle;
                 speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
