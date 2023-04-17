@@ -1,12 +1,8 @@
 using Spine;
 using Spine.Unity;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+
 
 public class PlayerAction : BaseMonoBehaviour
 {

@@ -160,6 +160,10 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
 
+            case StateMachine.State.Absorbing:
+                speed = 0;
+                break;
+
             case StateMachine.State.Dead:
                 break;
         }

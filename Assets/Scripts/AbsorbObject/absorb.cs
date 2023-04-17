@@ -22,5 +22,11 @@ public class absorb : Singleton<absorb>
     [Header("Èí¼ö ¼Óµµ")]
     public float speed;
 
-
+    private void Start()
+    {
+        if(Player == null)
+        {
+            Player = GameObject.FindWithTag("Player").transform;
+        }
+    }
 }

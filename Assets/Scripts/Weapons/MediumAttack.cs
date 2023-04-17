@@ -12,7 +12,6 @@ public class MediumAttack : MonoBehaviour
     void Update()
     {
         Range += Speed * Time.deltaTime;
-        Debug.Log(Range);
         Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, Range, 1 << 8);
         Debug.Log(targetInRange.Length);
         for (int i = 0; i < targetInRange.Length; i++)
