@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Spine;
+using Spine.Unity;
 
 public class Pumpkin : UnitObject
 {
@@ -30,6 +32,8 @@ public class Pumpkin : UnitObject
     public float xDir;
     public float yDir;
 
+    private SkeletonAnimation spineAnimation;
+
     private void Start()
     {
         if (target == null)
@@ -38,9 +42,13 @@ public class Pumpkin : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
         health.OnDie += OnDie;
+        spineAnimation.AnimationState.Event += OnSpineEvent;
     }
 
     public override void Update()
@@ -90,13 +98,10 @@ public class Pumpkin : UnitObject
                     SpineTransform.localPosition = Vector3.zero;
                     forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
-
                     float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
                     if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
                     {
-                        playerHealth.Damaged(gameObject, transform.position, Damaged);
-                        hasAppliedDamage = true;
                     }
                     else if (AttackTimer < AttackDuration / 2f)
                     {
@@ -165,6 +170,18 @@ public class Pumpkin : UnitObject
                 agent.isStopped = true;
                 xDir = 0f;
                 yDir = 0f;
+            }
+        }
+    }
+
+    private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        if (e.Data.Name == "attack" || e.Data.Name == "Attack")
+        {
+            if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
+            {
+                playerHealth.Damaged(gameObject, transform.position, Damaged);
+                hasAppliedDamage = true;
             }
         }
     }
