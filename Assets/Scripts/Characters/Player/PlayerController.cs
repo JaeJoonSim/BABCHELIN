@@ -41,9 +41,12 @@ public class PlayerController : BaseMonoBehaviour
     public GameObject[] Attack;
     public int CurAttack;
     public float[] AttackSpeed;
+    public ParticleSystem[] AttackEffet;
+
 
     public Transform muzzle;
     public Transform muzzleBone;
+    public Transform GrinderControl;
 
     private float VZ;
     private float Z;

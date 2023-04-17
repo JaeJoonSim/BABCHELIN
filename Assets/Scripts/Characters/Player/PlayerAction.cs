@@ -135,7 +135,7 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
-        playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position)/100, 0, 0);
+        playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position) / 100, 0, 0);
 
         PreviousPosition = base.transform.position;
     }
@@ -177,7 +177,7 @@ public class PlayerAction : BaseMonoBehaviour
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
         if (wheelInput > 0)
         {
-            playerController.CurAttack = (++playerController.CurAttack)%3;
+            playerController.CurAttack = (++playerController.CurAttack) % 3;
             Debug.Log(playerController.CurAttack);
         }
         else if (wheelInput < 0)
@@ -190,7 +190,7 @@ public class PlayerAction : BaseMonoBehaviour
             Debug.Log(playerController.CurAttack);
         }
 
-        return true; 
+        return true;
     }
     public bool Shot()
     {
@@ -200,7 +200,23 @@ public class PlayerAction : BaseMonoBehaviour
             if (ShotDelay <= 0f)
             {
                 state.CURRENT_STATE = StateMachine.State.Attacking;
-                
+                //switch (playerController.CurAttack)
+                //{
+                //    case 0:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+                //        break;
+                //    case 1:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        break;
+                //    case 2:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        break;
+                //    default:
+                //        break;
+                //}
+
+
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             }
         }
@@ -209,7 +225,7 @@ public class PlayerAction : BaseMonoBehaviour
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-           
+
 
         return true;
     }
@@ -221,7 +237,7 @@ public class PlayerAction : BaseMonoBehaviour
             state.CURRENT_STATE = StateMachine.State.Absorbing;
             FindVisibleTargets();
         }
-        else if(state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
+        else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
             if (targetInRange != null)
@@ -315,6 +331,11 @@ public class PlayerAction : BaseMonoBehaviour
         if (e.Data.Name == "shot")
         {
             Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+            if (playerController.AttackEffet[playerController.CurAttack] != null)
+            {
+                playerController.AttackEffet[playerController.CurAttack].transform.position = playerController.GrinderControl.position;
+                playerController.AttackEffet[playerController.CurAttack].Play();
+            }
         }
     }
 }
