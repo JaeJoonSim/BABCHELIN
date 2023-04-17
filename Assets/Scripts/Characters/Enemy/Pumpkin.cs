@@ -25,6 +25,7 @@ public class Pumpkin : UnitObject
     private Health playerHealth;
     private NavMeshAgent agent;
     private bool isPlayerInRange;
+    private float distanceToPlayer;
 
     [Space]
 
@@ -98,7 +99,7 @@ public class Pumpkin : UnitObject
                     SpineTransform.localPosition = Vector3.zero;
                     forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
-                    float distanceToPlayer = Vector3.Distance(transform.position, target.position);
+                    distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
                     if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
                     {
@@ -180,7 +181,8 @@ public class Pumpkin : UnitObject
         {
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                playerHealth.Damaged(gameObject, transform.position, Damaged);
+                if (AttackDistance > distanceToPlayer)
+                    playerHealth.Damaged(gameObject, transform.position, Damaged);
                 hasAppliedDamage = true;
             }
         }
