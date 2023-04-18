@@ -9,9 +9,6 @@ public class DungeonGenerator : MonoBehaviour
     private ArrGenerator aGenerator;
 
 
-    [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera vcam;
-
     void Start()
     {
         aGenerator = GetComponent<ArrGenerator>();
@@ -35,8 +32,7 @@ public class DungeonGenerator : MonoBehaviour
 
 
         PlayerSpawn setVcam = DungeonManeger.Instance.ValidRoomList[0].roomObj.GetComponent<PlayerSpawn>();
-        setVcam.Vcam = vcam;
-        setVcam.SetFollow();
+
 
         DungeonManeger.Instance.SetStartRoom();
     }
