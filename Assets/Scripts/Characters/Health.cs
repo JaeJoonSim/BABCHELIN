@@ -96,4 +96,14 @@ public class Health : BaseMonoBehaviour
         StartCoroutine(InvincibilityAndBlink(recoveryTime));
         state.ChangeToHitState(attackLocation);
     }
+
+    public float MaxHP()
+    {
+        return this.maxHealth;
+    }
+
+    public float CurrentHP()
+    {
+        return this.currentHealth;
+    }
 }

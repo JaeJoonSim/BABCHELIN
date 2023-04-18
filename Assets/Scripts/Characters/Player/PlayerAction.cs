@@ -3,8 +3,10 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -57,7 +59,6 @@ public class PlayerAction : BaseMonoBehaviour
 
     //공격과 흡수에 사용할 변수
     public Vector3 toMousedirection;
-    public float playerAngle = 0;
     Collider2D[] targetInRange;
 
     public PlayerController playerController
@@ -112,6 +113,8 @@ public class PlayerAction : BaseMonoBehaviour
         circleCollider2D = GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         targetInRange = null;
+
+        Spine.AnimationState.Event += OnSpineEvent;
     }
 
     private void Update()
@@ -123,13 +126,23 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
+            getMouseInfo();
             DodgeRoll();
+            ChangeAttack();
             Shot();
-            Suction();
+            ShotDelay -= Time.deltaTime;
+            Absorb();
         }
 
+        playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
+        playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position) / 100, 0, 0);
 
         PreviousPosition = base.transform.position;
+    }
+
+    void getMouseInfo()
+    {
+        toMousedirection = Utils.GetMouseDirection(transform.position);
     }
 
     public bool DodgeRoll()
@@ -159,35 +172,97 @@ public class PlayerAction : BaseMonoBehaviour
         }
         return false;
     }
+    public bool ChangeAttack()
+    {
+        float wheelInput = Input.GetAxis("Mouse ScrollWheel");
+        if (wheelInput > 0)
+        {
+            playerController.CurAttack = (++playerController.CurAttack) % 3;
+            Debug.Log(playerController.CurAttack);
+        }
+        else if (wheelInput < 0)
+        {
+            playerController.CurAttack--;
+            if (playerController.CurAttack < 0)
+            {
+                playerController.CurAttack = 2;
+            }
+            Debug.Log(playerController.CurAttack);
+        }
 
+        return true;
+    }
     public bool Shot()
     {
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
+        {
 
+            if (ShotDelay <= 0f)
+            {
+                state.CURRENT_STATE = StateMachine.State.Attacking;
+                //switch (playerController.CurAttack)
+                //{
+                //    case 0:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+                //        break;
+                //    case 1:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        break;
+                //    case 2:
+                //        state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        break;
+                //    default:
+                //        break;
+                //}
+
+
+                ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            }
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+
+
+
+        return true;
+    }
+    public bool Absorb()
+    {
+
+        if (state.CURRENT_STATE != StateMachine.State.Absorbing && state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        {
+            state.CURRENT_STATE = StateMachine.State.Absorbing;
+            FindVisibleTargets();
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+            if (targetInRange != null)
+            {
+                for (int i = 0; i < targetInRange.Length; i++)
+                {
+                    if (!targetInRange[i])
+                        continue;
+                    absorbObject absorb;
+                    if (absorb = targetInRange[i].gameObject.GetComponent<absorbObject>())
+                    {
+                        if (absorb != null)
+                        {
+                            absorb.inAbsorbArea = false;
+                        }
+                    }
+                }
+            }
+            targetInRange = null;
+
+        }
 
         return false;
     }
-    public bool Suction()
-    {
-        playerAngle = GetMouseAngle();
 
-        FindVisibleTargets();
-
-        return false;
-    }
-
-    public float GetMouseAngle()
-    {
-        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(transform.position);
-        Vector2 mouseScreenPointPosition = Input.mousePosition;
-        toMousedirection = (mouseScreenPointPosition - screenPointPosition).normalized;
-        return GetAngle(screenPointPosition, mouseScreenPointPosition);
-    }
-
-    float GetAngle(Vector2 start, Vector2 end)
-    {
-        Vector2 v2 = end - start;
-        return Mathf.Atan2(v2.y, v2.x) * Mathf.Rad2Deg;
-    }
 
     public void FindVisibleTargets()
     {
@@ -195,10 +270,15 @@ public class PlayerAction : BaseMonoBehaviour
         {
             for (int i = 0; i < targetInRange.Length; i++)
             {
-                absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
-                if (absorb != null)
+                if (!targetInRange[i])
+                    continue;
+                absorbObject absorb;
+                if (absorb = targetInRange[i].gameObject.GetComponent<absorbObject>())
                 {
-                    absorb.inAbsorbArea = false;
+                    if (absorb != null)
+                    {
+                        absorb.inAbsorbArea = false;
+                    }
                 }
             }
         }
@@ -218,7 +298,6 @@ public class PlayerAction : BaseMonoBehaviour
                 Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
             }
         }
-
     }
 
     public void OnDrawGizmos()
@@ -241,9 +320,22 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (!angleIsGlobal)
         {
-            angleDegrees += playerAngle;
+            angleDegrees += state.facingAngle;
         }
 
         return new Vector3(Mathf.Cos((angleDegrees) * Mathf.Deg2Rad), Mathf.Sin((angleDegrees) * Mathf.Deg2Rad), 0);
+    }
+
+    private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        if (e.Data.Name == "shot")
+        {
+            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+            if (playerController.AttackEffet[playerController.CurAttack] != null)
+            {
+                playerController.AttackEffet[playerController.CurAttack].transform.position = playerController.GrinderControl.position;
+                playerController.AttackEffet[playerController.CurAttack].Play();
+            }
+        }
     }
 }

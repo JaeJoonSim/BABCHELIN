@@ -38,4 +38,27 @@ public class Utils : MonoBehaviour
     {
         return Mathf.Repeat(Mathf.Atan2(toPosition.y - fromPosition.y, toPosition.x - fromPosition.x), (float)Math.PI * 2f);
     }
+
+    public static float GetAngle(Vector2 start, Vector2 end)
+    {
+        return Quaternion.FromToRotation(Vector3.left, start - end).eulerAngles.z;
+    }
+    public static float GetMouseAngle(Vector3 pos)
+    {
+        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
+        Vector2 mouseScreenPointPosition = Input.mousePosition;
+        return GetAngle(screenPointPosition, mouseScreenPointPosition);
+    }
+    public static Vector3 GetMouseDirection(Vector3 pos)
+    {
+        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
+        Vector2 mouseScreenPointPosition = Input.mousePosition;
+        return (mouseScreenPointPosition - screenPointPosition).normalized;
+    }
+    public static float GetMouseDistance(Vector3 pos)
+    {
+        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
+        Vector2 mouseScreenPointPosition = Input.mousePosition;
+        return Vector3.Distance(screenPointPosition, mouseScreenPointPosition);
+    }
 }
