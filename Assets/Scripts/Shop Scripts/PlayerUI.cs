@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DungeonUI : MonoBehaviour
+public class PlayerUI : MonoBehaviour
 {
-
     [SerializeField] Transform player;
     private Health playerHealth;
     private PlayerController playerController;
 
-    private GameObject PlayerUI;
+    private Transform PlayerUIBackground;
     private Image PlayerHPGauge;
     private Image BulletGauge;
-    private GameObject PlayerBulletGaugeBackground;
-    private Image PlayerBulletGauge;
     private Image UltimateGauge;
     private Image DefaultUltIcon;
-    public Image ActiveUltIcon;
+    private Image ActiveUltIcon;
+
+    public Transform BulletCanvas;
+    private Image PlayerBulletGauge;
 
     // Start is called before the first frame update
     void Start()
@@ -28,16 +28,16 @@ public class DungeonUI : MonoBehaviour
         }
         playerHealth = player.GetComponent<HealthPlayer>();
 
-        PlayerUI = this.transform.GetChild(0).gameObject;
+        PlayerUIBackground = this.transform.GetChild(0).transform;
 
-        PlayerHPGauge = PlayerUI.transform.GetChild(0).GetComponent<Image>();
-        BulletGauge = PlayerUI.transform.GetChild(1).GetComponent<Image>();
-        PlayerBulletGaugeBackground = this.transform.GetChild(1).gameObject;
-        PlayerBulletGauge = PlayerBulletGaugeBackground.transform.GetChild(0).GetComponent<Image>();
-        UltimateGauge = PlayerUI.transform.GetChild(3).GetComponent<Image>();
-        DefaultUltIcon = PlayerUI.transform.GetChild(4).GetComponent<Image>();
-        ActiveUltIcon = PlayerUI.transform.GetChild(5).GetComponent<Image>();
+        PlayerHPGauge = PlayerUIBackground.GetChild(0).GetComponent<Image>();
+        BulletGauge = PlayerUIBackground.GetChild(1).GetComponent<Image>();
+        UltimateGauge = PlayerUIBackground.GetChild(3).GetComponent<Image>();
+        DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
+        ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
         playerController = GetComponentInParent<PlayerController>();
+
+        PlayerBulletGauge = BulletCanvas.GetChild(0).transform.GetChild(0).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -50,9 +50,10 @@ public class DungeonUI : MonoBehaviour
     {
         PlayerHPGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
         BulletGauge.fillAmount = playerController.BulletGauge / 1000f;
+        UltimateGauge.fillAmount += Time.deltaTime / 10f;
+
         PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
-        UltimateGauge.fillAmount += Time.deltaTime / 10;
-        PlayerBulletGaugeBackground.transform.position = Camera.main.WorldToScreenPoint(new Vector3(player.position.x + .7f, player.position.y + 0.7f, player.position.z));
+
 
         if(UltimateGauge.fillAmount == 1)
         {
