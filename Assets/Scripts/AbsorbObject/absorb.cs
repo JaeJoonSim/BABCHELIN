@@ -26,7 +26,8 @@ public class absorb : Singleton<absorb>
     public float absorbKeepTime = 1f;
 
     [Header("Èí¼ö À§Ä¡")]
-    public Transform Player;
+    private Transform player;
+    public Transform Player { get { return player; } set { player = value; } }
     [Header("Èí¼ö ¼Óµµ")]
     public float speed;
 

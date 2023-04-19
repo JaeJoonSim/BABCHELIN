@@ -8,7 +8,7 @@ public class PlayerSpawn : MonoBehaviour
 
     void Awake()
     {
-        PlayerCharacter = Instantiate(PlayerCharacter);
-
+        PlayerCharacter = Instantiate(PlayerCharacter,transform);
+        absorb.Instance.Player = PlayerCharacter.transform;
     }
 }
