@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DungeonManager : BaseMonoBehaviour
+public class DungeonUIManager : BaseMonoBehaviour
 {
     public GameObject settingPanel;
 
