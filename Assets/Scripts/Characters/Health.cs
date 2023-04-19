@@ -65,7 +65,7 @@ public class Health : BaseMonoBehaviour
     protected virtual void Die()
     {
         // 사망 로직 구현
-        Debug.Log($"{base.gameObject.name} Dead");
+        //Debug.Log($"{base.gameObject.name} Dead");
         untouchable = true;
         state.CURRENT_STATE = StateMachine.State.Dead;
         OnDie?.Invoke();

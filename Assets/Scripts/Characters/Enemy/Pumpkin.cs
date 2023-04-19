@@ -95,6 +95,10 @@ public class Pumpkin : UnitObject
                     if (!isPlayerInRange)
                         state.ChangeToIdleState();
                     break;
+                case StateMachine.State.HitLeft:
+                case StateMachine.State.HitRight:
+                    detectionRange *= 2f;
+                    break;
                 case StateMachine.State.Attacking:
                     SpineTransform.localPosition = Vector3.zero;
                     forceDir = state.facingAngle;

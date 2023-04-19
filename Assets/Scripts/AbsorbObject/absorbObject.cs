@@ -1,7 +1,3 @@
-using AmplifyShaderEditor;
-using Cinemachine;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class absorbObject : MonoBehaviour
@@ -9,6 +5,8 @@ public class absorbObject : MonoBehaviour
     [Header("사이즈")]
     [SerializeField]
     private absorb.objectSize size;
+
+    private int addBullet;
 
     [Header("흡수시간")]
     [SerializeField]
@@ -37,12 +35,15 @@ public class absorbObject : MonoBehaviour
         {
             case absorb.objectSize.small:
                 absorbTime = absorb.Instance.absorbTimeSmall;
+                addBullet = absorb.Instance.addBulletSmall;
                 break;
             case absorb.objectSize.medium:
                 absorbTime = absorb.Instance.absorbTimeMedium;
+                addBullet = absorb.Instance.addBulletMedium;
                 break;
             case absorb.objectSize.large:
                 absorbTime = absorb.Instance.absorbTimeLarge;
+                addBullet = absorb.Instance.addBulletLarge;
                 break;
             default:
                 break;
@@ -110,7 +111,11 @@ public class absorbObject : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (isAbsorb && collision.tag == "Player")
+        {
+            collision.GetComponent<PlayerController>().addBullet(addBullet);
             Destroy(gameObject);
+        }
+ 
     }
 
 }

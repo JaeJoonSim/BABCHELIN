@@ -1,12 +1,8 @@
 using Spine;
 using Spine.Unity;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.Mathematics;
-using UnityEditor;
 using UnityEngine;
-using static UnityEditor.PlayerSettings;
+
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -126,12 +122,13 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            getMouseInfo();
             DodgeRoll();
             ChangeAttack();
             Shot();
-            ShotDelay -= Time.deltaTime;
             Absorb();
+
+            ShotDelay -= Time.deltaTime;
+
         }
 
         playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
@@ -196,6 +193,16 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
         {
+            getMouseInfo();
+            if (playerController.BulletGauge < 20)
+            {
+                if (state.CURRENT_STATE == StateMachine.State.Attacking)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+
+                return false;
+            }
 
             if (ShotDelay <= 0f)
             {
@@ -231,10 +238,15 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Absorb()
     {
-
-        if (state.CURRENT_STATE != StateMachine.State.Absorbing && state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
         {
-            state.CURRENT_STATE = StateMachine.State.Absorbing;
+            getMouseInfo();
+            if (state.CURRENT_STATE != StateMachine.State.Absorbing)
+                state.CURRENT_STATE = StateMachine.State.Absorbing;
+
+
+            playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
+            playerController.absorbEffet.Play();
             FindVisibleTargets();
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
@@ -257,7 +269,7 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
             targetInRange = null;
-
+            playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
         return false;
@@ -330,6 +342,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
+            playerController.addBullet(-10);
             Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
             if (playerController.AttackEffet[playerController.CurAttack] != null)
             {

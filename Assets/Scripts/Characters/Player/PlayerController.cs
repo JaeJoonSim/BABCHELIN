@@ -36,8 +36,12 @@ public class PlayerController : BaseMonoBehaviour
     public float SuctionAngle = 30f;
     public float SuctionRange = 10f;
     public float SuctionDelay = 1f;
+    public ParticleSystem absorbEffet;
 
     [Header("АјАн")]
+    public int BulletGauge;
+    public int maxBulletGauge;
+
     public GameObject[] Attack;
     public int CurAttack;
     public float[] AttackSpeed;
@@ -85,7 +89,7 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        if (state.CURRENT_STATE != StateMachine.State.Dodging)
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
             state.facingAngle = Utils.GetMouseAngle(transform.position); 
 
         //if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
@@ -159,6 +163,10 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
 
+            case StateMachine.State.Absorbing:
+                speed = 0;
+                break;
+
             case StateMachine.State.Dead:
                 break;
         }
@@ -184,6 +192,21 @@ public class PlayerController : BaseMonoBehaviour
         CameraManager.shakeCamera(10f, 0f - state.facingAngle);
 
         GameManager.GetInstance().HitStop();
+    }
+
+    public void addBullet(int add)
+    {
+        BulletGauge += add;
+
+        if (BulletGauge > maxBulletGauge) 
+        {
+            BulletGauge = maxBulletGauge;
+        }
+        if (BulletGauge <= 0)
+        {
+            BulletGauge = 0;
+        }
+
     }
 
     private IEnumerator Delay(float delay, Action callback)

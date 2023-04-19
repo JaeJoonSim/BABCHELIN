@@ -138,14 +138,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AnimationTrack: 0
+  SecondaryTrack: 1
   AutomaticallySetFacing: 1
   DefaultLoop: {fileID: 11400000, guid: 6539fe72cb991f644b620760a69c002d, type: 2}
   Animations: []
   Idle: {fileID: 11400000, guid: 6539fe72cb991f644b620760a69c002d, type: 2}
+  NorthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: 9c73df530b783a141bd82ce31404020a, type: 2}
+  MovingBack: {fileID: 0}
+  NorthMoving: {fileID: 0}
+  SouthMoving: {fileID: 0}
+  StopMoving: {fileID: 0}
   Dodge: {fileID: 0}
   Attack: {fileID: 11400000, guid: a80f63aa63a3828499329697f04e3ebf, type: 2}
+  Absorb: {fileID: 0}
   Hit: {fileID: 11400000, guid: dcd933fefbbd1a7409ba8c90cdd0b107, type: 2}
   Dead: {fileID: 11400000, guid: 832eaa7b4f223364faa6b829904ddd72, type: 2}
   isFillWhite: 0
@@ -267,6 +274,7 @@ MonoBehaviour:
   currentHealth: 0
   recoveryTime: 0.5
   isInvincible: 0
+  untouchable: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +332,7 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
-  SpineTransform: {fileID: 0}
+  SpineTransform: {fileID: 8270591769108072770}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
