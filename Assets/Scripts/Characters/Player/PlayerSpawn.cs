@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PlayerSpawn : MonoBehaviour
 {
-    public GameObject PlayerCharacter;
+    private GameObject PlayerCharacter;
 
     void Awake()
     {
-        PlayerCharacter = Instantiate(PlayerCharacter,transform);
+        PlayerCharacter = GameObject.FindGameObjectWithTag("Player");;
         absorb.Instance.Player = PlayerCharacter.transform;
     }
 }

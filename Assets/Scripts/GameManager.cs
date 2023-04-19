@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -85,6 +86,8 @@ public class GameManager : MonoBehaviour
 
     public void ChangeScene(string SceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+        //씬 테스트를 위해 잠시 바꿨습니다._ 임동현
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

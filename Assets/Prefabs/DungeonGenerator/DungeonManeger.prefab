@@ -120,6 +120,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8399980558256537865}
   - component: {fileID: 8399980558256537864}
+  - component: {fileID: 2582573451637215552}
   m_Layer: 0
   m_Name: DungeonManeger
   m_TagString: Untagged
@@ -169,15 +170,35 @@ MonoBehaviour:
   startRoomPos: {x: 0, y: 0, z: 0}
   curPcPos: {x: 0, y: 0, z: 0}
   roomList:
-  - {fileID: 4635302759626500814, guid: b62197fdcf58828468a4ec027d402d24, type: 3}
-  - {fileID: 4635302759626500814, guid: dc06a020452f66441ab7a8962f278d81, type: 3}
-  - {fileID: 4635302759626500814, guid: 9c001e1fa65d83b459cf379670246d04, type: 3}
+  - {fileID: 357079459022768315, guid: c17c7d392551d4f4c989eb939f7a189a, type: 3}
+  - {fileID: 4635302759626500814, guid: c26496d1036389c40b951bcb4de5f31c, type: 3}
+  - {fileID: 4635302759626500814, guid: c26496d1036389c40b951bcb4de5f31c, type: 3}
   minimapCamera: {fileID: 8399980558207511955}
   minimapTile: {fileID: 8442799503276167603, guid: 60a086bb0b5affa44984e9b24d6b7e29,
     type: 3}
   minimapTileMaterial:
   - {fileID: 2100000, guid: 08463bbe6b5592543b7ac21f96cfeead, type: 2}
   - {fileID: 2100000, guid: 02674bd6d282b1f4b9d8630ab995d3a1, type: 2}
+--- !u!114 &2582573451637215552
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8399980558256537863}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b04b888e33b38e74c80c64b6902e25c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  absorbTimeSmall: 0.1
+  absorbTimeMedium: 0.5
+  absorbTimeLarge: 1
+  addBulletSmall: 20
+  addBulletMedium: 50
+  addBulletLarge: 100
+  absorbKeepTime: 1
+  speed: 10
 --- !u!1 &8399980558277359700
 GameObject:
   m_ObjectHideFlags: 0
