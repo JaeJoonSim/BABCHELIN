@@ -14,7 +14,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         down = 1,
         Middle = 2
     }
-    private direction3 DirectionState;
+    public direction3 DirectionState;
 
     public delegate void SpineEvent(string EventName);
 
@@ -171,7 +171,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 //}
                 _Dir = value;
                 anim.skeleton.ScaleX = Dir;
-                DirectionState = direction3.Middle;
             }
         }
     }
@@ -679,9 +678,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             else if (230 < state.facingAngle && state.facingAngle < 310)
                 DirectionState = direction3.down;
             else if (130 < state.facingAngle && state.facingAngle < 230)
+            {
                 Dir = -1;
+                DirectionState = direction3.Middle;
+            }
             else if (state.facingAngle < 50 || state.facingAngle > 310)
+            {
                 Dir = 1;
+                DirectionState = direction3.Middle;
+            }
         }
 
 
