@@ -20,7 +20,8 @@ public class StateMachine : MonoBehaviour
         Dieing = 12,
         Dead = 13,
         Absorbing = 14,
-
+        Runaway = 15,
+        Patrol = 16,
 
 
     }
