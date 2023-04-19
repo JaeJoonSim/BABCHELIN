@@ -175,7 +175,6 @@ public class PlayerAction : BaseMonoBehaviour
         if (wheelInput > 0)
         {
             playerController.CurAttack = (++playerController.CurAttack) % 3;
-            Debug.Log(playerController.CurAttack);
         }
         else if (wheelInput < 0)
         {
@@ -184,7 +183,6 @@ public class PlayerAction : BaseMonoBehaviour
             {
                 playerController.CurAttack = 2;
             }
-            Debug.Log(playerController.CurAttack);
         }
 
         return true;

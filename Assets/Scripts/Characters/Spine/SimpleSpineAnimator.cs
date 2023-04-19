@@ -8,6 +8,14 @@ using UnityEngine.Rendering;
 
 public class SimpleSpineAnimator : BaseMonoBehaviour
 {
+    public enum direction3
+    {
+        up = 0,
+        down = 1,
+        Middle = 2
+    }
+    private direction3 DirectionState;
+
     public delegate void SpineEvent(string EventName);
 
     [Serializable]
@@ -163,6 +171,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 //}
                 _Dir = value;
                 anim.skeleton.ScaleX = Dir;
+                DirectionState = direction3.Middle;
             }
         }
     }
@@ -302,6 +311,11 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 break;
         }
+
+    }
+
+    private void UpdateAnimFromFacing()
+    {
 
     }
 
@@ -660,25 +674,37 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         CurrentState = state.CURRENT_STATE;
         if (AutomaticallySetFacing)
         {
-            Dir = ((state.facingAngle > 140f && state.facingAngle < 220) ? 1 : (-1)) * ((!ReverseFacing) ? (-1) : 1);
+            if (50 < state.facingAngle && state.facingAngle < 130)
+                DirectionState = direction3.up;
+            else if (230 < state.facingAngle && state.facingAngle < 310)
+                DirectionState = direction3.down;
+            else if (130 < state.facingAngle && state.facingAngle < 230)
+                Dir = -1;
+            else if (state.facingAngle < 50 || state.facingAngle > 310)
+                Dir = 1;
         }
 
-        if (NorthIdle != null && CurrentState == StateMachine.State.Idle)
+
+
+        if (NorthIdle != null && CurrentState == StateMachine.State.Idle && Track != null)
         {
-            if (state.facingAngle > 40f && state.facingAngle < 140f)
+            if (DirectionState == direction3.up)
             {
-                if (Track != null && Track.Animation != NorthIdle.Animation)
+                if (Track.Animation != NorthIdle.Animation)
                 {
+
                     Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
+
                 }
             }
-            else if (Track != null && Track.Animation != Idle.Animation)
+            else if (Track.Animation != Idle.Animation)
             {
                 Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+
             }
         }
 
-        if(NorthAttack != null && CurrentState == StateMachine.State.Attacking)
+        if (NorthAttack != null && CurrentState == StateMachine.State.Attacking)
         {
             if (state.facingAngle > 40f && state.facingAngle < 140f)
             {
@@ -701,30 +727,30 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (MovingBack != null && CurrentState == StateMachine.State.Moving)
         {
-            if (MovingBack != null && CurrentState == StateMachine.State.Moving)
+            if (DirectionState == direction3.Middle)
             {
-                if (state.facingAngle > 140 && state.facingAngle < 270f && playerController.xDir > 0)
+                if (Dir == -1 && playerController.xDir > 0)
                 {
                     if (Track != null && Track.Animation != MovingBack.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, MovingBack, loop: true);
                     }
                 }
-                else if (state.facingAngle > 140 && state.facingAngle < 270f && playerController.xDir < 0)
+                else if (Dir == -1 && playerController.xDir < 0)
                 {
                     if (Track != null && Track.Animation != Moving.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
                     }
                 }
-                if ((state.facingAngle <= 140 || state.facingAngle >= 270f) && playerController.xDir < 0)
+                if (Dir == 1 && playerController.xDir < 0)
                 {
                     if (Track != null && Track.Animation != MovingBack.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, MovingBack, loop: true);
                     }
                 }
-                else if ((state.facingAngle <= 140 || state.facingAngle >= 270f) && playerController.xDir > 0)
+                else if (Dir == 1 && playerController.xDir > 0)
                 {
                     if (Track != null && Track.Animation != Moving.Animation)
                     {
@@ -774,7 +800,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
             }
         }
-        
+
         //else if ((NorthMoving == null || (NorthMoving != null && (state.facingAngle < 40f || state.facingAngle > 140f))) && Track.Animation != Moving.Animation)
         //{
         //    Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
