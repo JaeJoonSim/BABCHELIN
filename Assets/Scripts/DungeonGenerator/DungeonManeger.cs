@@ -130,6 +130,16 @@ public class DungeonManeger : Singleton<DungeonManeger>
 
     }
 
+    public List<GameObject> getAbsorbObject()
+    {
+        return posArr[curPcPos.z, curPcPos.x].roomObj.GetComponent<RoomChild>().AbsorbObject;
+    }//List<GameObject> temp = DungeonManeger.Instance.getAbsorbObject();
+    
+    public List<GameObject> getDestructObject()
+    {
+        return posArr[curPcPos.z, curPcPos.x].roomObj.GetComponent<RoomChild>().DestructObject;
+    }//List<GameObject> temp = DungeonManeger.Instance.getDestructObject();
+
     //방이동시 호출 ( 0 == 상, 1 == 하, 2 == 좌, 3 == 우)
     public void MoveToOtherRoom(int direction)
     {
