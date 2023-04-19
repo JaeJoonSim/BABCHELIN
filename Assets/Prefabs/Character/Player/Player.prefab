@@ -3097,8 +3097,8 @@ MonoBehaviour:
   SuctionRange: 10
   SuctionDelay: 1
   absorbEffet: {fileID: 8170672700727639333}
-  BulletGauge: 0
-  maxBulletGauge: 0
+  BulletGauge: 1000
+  maxBulletGauge: 1000
   Attack:
   - {fileID: 2024101054210482820, guid: 49c07492d4a27a64eb4cc810ae7a64cb, type: 3}
   - {fileID: 2024101054210482820, guid: 49c07492d4a27a64eb4cc810ae7a64cb, type: 3}
@@ -3212,6 +3212,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f967080353c5d04e82087801648def1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  BulletCanvas: {fileID: 0}
 --- !u!1 &6160722343829343096
 GameObject:
   m_ObjectHideFlags: 0
