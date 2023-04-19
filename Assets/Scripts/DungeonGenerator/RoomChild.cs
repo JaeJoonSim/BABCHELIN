@@ -21,5 +21,7 @@ public class RoomChild : MonoBehaviour
         door.Add(downDoor);
         door.Add(leftDoor);
         door.Add(rightDoor);
+
+        
     }
 }
