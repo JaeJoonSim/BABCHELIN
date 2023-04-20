@@ -17,11 +17,11 @@ public class PlayerController : BaseMonoBehaviour
     public float runSpeed = 5.5f;
     public static float MinInputForMovement = 0.3f;
 
-    [Header("이동 체크")]
-    public float forceDir;
-    public float speed;
-    public float xDir;
-    public float yDir;
+    //[Header("이동 체크")]
+    [HideInInspector] public float forceDir;
+    [HideInInspector] public float speed;
+    [HideInInspector] public float xDir;
+    [HideInInspector] public float yDir;
 
     [Space, Header("구르기")]
     public float DodgeTimer;
@@ -89,11 +89,22 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
-            state.facingAngle = Utils.GetMouseAngle(transform.position); 
-
-        //if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+        //if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
+
+        // Later TODO...
+        if (yDir > 0)
+            state.facingAngle = 90;
+        else if (yDir < 0)
+            state.facingAngle = 270;
+
+        if (xDir < 0)
+            state.facingAngle = 180;
+        else if (xDir > 0)
+            state.facingAngle = 0;
+
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+            state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         muzzleBone.position = muzzle.GetChild(0).position;
 
@@ -168,6 +179,7 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Dead:
+                if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
         }
 

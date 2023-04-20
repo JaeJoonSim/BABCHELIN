@@ -29,6 +29,7 @@ public class PlayerUI : MonoBehaviour
         playerHealth = player.GetComponent<HealthPlayer>();
 
         PlayerUIBackground = this.transform.GetChild(0).transform;
+        Debug.Log(PlayerUIBackground.gameObject.name);
 
         PlayerHPGauge = PlayerUIBackground.GetChild(0).GetComponent<Image>();
         BulletGauge = PlayerUIBackground.GetChild(1).GetComponent<Image>();
@@ -55,7 +56,7 @@ public class PlayerUI : MonoBehaviour
         PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
 
 
-        if(UltimateGauge.fillAmount == 1)
+        if (UltimateGauge.fillAmount == 1)
         {
             DefaultUltIcon.gameObject.SetActive(false);
             ActiveUltIcon.gameObject.SetActive(true);

@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem.XR;
 
 public class HealthPlayer : Health
 {
@@ -36,7 +35,7 @@ public class HealthPlayer : Health
 
     protected override bool IsInvincible()
     {
-        return isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging;
+        return untouchable || isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging;
     }
 
     protected override void Die()
