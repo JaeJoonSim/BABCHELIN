@@ -8,8 +8,9 @@ public class BerryBird : UnitObject
 {
     public Transform SpineTransform;
 
-    public float Damaged = 1f;
-    bool hasAppliedDamage = false;
+    private bool hasAppliedDamage = false;
+    public GameObject bullet;
+    
 
     [Space]
     [SerializeField] Transform target;
@@ -123,6 +124,7 @@ public class BerryBird : UnitObject
                 case StateMachine.State.Attacking:
                     SpineTransform.localPosition = Vector3.zero;
                     forceDir = state.facingAngle;
+                    speed = 0;
                     AttackTimer += Time.deltaTime;
                     distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
@@ -264,7 +266,9 @@ public class BerryBird : UnitObject
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 if (AttackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                {
+                    Instantiate(bullet, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+                }
                 hasAppliedDamage = true;
             }
         }
