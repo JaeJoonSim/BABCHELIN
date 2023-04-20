@@ -12,11 +12,16 @@ public class RoomChild : MonoBehaviour
 
     private List<DoorInfo> door = new List<DoorInfo> { };
 
+    public List<GameObject> AbsorbObject = new List<GameObject> { };
+    public List<GameObject> DestructObject = new List<GameObject> { };
+
     private void Awake()
     {
         door.Add(upDoor);
         door.Add(downDoor);
         door.Add(leftDoor);
         door.Add(rightDoor);
+
+        
     }
 }
