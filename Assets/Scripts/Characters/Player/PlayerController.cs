@@ -17,11 +17,11 @@ public class PlayerController : BaseMonoBehaviour
     public float runSpeed = 5.5f;
     public static float MinInputForMovement = 0.3f;
 
-    [Header("이동 체크")]
-    public float forceDir;
-    public float speed;
-    public float xDir;
-    public float yDir;
+    //[Header("이동 체크")]
+    [HideInInspector] public float forceDir;
+    [HideInInspector] public float speed;
+    [HideInInspector] public float xDir;
+    [HideInInspector] public float yDir;
 
     [Space, Header("구르기")]
     public float DodgeTimer;
