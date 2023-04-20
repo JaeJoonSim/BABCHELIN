@@ -10,12 +10,16 @@ public class BulletCollider : BaseMonoBehaviour
     public HealthPlayer player;
     public float destroyTime = 5f;
 
+    private ColliderEvents colliderEvents;
     private Vector2 direction;
 
     private void Start()
     {
+        colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
         direction = (player.transform.position - transform.position).normalized;
+
+        colliderEvents.OnTriggerEnterEvent += OnHit;
 
         Vector3 currentRotation = transform.eulerAngles;
         currentRotation.z = 0;

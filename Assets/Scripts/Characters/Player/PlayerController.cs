@@ -179,6 +179,7 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Dead:
+                if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
         }
 
