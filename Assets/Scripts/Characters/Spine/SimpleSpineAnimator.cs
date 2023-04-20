@@ -66,6 +66,11 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset NorthAttack;
     public AnimationReferenceAsset SouthAttack;
 
+    [Space, Header("PlayerAttack(플레이어만 할당)")]
+    public AnimationReferenceAsset[] PlayerAttack = new AnimationReferenceAsset[3];
+    public AnimationReferenceAsset[] PlayerNorthAttack = new AnimationReferenceAsset[3];
+    public AnimationReferenceAsset[] PlayerSouthAttack = new AnimationReferenceAsset[3];
+
     [Space, Header("Action")]
     public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Absorb;
@@ -812,6 +817,21 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         }
     }
 
+    private void UpdatePlayerAttack()
+    {
+        if (playerController == null)
+            return;
+
+        if (PlayerAttack[playerController.CurAttack] != null)
+            Attack = PlayerAttack[playerController.CurAttack];
+
+        if (PlayerNorthAttack[playerController.CurAttack] != null)
+            NorthAttack = PlayerNorthAttack[playerController.CurAttack];
+
+        if (PlayerSouthAttack[playerController.CurAttack] != null)
+            SouthAttack = PlayerSouthAttack[playerController.CurAttack];
+    }
+
     private void OnDestroy()
     {
         anim.AnimationState.Event -= SpineEventHandler;
@@ -855,7 +875,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
-
+        UpdatePlayerAttack();
         UpdateAnimFromFacing();
 
 
