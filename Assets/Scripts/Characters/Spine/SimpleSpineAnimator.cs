@@ -299,6 +299,28 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
                 }
                 break;
+            case StateMachine.State.Patrol:
+                if (StartMoving != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, StartMoving, loop: true);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Moving, loop: true, 0.2f);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                }
+                break;
+            case StateMachine.State.Runaway:
+                if (StartMoving != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, StartMoving, loop: true);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Moving, loop: true, 0.2f);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                }
+                break;
             case StateMachine.State.Dead:
                 if (Dead != null)
                 {

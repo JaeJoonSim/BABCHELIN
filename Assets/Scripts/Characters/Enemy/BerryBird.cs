@@ -20,6 +20,7 @@ public class BerryBird : UnitObject
     [SerializeField] float AttackDelay = 2f;
     public float AttackDuration = 0.3f;
     [SerializeField] float AttackTimer;
+    private bool canAttack = false;
 
     private Health playerHealth;
     private NavMeshAgent agent;
@@ -57,6 +58,7 @@ public class BerryBird : UnitObject
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
+        health.OnHit += OnHit;
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
 
@@ -145,7 +147,7 @@ public class BerryBird : UnitObject
                     {
                         state.CURRENT_STATE = StateMachine.State.Idle;
                     }
-                    else if (AttackTimer >= AttackDuration + AttackDelay)
+                    else if (AttackTimer >= AttackDuration + AttackDelay && canAttack == true)
                     {
                         AttackTimer = 0f;
                         state.CURRENT_STATE = StateMachine.State.Attacking;
@@ -185,7 +187,7 @@ public class BerryBird : UnitObject
 
                 agent.SetDestination(target.position);
                 //state.CURRENT_STATE = StateMachine.State.Moving;
-                if (distanceToPlayer <= AttackDistance)
+                if (distanceToPlayer <= AttackDistance && canAttack == true)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
                     agent.isStopped = true;
@@ -268,6 +270,12 @@ public class BerryBird : UnitObject
         }
     }
 
+    public override void OnHit(GameObject Attacker, Vector3 AttackLocation)
+    {
+        if (canAttack == false) canAttack = true;
+        Debug.Log($"공격가능: {canAttack}");
+    }
+
     public void OnDie()
     {
         agent.speed = 0f;
@@ -283,5 +291,6 @@ public class BerryBird : UnitObject
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(patrolStartPosition, patrolRange);
     }
+
 
 }
