@@ -1,4 +1,4 @@
-// Made with Amplify Shader Editor v1.9.1.3
+// Made with Amplify Shader Editor v1.9.1.5
 // Available at the Unity Asset Store - http://u3d.as/y3X 
 Shader "Deffect/S_Campfire2"
 {
@@ -408,8 +408,9 @@ Shader "Deffect/S_Campfire2"
 				#endif
 
 				half2 uv_MainTexture = IN.ase_texcoord3.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord3.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord3.w;
@@ -418,7 +419,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord3.z;
 				#else
@@ -680,8 +681,9 @@ Shader "Deffect/S_Campfire2"
 				#endif
 
 				half2 uv_MainTexture = IN.ase_texcoord2.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord2.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord2.w;
@@ -690,7 +692,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord2.z;
 				#else
@@ -920,8 +922,9 @@ Shader "Deffect/S_Campfire2"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				half2 uv_MainTexture = IN.ase_texcoord.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord.w;
@@ -930,7 +933,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord.z;
 				#else
@@ -1155,8 +1158,9 @@ Shader "Deffect/S_Campfire2"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				half2 uv_MainTexture = IN.ase_texcoord.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord.w;
@@ -1165,7 +1169,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord.z;
 				#else
@@ -1404,8 +1408,9 @@ Shader "Deffect/S_Campfire2"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				half2 uv_MainTexture = IN.ase_texcoord1.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord1.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord1.w;
@@ -1414,7 +1419,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord1.z;
 				#else
@@ -1653,8 +1658,9 @@ Shader "Deffect/S_Campfire2"
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
 				half2 uv_MainTexture = IN.ase_texcoord1.xy * _MainTexture_ST.xy + _MainTexture_ST.zw;
+				half2 panner37 = ( 1.0 * _Time.y * float2( 0.44,-1.99 ) + uv_MainTexture);
 				half4 temp_cast_0 = (_Pow).xxxx;
-				half4 temp_output_6_0 = pow( tex2D( _MainTexture, uv_MainTexture ) , temp_cast_0 );
+				half4 temp_output_6_0 = pow( tex2D( _MainTexture, panner37 ) , temp_cast_0 );
 				half2 uv_DissolveTexture = IN.ase_texcoord1.xy * _DissolveTexture_ST.xy + _DissolveTexture_ST.zw;
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch16 = IN.ase_texcoord1.w;
@@ -1663,7 +1669,7 @@ Shader "Deffect/S_Campfire2"
 				#endif
 				float cos12 = cos( staticSwitch16 );
 				float sin12 = sin( staticSwitch16 );
-				half2 rotator12 = mul( uv_DissolveTexture - float2( 0.5,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 0.5,0.5 );
+				half2 rotator12 = mul( uv_DissolveTexture - float2( 1.1,0.5 ) , float2x2( cos12 , -sin12 , sin12 , cos12 )) + float2( 1.1,0.5 );
 				#ifdef _USEPARTICLE_ON
 				float staticSwitch15 = IN.ase_texcoord1.z;
 				#else
@@ -1699,24 +1705,22 @@ Shader "Deffect/S_Campfire2"
 	Fallback Off
 }
 /*ASEBEGIN
-Version=19103
+Version=19105
 Node;AmplifyShaderEditor.TexCoordVertexDataNode;17;-1471.331,-158.0567;Inherit;True;0;4;0;5;FLOAT4;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.RangedFloatNode;14;-1520.581,-249.083;Float;False;Property;_DissolveTextureRotator;Dissolve Texture Rotator;5;0;Create;True;0;0;0;False;0;False;12.86;5.01;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;14;-1520.581,-249.083;Float;False;Property;_DissolveTextureRotator;Dissolve Texture Rotator;5;0;Create;True;0;0;0;False;0;False;12.86;10.1;0;0;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;16;-1226.804,-250.1831;Float;False;Property;_UseParticle;Use Particle;6;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.Vector2Node;13;-1427.581,-370.083;Float;False;Constant;_Vector0;Vector 0;5;0;Create;True;0;0;0;False;0;False;0.5,0.5;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1518.053,-504.8889;Inherit;False;0;2;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.RotatorNode;12;-1015.581,-376.083;Inherit;False;3;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;2;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;4;-1061.703,-165.3587;Float;False;Property;_Dissolve;Dissolve;2;0;Create;True;0;0;0;False;0;False;1;0;-1;1;0;1;FLOAT;0
-Node;AmplifyShaderEditor.TextureCoordinatesNode;10;-1087.053,-640.4889;Inherit;False;0;1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;4;-1061.703,-165.3587;Float;False;Property;_Dissolve;Dissolve;2;0;Create;True;0;0;0;False;0;False;1;0.7;-1;1;0;1;FLOAT;0
 Node;AmplifyShaderEditor.StaticSwitch;15;-732.2983,-124.4583;Float;False;Property;_UseParticle;Use Particle;6;0;Create;True;0;0;0;False;0;False;0;0;0;True;;Toggle;2;Key0;Key1;Create;True;True;All;9;1;FLOAT;0;False;0;FLOAT;0;False;2;FLOAT;0;False;3;FLOAT;0;False;4;FLOAT;0;False;5;FLOAT;0;False;6;FLOAT;0;False;7;FLOAT;0;False;8;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;2;-836.7183,-350.6639;Inherit;True;Property;_DissolveTexture;Dissolve Texture;1;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;2;-836.7183,-350.6639;Inherit;True;Property;_DissolveTexture;Dissolve Texture;1;0;Create;True;0;0;0;False;0;False;-1;None;9f929de5b036eef4b885dc47b839f226;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleAddOpNode;3;-338.8376,-228.7095;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;7;-779.3901,-434.5923;Float;False;Property;_Pow;Pow;3;0;Create;True;0;0;0;False;0;False;2.647059;2.01;1;6;0;1;FLOAT;0
-Node;AmplifyShaderEditor.SamplerNode;1;-859.0998,-635.5001;Inherit;True;Property;_MainTexture;Main Texture;0;0;Create;True;0;0;0;False;0;False;-1;None;db1a902e0b77c9040af71fc3e7e500c3;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;7;-779.3901,-434.5923;Float;False;Property;_Pow;Pow;3;0;Create;True;0;0;0;False;0;False;2.647059;1.11;1;6;0;1;FLOAT;0
+Node;AmplifyShaderEditor.SamplerNode;1;-859.0998,-635.5001;Inherit;True;Property;_MainTexture;Main Texture;0;0;Create;True;0;0;0;False;0;False;-1;None;fc459762a4f503943bb4a463672f74b7;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.PowerNode;6;-436.5312,-501.5125;Inherit;True;False;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SaturateNode;22;-122.3637,-360.0282;Inherit;True;1;0;FLOAT;0;False;1;FLOAT;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;141.8882,-4.254578;Float;False;Property;_Opacity;Opacity;7;0;Create;True;0;0;0;False;0;False;0;20;0;0;0;1;FLOAT;0
-Node;AmplifyShaderEditor.ColorNode;8;-480.0266,-732.0339;Float;False;Property;_TintColor;Tint Color;4;0;Create;True;0;0;0;False;0;False;1,1,1,1;0.990566,0.7896493,0.7896493,1;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.RangedFloatNode;26;141.8882,-4.254578;Float;False;Property;_Opacity;Opacity;7;0;Create;True;0;0;0;False;0;False;0;0;0;0;0;1;FLOAT;0
+Node;AmplifyShaderEditor.ColorNode;8;-480.0266,-732.0339;Float;False;Property;_TintColor;Tint Color;4;0;Create;True;0;0;0;False;0;False;1,1,1,1;1,1,1,0;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;23;125.036,-375.7281;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;9;-176.6303,-731.8486;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;24;337.8882,-173.2546;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
@@ -1735,6 +1739,10 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;34;781.5234,-562.9952;Float
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;35;781.5234,-562.9952;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;36;781.5234,-562.9952;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;28;850.8773,-581.4896;Half;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;Deffect/S_Campfire2;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;True;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;3;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;True;3;True;12;all;0;False;True;4;1;False;;1;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638148318144349595;  Blend;2;638148336406543174;Two Sided;1;638148332804789348;Forward Only;0;0;Cast Shadows;0;638148332852305012;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.PannerNode;37;-1105.349,-561.6516;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
+Node;AmplifyShaderEditor.Vector2Node;13;-1427.581,-370.083;Float;False;Constant;_Vector0;Vector 0;5;0;Create;True;0;0;0;False;0;False;1.1,0.5;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.TextureCoordinatesNode;10;-1454.393,-773.9614;Inherit;False;0;1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.Vector2Node;38;-1420.388,-640.1447;Float;False;Constant;_Vector1;Vector 0;5;0;Create;True;0;0;0;False;0;False;0.44,-1.99;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 WireConnection;16;1;14;0
 WireConnection;16;0;17;4
 WireConnection;12;0;11;0
@@ -1745,7 +1753,7 @@ WireConnection;15;0;17;3
 WireConnection;2;1;12;0
 WireConnection;3;0;2;1
 WireConnection;3;1;15;0
-WireConnection;1;1;10;0
+WireConnection;1;1;37;0
 WireConnection;6;0;1;0
 WireConnection;6;1;7;0
 WireConnection;22;0;3;0
@@ -1764,5 +1772,7 @@ WireConnection;20;0;19;0
 WireConnection;20;1;5;0
 WireConnection;28;2;20;0
 WireConnection;28;3;21;0
+WireConnection;37;0;10;0
+WireConnection;37;2;38;0
 ASEEND*/
-//CHKSM=248CA1A1A747050186629237E1B0FA05B3E9CD08
+//CHKSM=3FC3F4110BF99687D4F1E8D6BF413EDFAD92227D
