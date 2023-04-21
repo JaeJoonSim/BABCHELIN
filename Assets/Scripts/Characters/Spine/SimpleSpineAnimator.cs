@@ -1042,7 +1042,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
-
+        if (playerController == null)
+            return;
         UpdatePlayerAttack();
         UpdateAnimFromFacing();
 

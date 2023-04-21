@@ -89,22 +89,22 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
-            state.facingAngle = Utils.GetMouseAngle(transform.position);
+        //if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
+        //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        //if (yDir > 0)
-        //    state.facingAngle = 90;
-        //else if (yDir < 0)
-        //    state.facingAngle = 270;
+        if (yDir > 0)
+            state.facingAngle = 90;
+        else if (yDir < 0)
+            state.facingAngle = 270;
 
-        //if (xDir < 0)
-        //    state.facingAngle = 180;
-        //else if (xDir > 0)
-        //    state.facingAngle = 0;
+        if (xDir < 0)
+            state.facingAngle = 180;
+        else if (xDir > 0)
+            state.facingAngle = 0;
 
-        //if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
-        //    state.facingAngle = Utils.GetMouseAngle(transform.position);
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+            state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         muzzleBone.position = muzzle.GetChild(0).position;
 
@@ -160,7 +160,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
-
+            case StateMachine.State.Absorbing:
             case StateMachine.State.Attacking:
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
@@ -173,11 +173,6 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
-
-            case StateMachine.State.Absorbing:
-                speed = 0;
-                break;
-
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
