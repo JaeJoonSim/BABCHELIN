@@ -8,6 +8,8 @@ public class DungeonGenerator : MonoBehaviour
     private int distanceBetween;
     private ArrGenerator aGenerator;
 
+    [SerializeField]
+    private Transform roomParent;
 
     void Start()
     {
@@ -22,7 +24,7 @@ public class DungeonGenerator : MonoBehaviour
             roomObj = Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             //Instantiate(DungeonManeger.Instance.ValidRoomList[i].roomObj, pos, Quaternion.identity);
             roomObj.name = DungeonManeger.Instance.ValidRoomList[i].roomID;
-            roomObj.transform.parent = transform;
+            roomObj.transform.parent = roomParent;
             DungeonManeger.Instance.ValidRoomList[i].roomObj = roomObj;
             DungeonManeger.Instance.ValidRoomList[i].child = roomObj.GetComponent<RoomChild>();
             roomObj.SetActive(false);

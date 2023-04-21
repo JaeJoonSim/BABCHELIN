@@ -160,7 +160,7 @@ public class PlayerController : BaseMonoBehaviour
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
-
+            case StateMachine.State.Absorbing:
             case StateMachine.State.Attacking:
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
@@ -173,11 +173,6 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
-
-            case StateMachine.State.Absorbing:
-                speed = 0;
-                break;
-
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;

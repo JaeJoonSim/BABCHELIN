@@ -72,12 +72,35 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset[] PlayerSouthAttack = new AnimationReferenceAsset[3];
 
     [Space, Header("Action")]
-    public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Absorb;
+    public AnimationReferenceAsset NorthAbsorb;
+    public AnimationReferenceAsset SouthAbsorb;
+
+    public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Hit;
     public AnimationReferenceAsset Dead;
 
-    private TrackEntry Track;
+    private TrackEntry track;
+    public TrackEntry Track
+    {
+        get { return track; }
+        set
+        {
+            track = value;
+            track.AttachmentThreshold = 1f;
+            track.MixDuration = 0f;
+        }
+    }
+    private TrackEntry secondTrack;
+    public TrackEntry SecondTrack {
+        get { return secondTrack; }
+        set 
+        {
+            secondTrack = value;
+            SecondTrack.AttachmentThreshold = 1f;
+            SecondTrack.MixDuration = 0f;
+        } 
+    }
     private StateMachine.State cs;
     private TrackEntry t;
 
@@ -344,8 +367,123 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void UpdateAnimFromFacing()
     {
+        if (SecondTrack != null)
+        {
+            if (cs == StateMachine.State.Attacking || cs == StateMachine.State.Absorbing)
+            {
+                //공격중 이동 x
+                if (playerController.xDir == 0 && playerController.yDir == 0)
+                {
+                    if (DirectionState == direction3.up && NorthIdle != null)
+                    {
+                        
+                        if (SecondTrack.Animation != NorthIdle.Animation)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthIdle, loop: true);
+                        }
+                    }
+                    else if (DirectionState == direction3.down && SouthIdle != null)
+                    {
+                        if (SecondTrack.Animation != SouthIdle.Animation)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthIdle, loop: true);
+                        }
+                    }
+                    else
+                    {
+                        if (SecondTrack.Animation != Idle.Animation)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Idle, loop: true);
+                        }
+                    }
+                }
+                else
+                {
+                    if (DirectionState == direction3.up && NorthMoving != null)
+                    {
+                        if (SecondTrack.Animation != NorthMoving.Animation)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                        }
+                    }
+                    else if (DirectionState == direction3.down && SouthMoving != null)
+                    {
+                        if (SecondTrack.Animation != SouthMoving.Animation)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                        }
+                    }
+                    else if (playerController != null)
+                    {
+                        if (Dir == -1)
+                        {
+                            if (playerController.xDir > 0)
+                            {
+                                if (SecondTrack.Animation != MovingBack.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MovingBack, loop: true);
+                                }
+                            }
+                            else if (playerController.xDir <= 0)
+                            {
+                                if (SecondTrack.Animation != Moving.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                }
+                            }
+                            else
+                            {
+                                if (SecondTrack.Animation != Moving.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                }
+                            }
+
+                        }
+                        else if (Dir == 1)
+                        {
+                            if (playerController.xDir < 0)
+                            {
+                                if (SecondTrack.Animation != MovingBack.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MovingBack, loop: true);
+                                }
+                            }
+                            else if (playerController.xDir >= 0)
+                            {
+                                if (SecondTrack.Animation != Moving.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                }
+                            }
+                            else
+                            {
+                                if (SecondTrack.Animation != Moving.Animation)
+                                {
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                }
+                            }
+                        }
+                        else if (MovingBack == null)
+                        {
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                        }
+                    }
+
+                }
+            }
+            else
+            {
+                if (anim.AnimationState.Tracks.Count - 1 == SecondaryTrack)
+                {
+                    anim.AnimationState.ClearTrack(SecondaryTrack);
+                }
+            }
+        }
+
         if (Track != null)
         {
+
             switch (cs)
             {
                 case StateMachine.State.Idle:
@@ -427,7 +565,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                             }
                             else if (playerController.xDir >= 0)
                             {
-                                if (Track != null && Track.Animation != Moving.Animation)
+                                if (Track.Animation != Moving.Animation)
                                 {
                                     Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
                                 }
@@ -477,11 +615,36 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 case StateMachine.State.CustomAnimation:
                     break;
                 case StateMachine.State.Absorbing:
+                    if (DirectionState == direction3.up && NorthAbsorb != null)
+                    {
+                        if (Track.Animation != NorthAbsorb.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAbsorb, loop: true);
+                        }
+                    }
+                    else if (DirectionState == direction3.down && SouthAbsorb != null)
+                    {
+                        if (Track.Animation != SouthAbsorb.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAbsorb, loop: true);
+                        }
+                    }
+                    else
+                    {
+                        if (Track.Animation != Absorb.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Absorb, loop: true);
+                        }
+                    }
                     break;
                 default:
                     break;
             }
+
+
         }
+
+
     }
 
     public string CurrentAnimation()
@@ -767,11 +930,13 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (anim.AnimationState.Data.SkeletonData.FindAnimation((DefaultLoop != null) ? DefaultLoop.Animation.Name : Idle.Animation.Name) != null)
             {
                 Track = anim.AnimationState.SetAnimation(AnimationTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
+                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
             }
         }
         else
         {
             Track = anim.AnimationState.GetCurrent(0);
+            SecondTrack = anim.AnimationState.GetCurrent(0);
         }
         Dir = 1;
         meshRenderer = GetComponent<MeshRenderer>();
@@ -870,11 +1035,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             }
         }
 
+
+
         SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
         if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
         {
             return;
         }
+        if (playerController == null)
+            return;
         UpdatePlayerAttack();
         UpdateAnimFromFacing();
 
