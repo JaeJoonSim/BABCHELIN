@@ -246,7 +246,7 @@ public class BerryBird : UnitObject
         if (!isPlayerInRange)
         {
             agent.speed /= runawaySpeedMultiplier;
-            state.CURRENT_STATE = StateMachine.State.Patrol;
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
     }
 
