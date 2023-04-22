@@ -15,18 +15,23 @@ public class CookieMouse3 : UnitObject
 
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
-    [SerializeField] float AttackDistance = 1f;
+    [SerializeField] float detectionAttackRange;
+    [SerializeField] float attackDistance = 0f;
+    //[SerializeField] float moveTime = 0f;
 
     [Space]
     [SerializeField] float AttackDelay;
     public float AttackDuration = 0.3f;
     [SerializeField] float AttackTimer;
-    [SerializeField] float stopTimer;
+    [SerializeField] float moveSpeed;
 
     private Health playerHealth;
     private NavMeshAgent agent;
     private bool isPlayerInRange;
+    private bool isPlayerInAttackRange;
     private float distanceToPlayer;
+    Vector3 movePoint;
+    Vector3 directionToPoint;
 
     [Space]
     [SerializeField] float patrolRange = 10f;
@@ -44,7 +49,7 @@ public class CookieMouse3 : UnitObject
     public float xDir;
     public float yDir;
 
-    public GameObject BombObject;
+    public GameObject BulletObject;
 
     private SkeletonAnimation spineAnimation;
 
@@ -68,7 +73,7 @@ public class CookieMouse3 : UnitObject
     public override void Update()
     {
         base.Update();
-
+        distanceToPlayer = Vector3.Distance(transform.position, target.position);
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             FollowTarget();
@@ -81,31 +86,30 @@ public class CookieMouse3 : UnitObject
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
-
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    if (isPlayerInRange)
+                    idleTimer += Time.deltaTime;
+                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
-                        state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                        state.LookAngle = state.facingAngle;
-                        stopTimer += Time.deltaTime;
-                    }
-                    else
-                    {
-                        stopTimer = 0f;
+                        state.CURRENT_STATE = StateMachine.State.Patrol;
+                        idleTimer = 0f;
                     }
 
-                    if(stopTimer >= 1)
+                    if (isPlayerInRange)
+                    {
+                        Debug.Log("pc °¨Áö");
+                        state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
+                        state.LookAngle = state.facingAngle;
                         state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
-                case StateMachine.State.Patrol:
-                    break;
+
                 case StateMachine.State.Moving:
                     agent.speed = 3f;
                     AttackTimer = 0f;
@@ -121,44 +125,43 @@ public class CookieMouse3 : UnitObject
 
                     if (!isPlayerInRange)
                         state.ChangeToIdleState();
+
+                    if (isPlayerInAttackRange)
+                    {
+                        AttackDelay = 0;
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
                     break;
+
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
                     detectionRange *= 2f;
                     break;
                 case StateMachine.State.Attacking:
-                    SpineTransform.localPosition = Vector3.zero;
-                    forceDir = state.facingAngle;
-                    AttackTimer += Time.deltaTime;
-                    distanceToPlayer = Vector3.Distance(transform.position, target.position);
+                    agent.speed = 0f;
+                    agent.isStopped = true;
+                    AttackDelay += Time.deltaTime;
 
-                    if (AttackTimer >= AttackDuration / 2f && !hasAppliedDamage)
+                    if(AttackDelay >= 1)
                     {
-                    }
-                    else if (AttackTimer < AttackDuration / 2f)
-                    {
-                        hasAppliedDamage = false;
+                        Instantiate(BulletObject, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+                        AttackDelay = 0;
                     }
 
-                    if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration)
+
+                    if (!isPlayerInAttackRange)
                     {
-                        AttackTimer = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        state.CURRENT_STATE = StateMachine.State.Moving;
                     }
-                    else if (AttackTimer < 0.1f)
-                    {
-                        state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
-                    }
-                    else if (AttackTimer >= AttackDuration && AttackTimer < AttackDuration + AttackDelay)
-                    {
-                        state.CURRENT_STATE = StateMachine.State.Idle;
-                    }
-                    else if (AttackTimer >= AttackDuration + AttackDelay)
-                    {
-                        AttackTimer = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
-                    }
-                    stopTimer = 0f;
+
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
+                    state.LookAngle = state.facingAngle;
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                    break;
+
+                case StateMachine.State.Patrol:
+                    Patrol();
                     break;
             }
         }
@@ -168,8 +171,6 @@ public class CookieMouse3 : UnitObject
     {
         if (state.CURRENT_STATE != StateMachine.State.Attacking)
         {
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
             if (distanceToPlayer <= detectionRange)
             {
                 isPlayerInRange = true;
@@ -179,15 +180,25 @@ public class CookieMouse3 : UnitObject
                 isPlayerInRange = false;
             }
 
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking && stopTimer >= 1f)
+            if (distanceToPlayer <= detectionAttackRange)
             {
+                isPlayerInAttackRange = true;
+            }
+            else
+            {
+                isPlayerInAttackRange = false;
+            }
+
+            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
+            {
+                agent.speed = 3f;
                 Vector3 directionToTarget = (target.position - transform.position).normalized;
 
                 xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                if (distanceToPlayer <= AttackDistance)
+                if (distanceToPlayer <= attackDistance)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
                     playerHealth.Damaged(gameObject, transform.position, Damaged);
@@ -235,6 +246,7 @@ public class CookieMouse3 : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
     }
+
     private Vector3 GetRandomPositionInPatrolRange()
     {
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
@@ -250,7 +262,7 @@ public class CookieMouse3 : UnitObject
         {
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                if (AttackDistance > distanceToPlayer)
+                if (attackDistance > distanceToPlayer)
                     playerHealth.Damaged(gameObject, transform.position, Damaged);
                 hasAppliedDamage = true;
             }
@@ -259,9 +271,6 @@ public class CookieMouse3 : UnitObject
 
     public void OnDie()
     {
-        GameObject bomb = BombObject;
-        bomb.transform.position = transform.position;
-        Instantiate(bomb);
         agent.speed = 0f;
         Destroy(gameObject, 5f);
     }
@@ -271,6 +280,7 @@ public class CookieMouse3 : UnitObject
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, AttackDistance);
+        Gizmos.DrawWireSphere(transform.position, attackDistance);
     }
+
 }
