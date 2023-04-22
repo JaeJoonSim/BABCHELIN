@@ -7,7 +7,8 @@ public class Utils : MonoBehaviour
 {
     private static Matrix4x4 matrix = Matrix4x4.identity;
     public static bool gizmos = true;
-
+    private static Plane plane = new Plane(Vector3.back, 0f);
+    private static Ray ray;
     private static void SetColor(Color color)
     {
         if (gizmos && Gizmos.color != color)
@@ -45,20 +46,25 @@ public class Utils : MonoBehaviour
     }
     public static float GetMouseAngle(Vector3 pos)
     {
-        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
-        Vector2 mouseScreenPointPosition = Input.mousePosition;
-        return GetAngle(screenPointPosition, mouseScreenPointPosition);
+        return GetAngle(pos, GetMousePosition());
     }
     public static Vector3 GetMouseDirection(Vector3 pos)
     {
-        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
-        Vector2 mouseScreenPointPosition = Input.mousePosition;
-        return (mouseScreenPointPosition - screenPointPosition).normalized;
+        return (GetMousePosition() - pos).normalized;
     }
     public static float GetMouseDistance(Vector3 pos)
     {
-        Vector2 screenPointPosition = Camera.main.WorldToScreenPoint(pos);
-        Vector2 mouseScreenPointPosition = Input.mousePosition;
-        return Vector3.Distance(screenPointPosition, mouseScreenPointPosition);
+        return Vector3.Distance(pos, GetMousePosition());
+    }
+    public static Vector3 GetMousePosition()
+    {
+        ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        float distanceToPlane;
+
+        if (plane.Raycast(ray, out distanceToPlane))
+        {
+            return ray.GetPoint(distanceToPlane);
+        }
+        return Vector3.zero;
     }
 }
