@@ -20,8 +20,10 @@ public class LargeAttack : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log(collision.name);
         if (collision.tag == "Enemy")
+        {
+            collision.GetComponent<Health>().Damaged(gameObject, transform.position, 10f);
             Destroy(gameObject);
+        }
     }
 }

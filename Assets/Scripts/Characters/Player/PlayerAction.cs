@@ -132,7 +132,11 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
-        playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position) / 100, 0, 0);
+        if (state.CURRENT_STATE == StateMachine.State.Attacking|| state.CURRENT_STATE == StateMachine.State.Absorbing)
+        {      
+            playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position), 0, 0);
+        }
+       
 
         PreviousPosition = base.transform.position;
     }
@@ -202,28 +206,10 @@ public class PlayerAction : BaseMonoBehaviour
                 return false;
             }
 
-            if (ShotDelay <= 0f)
-            {
                 state.CURRENT_STATE = StateMachine.State.Attacking;
-                //switch (playerController.CurAttack)
-                //{
-                //    case 0:
-                //        state.CURRENT_STATE = StateMachine.State.Attacking;
-                //        Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
-                //        break;
-                //    case 1:
-                //        state.CURRENT_STATE = StateMachine.State.Attacking;
-                //        break;
-                //    case 2:
-                //        state.CURRENT_STATE = StateMachine.State.Attacking;
-                //        break;
-                //    default:
-                //        break;
-                //}
-
 
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
-            }
+
         }
         else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
         {
@@ -341,12 +327,15 @@ public class PlayerAction : BaseMonoBehaviour
         if (e.Data.Name == "shot")
         {
             playerController.addBullet(-10);
-            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
-            if (playerController.AttackEffet[playerController.CurAttack] != null)
+            float anglet = state.facingAngle - 15;
+            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+            for (int i = 0; i < 2; i++)
             {
-                playerController.AttackEffet[playerController.CurAttack].transform.position = playerController.GrinderControl.position;
-                playerController.AttackEffet[playerController.CurAttack].Play();
+                anglet += 30 / 2;
+                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
             }
+
+
         }
     }
 }
