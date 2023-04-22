@@ -96,7 +96,14 @@ public class PlayerController : BaseMonoBehaviour
         if (yDir > 0)
             state.facingAngle = 90;
         else if (yDir < 0)
-            state.facingAngle = 270;
+        // Later TODO...
+        //state.facingAngle = 270;
+        {
+            if (state.facingAngle == 90)
+            {
+                state.facingAngle = 0;
+            }
+        }
 
         if (xDir < 0)
             state.facingAngle = 180;

@@ -205,7 +205,7 @@ public class PlayerAction : BaseMonoBehaviour
 
                 return false;
             }
-
+            if(state.CURRENT_STATE != StateMachine.State.Attacking)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
@@ -228,9 +228,11 @@ public class PlayerAction : BaseMonoBehaviour
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
 
-
-            playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
-            playerController.absorbEffet.Play();
+            if (playerController.absorbEffet != null)
+            {
+                playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
+                playerController.absorbEffet.Play();
+            }
             FindVisibleTargets();
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
@@ -253,7 +255,11 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
             targetInRange = null;
-            playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+
+            if (playerController.absorbEffet != null)
+            {
+                playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
         }
 
         return false;

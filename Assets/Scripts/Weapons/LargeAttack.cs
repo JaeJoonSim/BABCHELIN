@@ -8,7 +8,10 @@ public class LargeAttack : MonoBehaviour
     public float range;
     Vector2 spownPos;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        spownPos = transform.position;
+    }
     void Update()
     {
         transform.Translate(Vector3.right * speed * Time.deltaTime);
