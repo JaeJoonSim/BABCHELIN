@@ -130,14 +130,7 @@ public class PlayerAction : BaseMonoBehaviour
             ShotDelay -= Time.deltaTime;
 
         }
-
-        playerController.muzzle.localRotation = Quaternion.Euler(new Vector3(0, 0, state.facingAngle));
-        if (state.CURRENT_STATE == StateMachine.State.Attacking|| state.CURRENT_STATE == StateMachine.State.Absorbing)
-        {      
-            playerController.muzzle.GetChild(0).transform.localPosition = new Vector3(Utils.GetMouseDistance(transform.position), 0, 0);
-        }
-       
-
+     
         PreviousPosition = base.transform.position;
     }
 
@@ -228,11 +221,7 @@ public class PlayerAction : BaseMonoBehaviour
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
 
-            if (playerController.absorbEffet != null)
-            {
-                playerController.absorbEffet.transform.position = playerController.GrinderControl.position;
-                playerController.absorbEffet.Play();
-            }
+
             FindVisibleTargets();
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
@@ -284,12 +273,12 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
         }
-        targetInRange = Physics2D.OverlapCircleAll(transform.position, playerController.SuctionRange, 1 << 20);
+        targetInRange = Physics2D.OverlapCircleAll(playerController.GrinderControl.position, playerController.SuctionRange, 1 << 20);
 
         for (int i = 0; i < targetInRange.Length; i++)
         {
 
-            Vector2 dirToTarget = (targetInRange[i].transform.position - transform.position).normalized;
+            Vector2 dirToTarget = (targetInRange[i].transform.position - playerController.GrinderControl.position).normalized;
             if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.SuctionAngle / 2)
             {
                 absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
@@ -297,7 +286,7 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     absorb.inAbsorbArea = true;
                 }
-                Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
+                Debug.DrawLine(playerController.GrinderControl.position, targetInRange[i].transform.position, Color.green);
             }
         }
     }
@@ -306,13 +295,13 @@ public class PlayerAction : BaseMonoBehaviour
     {
 #if UNITY_EDITOR
 
-        UnityEditor.Handles.DrawWireArc(transform.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
 
         Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
         Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
 
-        UnityEditor.Handles.DrawLine(transform.position, transform.position + viewAngleA * playerController.SuctionRange);
-        UnityEditor.Handles.DrawLine(transform.position, transform.position + viewAngleB * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
 
 #endif
 

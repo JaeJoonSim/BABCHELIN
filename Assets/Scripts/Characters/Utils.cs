@@ -56,7 +56,7 @@ public class Utils : MonoBehaviour
     {
         return Vector3.Distance(pos, GetMousePosition());
     }
-    private static Vector3 GetMousePosition()
+    public static Vector3 GetMousePosition()
     {
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         float distanceToPlane;
