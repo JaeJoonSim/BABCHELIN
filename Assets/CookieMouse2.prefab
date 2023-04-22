@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ccc601b4e80f5241b7fe5b923dd53c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DirectionState: 0
   AnimationTrack: 0
   SecondaryTrack: 1
   AutomaticallySetFacing: 1
@@ -144,6 +145,7 @@ MonoBehaviour:
   Animations: []
   Idle: {fileID: 11400000, guid: 6539fe72cb991f644b620760a69c002d, type: 2}
   NorthIdle: {fileID: 0}
+  SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: 9c73df530b783a141bd82ce31404020a, type: 2}
   MovingBack: {fileID: 0}
@@ -152,6 +154,19 @@ MonoBehaviour:
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: a80f63aa63a3828499329697f04e3ebf, type: 2}
   NorthAttack: {fileID: 0}
+  SouthAttack: {fileID: 0}
+  PlayerAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerNorthAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerSouthAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Dodge: {fileID: 0}
   Absorb: {fileID: 0}
   Hit: {fileID: 11400000, guid: dcd933fefbbd1a7409ba8c90cdd0b107, type: 2}
@@ -178,7 +193,6 @@ GameObject:
   - component: {fileID: 3275738440347693762}
   - component: {fileID: 3275738440347693765}
   - component: {fileID: 3460529972326514158}
-  - component: {fileID: 1002717887194349758}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
   - component: {fileID: 3275738440347693769}
@@ -334,10 +348,11 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
-  SpineTransform: {fileID: 0}
+  SpineTransform: {fileID: 8270591769108072770}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 10
+  detectionRange: 7
+  attackDetectionRange: 3
   AttackDistance: 1
   AttackDelay: 0
   AttackDuration: 0.3
@@ -346,18 +361,7 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
---- !u!114 &1002717887194349758
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3275738440347693820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9073b2a6ff4308e49adba58d1e693fc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  slowObj: {fileID: 0}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0
