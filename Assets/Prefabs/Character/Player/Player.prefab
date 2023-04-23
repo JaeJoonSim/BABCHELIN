@@ -3091,9 +3091,9 @@ MonoBehaviour:
   DodgeDuration: 0.5
   DodgeMaxDuration: 0.5
   DodgeDelay: 2
-  SuctionSpeed: 1
+  SuctionSpeed: 10
   SuctionAngle: 30
-  SuctionRange: 3
+  SuctionRange: 3.3
   SuctionDelay: 1
   absorbEffet: {fileID: 5729501917595095277}
   BulletGauge: 300
@@ -8308,7 +8308,7 @@ MonoBehaviour:
   SouthMoving: {fileID: 11400000, guid: c3bd0881fa36b4345a3b66108c212248, type: 2}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 18333c8a9978d8d44aea1fc08c68ca79, type: 2}
-  NorthAttack: {fileID: 11400000, guid: 83fd5d7a36dd2b3499267b1285e7accd, type: 2}
+  NorthAttack: {fileID: 11400000, guid: b0e6637a9f40a9a4bbe0b719070f90c9, type: 2}
   SouthAttack: {fileID: 0}
   PlayerAttack:
   - {fileID: 11400000, guid: ad9a27ad373da2a47a940d6df37bb050, type: 2}
@@ -9188,6 +9188,11 @@ PrefabInstance:
       propertyPath: playOnAwake
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 417212771453791766, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.6
+      objectReference: {fileID: 0}
     - target: {fileID: 417212772262535729, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: playOnAwake
@@ -9197,6 +9202,21 @@ PrefabInstance:
         type: 3}
       propertyPath: scalingMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 417212772262535729, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSize.scalar
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766300154703961481, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1766300154703961481, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.174
       objectReference: {fileID: 0}
     - target: {fileID: 2106314206971747769, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
@@ -9217,6 +9237,26 @@ PrefabInstance:
         type: 3}
       propertyPath: scalingMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106314206971747769, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2106314206971747769, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740364462776406131, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2740364462776406131, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.174
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
@@ -9313,6 +9353,41 @@ PrefabInstance:
       propertyPath: scalingMode
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7359678431780030260, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359678431780030260, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435599149109942437, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.60670406
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435599149109942437, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.9585924
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435599149109942437, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5534657
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435599149109942437, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7435599149109942437, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1.174
+      objectReference: {fileID: 0}
     - target: {fileID: 8220421645917339646, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: prewarm
@@ -9332,6 +9407,16 @@ PrefabInstance:
         type: 3}
       propertyPath: scalingMode
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220421645917339646, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSpeed.scalar
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8220421645917339646, guid: e03765e2b8d665f449a369ef1329f79d,
+        type: 3}
+      propertyPath: InitialModule.startSize.minScalar
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e03765e2b8d665f449a369ef1329f79d, type: 3}
