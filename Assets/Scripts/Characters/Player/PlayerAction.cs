@@ -198,7 +198,7 @@ public class PlayerAction : BaseMonoBehaviour
 
                 return false;
             }
-            if(state.CURRENT_STATE != StateMachine.State.Attacking)
+            if(state.CURRENT_STATE != StateMachine.State.Attacking && Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
                 ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
