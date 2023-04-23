@@ -20,12 +20,13 @@ public class PlayerController : BaseMonoBehaviour
     //[Header("이동 체크")]
     [HideInInspector] public float forceDir;
     [HideInInspector] public float speed;
-    public float xDir;
-    public float yDir;
+    [HideInInspector] public float xDir;
+    [HideInInspector] public float yDir;
 
     [Space, Header("구르기")]
     public float DodgeTimer;
     public float DodgeSpeed = 12f;
+    public float DodgeAngle  = 0f;
     public float DodgeDuration = 0.3f;
     public float DodgeMaxDuration = 0.5f;
     public float DodgeDelay = 0.3f;
@@ -101,33 +102,46 @@ public class PlayerController : BaseMonoBehaviour
         {
             if (yDir > 0)
             {
+                //muzzleBone.position = transform.position + new Vector3(0, 1, 0);
                 if (xDir < 0)
-                    state.facingAngle = 135;
+                    DodgeAngle = 135;
                 else if (xDir > 0)
-                    state.facingAngle = 45;
+                    DodgeAngle = 45;
                 else
+                {
                     state.facingAngle = 90;
-
+                    DodgeAngle = 90f;
+                }
             }
             else if (yDir < 0)
-            // Later TODO...
-
             {
+               // muzzleBone.position = transform.position + new Vector3(0, -1, 0);
                 if (xDir < 0)
-                    state.facingAngle = 225;
+                    DodgeAngle = 225;
                 else if (xDir > 0)
-                    state.facingAngle = 315;
+                    DodgeAngle = 315;
                 else
+                {
                     state.facingAngle = 270;
+                    DodgeAngle = 270;
+                }
             }
             else
             {
                 if (xDir < 0)
+                {
+                    muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
                     state.facingAngle = 180;
+                    DodgeAngle = 180;
+                }
                 else if (xDir > 0)
+                {
+                    muzzleBone.position = transform.position + new Vector3(1, 0, 0);
                     state.facingAngle = 0;
+                    DodgeAngle = 0;
+                }
             }
-           
+
         }
 
 
@@ -166,7 +180,7 @@ public class PlayerController : BaseMonoBehaviour
             case StateMachine.State.Dodging:
                 Z = 0f;
                 SpineTransform.localPosition = Vector3.zero;
-                forceDir = state.facingAngle;
+                forceDir = DodgeAngle;
                 if (DodgeCollisionDelay < 0f)
                 {
                     speed = Mathf.Lerp(speed, DodgeSpeed, 2f * Time.deltaTime);
@@ -252,7 +266,7 @@ public class PlayerController : BaseMonoBehaviour
     {
         BulletGauge += add;
 
-        if (BulletGauge > maxBulletGauge) 
+        if (BulletGauge > maxBulletGauge)
         {
             BulletGauge = maxBulletGauge;
         }
