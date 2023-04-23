@@ -20,8 +20,8 @@ public class PlayerController : BaseMonoBehaviour
     //[Header("이동 체크")]
     [HideInInspector] public float forceDir;
     [HideInInspector] public float speed;
-    [HideInInspector] public float xDir;
-    [HideInInspector] public float yDir;
+    public float xDir;
+    public float yDir;
 
     [Space, Header("구르기")]
     public float DodgeTimer;
@@ -92,27 +92,42 @@ public class PlayerController : BaseMonoBehaviour
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        if (yDir > 0)
-            state.facingAngle = 90;
-        else if (yDir < 0)
-        // Later TODO...
-        //state.facingAngle = 270;
-        {
-            if (state.facingAngle == 90)
-            {
-                state.facingAngle = 0;
-            }
-        }
-
-        if (xDir < 0)
-            state.facingAngle = 180;
-        else if (xDir > 0)
-            state.facingAngle = 0;
-
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
+        }
+        else
+        {
+            if (yDir > 0)
+            {
+                if (xDir < 0)
+                    state.facingAngle = 135;
+                else if (xDir > 0)
+                    state.facingAngle = 45;
+                else
+                    state.facingAngle = 90;
+
+            }
+            else if (yDir < 0)
+            // Later TODO...
+
+            {
+                if (xDir < 0)
+                    state.facingAngle = 225;
+                else if (xDir > 0)
+                    state.facingAngle = 315;
+                else
+                    state.facingAngle = 270;
+            }
+            else
+            {
+                if (xDir < 0)
+                    state.facingAngle = 180;
+                else if (xDir > 0)
+                    state.facingAngle = 0;
+            }
+           
         }
 
 
