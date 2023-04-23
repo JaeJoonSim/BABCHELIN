@@ -19,6 +19,7 @@ public class DialogueSystemInspector : Editor
     private SerializedProperty textUIProperty;
     private SerializedProperty choiceButton1Property;
     private SerializedProperty choiceButton2Property;
+    private SerializedProperty backgroundPanelProperty;
 
     private void OnEnable()
     {
@@ -35,6 +36,7 @@ public class DialogueSystemInspector : Editor
         textUIProperty = serializedObject.FindProperty("textUI");
         choiceButton1Property = serializedObject.FindProperty("choiceButton1");
         choiceButton2Property = serializedObject.FindProperty("choiceButton2");
+        backgroundPanelProperty = serializedObject.FindProperty("backgroundPanel");
     }
 
     public override void OnInspectorGUI()
@@ -161,6 +163,7 @@ public class DialogueSystemInspector : Editor
         textUIProperty.DrawPropertyField();
         choiceButton1Property.DrawPropertyField();
         choiceButton2Property.DrawPropertyField();
+        backgroundPanelProperty.DrawPropertyField();
     }
 
     private void StopDrawing(string reason, MessageType messageType = MessageType.Info)

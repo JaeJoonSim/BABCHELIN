@@ -18,6 +18,7 @@ public class DialogueSystemDialogue : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textUI;
     [SerializeField] private Button choiceButton1;
     [SerializeField] private Button choiceButton2;
+    [SerializeField] private Image backgroundPanel; 
 
     private DialogueSystemDialogueSO currentDialogue;
 
@@ -51,6 +52,7 @@ public class DialogueSystemDialogue : MonoBehaviour
             if (nextDialogue == null)
             {
                 gameObject.SetActive(false);
+                backgroundPanel.gameObject.SetActive(false);
                 Time.timeScale = 1;
                 return;
             }
