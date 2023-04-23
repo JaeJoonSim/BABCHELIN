@@ -1016,7 +1016,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
-        CurrentState = state.CURRENT_STATE;
+
         if (AutomaticallySetFacing)
         {
             if (50 < state.facingAngle && state.facingAngle < 130)
@@ -1042,6 +1042,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
+
+        CurrentState = state.CURRENT_STATE;
+
         if (playerController == null)
             return;
         UpdatePlayerAttack();
