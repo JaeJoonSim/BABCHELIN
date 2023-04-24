@@ -17,7 +17,8 @@ public class PlayerAction : BaseMonoBehaviour
     private UnitObject _unitObject;
 
     [Header("µÙ∑π¿Ã")]
-    //»∏«« µÙ∑π¿Ã
+    //»∏«« µÙ∑π¿Ã <-- ¿Ã∑≤≤®∏È ≈¯∆¡¿ª æ≤ººø‰^^
+    [Tooltip("»∏«« µÙ∑π¿Ã")]
     public float DodgeDelay;
     //∞¯∞› µÙ∑π¿Ã
     public float ShotDelay;
@@ -121,7 +122,7 @@ public class PlayerAction : BaseMonoBehaviour
             DodgeDelay -= Time.deltaTime;
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        if (state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
             DodgeRoll();
             ChangeAttack();

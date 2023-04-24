@@ -186,9 +186,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (cs != value)
             {
                 cs = value;
-                if(playerController == null)
+                if (playerController == null)
                     UpdateAnimFromState();
-               
+
             }
         }
     }
@@ -389,7 +389,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         if (SecondTrack != null)
         {
-            if (cs == StateMachine.State.Attacking || cs == StateMachine.State.Absorbing || cs == StateMachine.State.Loading )
+            if (cs == StateMachine.State.Attacking || cs == StateMachine.State.Absorbing || cs == StateMachine.State.Loading)
             {
                 //공격중 이동 x
                 if (playerController.xDir == 0 && playerController.yDir == 0)
@@ -511,14 +511,14 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         if (Track.Animation != NorthIdle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);                                                 
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
                         }
                     }
                     else if (DirectionState == direction3.down && SouthIdle != null)
                     {
                         if (Track.Animation != SouthIdle.Animation)
                         {
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
                         }
                     }
                     else
@@ -646,10 +646,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         }
                     }
                     else
-                        if(Track.Animation != Loading.Animation)
-                        {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Loading, loop: true);
-                        }
+                        if (Track.Animation != Loading.Animation)
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Loading, loop: true);
+                    }
 
 
                     break;
@@ -1086,12 +1086,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             return;
         }
 
-  
+
 
         CurrentState = state.CURRENT_STATE;
 
 
-        if(playerController != null)
+        if (playerController != null)
         {
             UpdatePlayerAttack();
             UpdateAnimFromFacing();

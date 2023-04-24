@@ -14,7 +14,7 @@ public class TutorialManager : BaseMonoBehaviour
     [Header("Dialogue Popup")]
     public GameObject DialogueUI;
     public float delayInSeconds = 2f;
-    
+
     [Header("Move Tutorial")]
     public GameObject moveTutorial;
     public Button moveTutorialQuitButton;
@@ -61,6 +61,7 @@ public class TutorialManager : BaseMonoBehaviour
     {
         panel.SetActive(false);
         playerState.CURRENT_STATE = StateMachine.State.Idle;
+        Time.timeScale = 1f;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -73,10 +74,14 @@ public class TutorialManager : BaseMonoBehaviour
         playerState.CURRENT_STATE = StateMachine.State.Pause;
         yield return StartCoroutine(FadeIn(fadeInDuration));
         yield return new WaitForSeconds(delayAfterFadeIn);
-        
+
         target.SetActive(true);
         StartCoroutine(ManagePlayerState());
         yield return new WaitUntil(() => !target.activeInHierarchy);
+        if (Time.timeScale == 1f)
+        {
+            Time.timeScale = 0f;
+        }
         moveTutorial.SetActive(true);
     }
 
@@ -87,6 +92,7 @@ public class TutorialManager : BaseMonoBehaviour
             if (fadeImage.color.a != 0f || moveTutorial.activeInHierarchy || DialogueUI.activeInHierarchy)
             {
                 playerState.CURRENT_STATE = StateMachine.State.Pause;
+                Time.timeScale = 0f;
             }
             else
             {
@@ -102,7 +108,7 @@ public class TutorialManager : BaseMonoBehaviour
 
         while (currentTime < duration)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(1, 0, currentTime / duration);
             fadeImage.color = new Color(0, 0, 0, alpha);
             yield return null;
@@ -116,7 +122,7 @@ public class TutorialManager : BaseMonoBehaviour
 
         while (currentTime < duration)
         {
-            currentTime += Time.deltaTime;
+            currentTime += Time.unscaledDeltaTime;
             float alpha = Mathf.Lerp(0, 1, currentTime / duration);
             fadeImage.color = new Color(0, 0, 0, alpha);
             yield return null;

@@ -263,6 +263,8 @@ public class PlayerController : BaseMonoBehaviour
                 break;
                 
             case StateMachine.State.Pause:
+                xDir = 0;
+                yDir = 0;
                 speed = 0;
                 break;
         }
