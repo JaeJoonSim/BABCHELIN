@@ -28,7 +28,6 @@ public class DialogueSystemDialogue : BaseMonoBehaviour
     private void OnEnable()
     {
         textUI.text = "";
-        // 대화 그룹 로드 로직을 추가하세요
         if (dialogueContainer != null)
         {
             dialogueGroup = dialogueContainer.GetGroupByIndex(selectedDialogueGroupIndex);
