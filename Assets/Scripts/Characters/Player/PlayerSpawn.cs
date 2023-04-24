@@ -8,7 +8,7 @@ public class PlayerSpawn : MonoBehaviour
 
     void Awake()
     {
-        PlayerCharacter = GameObject.FindGameObjectWithTag("Player");;
+        PlayerCharacter = GameObject.FindGameObjectWithTag("Player");
         absorb.Instance.Player = PlayerCharacter.transform;
     }
 }
