@@ -52,6 +52,8 @@ public class PlayerController : BaseMonoBehaviour
     public Transform muzzleBone;
     public Transform GrinderControl;
 
+    public GameObject BulletUI;
+
     private float VZ;
     private float Z;
 
@@ -97,12 +99,14 @@ public class PlayerController : BaseMonoBehaviour
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
+
+            if (!BulletUI.activeSelf)
+                BulletUI.SetActive(true);           
         }
         else
         {
             if (yDir > 0)
-            {
-                //muzzleBone.position = transform.position + new Vector3(0, 1, 0);
+            {        
                 if (xDir < 0)
                     DodgeAngle = 135;
                 else if (xDir > 0)
@@ -114,8 +118,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
             }
             else if (yDir < 0)
-            {
-               // muzzleBone.position = transform.position + new Vector3(0, -1, 0);
+            {              
                 if (xDir < 0)
                     DodgeAngle = 225;
                 else if (xDir > 0)
@@ -140,8 +143,12 @@ public class PlayerController : BaseMonoBehaviour
                     state.facingAngle = 0;
                     DodgeAngle = 0;
                 }
+                else
+                {
+                }
             }
-
+            if (BulletUI.activeSelf)
+                BulletUI.SetActive(false);
         }
 
 
@@ -234,6 +241,22 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
+
+            case StateMachine.State.Loading:
+
+                //ÀÌµ¿
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+                break;
+
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
