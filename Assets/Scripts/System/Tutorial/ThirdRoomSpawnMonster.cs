@@ -21,7 +21,7 @@ public class ThirdRoomSpawnMonster : BaseMonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            for (int i = 0; i < numberOfMonsters; i++)
+            for (int i = 0; i < numberOfMonsters - 1; i++)
             {
                 SpawnMonster();
             }
@@ -31,7 +31,7 @@ public class ThirdRoomSpawnMonster : BaseMonoBehaviour
 
     private void SpawnMonster()
     {
-        GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length)];
+        GameObject monsterPrefab = monsterPrefabs[Random.Range(0, monsterPrefabs.Length - 1)];
 
         float x = Random.Range(-spawnArea.size.x / 2, spawnArea.size.x / 2);
         float y = Random.Range(-spawnArea.size.y / 2, spawnArea.size.y / 2);

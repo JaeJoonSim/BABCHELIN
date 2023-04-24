@@ -38,7 +38,7 @@ public class OnTriggerGoToStage : BaseMonoBehaviour
             collision.transform.position = target.position;
             Cam.SnappyMovement = true;
             StartCoroutine(CamSnappyOff());
-            if (DialoguePanel != null && tutorialPanel != null)
+            if (DialoguePanel != null)
             {
                 StartCoroutine(OpenPanel());
             }
@@ -56,11 +56,18 @@ public class OnTriggerGoToStage : BaseMonoBehaviour
         yield return new WaitForSeconds(delayInSeconds);
         DialoguePanel.SetActive(true);
         yield return new WaitUntil(() => !DialoguePanel.activeInHierarchy);
-        if (Time.timeScale == 1f)
+        if (Time.timeScale == 1f && tutorialPanel.Length > 0)
         {
             Time.timeScale = 0f;
         }
-        tutorialPanel[0].SetActive(true);
+        else if (tutorialPanel.Length <= 0)
+        {
+            Time.timeScale = 1f;
+            yield return null;
+        }
+
+        if(tutorialPanel.Length > 0)
+            tutorialPanel[0].SetActive(true);
     }
 
     private void QuitPanel(GameObject[] panel)
