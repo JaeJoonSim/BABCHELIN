@@ -16,12 +16,15 @@ public class OnTriggerGoToStage : BaseMonoBehaviour
     public void Start()
     {
         Cam = FindObjectOfType<CameraFollowTarget>();
-        TutorialQuitButton.onClick.AddListener(() => QuitPanel(tutorialPanel));
+        if (TutorialQuitButton != null)
+        {
+            TutorialQuitButton.onClick.AddListener(() => QuitPanel(tutorialPanel));
+        }
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && tutorialPanel != null)
         {
             QuitPanel(tutorialPanel);
         }
@@ -35,7 +38,10 @@ public class OnTriggerGoToStage : BaseMonoBehaviour
             collision.transform.position = target.position;
             Cam.SnappyMovement = true;
             StartCoroutine(CamSnappyOff());
-            StartCoroutine(OpenPanel());
+            if (DialoguePanel != null && tutorialPanel != null)
+            {
+                StartCoroutine(OpenPanel());
+            }
         }
     }
 

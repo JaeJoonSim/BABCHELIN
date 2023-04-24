@@ -137,6 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ccc601b4e80f5241b7fe5b923dd53c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DirectionState: 0
   AnimationTrack: 0
   SecondaryTrack: 1
   AutomaticallySetFacing: 1
@@ -144,15 +145,35 @@ MonoBehaviour:
   Animations: []
   Idle: {fileID: 11400000, guid: 6539fe72cb991f644b620760a69c002d, type: 2}
   NorthIdle: {fileID: 0}
+  SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: 9c73df530b783a141bd82ce31404020a, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   SouthMoving: {fileID: 0}
   StopMoving: {fileID: 0}
-  Dodge: {fileID: 0}
   Attack: {fileID: 11400000, guid: a80f63aa63a3828499329697f04e3ebf, type: 2}
+  NorthAttack: {fileID: 0}
+  SouthAttack: {fileID: 0}
+  PlayerAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerNorthAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  PlayerSouthAttack:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   Absorb: {fileID: 0}
+  NorthAbsorb: {fileID: 0}
+  SouthAbsorb: {fileID: 0}
+  Loading: {fileID: 0}
+  NorthLoading: {fileID: 0}
+  SouthLoading: {fileID: 0}
+  Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: dcd933fefbbd1a7409ba8c90cdd0b107, type: 2}
   Dead: {fileID: 11400000, guid: 832eaa7b4f223364faa6b829904ddd72, type: 2}
   isFillWhite: 0
@@ -234,7 +255,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
