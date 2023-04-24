@@ -22,6 +22,7 @@ public class StateMachine : MonoBehaviour
         Absorbing = 14,
         Runaway = 15,
         Patrol = 16,
+        Loading = 17
 
 
     }

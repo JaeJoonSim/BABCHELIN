@@ -3093,7 +3093,7 @@ MonoBehaviour:
   DodgeMaxDuration: 0.5
   DodgeDelay: 2
   SuctionSpeed: 10
-  SuctionAngle: 30
+  SuctionAngle: 50
   SuctionRange: 3.3
   SuctionDelay: 1
   absorbEffet: {fileID: 5729501917595095277}
@@ -3101,7 +3101,7 @@ MonoBehaviour:
   maxBulletGauge: 1000
   Attack:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
-  - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
+  - {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
   CurAttack: 0
   AttackSpeed:
@@ -3114,6 +3114,7 @@ MonoBehaviour:
   - {fileID: 0}
   muzzleBone: {fileID: 6160722345088255035}
   GrinderControl: {fileID: 6160722343108544333}
+  BulletUI: {fileID: 2035613894900887826}
 --- !u!114 &6160722343811252257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3130,6 +3131,7 @@ MonoBehaviour:
   DodgeDelay: 0
   ShotDelay: 0
   SuctionDelay: 0
+  LoadingDelay: 0
   _state: {fileID: 6160722343811252260}
   Spine: {fileID: 6160722344988669330}
   simpleSpineAnimator: {fileID: 6160722344988669358}
@@ -8306,10 +8308,10 @@ MonoBehaviour:
   Moving: {fileID: 11400000, guid: c3bd0881fa36b4345a3b66108c212248, type: 2}
   MovingBack: {fileID: 11400000, guid: 80724b37c5c33a74f835e88fb6b8b20f, type: 2}
   NorthMoving: {fileID: 11400000, guid: 028b1a74e0ff9c14db973198191c929c, type: 2}
-  SouthMoving: {fileID: 11400000, guid: 00a1e8736ed51854b8f16e950569fa48, type: 2}
+  SouthMoving: {fileID: 11400000, guid: c3bd0881fa36b4345a3b66108c212248, type: 2}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 18333c8a9978d8d44aea1fc08c68ca79, type: 2}
-  NorthAttack: {fileID: 11400000, guid: b0e6637a9f40a9a4bbe0b719070f90c9, type: 2}
+  NorthAttack: {fileID: 11400000, guid: a4655f0c56911364eada6f38f1ba7521, type: 2}
   SouthAttack: {fileID: 0}
   PlayerAttack:
   - {fileID: 11400000, guid: ad9a27ad373da2a47a940d6df37bb050, type: 2}
@@ -8326,6 +8328,9 @@ MonoBehaviour:
   Absorb: {fileID: 11400000, guid: 3cf3c655aa02ed74c8502351ca7faa26, type: 2}
   NorthAbsorb: {fileID: 11400000, guid: 505f1867eed3cb84d8436df7b599b596, type: 2}
   SouthAbsorb: {fileID: 0}
+  Loading: {fileID: 11400000, guid: a963d759adda421468c0f294e36c9e5b, type: 2}
+  NorthLoading: {fileID: 0}
+  SouthLoading: {fileID: 0}
   Dodge: {fileID: 11400000, guid: 00a1e8736ed51854b8f16e950569fa48, type: 2}
   Hit: {fileID: 11400000, guid: deb02dc0b8073e342809eb7bf9e1fd74, type: 2}
   Dead: {fileID: 11400000, guid: fd85b5950cd9c6c4bacee9a2473b7a2f, type: 2}
@@ -8333,7 +8338,7 @@ MonoBehaviour:
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
   StartOnDefault: 1
-  _Dir: 0
+  _Dir: 1
   ForceDirectionalMovement: 0
 --- !u!114 &6160722344988669352
 MonoBehaviour:
@@ -9298,10 +9303,16 @@ PrefabInstance:
     - target: {fileID: 711257821363008606, guid: c537825468d79374489ae42f5154964c,
         type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c537825468d79374489ae42f5154964c, type: 3}
+--- !u!1 &2035613894900887826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711257821363008602, guid: c537825468d79374489ae42f5154964c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1576560264883848520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &2035613894900887827 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 711257821363008603, guid: c537825468d79374489ae42f5154964c,
@@ -9398,52 +9409,52 @@ PrefabInstance:
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.6408294
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.16406918
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -0.28417656
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 0.7061118
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: 0.03749918
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: -0.7061118
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: 0.03749918
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}

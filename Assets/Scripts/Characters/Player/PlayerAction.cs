@@ -23,7 +23,8 @@ public class PlayerAction : BaseMonoBehaviour
     public float ShotDelay;
     //Èí¼ö µô·¹ÀÌ
     public float SuctionDelay;
-
+    //ÀåÀü µô·¹ÀÌ
+    public float LoadingDelay;
 
     public StateMachine _state;
 
@@ -128,9 +129,13 @@ public class PlayerAction : BaseMonoBehaviour
             Absorb();
 
             ShotDelay -= Time.deltaTime;
-
         }
-     
+
+        if (state.CURRENT_STATE == StateMachine.State.Loading)
+        {
+            LoadingDelay-= Time.deltaTime;
+        }
+
         PreviousPosition = base.transform.position;
     }
 
@@ -168,19 +173,41 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool ChangeAttack()
     {
+
+        if (state.CURRENT_STATE == StateMachine.State.Dodging)
+            return false;
+
         float wheelInput = Input.GetAxis("Mouse ScrollWheel");
-        if (wheelInput > 0)
+        if (wheelInput != 0f)
         {
-            playerController.CurAttack = (++playerController.CurAttack) % 3;
-        }
-        else if (wheelInput < 0)
-        {
-            playerController.CurAttack--;
-            if (playerController.CurAttack < 0)
+            if (state.CURRENT_STATE != StateMachine.State.Loading)
             {
-                playerController.CurAttack = 2;
+                state.CURRENT_STATE = StateMachine.State.Loading;
+
+                if (wheelInput > 0)
+                {
+                    playerController.CurAttack = (++playerController.CurAttack) % 3;
+                }
+                else if (wheelInput < 0)
+                {
+                    playerController.CurAttack--;
+                    if (playerController.CurAttack < 0)
+                    {
+                        playerController.CurAttack = 2;
+                    }
+                }
+
+                LoadingDelay = 0.6667f;
             }
         }
+        else
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Loading && LoadingDelay < 0)
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+            }
+        }
+
 
         return true;
     }
@@ -198,10 +225,10 @@ public class PlayerAction : BaseMonoBehaviour
 
                 return false;
             }
-            if(state.CURRENT_STATE != StateMachine.State.Attacking && Time.timeScale != 0)
+            if (state.CURRENT_STATE != StateMachine.State.Attacking && Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
-                ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
 
         }
         else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
@@ -321,14 +348,28 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
-            playerController.addBullet(-10);
-            float anglet = state.facingAngle - 15;
-            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-            for (int i = 0; i < 2; i++)
+            switch (playerController.CurAttack)
             {
-                anglet += 30 / 2;
-                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                case 0:
+                    break;
+                case 1:
+                    playerController.addBullet(-10);
+                    float anglet = state.facingAngle - 15;
+                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                    for (int i = 0; i < 2; i++)
+                    {
+                        anglet += 30 / 2;
+                        Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                    }
+                    break;
+                case 2:
+                    playerController.addBullet(-30);
+                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0,state.facingAngle )));
+                    break;
+                default:
+                    break;
             }
+         
 
 
         }
