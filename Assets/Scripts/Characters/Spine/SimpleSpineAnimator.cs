@@ -651,6 +651,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
                     break;
                 case StateMachine.State.Dodging:
+                    if (Track.Animation != Dodge.Animation)
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
+                    }
                     break;
                 case StateMachine.State.CustomAnimation:
                     break;
