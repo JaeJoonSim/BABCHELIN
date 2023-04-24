@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Linq;
 
-public class DialogueSystemDialogue : MonoBehaviour
+public class DialogueSystemDialogue : BaseMonoBehaviour
 {
     [SerializeField] private DialogueSystemContainerSO dialogueContainer;
     [SerializeField] private DialogueSystemGroupSO dialogueGroup;

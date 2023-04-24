@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnTriggerGoToStage : MonoBehaviour
+public class OnTriggerGoToStage : BaseMonoBehaviour
 {
     public Transform target;
     private CameraFollowTarget Cam;
 
     public GameObject DialoguePanel;
-    public GameObject tutorialPanel;
+    public float delayInSeconds;
+    public GameObject[] tutorialPanel;
 
     public void Start()
     {
@@ -23,6 +24,7 @@ public class OnTriggerGoToStage : MonoBehaviour
             collision.transform.position = target.position;
             Cam.SnappyMovement = true;
             StartCoroutine(CamSnappyOff());
+            StartCoroutine(OpenPanel());
         }
     }
 
@@ -30,5 +32,11 @@ public class OnTriggerGoToStage : MonoBehaviour
     {
         yield return new WaitForSeconds(1.5f);
         Cam.SnappyMovement = false;
+    }
+
+    public IEnumerator OpenPanel()
+    {
+        yield return new WaitForSeconds(delayInSeconds);
+        DialoguePanel.SetActive(true);
     }
 }
