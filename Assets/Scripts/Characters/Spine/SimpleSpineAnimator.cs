@@ -1088,7 +1088,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             UpdatePlayerAttack();
             UpdateAnimFromFacing();
-            Debug.Log(Track.Animation);
         }
     }
 }

@@ -350,11 +350,11 @@ public class PlayerAction : BaseMonoBehaviour
         {
             playerController.addBullet(-10);
             float anglet = state.facingAngle - 15;
-            Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+            Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
             for (int i = 0; i < 2; i++)
             {
                 anglet += 30 / 2;
-                Instantiate(playerController.Attack[playerController.CurAttack], transform.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
             }
 
 
