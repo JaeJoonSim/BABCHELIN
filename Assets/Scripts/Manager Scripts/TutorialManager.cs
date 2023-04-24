@@ -11,9 +11,16 @@ public class TutorialManager : BaseMonoBehaviour
     public Image fadeImage;
     public float fadeDuration = 3f;
 
-    [Header("Pop Up")]
-    public GameObject popupUI;
+    [Header("Dialogue Popup")]
+    public GameObject DialogueUI;
     public float delayInSeconds = 2f;
+    
+    [Header("Move Tutorial")]
+    public GameObject moveTutorial;
+    public Button moveTutorialQuitButton;
+
+    [Header("Other")]
+    public StateMachine playerState;
 
     private void Awake()
     {
@@ -27,6 +34,19 @@ public class TutorialManager : BaseMonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        moveTutorialQuitButton.onClick.AddListener(() => QuitPanel(moveTutorial));
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape) && moveTutorial.activeInHierarchy)
+        {
+            QuitPanel(moveTutorial);
+        }
+    }
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -37,16 +57,43 @@ public class TutorialManager : BaseMonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
+    private void QuitPanel(GameObject panel)
+    {
+        panel.SetActive(false);
+        playerState.CURRENT_STATE = StateMachine.State.Idle;
+    }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        StartCoroutine(FadeInAndEnableGameObject(fadeDuration, popupUI, delayInSeconds));
+        StartCoroutine(FadeInAndEnableGameObject(fadeDuration, DialogueUI, delayInSeconds));
     }
 
     public IEnumerator FadeInAndEnableGameObject(float fadeInDuration, GameObject target, float delayAfterFadeIn)
     {
+        playerState.CURRENT_STATE = StateMachine.State.Pause;
         yield return StartCoroutine(FadeIn(fadeInDuration));
         yield return new WaitForSeconds(delayAfterFadeIn);
+        
         target.SetActive(true);
+        StartCoroutine(ManagePlayerState());
+        yield return new WaitUntil(() => !target.activeInHierarchy);
+        moveTutorial.SetActive(true);
+    }
+
+    private IEnumerator ManagePlayerState()
+    {
+        while (true)
+        {
+            if (fadeImage.color.a != 0f || moveTutorial.activeInHierarchy || DialogueUI.activeInHierarchy)
+            {
+                playerState.CURRENT_STATE = StateMachine.State.Pause;
+            }
+            else
+            {
+                break;
+            }
+            yield return null;
+        }
     }
 
     public IEnumerator FadeIn(float duration)
@@ -60,6 +107,7 @@ public class TutorialManager : BaseMonoBehaviour
             fadeImage.color = new Color(0, 0, 0, alpha);
             yield return null;
         }
+        fadeImage.gameObject.SetActive(false);
     }
 
     public IEnumerator FadeOut(float duration)

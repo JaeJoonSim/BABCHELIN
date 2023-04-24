@@ -76,8 +76,9 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver)
+        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause)
         {
+            Debug.Log("Pause");
             return;
         }
 
@@ -259,6 +260,10 @@ public class PlayerController : BaseMonoBehaviour
 
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
+                break;
+                
+            case StateMachine.State.Pause:
+                speed = 0;
                 break;
         }
 

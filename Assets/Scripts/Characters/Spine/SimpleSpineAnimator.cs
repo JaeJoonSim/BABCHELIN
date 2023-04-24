@@ -372,6 +372,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     anim.AnimationState.SetAnimation(AnimationTrack, Dead, loop: false);
                 }
                 break;
+            case StateMachine.State.Pause:
+                anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                break;
             default:
                 if (Idle != null && anim.AnimationState != null)
                 {
