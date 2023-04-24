@@ -7,6 +7,7 @@ public class LargeAttack : MonoBehaviour
     public float speed;
     public float range;
     Vector2 spownPos;
+    public ParticleSystem HitEffet;
 
     private void Start()
     {
@@ -25,7 +26,11 @@ public class LargeAttack : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
+            
             collision.GetComponent<Health>().Damaged(gameObject, transform.position, 10f);
+            Instantiate(HitEffet, transform.position, Quaternion.identity);
+            //Instantiate(HitEffet, collision.ClosestPoint(transform.position), Quaternion.identity);
+
             Destroy(gameObject);
         }
     }
