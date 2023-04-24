@@ -216,7 +216,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
         {
             getMouseInfo();
-            if (playerController.BulletGauge < 20)
+            if (playerController.BulletGauge <= 0)
             {
                 if (state.CURRENT_STATE == StateMachine.State.Attacking)
                 {
@@ -351,15 +351,27 @@ public class PlayerAction : BaseMonoBehaviour
             switch (playerController.CurAttack)
             {
                 case 0:
+                    {
+                        playerController.addBullet(-10);
+                        float anglet = state.facingAngle - 15;
+                        Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                        for (int i = 0; i < 5; i++)
+                        {
+                            anglet += 30 / 5;
+                            Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                        }
+                    }
                     break;
                 case 1:
-                    playerController.addBullet(-10);
-                    float anglet = state.facingAngle - 15;
-                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                    for (int i = 0; i < 2; i++)
                     {
-                        anglet += 30 / 2;
+                        playerController.addBullet(-20);
+                        float anglet = state.facingAngle - 15;
                         Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                        for (int i = 0; i < 2; i++)
+                        {
+                            anglet += 30 / 2;
+                            Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                        }
                     }
                     break;
                 case 2:
