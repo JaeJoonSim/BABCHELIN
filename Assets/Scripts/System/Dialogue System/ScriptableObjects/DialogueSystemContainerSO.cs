@@ -58,4 +58,34 @@ public class DialogueSystemContainerSO : ScriptableObject
 
         return ungroupedDialogueNames;
     }
+
+    public DialogueSystemGroupSO GetGroupByIndex(int index)
+    {
+        if (index >= 0 && index < DialogueGroups.Count)
+        {
+            return new List<DialogueSystemGroupSO>(DialogueGroups.Keys)[index];
+        }
+        return null;
+    }
+
+    public DialogueSystemDialogueSO GetGroupedDialogue(DialogueSystemGroupSO dialogueGroup, bool startingDialoguesOnly)
+    {
+        if (DialogueGroups.ContainsKey(dialogueGroup))
+        {
+            List<DialogueSystemDialogueSO> groupedDialogues = DialogueGroups[dialogueGroup];
+
+            foreach (DialogueSystemDialogueSO groupedDialogue in groupedDialogues)
+            {
+                if (startingDialoguesOnly && groupedDialogue.IsStartingDialogue)
+                {
+                    return groupedDialogue;
+                }
+                else if (!startingDialoguesOnly)
+                {
+                    return groupedDialogue;
+                }
+            }
+        }
+        return null;
+    }
 }

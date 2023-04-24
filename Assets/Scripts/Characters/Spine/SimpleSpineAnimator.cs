@@ -186,8 +186,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (cs != value)
             {
                 cs = value;
-                if (playerController == null)
-                    UpdateAnimFromState();
+                UpdateAnimFromState();
 
             }
         }

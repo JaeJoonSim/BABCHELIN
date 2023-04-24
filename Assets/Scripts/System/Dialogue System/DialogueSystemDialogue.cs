@@ -2,8 +2,9 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Collections;
+using System.Linq;
 
-public class DialogueSystemDialogue : MonoBehaviour
+public class DialogueSystemDialogue : BaseMonoBehaviour
 {
     [SerializeField] private DialogueSystemContainerSO dialogueContainer;
     [SerializeField] private DialogueSystemGroupSO dialogueGroup;
@@ -27,15 +28,26 @@ public class DialogueSystemDialogue : MonoBehaviour
     private void OnEnable()
     {
         textUI.text = "";
+        // 대화 그룹 로드 로직을 추가하세요
+        if (dialogueContainer != null)
+        {
+            dialogueGroup = dialogueContainer.GetGroupByIndex(selectedDialogueGroupIndex);
+            if (dialogueGroup != null)
+            {
+                dialogue = dialogueContainer.GetGroupedDialogue(dialogueGroup, startingDialoguesOnly);
+            }
+        }
+
         currentDialogue = dialogue;
+
         StartCoroutine(OnType(0.1f, currentDialogue.Text));
         choiceButton1.onClick.AddListener(() => OnOptionChosen(0));
         choiceButton2.onClick.AddListener(() => OnOptionChosen(1));
 
         ChooseButton(currentDialogue, choiceButton1, 0);
         ChooseButton(currentDialogue, choiceButton2, 1);
-
     }
+
 
     private void Update()
     {
@@ -53,6 +65,16 @@ public class DialogueSystemDialogue : MonoBehaviour
             {
                 gameObject.SetActive(false);
                 backgroundPanel.gameObject.SetActive(false);
+
+                selectedDialogueGroupIndex++;
+                if (selectedDialogueGroupIndex >= dialogueContainer.GetDialogueGroupNames().Count)
+                {
+                    selectedDialogueGroupIndex = 0;
+                }
+
+                DialogueSystemGroupSO nextGroup = dialogueContainer.DialogueGroups.Keys.ElementAt(selectedDialogueGroupIndex);
+                dialogueGroup = nextGroup;
+
                 Time.timeScale = 1;
                 return;
             }
