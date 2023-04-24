@@ -85,89 +85,86 @@ public class CookieMouse : UnitObject
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            switch (state.CURRENT_STATE)
+            stopTimer += Time.deltaTime;
+            if (stopTimer >= 1)
             {
-                case StateMachine.State.Idle:
-                    idleTimer += Time.deltaTime;
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
-                    {
-                        state.CURRENT_STATE = StateMachine.State.Patrol;
-                        idleTimer = 0f;
-                    }
+                switch (state.CURRENT_STATE)
+                {
+                    case StateMachine.State.Idle:
+                        idleTimer += Time.deltaTime;
+                        if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Patrol;
+                            idleTimer = 0f;
+                        }
 
-                    if (isPlayerInRange)
-                    {
+                        if (isPlayerInRange)
+                            state.CURRENT_STATE = StateMachine.State.Moving;
+
+                        SpineTransform.localPosition = Vector3.zero;
+                        speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                        break;
+
+                    case StateMachine.State.Moving:
+                        agent.speed = 3f;
+                        AttackTimer = 0f;
+                        if (Time.timeScale == 0f)
+                        {
+                            break;
+                        }
+                        forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+
                         state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                         state.LookAngle = state.facingAngle;
-                        stopTimer += Time.deltaTime;
-                    }
-                    else
-                    {
-                        stopTimer = 0f;
-                    }
+                        speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
-                    if(stopTimer >= 1)
-                        state.CURRENT_STATE = StateMachine.State.Moving;
-
-                    SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                    break;
-
-                case StateMachine.State.Moving:
-                    agent.speed = 3f;
-                    AttackTimer = 0f;
-                    if (Time.timeScale == 0f)
-                    {
+                        if (!isPlayerInRange)
+                            state.ChangeToIdleState();
                         break;
-                    }
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
 
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                    case StateMachine.State.HitLeft:
+                    case StateMachine.State.HitRight:
+                        detectionRange *= 2f;
+                        break;
 
-                    if (!isPlayerInRange)
-                        state.ChangeToIdleState();
-                    break;
+                    case StateMachine.State.Attacking:
+                        agent.speed = 3f;
+                        SpineTransform.localPosition = Vector3.zero;
+                        forceDir = state.facingAngle;
+                        AttackTimer += Time.deltaTime;
 
-                case StateMachine.State.HitLeft:
-                case StateMachine.State.HitRight:
-                    detectionRange *= 2f;
-                    break;
+                        Vector3 directionToTarget = (target.position - transform.position).normalized;
 
-                case StateMachine.State.Attacking:
-                    agent.speed = 3f;
-                    SpineTransform.localPosition = Vector3.zero;
-                    forceDir = state.facingAngle;
-                    AttackTimer += Time.deltaTime;
+                        xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
+                        yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
-                    Vector3 directionToTarget = (target.position - transform.position).normalized;
+                        agent.SetDestination(target.position);
+                        agent.isStopped = false;
 
-                    xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                    yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
+                        distanceToPlayer = Vector3.Distance(transform.position, target.position);
+                        if (distanceToPlayer <= AttackDistance)
+                        {
+                            playerHealth.Damaged(gameObject, transform.position, Damaged);
+                            agent.isStopped = true;
+                            stopTimer = 0f;
+                        }
 
-                    agent.SetDestination(target.position);
-                    agent.isStopped = false;
+                        if(distanceToPlayer > detectionAttackRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
 
-                    distanceToPlayer = Vector3.Distance(transform.position, target.position);
-                    if (distanceToPlayer <= AttackDistance)
-                    {
-                        playerHealth.Damaged(gameObject, transform.position, Damaged);
-                        agent.isStopped = true;
-                        stopTimer = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
-                    }
+                        forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                        state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
+                        state.LookAngle = state.facingAngle;
+                        speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                        break;
 
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-                    break;
+                    case StateMachine.State.Patrol:
+                        Patrol();
+                        break;
 
-                case StateMachine.State.Patrol:
-                    Patrol();
-                    break;
-
+                }
             }
         }
     }

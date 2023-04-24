@@ -148,9 +148,9 @@ public class CookieMouse3 : UnitObject
                         AttackDelay = 0;
                     }
 
-
-                    if (!isPlayerInAttackRange)
+                    if (distanceToPlayer > detectionAttackRange)
                     {
+                        AttackDelay = 0;
                         state.CURRENT_STATE = StateMachine.State.Moving;
                     }
 
