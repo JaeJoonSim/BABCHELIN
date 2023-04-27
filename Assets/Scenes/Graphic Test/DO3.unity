@@ -1180,7 +1180,7 @@ Camera:
     height: 1
   near clip plane: 0.01
   far clip plane: 100
-  field of view: 35
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1318,8 +1318,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.5613208, b: 0.66877764, a: 1}
-  m_Intensity: 2.7
+  m_Color: {r: 1, g: 0.7137255, b: 0.8770943, a: 1}
+  m_Intensity: 1.56
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1583,6 +1583,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3703371474824139944, guid: 34981ba6824d3af4ca47a8ec74e2c8c9,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 6e799a4474ca3c54cbb621fd4a6a8a42, type: 2}
     - target: {fileID: 8272795567942576662, guid: 34981ba6824d3af4ca47a8ec74e2c8c9,
         type: 3}
       propertyPath: m_RootOrder
