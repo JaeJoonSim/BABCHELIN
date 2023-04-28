@@ -2,6 +2,7 @@ using UnityEngine;
 using System;
 
 [CreateAssetMenu(fileName = "NewBossPattern", menuName = "BossPattern")]
+[System.Serializable]
 public class BossPattern : ScriptableObject
 {
     public enum PatternType

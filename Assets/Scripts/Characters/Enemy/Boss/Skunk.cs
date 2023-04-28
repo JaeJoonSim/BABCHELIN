@@ -55,8 +55,14 @@ public class Skunk : UnitObject
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        patternManager = new PatternManager();
+        if(patternManager == null)
+        {
+            patternManager = FindObjectOfType<PatternManager>();
+        }
+
+        patternManager.basicPatterns = basicPatterns;
         RegisterPatterns();
+        patternManager.CurrentPattern = patternManager.DequeuePattern();
     }
 
     public override void OnEnable()
@@ -161,21 +167,29 @@ public class Skunk : UnitObject
 
     private void RegisterPatterns()
     {
-        foreach (var pattern in basicPatterns)
+        int maxReservations = 3;
+
+        for (int i = 0; i < maxReservations; i++)
         {
-            patternManager.EnqueuePattern(pattern);
+            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
+            patternManager.EnqueuePattern(basicPatterns[randomIndex]);
         }
 
-        foreach (var pattern in gimmickPatterns)
+        for (int i = 0; i < maxReservations; i++)
         {
-            pattern.onPatternStart += () =>
+            int randomIndex = UnityEngine.Random.Range(0, gimmickPatterns.Count);
+            var randomGimmickPattern = gimmickPatterns[randomIndex];
+
+            randomGimmickPattern.onPatternStart += () =>
             {
                 patternManager.ClearPatterns(BossPattern.PatternType.Basic);
             };
 
-            patternManager.EnqueuePattern(pattern);
+            patternManager.EnqueuePattern(randomGimmickPattern);
         }
     }
+
+
     #endregion
 
     #region Event

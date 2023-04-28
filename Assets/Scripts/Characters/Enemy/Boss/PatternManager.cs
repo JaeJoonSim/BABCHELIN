@@ -6,8 +6,10 @@ using System;
 
 public class PatternManager : MonoBehaviour
 {
-    [SerializeField] private Queue<BossPattern> patternQueue = new Queue<BossPattern>();
-    [SerializeField] private BossPattern currentPattern = null;
+    [SerializeField] private BossPattern currentPattern;
+    [SerializeField] private List<BossPattern> patternQueue;
+    [SerializeField] private int maxQueueSize = 3;
+    public List<BossPattern> basicPatterns { get; set; }
 
     public BossPattern CurrentPattern
     {
@@ -17,25 +19,32 @@ public class PatternManager : MonoBehaviour
 
     public void EnqueuePattern(BossPattern pattern)
     {
-        if (patternQueue.Count < 3)
+        if (patternQueue.Count < maxQueueSize || pattern.type == BossPattern.PatternType.Gimmick)
         {
-            patternQueue.Enqueue(pattern);
+            patternQueue.Add(pattern);
         }
     }
 
-    public void DequeuePattern()
+    public BossPattern DequeuePattern()
     {
         if (patternQueue.Count > 0)
         {
-            currentPattern = patternQueue.Dequeue();
-            currentPattern.onPatternStart?.Invoke();
-
-            StartCoroutine(ExecutePattern(currentPattern.duration, () =>
-            {
-                currentPattern.onPatternEnd?.Invoke();
-                currentPattern = null;
-            }));
+            BossPattern dequeuedPattern = patternQueue[0];
+            patternQueue.RemoveAt(0);
+            return dequeuedPattern;
         }
+        else
+        {
+            // 큐가 비어 있을 때 BasicPatterns에서 랜덤한 기본 패턴을 반환합니다.
+            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
+            return basicPatterns[randomIndex];
+        }
+    }
+
+
+    public void ClearPatterns(BossPattern.PatternType patternType)
+    {
+        patternQueue.RemoveAll(pattern => pattern.type == patternType);
     }
 
     private IEnumerator ExecutePattern(float duration, Action onPatternCompleted)
@@ -43,10 +52,5 @@ public class PatternManager : MonoBehaviour
         yield return new WaitForSeconds(duration);
         onPatternCompleted?.Invoke();
         DequeuePattern();
-    }
-
-    public void ClearPatterns(BossPattern.PatternType patternType)
-    {
-        patternQueue = new Queue<BossPattern>(patternQueue.Where(p => p.type != patternType));
     }
 }

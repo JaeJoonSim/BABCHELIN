@@ -1148,6 +1148,53 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9fdf1b0d52e258c46a904eaed3955715, type: 3}
+--- !u!1 &502016574
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 502016576}
+  - component: {fileID: 502016575}
+  m_Layer: 0
+  m_Name: PatternManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &502016575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502016574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737d70a0bc593e54eb1bcfeda1696ac7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPattern: {fileID: 0}
+  patternQueue: []
+  maxQueueSize: 3
+--- !u!4 &502016576
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502016574}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &508929509 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8270591769108072770, guid: bdbe96d2fc5e1fe46bc15a710a4676ce,
@@ -3796,9 +3843,15 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
-  patternManager: {fileID: 0}
-  basicPatterns: []
-  gimmickPatterns: []
+  patternManager: {fileID: 502016575}
+  basicPatterns:
+  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  gimmickPatterns:
+  - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
+  - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
+  - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 10

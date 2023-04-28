@@ -7,6 +7,9 @@ public class Health : BaseMonoBehaviour
 {
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
+    [HideInInspector] public int multipleHealthLine;
+    [HideInInspector] public int HpLineAmount;
+
     protected StateMachine state;
     protected Rigidbody2D rb;
 
@@ -32,6 +35,11 @@ public class Health : BaseMonoBehaviour
         meshRenderer = GetComponentInChildren<MeshRenderer>();
 
         OnDamaged += ApplyChangeToHitState;
+    }
+
+    private void Update()
+    {
+        multipleHealthLine = (int)(maxHealth / HpLineAmount);
     }
 
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
