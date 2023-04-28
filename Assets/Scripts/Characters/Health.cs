@@ -7,8 +7,8 @@ public class Health : BaseMonoBehaviour
 {
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
-    [HideInInspector] public int multipleHealthLine;
-    [HideInInspector] public int HpLineAmount;
+    public int multipleHealthLine;
+    public int HpLineAmount;
 
     protected StateMachine state;
     protected Rigidbody2D rb;

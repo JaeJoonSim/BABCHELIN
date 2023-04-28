@@ -9,11 +9,11 @@ public class Skunk : UnitObject
 {
     [SerializeField] private PatternManager patternManager;
 
-    [SerializeField] private List<BossPattern> basicPatterns;
-    [SerializeField] private List<BossPattern> gimmickPatterns;
+    [SerializeField] private List<BasicPatternScriptableObject> basicPatterns;
+    [SerializeField] private List<GimmickScriptableObject> gimmickPatterns;
 
     [Space]
-    //public Transform SpineTransform;
+    public Transform SpineTransform;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -40,7 +40,7 @@ public class Skunk : UnitObject
     public float xDir;
     public float yDir;
 
-    //private SkeletonAnimation spineAnimation;
+    private SkeletonAnimation spineAnimation;
 
     private void Start()
     {
@@ -55,14 +55,14 @@ public class Skunk : UnitObject
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
-        if(patternManager == null)
+        if (patternManager == null)
         {
             patternManager = FindObjectOfType<PatternManager>();
         }
 
         patternManager.basicPatterns = basicPatterns;
-        RegisterPatterns();
-        patternManager.CurrentPattern = patternManager.DequeuePattern();
+        patternManager.gimmickPatterns = gimmickPatterns;
+        patternManager.Initialize();
     }
 
     public override void OnEnable()
@@ -120,6 +120,14 @@ public class Skunk : UnitObject
                     break;
             }
         }
+
+        foreach (var gimmickPattern in patternManager.gimmickPatterns)
+        {
+            if (health.multipleHealthLine <= gimmickPattern.triggerHealthLine)
+            {
+                gimmickPattern.CheckHealthThreshold();
+            }
+        }
     }
 
     #region Func
@@ -144,7 +152,6 @@ public class Skunk : UnitObject
 
                 xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-
                 agent.SetDestination(target.position);
                 if (distanceToPlayer <= AttackDistance)
                 {
@@ -164,31 +171,6 @@ public class Skunk : UnitObject
             }
         }
     }
-
-    private void RegisterPatterns()
-    {
-        int maxReservations = 3;
-
-        for (int i = 0; i < maxReservations; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
-            patternManager.EnqueuePattern(basicPatterns[randomIndex]);
-        }
-
-        for (int i = 0; i < maxReservations; i++)
-        {
-            int randomIndex = UnityEngine.Random.Range(0, gimmickPatterns.Count);
-            var randomGimmickPattern = gimmickPatterns[randomIndex];
-
-            randomGimmickPattern.onPatternStart += () =>
-            {
-                patternManager.ClearPatterns(BossPattern.PatternType.Basic);
-            };
-
-            patternManager.EnqueuePattern(randomGimmickPattern);
-        }
-    }
-
 
     #endregion
 

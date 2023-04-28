@@ -1,56 +1,84 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using System;
 
-public class PatternManager : MonoBehaviour
+public class PatternManager : BaseMonoBehaviour
 {
-    [SerializeField] private BossPattern currentPattern;
-    [SerializeField] private List<BossPattern> patternQueue;
-    [SerializeField] private int maxQueueSize = 3;
-    public List<BossPattern> basicPatterns { get; set; }
+    public PatternScriptableObject CurrentPattern;
+    [SerializeField] private Queue<PatternScriptableObject> patternQueue = new Queue<PatternScriptableObject>();
 
-    public BossPattern CurrentPattern
-    {
-        get { return currentPattern; }
-        set { currentPattern = value; }
-    }
+    public List<BasicPatternScriptableObject> basicPatterns;
+    public List<GimmickScriptableObject> gimmickPatterns;
 
-    public void EnqueuePattern(BossPattern pattern)
+    private void Update()
     {
-        if (patternQueue.Count < maxQueueSize || pattern.type == BossPattern.PatternType.Gimmick)
+        if (CurrentPattern == null)
         {
-            patternQueue.Add(pattern);
-        }
-    }
-
-    public BossPattern DequeuePattern()
-    {
-        if (patternQueue.Count > 0)
-        {
-            BossPattern dequeuedPattern = patternQueue[0];
-            patternQueue.RemoveAt(0);
-            return dequeuedPattern;
+            DequeuePattern();
         }
         else
         {
-            // 큐가 비어 있을 때 BasicPatterns에서 랜덤한 기본 패턴을 반환합니다.
-            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
-            return basicPatterns[randomIndex];
+            CurrentPattern.duration -= Time.deltaTime;
+            if (CurrentPattern.duration <= 0)
+            {
+                CurrentPattern.onPatternEnd?.Invoke();
+                DequeuePattern();
+            }
         }
     }
 
-
-    public void ClearPatterns(BossPattern.PatternType patternType)
+    public void DequeuePattern()
     {
-        patternQueue.RemoveAll(pattern => pattern.type == patternType);
+        if (patternQueue.Count > 0)
+        {
+            CurrentPattern = patternQueue.Dequeue();
+            CurrentPattern.onPatternStart?.Invoke();
+        }
     }
 
-    private IEnumerator ExecutePattern(float duration, Action onPatternCompleted)
+    public void EnqueuePattern(BasicPatternScriptableObject pattern)
     {
-        yield return new WaitForSeconds(duration);
-        onPatternCompleted?.Invoke();
+        patternQueue.Enqueue(pattern);
+    }
+
+    public void ClearPatterns()
+    {
+        patternQueue.Clear();
+    }
+
+    private void RegisterBasicPatterns()
+    {
+        int maxReservations = 3;
+
+        for (int i = 0; i < maxReservations; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
+            patternQueue.Enqueue(basicPatterns[randomIndex]);
+        }
+    }
+
+    private void RegisterGimmickPatterns()
+    {
+        int maxReservations = 3;
+
+        for (int i = 0; i < maxReservations; i++)
+        {
+            int randomIndex = UnityEngine.Random.Range(0, gimmickPatterns.Count);
+            var randomGimmickPattern = gimmickPatterns[randomIndex];
+
+            randomGimmickPattern.OnHealthThresholdReached += () =>
+            {
+                ClearPatterns();
+                patternQueue.Enqueue(randomGimmickPattern);
+            };
+        }
+    }
+
+    public void Initialize()
+    {
+        patternQueue.Clear();
+        RegisterBasicPatterns();
+        RegisterGimmickPatterns();
         DequeuePattern();
     }
 }
