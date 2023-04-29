@@ -7,4 +7,9 @@ public abstract class PatternScriptableObject : ScriptableObject
     public float duration;
     public Action onPatternStart;
     public Action onPatternEnd;
+
+    public virtual void ExecutePattern(Skunk skunk)
+    {
+        
+    }
 }

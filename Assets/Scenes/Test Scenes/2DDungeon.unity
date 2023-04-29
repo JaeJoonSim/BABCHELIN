@@ -1178,8 +1178,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   CurrentPattern: {fileID: 0}
+  patternList: []
   basicPatterns: []
   gimmickPatterns: []
+  remainingPatternDuration: 0
+  health: {fileID: 1907767823}
 --- !u!4 &502016576
 Transform:
   m_ObjectHideFlags: 0
@@ -3764,8 +3767,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
-  multipleHealthLine: 0
+  currentHealth: 100
+  multipleHealthLine: 5
   HpLineAmount: 20
   recoveryTime: 2
   isInvincible: 0
@@ -3848,8 +3851,7 @@ MonoBehaviour:
   patternManager: {fileID: 502016575}
   basicPatterns:
   - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
-  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
-  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  - {fileID: 11400000, guid: 09c3925b2eeabbd4daa7d6c3d527f242, type: 2}
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 0}

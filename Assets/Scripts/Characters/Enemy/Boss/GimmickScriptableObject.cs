@@ -12,4 +12,9 @@ public class GimmickScriptableObject : PatternScriptableObject
     {
         OnHealthThresholdReached?.Invoke();
     }
+
+    public override void ExecutePattern(Skunk skunk)
+    {
+        Debug.Log("Gimmick : " + patternName);
+    }
 }

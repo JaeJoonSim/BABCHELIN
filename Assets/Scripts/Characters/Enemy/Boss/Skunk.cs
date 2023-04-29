@@ -85,7 +85,7 @@ public class Skunk : UnitObject
 
         if (patternManager.CurrentPattern == null)
         {
-            patternManager.DequeuePattern();
+            patternManager.DequeuePattern(health);
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
@@ -94,6 +94,10 @@ public class Skunk : UnitObject
             {
 
                 case StateMachine.State.Idle:
+                    if (patternManager.CurrentPattern != null)
+                    {
+                        patternManager.CurrentPattern.ExecutePattern(this);
+                    }
                     break;
                 case StateMachine.State.Moving:
                     break;

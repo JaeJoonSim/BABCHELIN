@@ -39,7 +39,7 @@ public class Health : BaseMonoBehaviour
 
     private void Update()
     {
-        multipleHealthLine = (int)(maxHealth / HpLineAmount);
+        multipleHealthLine = (int)(currentHealth / HpLineAmount);
     }
 
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
