@@ -10,6 +10,7 @@ public class PatternManager : BaseMonoBehaviour
 
     public List<BasicPatternScriptableObject> basicPatterns;
     public List<GimmickScriptableObject> gimmickPatterns;
+    public List<GimmickScriptableObject> usedGimmickPatterns;
 
     [SerializeField] private float remainingPatternDuration;
     [SerializeField] private Health health;
@@ -23,6 +24,19 @@ public class PatternManager : BaseMonoBehaviour
         else
         {
             remainingPatternDuration -= Time.deltaTime;
+
+            // Add this block
+            if (gimmickPatterns.Count > 0)
+            {
+                GimmickScriptableObject selectedGimmick = gimmickPatterns[0];
+                if (health.multipleHealthLine <= selectedGimmick.triggerHealthLine)
+                {
+                    patternList.Insert(0, selectedGimmick);
+                    usedGimmickPatterns.Add(selectedGimmick);  // Add the used gimmick to the usedGimmickPatterns list
+                    gimmickPatterns.RemoveAt(0);
+                }
+            }
+
             if (remainingPatternDuration <= 0)
             {
                 CurrentPattern.onPatternEnd?.Invoke();
@@ -37,7 +51,7 @@ public class PatternManager : BaseMonoBehaviour
         {
             if (CurrentPattern is GimmickScriptableObject usedGimmick)
             {
-                gimmickPatterns.Add(usedGimmick);
+                usedGimmickPatterns.Add(usedGimmick); // Add the used gimmick to the usedGimmickPatterns list
             }
 
             CurrentPattern = patternList[0];
@@ -56,48 +70,74 @@ public class PatternManager : BaseMonoBehaviour
     {
         int randomIndex;
 
-        if (basicPatterns.Count > 0 && gimmickPatterns.Count > 0)
+        while (patternList.Count < 3)
         {
-            randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count + gimmickPatterns.Count);
-
-            if (randomIndex < basicPatterns.Count) // Basic Pattern
+            if (basicPatterns.Count > 0 && gimmickPatterns.Count > 0)
             {
-                patternList.Add(basicPatterns[randomIndex]);
-            }
-            else // Gimmick Pattern
-            {
-                GimmickScriptableObject selectedGimmick = gimmickPatterns[0];
+                randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count + gimmickPatterns.Count);
 
-                int currentHealthLine = health.multipleHealthLine;
-                if (currentHealthLine <= selectedGimmick.triggerHealthLine)
+                if (randomIndex < basicPatterns.Count) // Basic Pattern
                 {
-                    patternList.Insert(0, selectedGimmick);
-                    Debug.Log("기믹패턴예약");
-                    gimmickPatterns.RemoveAt(0); // Remove the used gimmick pattern from the list
+                    patternList.Add(basicPatterns[randomIndex]);
+                }
+                else // Gimmick Pattern
+                {
+                    List<GimmickScriptableObject> validGimmicks = new List<GimmickScriptableObject>();
+
+                    foreach (GimmickScriptableObject gimmick in gimmickPatterns)
+                    {
+                        if (health.multipleHealthLine <= gimmick.triggerHealthLine)
+                        {
+                            validGimmicks.Add(gimmick);
+                        }
+                    }
+
+                    if (validGimmicks.Count > 0)
+                    {
+                        randomIndex = UnityEngine.Random.Range(0, validGimmicks.Count);
+                        GimmickScriptableObject selectedGimmick = validGimmicks[randomIndex];
+                        patternList.Insert(0, selectedGimmick);
+                        Debug.Log("기믹패턴예약");
+                        gimmickPatterns.Remove(selectedGimmick);
+                    }
                 }
             }
-        }
-        else if (basicPatterns.Count > 0)
-        {
-            randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
-            patternList.Add(basicPatterns[randomIndex]);
-        }
-        else if (gimmickPatterns.Count > 0)
-        {
-            GimmickScriptableObject selectedGimmick = gimmickPatterns[0];
-
-            int currentHealthLine = health.multipleHealthLine;
-            if (currentHealthLine <= selectedGimmick.triggerHealthLine)
+            else if (basicPatterns.Count > 0)
             {
-                patternList.Insert(0, selectedGimmick);
-                Debug.Log("기믹패턴예약");
-                gimmickPatterns.RemoveAt(0); // Remove the used gimmick pattern from the list
+                randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
+                patternList.Add(basicPatterns[randomIndex]);
+            }
+            else if (gimmickPatterns.Count > 0)
+            {
+                List<GimmickScriptableObject> validGimmicks = new List<GimmickScriptableObject>();
+
+                foreach (GimmickScriptableObject gimmick in gimmickPatterns)
+                {
+                    if (health.multipleHealthLine <= gimmick.triggerHealthLine)
+                    {
+                        validGimmicks.Add(gimmick);
+                    }
+                }
+
+                if (validGimmicks.Count > 0)
+                {
+                    randomIndex = UnityEngine.Random.Range(0, validGimmicks.Count);
+                    GimmickScriptableObject selectedGimmick = validGimmicks[randomIndex];
+                    patternList.Insert(0, selectedGimmick);
+                    Debug.Log("기믹패턴예약");
+                    gimmickPatterns.Remove(selectedGimmick);
+                }
             }
         }
     }
 
     public void EnqueuePattern(BasicPatternScriptableObject pattern)
     {
+        if (patternList.Count >= 3)
+        {
+            return;
+        }
+
         patternList.Add(pattern);
     }
 
