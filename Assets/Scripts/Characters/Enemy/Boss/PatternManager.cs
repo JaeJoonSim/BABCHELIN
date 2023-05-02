@@ -57,6 +57,10 @@ public class PatternManager : BaseMonoBehaviour
             CurrentPattern = patternList[0];
             patternList.RemoveAt(0);
             remainingPatternDuration = CurrentPattern.duration;
+
+            Skunk skunk = FindObjectOfType<Skunk>();
+            skunk.state.CURRENT_STATE = CurrentPattern.patternState;
+
             CurrentPattern.onPatternStart?.Invoke();
         }
 
