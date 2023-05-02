@@ -60,7 +60,7 @@ public class PatternManager : BaseMonoBehaviour
 
             Skunk skunk = FindObjectOfType<Skunk>();
             skunk.state.CURRENT_STATE = CurrentPattern.patternState;
-
+            skunk.wasFarting = false;
             CurrentPattern.onPatternStart?.Invoke();
         }
 

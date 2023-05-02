@@ -9,6 +9,7 @@ public class Health : BaseMonoBehaviour
     [SerializeField] protected float currentHealth;
     public int multipleHealthLine;
     public int HpLineAmount;
+    public bool IsPoisoned { get; set; }
 
     protected StateMachine state;
     protected Rigidbody2D rb;

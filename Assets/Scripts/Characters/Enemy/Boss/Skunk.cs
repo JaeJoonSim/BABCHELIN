@@ -33,12 +33,15 @@ public class Skunk : UnitObject
     private NavMeshAgent agent;
     private bool isPlayerInRange;
     private float distanceToPlayer;
+    [HideInInspector] public bool wasFarting = false;
 
     [Space]
 
-    public float forceDir;
-    public float xDir;
-    public float yDir;
+    [HideInInspector] public float forceDir;
+    [HideInInspector] public float xDir;
+    [HideInInspector] public float yDir;
+
+    public GameObject fartPrefab;
 
     private SkeletonAnimation spineAnimation;
 
@@ -88,6 +91,11 @@ public class Skunk : UnitObject
             patternManager.DequeuePattern(health);
         }
 
+        if (state.CURRENT_STATE != StateMachine.State.Farting)
+        {
+            wasFarting = false;
+        }
+
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             switch (state.CURRENT_STATE)
@@ -110,6 +118,11 @@ public class Skunk : UnitObject
                 case StateMachine.State.Jump:
                     break;
                 case StateMachine.State.Farting:
+                    if (!wasFarting)
+                    {
+                        Fart();
+                        wasFarting = true;
+                    }
                     break;
                 case StateMachine.State.FartShield:
                     break;
@@ -176,6 +189,19 @@ public class Skunk : UnitObject
         }
     }
 
+    private void Fart()
+    {
+        if (state.CURRENT_STATE == StateMachine.State.Farting)
+        {
+            // Rotate and face the tail towards the player
+            Vector3 directionToTarget = (target.position - transform.position).normalized;
+            float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
+            //SpineTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+
+            // Spawn the fart
+            Instantiate(fartPrefab, transform.position, Quaternion.identity);
+        }
+    }
     #endregion
 
     #region Event
