@@ -17,7 +17,7 @@ public class SmallAttack : BaseMonoBehaviour
             Vector2 dirToTarget = (targetInRange[i].transform.position - transform.position).normalized;
             if (Vector3.Angle(transform.right, dirToTarget) <= Angle / 2)
             {
-                targetInRange[i].GetComponent<Health>().Damaged(gameObject, transform.position, 2f);
+                targetInRange[i].GetComponent<Health>().Damaged(gameObject, transform.position, 2f, Health.AttackType.Normal);
                 Debug.Log(targetInRange[i].name);
                 Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
             }

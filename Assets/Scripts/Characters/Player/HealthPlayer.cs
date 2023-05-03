@@ -17,10 +17,10 @@ public class HealthPlayer : Health
         OnDamaged += ApplyKnockbackAndChangeState;
     }
 
-    private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage)
+    private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
     {
-        StartCoroutine(ApplyKnockbackCoroutine(Attacker, attackLocation, recoveryTime));
-        //StartCoroutine(InvincibilityAndBlink(recoveryTime));
+        if(type == AttackType.Normal)
+            StartCoroutine(ApplyKnockbackCoroutine(Attacker, attackLocation, recoveryTime));
     }
 
     private IEnumerator ApplyKnockbackCoroutine(GameObject attacker, Vector3 attackLocation, float knockbackDuration)

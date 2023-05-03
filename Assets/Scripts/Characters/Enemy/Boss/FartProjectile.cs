@@ -60,7 +60,7 @@ public class FartProjectile : MonoBehaviour
 
             if (distanceToPlayer <= radius)
             {
-                playerHealth.Damaged(gameObject, transform.position, damage);
+                playerHealth.Damaged(gameObject, transform.position, damage, Health.AttackType.Poison);
 
                 if (!playerHealth.IsPoisoned)
                 {
@@ -83,7 +83,7 @@ public class FartProjectile : MonoBehaviour
 
         while (poisonTimer < poisoningDuration)
         {
-            playerHealth.Damaged(gameObject, transform.position, poisoningDamage);
+            playerHealth.Damaged(gameObject, transform.position, poisoningDamage, Health.AttackType.Poison);
             poisonTimer += Time.deltaTime;
             yield return new WaitForSeconds(1f);
         }

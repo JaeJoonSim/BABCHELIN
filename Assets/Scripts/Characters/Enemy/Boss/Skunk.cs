@@ -212,7 +212,7 @@ public class Skunk : UnitObject
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 if (AttackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                 hasAppliedDamage = true;
             }
         }

@@ -27,7 +27,7 @@ public class LargeAttack : MonoBehaviour
         if (collision.tag == "Enemy")
         {
             
-            collision.GetComponent<Health>().Damaged(gameObject, transform.position, 10f);
+            collision.GetComponent<Health>().Damaged(gameObject, transform.position, 10f, Health.AttackType.Normal);
             Instantiate(HitEffet, transform.position, Quaternion.identity);
             //Instantiate(HitEffet, collision.ClosestPoint(transform.position), Quaternion.identity);
 

@@ -42,7 +42,7 @@ public class BulletCollider : BaseMonoBehaviour
         if (collider.tag == "Player")
         {
             Debug.Log("Bullet hit " + collider.name);
-            player.Damaged(gameObject, transform.position, damage);
+            player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
             Destroy(gameObject);
         }
     }

@@ -21,7 +21,7 @@ public class MediumAttack : MonoBehaviour
             {
                 if (Vector3.Distance(targetInRange[i].transform.position, transform.position) >= Range-1)
                 {
-                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, transform.position, 2f);
+                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, transform.position, 2f, Health.AttackType.Normal);
                     //Debug.Log(targetInRange[i].name);
                     Debug.DrawLine(transform.position, targetInRange[i].transform.position, Color.green);
                 }

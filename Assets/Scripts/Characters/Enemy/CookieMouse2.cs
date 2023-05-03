@@ -150,7 +150,7 @@ public class CookieMouse2 : UnitObject
                         if (distanceToPlayer <= attackDistance)
                         {
                             Debug.Log("¶§¸²");
-                            playerHealth.Damaged(gameObject, transform.position, Damaged);
+                            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                         }
                         agent.isStopped = false;
                     }
@@ -221,7 +221,7 @@ public class CookieMouse2 : UnitObject
                 if (distanceToPlayer <= attackDistance)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                     agent.isStopped = true;
                 }
                 else
@@ -297,7 +297,7 @@ public class CookieMouse2 : UnitObject
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 if (attackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                 hasAppliedDamage = true;
             }
         }

@@ -5,6 +5,12 @@ using UnityEngine.Events;
 
 public class Health : BaseMonoBehaviour
 {
+    public enum AttackType
+    {
+        Normal,
+        Poison,
+    }
+
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
     public int multipleHealthLine;
@@ -20,8 +26,8 @@ public class Health : BaseMonoBehaviour
     [HideInInspector] public bool isInvincible = false;
     [HideInInspector] public bool untouchable = false;
 
-    public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation);
-    public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage);
+    public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation, AttackType type);
+    public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage, AttackType type);
     public delegate void DieAction();
 
     public event DieAction OnDie;
@@ -43,7 +49,7 @@ public class Health : BaseMonoBehaviour
         multipleHealthLine = (int)(currentHealth / HpLineAmount);
     }
 
-    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage)
+    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
     {
         if (IsInvincible()) return;
         if (Attacker == base.gameObject) return;
@@ -52,12 +58,12 @@ public class Health : BaseMonoBehaviour
 
         if (OnDamaged != null)
         {
-            OnDamaged?.Invoke(gameObject, attackLocation, damage);
+            OnDamaged?.Invoke(gameObject, attackLocation, damage, type);
         }
 
         if (OnHit != null)
         {
-            OnHit?.Invoke(Attacker, attackLocation);
+            OnHit?.Invoke(Attacker, attackLocation, type);
         }
 
         if (currentHealth <= 0)
@@ -100,10 +106,11 @@ public class Health : BaseMonoBehaviour
             state.ChangeToIdleState();
     }
 
-    protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage)
+    protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage, AttackType type)
     {
         StartCoroutine(InvincibilityAndBlink(recoveryTime));
-        state.ChangeToHitState(attackLocation);
+        if(type == AttackType.Normal)
+            state.ChangeToHitState(attackLocation);
     }
 
     public float MaxHP()

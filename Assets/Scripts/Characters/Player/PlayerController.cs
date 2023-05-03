@@ -271,7 +271,7 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    private void OnHit(GameObject Attacker, Vector3 AttackLocation)
+    private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
         if (!health.isInvincible)
         {
