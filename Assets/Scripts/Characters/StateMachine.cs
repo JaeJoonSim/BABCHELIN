@@ -24,7 +24,11 @@ public class StateMachine : MonoBehaviour
         Patrol = 16,
         Loading = 17,
         Pause = 18,
-
+        Jump = 19,
+        Farting = 20,
+        FartShield = 21,
+        Tailing = 22,
+        Throwing = 23,
 
     }
 

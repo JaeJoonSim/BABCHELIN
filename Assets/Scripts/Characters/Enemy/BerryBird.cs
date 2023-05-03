@@ -274,7 +274,7 @@ public class BerryBird : UnitObject
         }
     }
 
-    public override void OnHit(GameObject Attacker, Vector3 AttackLocation)
+    public override void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
         if (canAttack == false) canAttack = true;
         Debug.Log($"공격가능: {canAttack}");

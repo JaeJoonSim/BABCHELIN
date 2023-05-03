@@ -1,5 +1,6 @@
 Shader "Spine/Skeleton" {
 	Properties {
+		_CamOffet("Camera Offset", Float) = 0.0
 		_Cutoff ("Shadow alpha cutoff", Range(0,1)) = 0.1
 		[NoScaleOffset] _MainTex ("Main Texture", 2D) = "black" {}
 		[Toggle(_STRAIGHT_ALPHA_INPUT)] _StraightAlphaInput("Straight Alpha Texture", Int) = 0
@@ -43,6 +44,8 @@ Shader "Spine/Skeleton" {
 			#include "CGIncludes/Spine-Common.cginc"
 			sampler2D _MainTex;
 
+			half _CamOffet;
+
 			struct VertexInput {
 				float4 vertex : POSITION;
 				float2 uv : TEXCOORD0;
@@ -57,7 +60,12 @@ Shader "Spine/Skeleton" {
 
 			VertexOutput vert (VertexInput v) {
 				VertexOutput o;
-				o.pos = UnityObjectToClipPos(v.vertex);
+				//o.pos = UnityObjectToClipPos(v.vertex);
+				float4 worldPos = mul(unity_ObjectToWorld, v.vertex); // World Pos
+				float3 camVec = normalize(_WorldSpaceCameraPos - worldPos.xyz);
+				worldPos.xyz += camVec * _CamOffet;
+				o.pos = mul(UNITY_MATRIX_VP, worldPos); // Projection Pos
+				
 				o.uv = v.uv;
 				o.vertexColor = PMAGammaToTargetSpace(v.vertexColor);
 				return o;

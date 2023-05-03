@@ -36,7 +36,7 @@ public class Bomb : BaseMonoBehaviour
         {
             if(distanceToPlayer <= blastRange)
             {
-                playerHealth.Damaged(gameObject, transform.position, Damaged);
+                playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
             }
 
             Destroy(this.gameObject);

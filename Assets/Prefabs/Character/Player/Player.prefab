@@ -3192,8 +3192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8909664dc1875314f90dc7533df190dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 100
   currentHealth: 0
+  multipleHealthLine: 0
+  HpLineAmount: 20
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
@@ -6705,7 +6707,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6160722344672093754
 Transform:
   m_ObjectHideFlags: 0

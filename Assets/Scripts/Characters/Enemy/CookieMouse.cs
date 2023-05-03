@@ -144,7 +144,7 @@ public class CookieMouse : UnitObject
                         distanceToPlayer = Vector3.Distance(transform.position, target.position);
                         if (distanceToPlayer <= AttackDistance)
                         {
-                            playerHealth.Damaged(gameObject, transform.position, Damaged);
+                            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                             agent.isStopped = true;
                             stopTimer = 0f;
                         }
@@ -200,7 +200,7 @@ public class CookieMouse : UnitObject
                 if (distanceToPlayer <= AttackDistance)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                     agent.isStopped = true;
                 }
                 else
@@ -261,7 +261,7 @@ public class CookieMouse : UnitObject
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 if (AttackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged);
+                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                 hasAppliedDamage = true;
             }
         }

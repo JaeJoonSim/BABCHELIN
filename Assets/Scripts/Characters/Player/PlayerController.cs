@@ -26,7 +26,7 @@ public class PlayerController : BaseMonoBehaviour
     [Space, Header("±¸¸£±â")]
     public float DodgeTimer;
     public float DodgeSpeed = 12f;
-    public float DodgeAngle  = 0f;
+    public float DodgeAngle = 0f;
     public float DodgeDuration = 0.3f;
     public float DodgeMaxDuration = 0.5f;
     public float DodgeDelay = 0.3f;
@@ -102,12 +102,12 @@ public class PlayerController : BaseMonoBehaviour
             state.facingAngle = Utils.GetMouseAngle(transform.position);
 
             if (!BulletUI.activeSelf)
-                BulletUI.SetActive(true);           
+                BulletUI.SetActive(true);
         }
         else
         {
             if (yDir > 0)
-            {        
+            {
                 if (xDir < 0)
                     DodgeAngle = 135;
                 else if (xDir > 0)
@@ -119,7 +119,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
             }
             else if (yDir < 0)
-            {              
+            {
                 if (xDir < 0)
                     DodgeAngle = 225;
                 else if (xDir > 0)
@@ -261,7 +261,7 @@ public class PlayerController : BaseMonoBehaviour
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
-                
+
             case StateMachine.State.Pause:
                 xDir = 0;
                 yDir = 0;
@@ -271,7 +271,7 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    private void OnHit(GameObject Attacker, Vector3 AttackLocation)
+    private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
         if (!health.isInvincible)
         {
@@ -287,9 +287,12 @@ public class PlayerController : BaseMonoBehaviour
             state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
         }
         forceDir = state.facingAngle + 180f;
-        CameraManager.shakeCamera(10f, 0f - state.facingAngle);
+        if (type == Health.AttackType.Normal)
+        {
+            CameraManager.shakeCamera(10f, 0f - state.facingAngle);
 
-        GameManager.GetInstance().HitStop();
+            GameManager.GetInstance().HitStop();
+        }
     }
 
     public void addBullet(int add)
