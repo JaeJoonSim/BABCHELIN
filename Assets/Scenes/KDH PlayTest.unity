@@ -953,24 +953,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c607d0e110f1deb4ebcd91123f55e76b, type: 3}
---- !u!1 &935687119 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2035613894900887826, guid: 7a0de173b40518b4cb85c0edeb777bea,
-    type: 3}
-  m_PrefabInstance: {fileID: 1117778512}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &935687124
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 935687119}
-  m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1 &1039886880
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,6 +1031,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1260487989, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: BulletCanvas
+      value: 
+      objectReference: {fileID: 1476276884}
+    - target: {fileID: 2032475498361865007, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032475498361865007, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2032475498361865007, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.8
+      objectReference: {fileID: 0}
     - target: {fileID: 2035613893309302144, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_IsActive
@@ -1129,6 +1130,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Enabled
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035613894900887827, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035613894900887827, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2035613894900887830, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
@@ -1220,6 +1231,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_FillMethod
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237184416831298580, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237184416831298583, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343059187416, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
@@ -1425,7 +1446,7 @@ PrefabInstance:
         type: 3}
       propertyPath: BulletUI
       value: 
-      objectReference: {fileID: 935687119}
+      objectReference: {fileID: 1476276883}
     - target: {fileID: 6160722343811252264, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_Name
@@ -2336,6 +2357,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4878a6185c7ba7048af9eabe28519867, type: 3}
+--- !u!1 &1476276883 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2237184416831298582, guid: 7a0de173b40518b4cb85c0edeb777bea,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117778512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!224 &1476276884 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2237184416831298583, guid: 7a0de173b40518b4cb85c0edeb777bea,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117778512}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &1476276888
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1476276883}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &1555672789
 GameObject:
   m_ObjectHideFlags: 0

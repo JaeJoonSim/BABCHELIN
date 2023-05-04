@@ -105,7 +105,6 @@ public class PlayerController : BaseMonoBehaviour
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
             {
                 fadeTime = 0;
-                //BulletUI.SetActive(true);
                 BulletUI.GetComponent<CanvasGroup>().alpha = 1;
             }
         }
