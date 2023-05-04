@@ -38,7 +38,7 @@ public class PlayerUI : MonoBehaviour
         ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
         playerController = GetComponentInParent<PlayerController>();
 
-        PlayerBulletGauge = BulletCanvas.GetChild(0).transform.GetChild(0).GetComponent<Image>();
+        PlayerBulletGauge = BulletCanvas.GetChild(1).GetComponent<Image>();
     }
 
     // Update is called once per frame
@@ -53,7 +53,7 @@ public class PlayerUI : MonoBehaviour
         BulletGauge.fillAmount = playerController.BulletGauge / 1000f;
         UltimateGauge.fillAmount += Time.deltaTime / 10f;
 
-        PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
+        PlayerBulletGauge.fillAmount = (BulletGauge.fillAmount / 5);
 
 
         if (UltimateGauge.fillAmount == 1)
