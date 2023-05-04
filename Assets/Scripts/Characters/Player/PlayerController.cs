@@ -53,6 +53,7 @@ public class PlayerController : BaseMonoBehaviour
     public Transform GrinderControl;
 
     public GameObject BulletUI;
+    private float fadeTime = 0;
 
     private float VZ;
     private float Z;
@@ -101,8 +102,11 @@ public class PlayerController : BaseMonoBehaviour
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
 
-            if (!BulletUI.activeSelf)
-                BulletUI.SetActive(true);
+            if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
+            {
+                fadeTime = 0;
+                BulletUI.GetComponent<CanvasGroup>().alpha = 1;
+            }
         }
         else
         {
@@ -149,9 +153,15 @@ public class PlayerController : BaseMonoBehaviour
                 }
             }
             if (BulletUI.activeSelf)
-                BulletUI.SetActive(false);
-        }
+            {
+                fadeTime += Time.deltaTime;
 
+                if (fadeTime >= 1f)
+                {
+                    BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
+                }
+            }
+        }
 
 
         switch (state.CURRENT_STATE)
