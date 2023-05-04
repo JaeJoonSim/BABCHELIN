@@ -53,7 +53,7 @@ public class PlayerUI : MonoBehaviour
         BulletGauge.fillAmount = playerController.BulletGauge / 1000f;
         UltimateGauge.fillAmount += Time.deltaTime / 10f;
 
-        PlayerBulletGauge.fillAmount = BulletGauge.fillAmount;
+        PlayerBulletGauge.fillAmount = (BulletGauge.fillAmount / 4);
 
 
         if (UltimateGauge.fillAmount == 1)
