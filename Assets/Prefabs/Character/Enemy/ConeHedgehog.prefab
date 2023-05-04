@@ -15,11 +15,11 @@ GameObject:
   - component: {fileID: 4262851435986658331}
   - component: {fileID: 4262851435986658328}
   - component: {fileID: 4262851435986658335}
-  - component: {fileID: 4262851435986658334}
+  - component: {fileID: 5461754809007767820}
   - component: {fileID: 4262851435986658321}
   - component: {fileID: 4262851435986658320}
   m_Layer: 8
-  m_Name: Pepper
+  m_Name: ConeHedgehog
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
---- !u!114 &4262851435986658334
+--- !u!114 &5461754809007767820
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -160,7 +160,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4262851435986658342}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f84e045ba5183e04292f628a726eea92, type: 3}
+  m_Script: {fileID: 11500000, guid: 65a014471d7d8584ba9bc559a3ce5823, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -175,14 +175,23 @@ MonoBehaviour:
   SpineTransform: {fileID: 9086730898023716705}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 5
-  AttackDistance: 1.5
-  AttackDelay: 3
-  AttackDuration: 1
+  detectionRange: 7
+  detectionAttackRange: 3
+  attackDistance: 0.3
+  moveTime: 0
+  AttackDelay: 0
+  AttackDuration: 0.3
   AttackTimer: 0
+  moveSpeed: 0
+  patrolRange: 10
+  patrolMoveDuration: 2
+  patrolIdleDuration: 1
+  runawaySpeedMultiplier: 1.5
+  idleToPatrolDelay: 5
   forceDir: 0
   xDir: 0
   yDir: 0
+  BombObject: {fileID: 0}
 --- !u!195 &4262851435986658321
 NavMeshAgent:
   m_ObjectHideFlags: 0

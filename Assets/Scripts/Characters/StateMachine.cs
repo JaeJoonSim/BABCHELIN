@@ -29,6 +29,9 @@ public class StateMachine : MonoBehaviour
         FartShield = 21,
         Tailing = 22,
         Throwing = 23,
+        Hide = 24,
+        Hidden = 25,
+        Delay = 26,
 
     }
 

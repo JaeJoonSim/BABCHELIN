@@ -200,7 +200,6 @@ GameObject:
   - component: {fileID: -1213034669811131865}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
-  - component: {fileID: 3275738440347693769}
   m_Layer: 8
   m_Name: CookieMouse3
   m_TagString: Enemy
@@ -293,6 +292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
+  multipleHealthLine: 0
+  HpLineAmount: 0
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
@@ -356,8 +357,8 @@ MonoBehaviour:
   SpineTransform: {fileID: 8270591769108072770}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 0
-  detectionAttackRange: 0
+  detectionRange: 7
+  detectionAttackRange: 3
   attackDistance: 0
   AttackDelay: 0
   AttackDuration: 0.3
@@ -371,7 +372,8 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  BulletObject: {fileID: 0}
+  BulletObject: {fileID: 2862424241139748284, guid: 4b9de06b6d7e6fc438b0d3c6b66e62d5,
+    type: 3}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -406,24 +408,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3275738440347693769
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3275738440347693820}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 040209aa6d4ddda41b73b5f5a9a2dffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  state: {fileID: 0}
-  health: {fileID: 0}
-  vx: 0
-  vy: 0
-  moveVX: 0
-  moveVY: 0
-  speed: 0
-  maxSpeed: 0.05

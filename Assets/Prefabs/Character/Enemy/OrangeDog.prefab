@@ -197,11 +197,11 @@ GameObject:
   - component: {fileID: 3275738440347693761}
   - component: {fileID: 3275738440347693762}
   - component: {fileID: 3275738440347693765}
-  - component: {fileID: -1568053414874996}
+  - component: {fileID: 6331368809563081929}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
   m_Layer: 8
-  m_Name: CookieMouse
+  m_Name: OrangeDog
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -333,7 +333,7 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
---- !u!114 &-1568053414874996
+--- !u!114 &6331368809563081929
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -342,7 +342,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3275738440347693820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a56075e74b8ddb4fb6d8f4209c89100, type: 3}
+  m_Script: {fileID: 11500000, guid: 9b4c2d9fa3942e4438192ab3f054d456, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -357,22 +357,14 @@ MonoBehaviour:
   SpineTransform: {fileID: 8270591769108072770}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 7
-  detectionAttackRange: 3
-  AttackDistance: 0.5
-  AttackDelay: 2
-  AttackDuration: 0.3
+  detectionRange: 5
+  AttackDistance: 1.5
+  AttackDelay: 3
+  AttackDuration: 1
   AttackTimer: 0
-  stopTimer: 0
-  patrolRange: 10
-  patrolMoveDuration: 2
-  patrolIdleDuration: 1
-  runawaySpeedMultiplier: 1.5
-  idleToPatrolDelay: 5
   forceDir: 0
   xDir: 0
   yDir: 0
-  BombObject: {fileID: 0}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0

@@ -141,15 +141,14 @@ public class CookieMouse2 : UnitObject
                     break;
                 case StateMachine.State.Attacking:
                     moveTime += Time.deltaTime;
-                    agent.speed = 3f;
+                    agent.speed = 5f;
 
-                    if (moveTime <= 3f)
+                    if (moveTime <= 1.5f)
                     {
                         agent.SetDestination(transform.position + directionToPoint);
 
                         if (distanceToPlayer <= attackDistance)
                         {
-                            Debug.Log("¶§¸²");
                             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                         }
                         agent.isStopped = false;
