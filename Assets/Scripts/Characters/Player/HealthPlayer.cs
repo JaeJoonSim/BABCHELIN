@@ -8,6 +8,13 @@ public class HealthPlayer : Health
 
     [SerializeField] private GameObject RetryPanel;
 
+    [HideInInspector] public float poisoningDamage;
+    public float clearPoisonTimer;
+    public float curPoisonTimer;
+    [HideInInspector] public float poisonDamage;
+    public float poisonDamageInterval;
+    public float poisonIntervalCounter;
+
     protected override void Start()
     {
         base.Start();
@@ -15,6 +22,23 @@ public class HealthPlayer : Health
             RetryPanel.SetActive(false);
         controller = GetComponent<PlayerController>();
         OnDamaged += ApplyKnockbackAndChangeState;
+    }
+
+    private void Update()
+    {
+        if (isPoisoned == true)
+        {
+            curPoisonTimer += Time.deltaTime;
+            if (curPoisonTimer > clearPoisonTimer)
+            {
+                isPoisoned = false;
+                curPoisonTimer = 0;
+            }
+            else
+            {
+                PoisonDamaged();
+            }
+        }
     }
 
     private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
@@ -45,6 +69,16 @@ public class HealthPlayer : Health
         // 플레이어 사망 로직 구현
 
         StartCoroutine(RetryPanelCoroutine());
+    }
+
+    private void PoisonDamaged()
+    {
+        poisonIntervalCounter += Time.deltaTime;
+        if (poisonIntervalCounter >= poisonDamageInterval)
+        {
+            poisonIntervalCounter = 0;
+            Damaged(gameObject, transform.position, poisonDamage, AttackType.Poison);
+        }
     }
 
     private IEnumerator RetryPanelCoroutine()

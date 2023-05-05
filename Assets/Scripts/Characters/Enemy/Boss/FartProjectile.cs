@@ -21,14 +21,15 @@ public class FartProjectile : MonoBehaviour
     [SerializeField] private float lifetime = 5f;
 
     private Transform player;
-    private Health playerHealth;
+    private HealthPlayer playerHealth;
     private Rigidbody2D rb;
     private float timer;
+    private bool isPoisoned;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
-        playerHealth = player.GetComponent<Health>();
+        playerHealth = player.GetComponent<HealthPlayer>();
         rb = GetComponent<Rigidbody2D>();
 
         StartCoroutine(FartBehavior());
@@ -60,35 +61,20 @@ public class FartProjectile : MonoBehaviour
 
             if (distanceToPlayer <= radius)
             {
-                playerHealth.Damaged(gameObject, transform.position, damage, Health.AttackType.Poison);
+                playerHealth.curPoisonTimer = 0f;
+                playerHealth.poisonDamage = poisoningDamage;
 
-                if (!playerHealth.IsPoisoned)
+                if (isPoisoned == false)
                 {
-                    playerHealth.IsPoisoned = true;
-                    StartCoroutine(PlayerPoisoning());
+                    playerHealth.Damaged(gameObject, transform.position, damage, Health.AttackType.Poison);
+                    isPoisoned = true;
                 }
-            }
-            else
-            {
-                playerHealth.IsPoisoned = false;
+                playerHealth.IsPoisoned = true;
+
             }
 
             yield return null;
         }
-    }
-
-    private IEnumerator PlayerPoisoning()
-    {
-        float poisonTimer = 0;
-
-        while (poisonTimer < poisoningDuration)
-        {
-            playerHealth.Damaged(gameObject, transform.position, poisoningDamage, Health.AttackType.Poison);
-            poisonTimer += Time.deltaTime;
-            yield return new WaitForSeconds(1f);
-        }
-
-        playerHealth.IsPoisoned = false;
     }
 
     private void OnDrawGizmos()

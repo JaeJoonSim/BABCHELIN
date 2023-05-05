@@ -15,7 +15,12 @@ public class Health : BaseMonoBehaviour
     [SerializeField] protected float currentHealth;
     public int multipleHealthLine;
     public int HpLineAmount;
-    public bool IsPoisoned { get; set; }
+    public bool isPoisoned = false;
+    public bool IsPoisoned 
+    {
+        get { return isPoisoned; }
+        set { isPoisoned = value; }
+    }
 
     protected StateMachine state;
     protected Rigidbody2D rb;
@@ -52,7 +57,7 @@ public class Health : BaseMonoBehaviour
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
     {
         if (IsInvincible()) return;
-        if (Attacker == base.gameObject) return;
+        //if (Attacker == base.gameObject) return;
 
         currentHealth -= damage;
 
@@ -108,9 +113,11 @@ public class Health : BaseMonoBehaviour
 
     protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage, AttackType type)
     {
-        StartCoroutine(InvincibilityAndBlink(recoveryTime));
-        if(type == AttackType.Normal)
+        if (type == AttackType.Normal)
+        {
+            StartCoroutine(InvincibilityAndBlink(recoveryTime));
             state.ChangeToHitState(attackLocation);
+        }
     }
 
     public float MaxHP()

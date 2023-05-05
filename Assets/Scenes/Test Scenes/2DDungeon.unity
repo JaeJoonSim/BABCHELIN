@@ -1980,6 +1980,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 725174089}
   m_PrefabAsset: {fileID: 0}
+--- !u!224 &944689060 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 654470700048823997, guid: 7a0de173b40518b4cb85c0edeb777bea,
+    type: 3}
+  m_PrefabInstance: {fileID: 6160722344071664076}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1023562840
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3840,6 +3846,7 @@ MonoBehaviour:
   currentHealth: 100
   multipleHealthLine: 5
   HpLineAmount: 20
+  isPoisoned: 0
   recoveryTime: 2
   isInvincible: 0
   untouchable: 0
@@ -4651,6 +4658,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1260487989, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 278565351}
+    - target: {fileID: 1260487989, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: BulletCanvas
+      value: 
+      objectReference: {fileID: 944689060}
     - target: {fileID: 2035613894900887830, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_Camera
@@ -4850,6 +4865,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalRotation.z
       value: 0.060438786
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252258, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: clearPoisonTimer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252258, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: poisonDamageInterval
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252264, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
