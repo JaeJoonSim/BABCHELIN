@@ -11,6 +11,8 @@ public class PlayerAction : BaseMonoBehaviour
 
     public static PlayerAction Instance;
 
+    [HideInInspector] public Rigidbody2D rb;
+
     public GameObject CameraBone;
     private GameObject _CameraBone;
     private PlayerController _playerController;
@@ -110,6 +112,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         circleCollider2D = GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
+        rb = base.gameObject.GetComponent<Rigidbody2D>();
         targetInRange = null;
 
         Spine.AnimationState.Event += OnSpineEvent;
@@ -378,6 +381,7 @@ public class PlayerAction : BaseMonoBehaviour
                 case 2:
                     playerController.addBullet(-30);
                     Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0,state.facingAngle )));
+                    rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 2000f);
                     break;
                 default:
                     break;

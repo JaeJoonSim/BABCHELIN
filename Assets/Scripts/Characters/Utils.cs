@@ -52,6 +52,10 @@ public class Utils : MonoBehaviour
     {
         return (GetMousePosition() - pos).normalized;
     }
+    public static Vector3 GetMouseDirectionReverse(Vector3 pos)
+    {
+        return (pos-GetMousePosition()).normalized;
+    }
     public static float GetMouseDistance(Vector3 pos)
     {
         return Vector3.Distance(pos, GetMousePosition());

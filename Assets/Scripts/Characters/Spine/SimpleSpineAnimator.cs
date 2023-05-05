@@ -57,8 +57,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset Moving;
     public AnimationReferenceAsset MovingBack;
+
     public AnimationReferenceAsset NorthMoving;
+    public AnimationReferenceAsset NorthMovingBack;
+
     public AnimationReferenceAsset SouthMoving;
+    public AnimationReferenceAsset SouthMovingBack;
     public AnimationReferenceAsset StopMoving;
 
     [Space, Header("Attack")]
@@ -418,21 +422,55 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 else
                 {
-                    if (DirectionState == direction3.up && NorthMoving != null)
+                    if (DirectionState == direction3.up )
                     {
-                        if (SecondTrack.Animation != NorthMoving.Animation)
+                        if (playerController.yDir > 0 && NorthMoving != null)
                         {
-                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                            if (SecondTrack.Animation != NorthMoving.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                            }
+                        }
+                        else if (playerController.yDir < 0 && NorthMovingBack != null)
+                        {
+                            if (SecondTrack.Animation != NorthMovingBack.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMovingBack, loop: true);
+                            }
+                        }
+                        else
+                        {
+                            if (SecondTrack.Animation != NorthMoving.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                            }
                         }
                     }
-                    else if (DirectionState == direction3.down && SouthMoving != null)
+                    else if (DirectionState == direction3.down)
                     {
-                        if (SecondTrack.Animation != SouthMoving.Animation)
+                        if (playerController.yDir < 0 && SouthMoving != null)
                         {
-                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                            if (SecondTrack.Animation != SouthMoving.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                            }
+                        }
+                        else if (playerController.yDir > 0 && SouthMovingBack != null)
+                        {
+                            if (SecondTrack.Animation != SouthMovingBack.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMovingBack, loop: true);
+                            }
+                        }
+                        else
+                        {
+                            if (SecondTrack.Animation != SouthMoving.Animation)
+                            {
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                            }
                         }
                     }
-                    else if (playerController != null)
+                    else if (DirectionState == direction3.Middle)
                     {
                         if (Dir == -1)
                         {
@@ -1061,16 +1099,16 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (AutomaticallySetFacing)
         {
-            if (50 < state.facingAngle && state.facingAngle < 130)
+            if (45 <= state.facingAngle && state.facingAngle <= 135)
                 DirectionState = direction3.up;
-            else if (230 < state.facingAngle && state.facingAngle < 310)
+            else if (225 <= state.facingAngle && state.facingAngle <= 315)
                 DirectionState = direction3.down;
-            else if (130 < state.facingAngle && state.facingAngle < 230)
+            else if (135 < state.facingAngle && state.facingAngle < 225)
             {
                 Dir = -1;
                 DirectionState = direction3.Middle;
             }
-            else if (state.facingAngle < 50 || state.facingAngle > 310)
+            else if (state.facingAngle < 45 || state.facingAngle > 315)
             {
                 Dir = 1;
                 DirectionState = direction3.Middle;
