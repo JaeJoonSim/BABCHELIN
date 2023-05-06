@@ -212,7 +212,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -364,8 +364,7 @@ MonoBehaviour:
   SpineTransform: {fileID: 8270591769108072770}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 7
-  detectionAttackRange: 3
+  detectionRange: 5
   AttackDistance: 0.5
   AttackDelay: 2
   AttackDuration: 0.3
@@ -374,8 +373,7 @@ MonoBehaviour:
   time: 0
   patrolRange: 10
   patrolMoveDuration: 2
-  patrolIdleDuration: 1
-  idleToPatrolDelay: 5
+  idleToPatrolDelay: 2
   forceDir: 0
   xDir: 0
   yDir: 0

@@ -15,7 +15,6 @@ public class CookieMouse : UnitObject
 
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
-    [SerializeField] float detectionAttackRange;
     [SerializeField] float AttackDistance = 1f;
 
     [Space]
@@ -33,7 +32,6 @@ public class CookieMouse : UnitObject
     [Space]
     [SerializeField] float patrolRange = 10f;
     [SerializeField] float patrolMoveDuration = 2f;
-    [SerializeField] float patrolIdleDuration = 1f;
     [SerializeField] float idleToPatrolDelay = 5f;
     private float idleTimer;
     private float patrolTimer;
@@ -228,13 +226,11 @@ public class CookieMouse : UnitObject
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
         }
-        else if (patrolTimer < patrolMoveDuration + patrolIdleDuration)
-        {
-            agent.isStopped = true;
-        }
         else
         {
+            agent.isStopped = true;
             patrolTimer = 0f;
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
@@ -244,6 +240,7 @@ public class CookieMouse : UnitObject
     }
     private Vector3 GetRandomPositionInPatrolRange()
     {
+        Debug.Log("ÆÐÆ®·Ï µµÂø");
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
         randomDirection += patrolStartPosition;
         NavMeshHit hit;

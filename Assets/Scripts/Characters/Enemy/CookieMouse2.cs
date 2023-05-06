@@ -37,7 +37,6 @@ public class CookieMouse2 : UnitObject
     [Space]
     [SerializeField] float patrolRange = 10f;
     [SerializeField] float patrolMoveDuration = 2f;
-    [SerializeField] float patrolIdleDuration = 1f;
     [SerializeField] float runawaySpeedMultiplier = 1.5f;
     [SerializeField] float idleToPatrolDelay = 5f;
     private float idleTimer;
@@ -141,9 +140,9 @@ public class CookieMouse2 : UnitObject
                     break;
                 case StateMachine.State.Attacking:
                     moveTime += Time.deltaTime;
-                    agent.speed = 5f;
+                    agent.speed = 4f;
 
-                    if (moveTime <= 1.5f)
+                    if (moveTime <= 2f)
                     {
                         agent.SetDestination(transform.position + directionToPoint);
 
@@ -251,18 +250,16 @@ public class CookieMouse2 : UnitObject
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
         }
-        else if (patrolTimer < patrolMoveDuration + patrolIdleDuration)
-        {
-            agent.isStopped = true;
-        }
         else
         {
+            agent.isStopped = true;
             patrolTimer = 0f;
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
         {
-            state.CURRENT_STATE = StateMachine.State.Idle;
+            state.CURRENT_STATE = StateMachine.State.Moving;
         }
     }
 
