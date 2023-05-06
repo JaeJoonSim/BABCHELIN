@@ -256,7 +256,7 @@ public class CookieMouse3 : UnitObject
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "attack" || e.Data.Name == "Attack")
+        if (e.Data.Name == "attack_grape")
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
@@ -270,7 +270,7 @@ public class CookieMouse3 : UnitObject
     public void OnDie()
     {
         agent.speed = 0f;
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
     }
 
     private void OnDrawGizmos()

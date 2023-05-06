@@ -49,7 +49,7 @@ public class CookieMouse2 : UnitObject
     public float xDir;
     public float yDir;
 
-    public GameObject BombObject;
+    //public GameObject BombObject;
 
     private SkeletonAnimation spineAnimation;
 
@@ -301,11 +301,11 @@ public class CookieMouse2 : UnitObject
 
     public void OnDie()
     {
-        GameObject bomb = BombObject;
-        bomb.transform.position = transform.position;
-        Instantiate(bomb);
+        //GameObject bomb = BombObject;
+        //bomb.transform.position = transform.position;
+        //Instantiate(bomb);
         agent.speed = 0f;
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
     }
 
     private void OnDrawGizmos()

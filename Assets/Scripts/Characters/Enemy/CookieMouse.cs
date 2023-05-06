@@ -263,7 +263,7 @@ public class CookieMouse : UnitObject
         //bomb.transform.position = transform.position;
         //Instantiate(bomb);
         agent.speed = 0f;
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 2f);
     }
 
     private void OnDrawGizmos()
