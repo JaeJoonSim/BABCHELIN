@@ -91,6 +91,8 @@ public class CookieMouse : UnitObject
             {
                 case StateMachine.State.Idle:
                     idleTimer += Time.deltaTime;
+                    time = 0;
+
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
                         state.CURRENT_STATE = StateMachine.State.Patrol;
@@ -139,7 +141,6 @@ public class CookieMouse : UnitObject
 
                     if(AttackTimer >= 0.7)
                     {
-                        AttackTimer = 0;
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
@@ -154,10 +155,10 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Delay:
+                    AttackTimer = 0;
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {
-                        time = 0;
                         state.CURRENT_STATE = StateMachine.State.Idle;
                     }
 
@@ -172,7 +173,7 @@ public class CookieMouse : UnitObject
 
     private void FollowTarget()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Attacking && state.CURRENT_STATE != StateMachine.State.Delay)
         {
             float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 

@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2793459064763982246}
   m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3275738440347693763}
@@ -143,7 +143,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DirectionState: 0
   AnimationTrack: 0
-  SecondaryTrack: 1
+  SecondaryTrack: 0
   AutomaticallySetFacing: 1
   DefaultLoop: {fileID: 11400000, guid: 73a213ef97d049f4faa4245a4322ceba, type: 2}
   Animations: []
@@ -151,10 +151,12 @@ MonoBehaviour:
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
-  Moving: {fileID: 11400000, guid: d73f6744a343ce846b1877af6e1cf47c, type: 2}
+  Moving: {fileID: 11400000, guid: 26b72d4848b8ed34daefb9d09e2120de, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
+  NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
+  SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: df4bfb08b9cc2c84798650260c4cd8a9, type: 2}
   NorthAttack: {fileID: 0}
@@ -276,7 +278,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 1
+  IsPlayer: 0
   currentState: 0
   facingAngle: 0
   LookAngle: 0
@@ -368,12 +370,11 @@ MonoBehaviour:
   AttackDelay: 2
   AttackDuration: 0.3
   AttackTimer: 0
-  delayTime: 5
+  delayTime: 1
   time: 0
   patrolRange: 10
   patrolMoveDuration: 2
   patrolIdleDuration: 1
-  runawaySpeedMultiplier: 1.5
   idleToPatrolDelay: 5
   forceDir: 0
   xDir: 0
