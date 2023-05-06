@@ -262,9 +262,9 @@ public class CookieMouse : UnitObject
 
     public void OnDie()
     {
-        GameObject bomb = BombObject;
-        bomb.transform.position = transform.position;
-        Instantiate(bomb);
+        //GameObject bomb = BombObject;
+        //bomb.transform.position = transform.position;
+        //Instantiate(bomb);
         agent.speed = 0f;
         Destroy(gameObject, 5f);
     }
