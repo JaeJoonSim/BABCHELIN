@@ -11,7 +11,7 @@ public class WeaponRadialMenu : MonoBehaviour
     public Sprite[] sprites;
     public Sprite orginSprite;
 
-    private void Start(Transform player)
+    private void Start()
     {
         for (int i = 0; i < sprites.Length; i++)
         {

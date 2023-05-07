@@ -221,14 +221,12 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
-
                 return false;
             }
             if (state.CURRENT_STATE != StateMachine.State.Attacking && Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
             ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
-
         }
         else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
         {
