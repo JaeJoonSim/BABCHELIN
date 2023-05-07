@@ -144,7 +144,7 @@ public partial class RadialMenu : MonoBehaviour
 
         if (show)
         {
-            _arrow.eulerAngles = Vector3.forward * _arrowRotationZ;
+            _arrow.rotation = Quaternion.Euler(0,0, Utils.GetMouseScreenAngle(_arrow.position));
         }
     }
 

@@ -48,6 +48,12 @@ public class Utils : MonoBehaviour
     {
         return GetAngle(pos, GetMousePosition());
     }
+
+    public static float GetMouseScreenAngle(Vector3 pos)
+    {
+        return GetAngle(pos, Input.mousePosition);
+    }
+
     public static Vector3 GetMouseDirection(Vector3 pos)
     {
         return (GetMousePosition() - pos).normalized;

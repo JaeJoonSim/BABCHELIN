@@ -30,6 +30,9 @@ public class PlayerAction : BaseMonoBehaviour
     public float LoadingDelay;
 
     public StateMachine _state;
+    [SerializeField] private WeaponRadialMenu Radial;
+
+
 
     [Space, Header("Spine")]
     public SkeletonAnimation Spine;
@@ -137,7 +140,7 @@ public class PlayerAction : BaseMonoBehaviour
 
         if (state.CURRENT_STATE == StateMachine.State.Loading)
         {
-            LoadingDelay-= Time.deltaTime;
+            LoadingDelay -= Time.deltaTime;
         }
 
         PreviousPosition = base.transform.position;
@@ -178,41 +181,30 @@ public class PlayerAction : BaseMonoBehaviour
     public bool ChangeAttack()
     {
 
-        if (state.CURRENT_STATE == StateMachine.State.Dodging)
+        if (state.CURRENT_STATE == StateMachine.State.Dodging || state.CURRENT_STATE == StateMachine.State.Attacking)
             return false;
-
-        float wheelInput = Input.GetAxis("Mouse ScrollWheel");
-        if (wheelInput != 0f)
+        else if (state.CURRENT_STATE == StateMachine.State.Loading && LoadingDelay < 0)
         {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+            return false;
+        }
+
+        if (Input.GetMouseButtonDown(2))
+        {
+            Radial.Show();
+        }
+        else if (Input.GetMouseButtonUp(2))
+        {
+            playerController.CurAttack = Radial.Hide();
+
             if (state.CURRENT_STATE != StateMachine.State.Loading)
             {
                 state.CURRENT_STATE = StateMachine.State.Loading;
 
-                if (wheelInput > 0)
-                {
-                    playerController.CurAttack = (++playerController.CurAttack) % 3;
-                }
-                else if (wheelInput < 0)
-                {
-                    playerController.CurAttack--;
-                    if (playerController.CurAttack < 0)
-                    {
-                        playerController.CurAttack = 2;
-                    }
-                }
-
                 LoadingDelay = 0.6667f;
+
             }
         }
-        else
-        {
-            if (state.CURRENT_STATE == StateMachine.State.Loading && LoadingDelay < 0)
-            {
-                state.CURRENT_STATE = StateMachine.State.Idle;
-            }
-        }
-
-
         return true;
     }
     public bool Shot()
@@ -380,13 +372,13 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case 2:
                     playerController.addBullet(-30);
-                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0,state.facingAngle )));
+                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
                     rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 2000f);
                     break;
                 default:
                     break;
             }
-         
+
 
 
         }
