@@ -163,8 +163,6 @@ public class CookieMouse : UnitObject
                     }
 
                     agent.isStopped = true;
-                    SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
             }

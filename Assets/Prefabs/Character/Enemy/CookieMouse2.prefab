@@ -38,6 +38,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 572980232343476603}
+  - {fileID: 2888545282530510314}
+  - {fileID: 2200791632003142928}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -191,8 +193,10 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  SlideEffect: {fileID: 0}
-  ExplosionEffect: {fileID: 0}
+  SlideEffect_L: {fileID: 3784610806044258004}
+  SlideEffect_R: {fileID: 151230731592465966}
+  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+    type: 3}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -290,10 +294,11 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
   - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
   - {fileID: 2100000, guid: dcd197d625f069f4cae6cd91bf52258f, type: 2}
-  - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
   - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
+  - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -328,7 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 31120c7c41beccf4484d261c3f676b5a, type: 2}
-  initialSkinName: Strawberry
+  initialSkinName: ChocolateBanana
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -414,3 +419,170 @@ MonoBehaviour:
   StartOnDefault: 1
   _Dir: 0
   ForceDirectionalMovement: 0
+--- !u!1001 &6873603901797723127
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3275738440347693763}
+    m_Modifications:
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1274.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -723.325
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735896133057680857, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_Name
+      value: Mouse 2 Slide Effect_R
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735896133057680857, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bbfffd681482f2949b4d2cd9b8024cb5, type: 3}
+--- !u!1 &151230731592465966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6735896133057680857, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6873603901797723127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2200791632003142928 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6873603901797723127}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7637848377237699341
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3275738440347693763}
+    m_Modifications:
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1274.925
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -723.325
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735896133057680857, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_Name
+      value: Mouse 2 Slide Effect_L
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8ab619b0a58df2749963ea2651d7e499, type: 3}
+--- !u!4 &2888545282530510314 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
+    type: 3}
+  m_PrefabInstance: {fileID: 7637848377237699341}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3784610806044258004 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6735896133057680857, guid: 8ab619b0a58df2749963ea2651d7e499,
+    type: 3}
+  m_PrefabInstance: {fileID: 7637848377237699341}
+  m_PrefabAsset: {fileID: 0}

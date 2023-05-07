@@ -132,9 +132,11 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeRoll();
             ChangeAttack();
+
+            Radial.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 1f, 0));
+
             Shot();
             Absorb();
-
             ShotDelay -= Time.deltaTime;
         }
 
@@ -192,6 +194,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButtonDown(2))
         {
             Radial.Show();
+            Debug.Log(Radial.transform.position);
         }
         else if (Input.GetMouseButtonUp(2))
         {
