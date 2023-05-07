@@ -43,7 +43,7 @@ public class CookieMouse : UnitObject
     public float xDir;
     public float yDir;
 
-    public GameObject BombObject;
+    public GameObject ExplosionEffect;
 
     private SkeletonAnimation spineAnimation;
 
@@ -88,6 +88,7 @@ public class CookieMouse : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
+                    agent.speed = 1f;
                     idleTimer += Time.deltaTime;
                     time = 0;
 
@@ -111,13 +112,13 @@ public class CookieMouse : UnitObject
                     {
                         break;
                     }
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
 
                     if (distanceToPlayer <= AttackDistance)
                     {
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
 
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                     state.LookAngle = state.facingAngle;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
@@ -146,6 +147,7 @@ public class CookieMouse : UnitObject
                     state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                     state.LookAngle = state.facingAngle;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+
                     break;
 
                 case StateMachine.State.Patrol:
@@ -214,6 +216,8 @@ public class CookieMouse : UnitObject
 
     private void Patrol()
     {
+        state.facingAngle = Utils.GetAngle(transform.position, patrolTargetPosition);
+        state.LookAngle = state.facingAngle;
         patrolTimer += Time.deltaTime;
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
@@ -240,7 +244,6 @@ public class CookieMouse : UnitObject
     }
     private Vector3 GetRandomPositionInPatrolRange()
     {
-        Debug.Log("ÆÐÆ®·Ï µµÂø");
         Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
         randomDirection += patrolStartPosition;
         NavMeshHit hit;
@@ -259,11 +262,16 @@ public class CookieMouse : UnitObject
 
     public void OnDie()
     {
-        //GameObject bomb = BombObject;
-        //bomb.transform.position = transform.position;
-        //Instantiate(bomb);
         agent.speed = 0f;
+        Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
+    }
+
+    private void DeathEffect()
+    {
+        GameObject explosion = ExplosionEffect;
+        explosion.transform.position = transform.position;
+        Instantiate(explosion);
     }
 
     private void OnDrawGizmos()

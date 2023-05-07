@@ -48,8 +48,10 @@ public class CookieMouse2 : UnitObject
     public float forceDir;
     public float xDir;
     public float yDir;
-
-    //public GameObject BombObject;
+    
+    //public GameObject SlideEffect;
+    public ParticleSystem SlideEffect;
+    public GameObject ExplosionEffect;
 
     private SkeletonAnimation spineAnimation;
 
@@ -91,6 +93,8 @@ public class CookieMouse2 : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
+                    //SlideEffect.SetActive(false);
+                    agent.speed = 1f;
                     idleTimer += Time.deltaTime;
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
@@ -100,7 +104,6 @@ public class CookieMouse2 : UnitObject
 
                     if (isPlayerInRange)
                     {
-                        Debug.Log("pc °¨Áö");
                         state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                         state.LookAngle = state.facingAngle;
                         state.CURRENT_STATE = StateMachine.State.Moving;
@@ -108,6 +111,7 @@ public class CookieMouse2 : UnitObject
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
+
                     break;
 
                 case StateMachine.State.Moving:
@@ -117,8 +121,8 @@ public class CookieMouse2 : UnitObject
                     {
                         break;
                     }
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
 
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                     state.LookAngle = state.facingAngle;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
@@ -155,7 +159,7 @@ public class CookieMouse2 : UnitObject
                     else
                     {
                         moveTime = 0;
-                        if(distanceToPlayer <= detectionAttackRange)
+                        if (distanceToPlayer <= detectionAttackRange)
                         {
                             movePoint = target.position;
                             directionToPoint = (transform.position - movePoint).normalized;
@@ -170,7 +174,24 @@ public class CookieMouse2 : UnitObject
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                     state.LookAngle = state.facingAngle;
+                    Debug.Log(state.facingAngle);
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+
+                    if (90 < state.LookAngle && state.LookAngle <= 270)
+                    {
+                        SlideEffect.transform.localPosition = new Vector3(2.5f, 3.1f, 0.2f);
+                    }
+                    else if (0 < state.LookAngle && state.LookAngle <= 90)
+                    {
+                        SlideEffect.transform.localPosition = new Vector3(-2.5f, 3.1f, 0.2f);
+                    }
+                    else if (270 < state.LookAngle && state.LookAngle <= 360)
+                    {
+                        SlideEffect.transform.localPosition = new Vector3(-2.5f, 3.1f, 0.2f);
+                    }
+
+                    if(SlideEffect != null)
+                        SlideEffect.Play();
 
                     break;
 
@@ -178,6 +199,8 @@ public class CookieMouse2 : UnitObject
                     Patrol();
                     break;
                 case StateMachine.State.Runaway:
+                    //SlideEffect.SetActive(false);
+                    agent.speed = 3f;
                     RunAway();
                     break;
             }
@@ -238,6 +261,8 @@ public class CookieMouse2 : UnitObject
 
     private void Patrol()
     {
+        state.facingAngle = Utils.GetAngle(transform.position, patrolTargetPosition);
+        state.LookAngle = state.facingAngle;
         patrolTimer += Time.deltaTime;
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
@@ -301,11 +326,16 @@ public class CookieMouse2 : UnitObject
 
     public void OnDie()
     {
-        //GameObject bomb = BombObject;
-        //bomb.transform.position = transform.position;
-        //Instantiate(bomb);
         agent.speed = 0f;
+        Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
+    }
+
+    private void DeathEffect()
+    {
+        GameObject explosion = ExplosionEffect;
+        explosion.transform.position = transform.position;
+        Instantiate(explosion);
     }
 
     private void OnDrawGizmos()

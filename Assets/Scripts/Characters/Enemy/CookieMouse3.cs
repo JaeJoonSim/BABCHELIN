@@ -49,6 +49,7 @@ public class CookieMouse3 : UnitObject
     public float yDir;
 
     public GameObject BulletObject;
+    public GameObject BombEffect;
 
     private SkeletonAnimation spineAnimation;
 
@@ -90,6 +91,7 @@ public class CookieMouse3 : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
+                    agent.speed = 1f;
                     idleTimer += Time.deltaTime;
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
@@ -220,6 +222,8 @@ public class CookieMouse3 : UnitObject
 
     private void Patrol()
     {
+        state.facingAngle = Utils.GetAngle(transform.position, patrolTargetPosition);
+        state.LookAngle = state.facingAngle;
         patrolTimer += Time.deltaTime;
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
@@ -260,9 +264,13 @@ public class CookieMouse3 : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                Debug.Log("투사체 발사");
                 GameObject bullet = BulletObject;
-                Instantiate(bullet, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+                Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 1), Quaternion.Euler(0, 0, state.facingAngle));
+            }
+            else if(state.CURRENT_STATE == StateMachine.State.Dead)
+            {
+                GameObject bombEffect = BombEffect;
+                Instantiate(bombEffect, new Vector3(transform.position.x, transform.position.y, transform.position.z - 1), Quaternion.Euler(0, 0, state.facingAngle));
             }
         }
     }
@@ -270,7 +278,7 @@ public class CookieMouse3 : UnitObject
     public void OnDie()
     {
         agent.speed = 0f;
-        Destroy(gameObject, 2f);
+        Destroy(gameObject, 4f);
     }
 
     private void OnDrawGizmos()
