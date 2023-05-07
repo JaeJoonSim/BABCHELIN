@@ -96,8 +96,8 @@ GameObject:
   - component: {fileID: 2862424241139748282}
   - component: {fileID: 371823184825627162}
   - component: {fileID: 2862424241139748285}
-  - component: {fileID: 5769671475278087765}
   - component: {fileID: 6779158364017665650}
+  - component: {fileID: 7390580346853972759}
   m_Layer: 10
   m_Name: Grape Bullet
   m_TagString: Weapon
@@ -178,22 +178,6 @@ MonoBehaviour:
   debug: 0
   Performance: 0
   DestroyOnComplete: 0
---- !u!114 &5769671475278087765
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2862424241139748284}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34071d9af1794b649beb97c3a94f98eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damage: 2
-  speed: 5
-  player: {fileID: 0}
-  destroyTime: 5
 --- !u!222 &6779158364017665650
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -202,3 +186,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_CullTransparentMesh: 1
+--- !u!114 &7390580346853972759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2862424241139748284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 323e75168d8086644bb220d1ba345296, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  speed: 5
+  player: {fileID: 0}
+  destroyTime: 5
+  PlayerEffect: {fileID: 3202562302581860845, guid: f2444736b9d3153428f144397cc70720,
+    type: 3}

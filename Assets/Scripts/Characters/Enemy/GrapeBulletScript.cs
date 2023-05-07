@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class BulletCollider : BaseMonoBehaviour
+public class GrapeBulletScript : BaseMonoBehaviour
 {
     public float damage = 2f;
     public float speed = 10f;
@@ -12,6 +12,8 @@ public class BulletCollider : BaseMonoBehaviour
 
     private ColliderEvents colliderEvents;
     private Vector2 direction;
+
+    public GameObject PlayerEffect;
 
     private void Start()
     {
@@ -43,9 +45,14 @@ public class BulletCollider : BaseMonoBehaviour
         {
             Debug.Log("Bullet hit " + collider.name);
             player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
-            Destroy(gameObject);
+
+            GameObject playerEffect = PlayerEffect;
+            playerEffect.transform.position = transform.position;
+            Instantiate(PlayerEffect);
+
+            Destroy(gameObject, 0f);
         }
-        else if(collider.tag == "Player")
+        else if (collider.tag == "Player")
         {
 
         }

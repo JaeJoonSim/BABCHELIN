@@ -50,7 +50,8 @@ public class CookieMouse2 : UnitObject
     public float yDir;
     
     //public GameObject SlideEffect;
-    public ParticleSystem SlideEffect;
+    public GameObject SlideEffect_L;
+    public GameObject SlideEffect_R;
     public GameObject ExplosionEffect;
 
     private SkeletonAnimation spineAnimation;
@@ -93,9 +94,11 @@ public class CookieMouse2 : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    //SlideEffect.SetActive(false);
+                    SlideEffect_L.SetActive(false);
+                    SlideEffect_R.SetActive(false);
                     agent.speed = 1f;
                     idleTimer += Time.deltaTime;
+
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
                         state.CURRENT_STATE = StateMachine.State.Patrol;
@@ -103,11 +106,7 @@ public class CookieMouse2 : UnitObject
                     }
 
                     if (isPlayerInRange)
-                    {
-                        state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                        state.LookAngle = state.facingAngle;
                         state.CURRENT_STATE = StateMachine.State.Moving;
-                    }
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
@@ -174,24 +173,19 @@ public class CookieMouse2 : UnitObject
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
                     state.LookAngle = state.facingAngle;
-                    Debug.Log(state.facingAngle);
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
-                    if (90 < state.LookAngle && state.LookAngle <= 270)
+                    if (0 <= xDir)
                     {
-                        SlideEffect.transform.localPosition = new Vector3(2.5f, 3.1f, 0.2f);
+                        SlideEffect_L.transform.localPosition = new Vector3(-0.32f, 0.4f, 0f);
+                        SlideEffect_L.SetActive(true);
                     }
-                    else if (0 < state.LookAngle && state.LookAngle <= 90)
+                    else
                     {
-                        SlideEffect.transform.localPosition = new Vector3(-2.5f, 3.1f, 0.2f);
-                    }
-                    else if (270 < state.LookAngle && state.LookAngle <= 360)
-                    {
-                        SlideEffect.transform.localPosition = new Vector3(-2.5f, 3.1f, 0.2f);
+                        SlideEffect_R.transform.localPosition = new Vector3(0.32f, 0.4f, 0f);
+                        SlideEffect_R.SetActive(true);
                     }
 
-                    if(SlideEffect != null)
-                        SlideEffect.Play();
 
                     break;
 
@@ -199,7 +193,8 @@ public class CookieMouse2 : UnitObject
                     Patrol();
                     break;
                 case StateMachine.State.Runaway:
-                    //SlideEffect.SetActive(false);
+                    SlideEffect_L.SetActive(false);
+                    SlideEffect_R.SetActive(false);
                     agent.speed = 3f;
                     RunAway();
                     break;
