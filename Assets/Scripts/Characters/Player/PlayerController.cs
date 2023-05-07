@@ -238,8 +238,6 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Attacking:
-
-
                 //ÀÌµ¿
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
@@ -250,6 +248,28 @@ public class PlayerController : BaseMonoBehaviour
                 else
                 {
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+
+                if(CurAttack == 0f)
+                {
+                    Attack[0].transform.position = GrinderControl.position;
+                    //if (45 <= state.facingAngle && state.facingAngle <= 135)
+                    //{
+                    //    Attack[0].transform.position = 
+                    //        new Vector3(
+                    //            Attack[0].transform.position.x,
+                    //            Attack[0].transform.position.y,
+                    //            0.001f);
+                    //}
+                    //else 
+                    //{
+                    //    Attack[0].transform.position =
+                    //        new Vector3(
+                    //            Attack[0].transform.position.x,
+                    //            Attack[0].transform.position.y,
+                    //            -0.001f);
+                    //}
+                    Attack[0].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 }
                 break;
 

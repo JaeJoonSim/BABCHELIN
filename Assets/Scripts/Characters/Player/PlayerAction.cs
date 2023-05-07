@@ -19,7 +19,6 @@ public class PlayerAction : BaseMonoBehaviour
     private UnitObject _unitObject;
 
     [Header("µÙ∑π¿Ã")]
-    //»∏«« µÙ∑π¿Ã <-- ¿Ã∑≤≤®∏È ≈¯∆¡¿ª æ≤ººø‰^^
     [Tooltip("»∏«« µÙ∑π¿Ã")]
     public float DodgeDelay;
     //∞¯∞› µÙ∑π¿Ã
@@ -63,6 +62,7 @@ public class PlayerAction : BaseMonoBehaviour
     //∞¯∞›∞˙ »Ìºˆø° ªÁøÎ«“ ∫Øºˆ
     public Vector3 toMousedirection;
     Collider2D[] targetInRange;
+
 
     public PlayerController playerController
     {
@@ -227,9 +227,17 @@ public class PlayerAction : BaseMonoBehaviour
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
             ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+
+            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
+                playerController.Attack[0].SetActive(true);
+
+
         }
         else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
         {
+            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
+                playerController.Attack[0].SetActive(false);
+
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
@@ -277,7 +285,6 @@ public class PlayerAction : BaseMonoBehaviour
 
         return false;
     }
-
 
     public void FindVisibleTargets()
     {
@@ -345,35 +352,25 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
+            Vector3 spawnPos = playerController.GrinderControl.position;
+            spawnPos.z = 0;
             switch (playerController.CurAttack)
             {
-                case 0:
-                    {
-                        playerController.addBullet(-10);
-                        float anglet = state.facingAngle - 15;
-                        Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                        for (int i = 0; i < 5; i++)
-                        {
-                            anglet += 30 / 5;
-                            Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                        }
-                    }
-                    break;
                 case 1:
+
+                    playerController.addBullet(-20);
+                    float anglet = state.facingAngle - 15;
+                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                    for (int i = 0; i < 2; i++)
                     {
-                        playerController.addBullet(-20);
-                        float anglet = state.facingAngle - 15;
-                        Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                        for (int i = 0; i < 2; i++)
-                        {
-                            anglet += 30 / 2;
-                            Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                        }
+                        anglet += 30 / 2;
+                        Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
                     }
+
                     break;
                 case 2:
                     playerController.addBullet(-30);
-                    Instantiate(playerController.Attack[playerController.CurAttack], playerController.GrinderControl.position, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
                     rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 2000f);
                     break;
                 default:
