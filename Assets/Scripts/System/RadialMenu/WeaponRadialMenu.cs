@@ -6,9 +6,8 @@ using UnityEngine.UI;
 public class WeaponRadialMenu : MonoBehaviour
 {
     public RadialMenu radialMenu;
-    public KeyCode key = KeyCode.G;
 
-
+    public Sprite[] addSprites;
     public Sprite[] sprites;
     public Sprite orginSprite;
 
@@ -16,7 +15,10 @@ public class WeaponRadialMenu : MonoBehaviour
     {
         for (int i = 0; i < sprites.Length; i++)
         {
-            sprites[i] = orginSprite;
+            if (addSprites[i] != null)
+                sprites[i] = addSprites[i];
+            else
+                sprites[i] = orginSprite;
         }
         if (sprites != null)
             radialMenu.SetPieceImageSprites(sprites);
