@@ -63,11 +63,10 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
   - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
   - {fileID: 2100000, guid: dcd197d625f069f4cae6cd91bf52258f, type: 2}
-  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
   - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
+  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 31120c7c41beccf4484d261c3f676b5a, type: 2}
-  initialSkinName: ChocolateBanana
+  initialSkinName: Strawberry
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -377,7 +376,8 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  BombObject: {fileID: 0}
+  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+    type: 3}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0
