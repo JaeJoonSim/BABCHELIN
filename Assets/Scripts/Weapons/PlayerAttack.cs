@@ -1,11 +1,15 @@
+using AmplifyShaderEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
+    public float Damage;
     public float speed;
     public float range;
+    public float explosionRange;
+
     Vector2 spownPos;
     public ParticleSystem HitEffet;
     private void Start()
@@ -21,14 +25,14 @@ public class PlayerAttack : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
         {
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
-            collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, 10f, Health.AttackType.Normal);
+            collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
-            //Instantiate(HitEffet, collision.ClosestPoint(transform.position), Quaternion.identity);
+
 
             Destroy(gameObject);
         }
