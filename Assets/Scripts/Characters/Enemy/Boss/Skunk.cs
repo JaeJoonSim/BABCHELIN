@@ -102,10 +102,6 @@ public class Skunk : UnitObject
             {
 
                 case StateMachine.State.Idle:
-                    if (patternManager.CurrentPattern != null)
-                    {
-                        patternManager.CurrentPattern.ExecutePattern(this);
-                    }
                     break;
                 case StateMachine.State.Moving:
                     break;

@@ -15,6 +15,8 @@ public class PatternManager : BaseMonoBehaviour
     [SerializeField] private float remainingPatternDuration;
     [SerializeField] private Health health;
 
+    public event Action<PatternScriptableObject> OnPatternChange;
+
     private void Update()
     {
         if (CurrentPattern == null)
@@ -32,7 +34,7 @@ public class PatternManager : BaseMonoBehaviour
                 if (health.multipleHealthLine <= selectedGimmick.triggerHealthLine)
                 {
                     patternList.Insert(0, selectedGimmick);
-                    usedGimmickPatterns.Add(selectedGimmick);  // Add the used gimmick to the usedGimmickPatterns list
+                    usedGimmickPatterns.Add(selectedGimmick);
                     gimmickPatterns.RemoveAt(0);
                 }
             }
@@ -51,7 +53,7 @@ public class PatternManager : BaseMonoBehaviour
         {
             if (CurrentPattern is GimmickScriptableObject usedGimmick)
             {
-                usedGimmickPatterns.Add(usedGimmick); // Add the used gimmick to the usedGimmickPatterns list
+                usedGimmickPatterns.Add(usedGimmick);
             }
 
             CurrentPattern = patternList[0];
@@ -62,6 +64,7 @@ public class PatternManager : BaseMonoBehaviour
             skunk.state.CURRENT_STATE = CurrentPattern.patternState;
             skunk.wasFarting = false;
             CurrentPattern.onPatternStart?.Invoke();
+            OnPatternChange?.Invoke(CurrentPattern);
         }
 
         if (patternList.Count < 3)
