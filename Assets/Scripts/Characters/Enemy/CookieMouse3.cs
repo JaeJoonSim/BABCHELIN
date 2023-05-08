@@ -40,8 +40,10 @@ public class CookieMouse3 : UnitObject
     [SerializeField] float idleToPatrolDelay = 5f;
     private float idleTimer;
     private float patrolTimer;
-    private Vector3 patrolStartPosition;
+    //private Vector3 patrolStartPosition;
     private Vector3 patrolTargetPosition;
+    private float randX;
+    private float randY;
 
     [Space]
     public float forceDir;
@@ -98,6 +100,7 @@ public class CookieMouse3 : UnitObject
 
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
+                        patrolTargetPosition = GetRandomPositionInPatrolRange();
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
@@ -228,7 +231,7 @@ public class CookieMouse3 : UnitObject
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
         {
-            patrolTargetPosition = GetRandomPositionInPatrolRange();
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (patrolTimer < patrolMoveDuration)
@@ -251,8 +254,10 @@ public class CookieMouse3 : UnitObject
 
     private Vector3 GetRandomPositionInPatrolRange()
     {
-        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
-        randomDirection += patrolStartPosition;
+        randX = UnityEngine.Random.Range((patrolRange / 2) * -1, (patrolRange/2));
+        randY = UnityEngine.Random.Range((patrolRange / 2) * -1, (patrolRange / 2));
+        //Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
+        Vector3 randomDirection = new Vector3(randX, randY, 0f);
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
