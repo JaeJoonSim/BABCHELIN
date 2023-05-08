@@ -223,26 +223,26 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Shot()
     {
-        if (playerController.BulletGauge <= 0)
-        {
-            state.CURRENT_STATE = StateMachine.State.Idle;
-            if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
-                playerController.Attack[0].SetActive(false);
-            return false;
-        }
 
         if (Input.GetMouseButton(0) && ShotDelay <= 0f &&
             (state.CURRENT_STATE != StateMachine.State.Dodging
             && state.CURRENT_STATE != StateMachine.State.Absorbing
             && state.CURRENT_STATE != StateMachine.State.Attacking))
         {
+            if (playerController.BulletGauge <= 0)
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+                if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
+                    playerController.Attack[0].SetActive(false);
+                return false;
+            }
+
             getMouseInfo();
             if (Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
             ShotDelay = (playerController.CurAttack == 0 )? 0 : simpleSpineAnimator.PlayerAttack[playerController.CurAttack].Animation.Duration;
 
-            Debug.Log(ShotDelay);
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
                 playerController.Attack[0].SetActive(true);
 
@@ -253,7 +253,10 @@ public class PlayerAction : BaseMonoBehaviour
             ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
-        else if (playerController.CurAttack == 0 && !Input.GetMouseButton(0))
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking 
+            && playerController.CurAttack == 0 
+            && !Input.GetMouseButton(0)
+            && playerController.BulletGauge <= 0)
         {
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
                 playerController.Attack[0].SetActive(false);
@@ -274,7 +277,7 @@ public class PlayerAction : BaseMonoBehaviour
 
             FindVisibleTargets();
         }
-        else if (state.CURRENT_STATE == StateMachine.State.Absorbing && Input.GetMouseButtonUp(1))
+        else if (state.CURRENT_STATE == StateMachine.State.Absorbing && !Input.GetMouseButton(1))
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
             if (targetInRange != null)
