@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LargeAttack : PlayerAttack
 {
+    public float explosionRange;
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
@@ -17,7 +18,6 @@ public class LargeAttack : PlayerAttack
             {
                 targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage / 2, Health.AttackType.Normal);
             }
-            Debug.Log(1000);
             Destroy(gameObject);
         }
     }

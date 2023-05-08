@@ -383,10 +383,9 @@ public class PlayerAction : BaseMonoBehaviour
             switch (playerController.CurAttack)
             {
                 case 1:
-
-                    playerController.addBullet(-20);
                     float anglet = state.facingAngle - 15;
-                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
+                    playerController.addBullet(-
+                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet))).GetComponent<PlayerAttack>().Cost);
                     for (int i = 0; i < 2; i++)
                     {
                         anglet += 30 / 2;
@@ -395,8 +394,8 @@ public class PlayerAction : BaseMonoBehaviour
 
                     break;
                 case 2:
-                    playerController.addBullet(-30);
-                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle)));
+                    playerController.addBullet(-
+                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost);
                     rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 2000f);
                     break;
                 default:

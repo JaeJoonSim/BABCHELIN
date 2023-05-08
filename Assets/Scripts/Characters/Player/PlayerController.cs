@@ -24,6 +24,7 @@ public class PlayerController : BaseMonoBehaviour
     [HideInInspector] public float xDir;
     [HideInInspector] public float yDir;
 
+    [Header("회피")]
     public bool showDodge = false;
     [DrawIf("showDodge", true)] public float DodgeTimer;
     [DrawIf("showDodge", true)] public float DodgeSpeed = 12f;
@@ -34,21 +35,20 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showDodge", true)] private float DodgeCollisionDelay;
 
     [Header("흡수")]
-    public float SuctionSpeed = 1f;
-    public float SuctionAngle = 30f;
-    public float SuctionRange = 10f;
-    public float SuctionDelay = 1f;
-    public ParticleSystem absorbEffet;
+    public bool showAbsorb = false;
+    [DrawIf("showAbsorb", true)] public float SuctionSpeed = 1f;
+    [DrawIf("showAbsorb", true)] public float SuctionAngle = 30f;
+    [DrawIf("showAbsorb", true)] public float SuctionRange = 10f;
+    [DrawIf("showAbsorb", true)] public float SuctionDelay = 1f;
+    [DrawIf("showAbsorb", true)] public ParticleSystem absorbEffet;
 
-    [Header("공격")]
+    [Header("공격"),Space]
+
     public int BulletGauge;
     public int maxBulletGauge;
-
     public GameObject[] Attack;
     public int CurAttack;
     public float[] AttackSpeed;
-    public ParticleSystem[] AttackEffet;
-
 
     public Transform muzzleBone;
     public Transform GrinderControl;

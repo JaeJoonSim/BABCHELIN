@@ -8,10 +8,10 @@ public class PlayerAttack : MonoBehaviour
     public float Damage;
     public float speed;
     public float range;
-    public float explosionRange;
-
+    public int Cost;
     Vector2 spownPos;
     public ParticleSystem HitEffet;
+
     private void Start()
     {
         spownPos = transform.position;
