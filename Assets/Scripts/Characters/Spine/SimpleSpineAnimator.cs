@@ -99,6 +99,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             track = value;
             track.AttachmentThreshold = 1f;
             track.MixDuration = 0f;
+            
         }
     }
     private TrackEntry secondTrack;

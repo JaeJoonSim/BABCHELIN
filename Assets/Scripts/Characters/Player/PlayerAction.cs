@@ -211,7 +211,7 @@ public class PlayerAction : BaseMonoBehaviour
             if (temp != -1)
                 playerController.CurAttack = temp;
 
-            if (state.CURRENT_STATE != StateMachine.State.Loading&& playerController.CurAttack != -1)
+            if (state.CURRENT_STATE != StateMachine.State.Loading && playerController.CurAttack != -1)
             {
                 state.CURRENT_STATE = StateMachine.State.Loading;
 
@@ -223,38 +223,42 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Shot()
     {
-        if (Input.GetMouseButton(0) &&
-            (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Absorbing))
+        if (playerController.BulletGauge <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+            if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
+                playerController.Attack[0].SetActive(false);
+            return false;
+        }
+
+        if (Input.GetMouseButton(0) && ShotDelay <= 0f &&
+            (state.CURRENT_STATE != StateMachine.State.Dodging
+            && state.CURRENT_STATE != StateMachine.State.Absorbing
+            && state.CURRENT_STATE != StateMachine.State.Attacking))
         {
             getMouseInfo();
-            if (playerController.BulletGauge <= 0)
-            {
-                if (state.CURRENT_STATE == StateMachine.State.Attacking)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Idle;
-                    if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
-                        playerController.Attack[0].SetActive(false);
-                }
-                return false;
-            }
-            if (state.CURRENT_STATE != StateMachine.State.Attacking && Time.timeScale != 0)
+            if (Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
-            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            ShotDelay = (playerController.CurAttack == 0 )? 0 : simpleSpineAnimator.PlayerAttack[playerController.CurAttack].Animation.Duration;
 
+            Debug.Log(ShotDelay);
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
                 playerController.Attack[0].SetActive(true);
 
 
         }
-        else if (state.CURRENT_STATE == StateMachine.State.Attacking && !Input.GetMouseButtonUp(0))
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking && ShotDelay <= 0.15f && playerController.CurAttack != 0)
+        {
+            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+        else if (playerController.CurAttack == 0 && !Input.GetMouseButton(0))
         {
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
                 playerController.Attack[0].SetActive(false);
-
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
-
 
 
         return true;
@@ -336,21 +340,21 @@ public class PlayerAction : BaseMonoBehaviour
         }
     }
 
-//    public void OnDrawGizmos()
-//    {
-//#if UNITY_EDITOR
+    //    public void OnDrawGizmos()
+    //    {
+    //#if UNITY_EDITOR
 
-//        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+    //        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
 
-//        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
-//        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
+    //        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
+    //        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
 
-//        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
-//        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
+    //        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
+    //        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
 
-//#endif
+    //#endif
 
-//    }
+    //    }
 
     public Vector3 DirFromAngle(float angleDegrees, bool angleIsGlobal)
     {
