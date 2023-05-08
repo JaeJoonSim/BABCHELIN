@@ -20,5 +20,12 @@ public class LargeAttack : PlayerAttack
             }
             Destroy(gameObject);
         }
+        else if (collision.tag == "DestroyableObject ")
+        {
+            Vector3 collisionPoint = collision.ClosestPoint(transform.position);
+            Instantiate(HitEffet, collisionPoint, Quaternion.identity);
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
+        }
     }
 }

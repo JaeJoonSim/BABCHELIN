@@ -1,4 +1,3 @@
-using AmplifyShaderEditor;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -32,9 +31,14 @@ public class PlayerAttack : MonoBehaviour
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
-
-
             Destroy(gameObject);
+        }
+        else if (collision.tag == "DestroyableObject ")
+        {
+            Vector3 collisionPoint = collision.ClosestPoint(transform.position);
+            Instantiate(HitEffet, collisionPoint, Quaternion.identity);
+            Destroy(gameObject);
+            Destroy(collision.gameObject);
         }
     }
 }
