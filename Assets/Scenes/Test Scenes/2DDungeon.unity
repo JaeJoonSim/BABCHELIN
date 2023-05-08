@@ -2771,6 +2771,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c26496d1036389c40b951bcb4de5f31c, type: 3}
+--- !u!1 &1225678683 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3676031298205329300, guid: c26496d1036389c40b951bcb4de5f31c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1225678682}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1265564656 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4265093594819362730, guid: f3b0ac38f78fa7b4cbd7678f54a084ea,
@@ -3934,6 +3940,7 @@ MonoBehaviour:
   basicPatterns:
   - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
   - {fileID: 11400000, guid: 09c3925b2eeabbd4daa7d6c3d527f242, type: 2}
+  - {fileID: 11400000, guid: 6e1e7a145e2b8b641bb4305bb84648af, type: 2}
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 0}
@@ -3957,6 +3964,13 @@ MonoBehaviour:
   maxAngle: 90
   fireRate: 0.5
   bulletSpeed: 3
+  showThrowPattern: 1
+  mapObject: {fileID: 1225678683}
+  numberOfBombs: 2
+  dropDelay: 0.5
+  zOffset: -10
+  bombPrefabs:
+  - {fileID: 5709324960040911722, guid: 19c1162b0eb7404448035c3a1cb5971a, type: 3}
 --- !u!114 &1907767828
 MonoBehaviour:
   m_ObjectHideFlags: 0
