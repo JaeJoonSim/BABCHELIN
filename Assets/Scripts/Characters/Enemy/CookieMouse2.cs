@@ -36,9 +36,12 @@ public class CookieMouse2 : UnitObject
 
     [Space]
     [SerializeField] float patrolRange = 10f;
-    [SerializeField] float patrolMoveDuration = 2f;
-    [SerializeField] float runawaySpeedMultiplier = 1.5f;
-    [SerializeField] float idleToPatrolDelay = 5f;
+    private float patrolMoveDuration;
+    [SerializeField] float patrolMinTime;
+    [SerializeField] float patrolMaxTime;
+    private float idleToPatrolDelay;
+    [SerializeField] float idleMinTime;
+    [SerializeField] float idleMaxTime;
     private float idleTimer;
     private float patrolTimer;
     private Vector3 patrolStartPosition;
@@ -58,6 +61,8 @@ public class CookieMouse2 : UnitObject
 
     private void Start()
     {
+        idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -101,6 +106,7 @@ public class CookieMouse2 : UnitObject
 
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
+                        patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
@@ -274,11 +280,13 @@ public class CookieMouse2 : UnitObject
         {
             agent.isStopped = true;
             patrolTimer = 0f;
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
         {
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
         }
     }
@@ -321,6 +329,8 @@ public class CookieMouse2 : UnitObject
 
     public void OnDie()
     {
+        SlideEffect_L.SetActive(false);
+        SlideEffect_R.SetActive(false);
         agent.speed = 0f;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
