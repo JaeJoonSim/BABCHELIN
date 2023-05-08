@@ -207,9 +207,11 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (Input.GetMouseButtonUp(2))
         {
-            playerController.CurAttack = Radial.Hide();
+            int temp = Radial.Hide();
+            if (temp != -1)
+                playerController.CurAttack = temp;
 
-            if (state.CURRENT_STATE != StateMachine.State.Loading)
+            if (state.CURRENT_STATE != StateMachine.State.Loading&& playerController.CurAttack != -1)
             {
                 state.CURRENT_STATE = StateMachine.State.Loading;
 
@@ -230,6 +232,8 @@ public class PlayerAction : BaseMonoBehaviour
                 if (state.CURRENT_STATE == StateMachine.State.Attacking)
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
+                    if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
+                        playerController.Attack[0].SetActive(false);
                 }
                 return false;
             }
