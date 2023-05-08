@@ -48,6 +48,8 @@ public class BerryBird : UnitObject
 
     private void Start()
     {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -222,13 +224,11 @@ public class BerryBird : UnitObject
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
         }
-        else if (patrolTimer < patrolMoveDuration + patrolIdleDuration)
-        {
-            agent.isStopped = true;
-        }
         else
         {
             patrolTimer = 0f;
+            agent.isStopped = true;
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
