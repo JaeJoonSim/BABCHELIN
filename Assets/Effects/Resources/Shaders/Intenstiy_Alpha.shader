@@ -4,6 +4,7 @@ Shader "HAN/Intensity_Additive"
 {
 	Properties
 	{
+		_CamOffet("Camera Offset", Float) = 0.0
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_TextureSample0("Texture Sample 0", 2D) = "white" {}
@@ -48,6 +49,9 @@ Shader "HAN/Intensity_Additive"
 
 		#ifndef ASE_TESS_FUNCS
 		#define ASE_TESS_FUNCS
+
+		half _CamOffet;
+
 		float4 FixedTess( float tessValue )
 		{
 			return tessValue;
@@ -288,7 +292,13 @@ Shader "HAN/Intensity_Additive"
 					o.fogFactor = ComputeFogFactor( positionCS.z );
 				#endif
 
-				o.clipPos = positionCS;
+				//o.pos = UnityObjectToClipPos(v.vertex);
+				float4 worldPos = mul(unity_ObjectToWorld, v.vertex); // World Pos
+				float3 camVec = normalize(_WorldSpaceCameraPos - worldPos.xyz);
+				worldPos.xyz += camVec * _CamOffet;
+				o.clipPos = mul(UNITY_MATRIX_VP, worldPos); // Projection Pos
+
+				//o.clipPos = positionCS;
 
 				return o;
 			}
@@ -1768,7 +1778,7 @@ Node;AmplifyShaderEditor.SimpleMultiplyOpNode;13;-710.2181,-265.7269;Inherit;Tru
 Node;AmplifyShaderEditor.RangedFloatNode;15;-1078.904,127.3723;Inherit;False;Property;_Inten;Inten;1;0;Create;True;0;0;0;False;0;False;0;4.12;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;14;-370.3456,-106.9112;Inherit;True;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.TextureCoordinatesNode;11;-1355.099,-180.0683;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.SamplerNode;10;-1109.334,-109.4038;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;None;18d767b9508676641b8c2b0889804b9c;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;10;-1109.334,-109.4038;Inherit;True;Property;_TextureSample0;Texture Sample 0;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;1;2;14;0
 WireConnection;13;0;12;0
 WireConnection;13;1;10;0
@@ -1776,4 +1786,4 @@ WireConnection;14;0;13;0
 WireConnection;14;1;15;0
 WireConnection;10;1;11;0
 ASEEND*/
-//CHKSM=88CE574DD2D5A9036B8AD070298B39F06659AA98
+//CHKSM=D556C053D690B3A6E70C7422BA068638B3C90070
