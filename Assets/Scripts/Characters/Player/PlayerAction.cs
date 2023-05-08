@@ -223,15 +223,13 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Shot()
     {
-
-        
         if (state.CURRENT_STATE == StateMachine.State.Attacking && ShotDelay <= 0.15f && playerController.CurAttack != 0)
         {
             ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
-        else if (state.CURRENT_STATE == StateMachine.State.Attacking 
-            && playerController.CurAttack == 0 
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking
+            && playerController.CurAttack == 0
             && !Input.GetMouseButton(0))
         {
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
@@ -242,7 +240,8 @@ public class PlayerAction : BaseMonoBehaviour
         {
             if (playerController.BulletGauge <= 0)
             {
-                state.CURRENT_STATE = StateMachine.State.Idle;
+                if (state.CURRENT_STATE == StateMachine.State.Attacking)
+                    state.CURRENT_STATE = StateMachine.State.Idle;
                 if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
                     playerController.Attack[0].SetActive(false);
                 return false;
