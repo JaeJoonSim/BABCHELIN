@@ -45,11 +45,12 @@ public class Skunk : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
-    private bool isTailing = false;
+    
     public GameObject bulletPrefab;
 
     [Header("-----------------------------------------------------------------------------")]
 
+    private bool isTailing = false;
     public bool showTailigPattern = false;
     [DrawIf("showTailigPattern", true)]
     public int numberOfBullets = 10;
@@ -59,6 +60,18 @@ public class Skunk : UnitObject
     public float fireRate = 0.1f;
     [DrawIf("showTailigPattern", true)]
     public float bulletSpeed = 3.0f;
+
+    private bool isThrowing = false;
+    public bool showThrowPattern = false;
+    [DrawIf("showThrowPattern", true)]
+    public GameObject mapObject;
+    [DrawIf("showThrowPattern", true)]
+    public int numberOfBombs = 2;
+    [DrawIf("showThrowPattern", true)]
+    public float dropDelay = 0.5f;
+    [DrawIf("showThrowPattern", true)]
+    public float zOffset = -10f;
+    public GameObject[] bombPrefabs;
 
     private void Start()
     {
@@ -144,6 +157,10 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.Throwing:
+                    if (!isThrowing)
+                    {
+                        StartCoroutine(CreamThrow());
+                    }
                     break;
                 case StateMachine.State.Dead:
                     break;
@@ -220,7 +237,6 @@ public class Skunk : UnitObject
 
     private IEnumerator Tailing()
     {
-        Debug.Log("Tailing Coroutine Started");
         isTailing = true;
         float angleStep = maxAngle / numberOfBullets;
         float currentAngle = -maxAngle / 2 - 90;
@@ -249,6 +265,53 @@ public class Skunk : UnitObject
             yield return new WaitForSeconds(fireRate);
         }
         isTailing = false;
+    }
+
+    private IEnumerator CreamThrow()
+    {
+        isThrowing = true;
+        if (state.CURRENT_STATE == StateMachine.State.Throwing)
+        {
+            if (mapObject == null)
+            {
+                mapObject = GameObject.FindWithTag("Map");
+            }
+
+            if (mapObject != null)
+            {
+                BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+
+                if (mapCollider != null)
+                {
+                    Bounds mapBounds = mapCollider.bounds;
+
+                    float minX = mapBounds.min.x;
+                    float maxX = mapBounds.max.x;
+                    float minY = mapBounds.min.y;
+                    float maxY = mapBounds.max.y;
+
+                    for (int i = 0; i < numberOfBombs; i++)
+                    {
+                        Vector3 dropPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), zOffset);
+
+                        GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
+
+                        Instantiate(bombPrefab, dropPosition, Quaternion.identity);
+
+                        yield return new WaitForSeconds(dropDelay);
+                    }
+                }
+                else
+                {
+                    Debug.LogError("No BoxCollider2D found on map object.");
+                }
+            }
+            else
+            {
+                Debug.LogError("Map object not found.");
+            }
+        }
+        isThrowing = false;
     }
 
     #endregion
