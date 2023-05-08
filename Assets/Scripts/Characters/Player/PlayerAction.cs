@@ -224,10 +224,21 @@ public class PlayerAction : BaseMonoBehaviour
     public bool Shot()
     {
 
-        if (Input.GetMouseButton(0) && ShotDelay <= 0f &&
-            (state.CURRENT_STATE != StateMachine.State.Dodging
-            && state.CURRENT_STATE != StateMachine.State.Absorbing
-            && state.CURRENT_STATE != StateMachine.State.Attacking))
+        
+        if (state.CURRENT_STATE == StateMachine.State.Attacking && ShotDelay <= 0.15f && playerController.CurAttack != 0)
+        {
+            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.Attacking 
+            && playerController.CurAttack == 0 
+            && !Input.GetMouseButton(0))
+        {
+            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
+                playerController.Attack[0].SetActive(false);
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+        else if (Input.GetMouseButton(0))
         {
             if (playerController.BulletGauge <= 0)
             {
@@ -237,30 +248,24 @@ public class PlayerAction : BaseMonoBehaviour
                 return false;
             }
 
+            if (ShotDelay > 0f ||
+            (state.CURRENT_STATE == StateMachine.State.Dodging
+            || state.CURRENT_STATE == StateMachine.State.Absorbing
+            || state.CURRENT_STATE == StateMachine.State.Attacking))
+            {
+                return false;
+            }
+
             getMouseInfo();
             if (Time.timeScale != 0)
                 state.CURRENT_STATE = StateMachine.State.Attacking;
 
-            ShotDelay = (playerController.CurAttack == 0 )? 0 : simpleSpineAnimator.PlayerAttack[playerController.CurAttack].Animation.Duration;
+            ShotDelay = (playerController.CurAttack == 0) ? 0 : simpleSpineAnimator.PlayerAttack[playerController.CurAttack].Animation.Duration;
 
             if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
                 playerController.Attack[0].SetActive(true);
 
 
-        }
-        else if (state.CURRENT_STATE == StateMachine.State.Attacking && ShotDelay <= 0.15f && playerController.CurAttack != 0)
-        {
-            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
-            state.CURRENT_STATE = StateMachine.State.Idle;
-        }
-        else if (state.CURRENT_STATE == StateMachine.State.Attacking 
-            && playerController.CurAttack == 0 
-            && !Input.GetMouseButton(0)
-            && playerController.BulletGauge <= 0)
-        {
-            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
-                playerController.Attack[0].SetActive(false);
-            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
 
