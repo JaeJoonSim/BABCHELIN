@@ -175,6 +175,16 @@ public class PlayerAction : BaseMonoBehaviour
             playerController.speed = playerController.DodgeSpeed * 1.2f;
             state.CURRENT_STATE = StateMachine.State.Dodging;
             DodgeDelay = playerController.DodgeDelay;
+
+            //기존 흡수나 공격 취소
+            if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
+                playerController.Attack[0].SetActive(false);
+
+            if (playerController.absorbEffet != null)
+            {
+                playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            }
+
             PlayerAction.OnDodge?.Invoke();
             return true;
         }
@@ -183,7 +193,7 @@ public class PlayerAction : BaseMonoBehaviour
     public bool ChangeAttack()
     {
 
-        if (state.CURRENT_STATE == StateMachine.State.Dodging || state.CURRENT_STATE == StateMachine.State.Attacking)
+        if (state.CURRENT_STATE == StateMachine.State.Dodging && state.CURRENT_STATE == StateMachine.State.Attacking)
             return false;
         else if (state.CURRENT_STATE == StateMachine.State.Loading && LoadingDelay < 0)
         {
@@ -194,7 +204,6 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButtonDown(2))
         {
             Radial.Show();
-            Debug.Log(Radial.transform.position);
         }
         else if (Input.GetMouseButtonUp(2))
         {
@@ -212,7 +221,8 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Shot()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0) &&
+            (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Absorbing))
         {
             getMouseInfo();
             if (playerController.BulletGauge <= 0)
@@ -247,12 +257,12 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Absorb()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && Input.GetMouseButton(1))
+        if (Input.GetMouseButton(1) &&
+            (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Attacking))
         {
             getMouseInfo();
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
-
 
             FindVisibleTargets();
         }
@@ -317,26 +327,26 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     absorb.inAbsorbArea = true;
                 }
-                Debug.DrawLine(playerController.GrinderControl.position, targetInRange[i].transform.position, Color.green);
+                //Debug.DrawLine(playerController.GrinderControl.position, targetInRange[i].transform.position, Color.green);
             }
         }
     }
 
-    public void OnDrawGizmos()
-    {
-#if UNITY_EDITOR
+//    public void OnDrawGizmos()
+//    {
+//#if UNITY_EDITOR
 
-        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+//        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
 
-        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
-        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
+//        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
+//        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
 
-        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
-        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
+//        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
+//        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
 
-#endif
+//#endif
 
-    }
+//    }
 
     public Vector3 DirFromAngle(float angleDegrees, bool angleIsGlobal)
     {
