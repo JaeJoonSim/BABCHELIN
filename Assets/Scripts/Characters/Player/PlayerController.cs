@@ -24,14 +24,14 @@ public class PlayerController : BaseMonoBehaviour
     [HideInInspector] public float xDir;
     [HideInInspector] public float yDir;
 
-    [Space, Header("±¸¸£±â")]
-    public float DodgeTimer;
-    public float DodgeSpeed = 12f;
-    public float DodgeAngle = 0f;
-    public float DodgeDuration = 0.3f;
-    public float DodgeMaxDuration = 0.5f;
-    public float DodgeDelay = 0.3f;
-    private float DodgeCollisionDelay;
+    public bool showDodge = false;
+    [DrawIf("showDodge", true)] public float DodgeTimer;
+    [DrawIf("showDodge", true)] public float DodgeSpeed = 12f;
+    [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
+    [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
+    [DrawIf("showDodge", true)] public float DodgeMaxDuration = 0.5f;
+    [DrawIf("showDodge", true)] public float DodgeDelay = 0.3f;
+    [DrawIf("showDodge", true)] private float DodgeCollisionDelay;
 
     [Header("Èí¼ö")]
     public float SuctionSpeed = 1f;
