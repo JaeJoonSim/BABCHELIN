@@ -107,9 +107,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         get { return secondTrack; }
         set
         {
-            secondTrack = value;
-            SecondTrack.AttachmentThreshold = 1f;
-            SecondTrack.MixDuration = 0f;
+                secondTrack = value;
+                SecondTrack.AttachmentThreshold = 1f;
+                SecondTrack.MixDuration = 0f;
         }
     }
     private StateMachine.State cs;
@@ -190,7 +190,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (cs != value)
             {
                 cs = value;
-                UpdateAnimFromState();
+                if (playerController == null)
+                {
+                    UpdateAnimFromState();
+                }
 
             }
         }
@@ -721,7 +724,27 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         }
                     }
                     break;
+                case StateMachine.State.HitLeft:
+                case StateMachine.State.HitRight:
+                    if (Hit != null)
+                    {
+                        anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
+                    }
+                    break;
+                case StateMachine.State.Dead:
+                    if (Dead != null)
+                    {
+                        anim.AnimationState.SetAnimation(AnimationTrack, Dead, loop: false);
+                    }
+                    break;
+                case StateMachine.State.Pause:
+                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    break;
                 default:
+                    if (Idle != null && anim.AnimationState != null)
+                    {
+                        anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    }
                     break;
             }
 
@@ -1014,13 +1037,15 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (anim.AnimationState.Data.SkeletonData.FindAnimation((DefaultLoop != null) ? DefaultLoop.Animation.Name : Idle.Animation.Name) != null)
             {
                 Track = anim.AnimationState.SetAnimation(AnimationTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
-                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
+                if (playerController != null)
+                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
             }
         }
         else
         {
             Track = anim.AnimationState.GetCurrent(0);
-            SecondTrack = anim.AnimationState.GetCurrent(0);
+            if (playerController != null)
+                SecondTrack = anim.AnimationState.GetCurrent(0);
         }
         meshRenderer = GetComponent<MeshRenderer>();
         fillColor = Shader.PropertyToID("_FillColor");

@@ -48,6 +48,7 @@ public class SmallAttack : BaseMonoBehaviour
 
     private void Attack()
     {
+        PlayerController.addBullet(-Cost);
         Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, Range, 1 << 8);
         for (int i = 0; i < targetInRange.Length; i++)
         {
@@ -57,13 +58,9 @@ public class SmallAttack : BaseMonoBehaviour
                 Vector3 collisionPoint = targetInRange[i].ClosestPoint(transform.position);
                 collisionPoint += new Vector3(0, 0, -1);
                 targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
-                Instantiate(HitEffet, collisionPoint, Quaternion.identity);
-                PlayerController.addBullet(Cost);
+                Instantiate(HitEffet, collisionPoint, Quaternion.identity);               
             }
         }
     }
-
-   
-
 
 }

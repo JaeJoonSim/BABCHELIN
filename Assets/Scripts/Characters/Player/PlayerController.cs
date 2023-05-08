@@ -7,6 +7,7 @@ public class PlayerController : BaseMonoBehaviour
 {
     [HideInInspector] UnitObject unitObject;
     private StateMachine state;
+    public StateMachine State { get { return state; } }
     private CircleCollider2D circleCollider2D;
     private Health health;
 
