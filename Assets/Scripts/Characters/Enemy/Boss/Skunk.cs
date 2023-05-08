@@ -46,17 +46,18 @@ public class Skunk : UnitObject
     private SkeletonAnimation spineAnimation;
 
     private bool isTailing = false;
-    // 총알 프리팹
     public GameObject bulletPrefab;
 
-    // 발사될 총알의 수
+    [Header("-----------------------------------------------------------------------------")]
+
+    public bool showTailigPattern = false;
+    [DrawIf("showTailigPattern", true)]
     public int numberOfBullets = 10;
-
-    // 부채꼴의 최대 각도 (예: 90도)
+    [DrawIf("showTailigPattern", true)]
     public float maxAngle = 90f;
-
-    // 총알 발사 간격 (초 단위)
+    [DrawIf("showTailigPattern", true)]
     public float fireRate = 0.1f;
+    [DrawIf("showTailigPattern", true)]
     public float bulletSpeed = 3.0f;
 
     private void Start()
