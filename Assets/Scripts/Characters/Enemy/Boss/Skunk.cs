@@ -45,6 +45,20 @@ public class Skunk : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private bool isTailing = false;
+    // 총알 프리팹
+    public GameObject bulletPrefab;
+
+    // 발사될 총알의 수
+    public int numberOfBullets = 10;
+
+    // 부채꼴의 최대 각도 (예: 90도)
+    public float maxAngle = 90f;
+
+    // 총알 발사 간격 (초 단위)
+    public float fireRate = 0.1f;
+    public float bulletSpeed = 3.0f;
+
     private void Start()
     {
         if (target == null)
@@ -123,6 +137,10 @@ public class Skunk : UnitObject
                 case StateMachine.State.FartShield:
                     break;
                 case StateMachine.State.Tailing:
+                    if (!isTailing)
+                    {
+                        StartCoroutine(Tailing());
+                    }
                     break;
                 case StateMachine.State.Throwing:
                     break;
@@ -198,6 +216,40 @@ public class Skunk : UnitObject
             Instantiate(fartPrefab, transform.position, Quaternion.identity);
         }
     }
+
+    private IEnumerator Tailing()
+    {
+        Debug.Log("Tailing Coroutine Started");
+        isTailing = true;
+        float angleStep = maxAngle / numberOfBullets;
+        float currentAngle = -maxAngle / 2 - 90;
+        float angleIncrement = angleStep;
+
+        while (state.CURRENT_STATE == StateMachine.State.Tailing)
+        {
+            float angleInRadians = currentAngle * Mathf.Deg2Rad;
+            Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
+            direction.Normalize();
+
+            GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+            bulletInstance.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+
+            currentAngle += angleIncrement;
+
+            if (currentAngle > maxAngle / 2 - 90)
+            {
+                angleIncrement = -angleStep;
+            }
+            else if (currentAngle < -maxAngle / 2 - 90)
+            {
+                angleIncrement = angleStep;
+            }
+
+            yield return new WaitForSeconds(fireRate);
+        }
+        isTailing = false;
+    }
+
     #endregion
 
     #region Event

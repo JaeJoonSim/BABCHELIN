@@ -36,7 +36,7 @@ public class StateMachine : MonoBehaviour
     }
 
     public delegate void StateChange(State NewState, State PrevState);
-    public bool IsPlayer;
+    public bool IsPlayer = false;
     public StateChange OnStateChange;
     [SerializeField] private State currentState;
     public float facingAngle;

@@ -223,7 +223,7 @@ namespace Foliage
         {
             if (!collider2DObject.Contains(other))
             {
-                Debug.Log(other.name);
+                //Debug.Log(other.name);
                 collider2DObject.Add(other);
 
                 enterOffset.Add(other.transform.position.x - transform.position.x);
