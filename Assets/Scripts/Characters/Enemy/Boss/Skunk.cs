@@ -274,7 +274,7 @@ public class Skunk : UnitObject
         {
             if (mapObject == null)
             {
-                mapObject = GameObject.FindWithTag("Map");
+                mapObject = GameObject.FindWithTag("Ground");
             }
 
             if (mapObject != null)

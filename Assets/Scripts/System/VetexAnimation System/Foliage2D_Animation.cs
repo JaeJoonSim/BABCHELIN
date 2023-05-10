@@ -99,18 +99,22 @@ namespace Foliage
 
             for (int i = 0; i < len; i++)
             {
+                if (collider2DObject[0] == null)
+                {
+                    collider2DObject.Remove(collider2DObject[0]);
+                    enterOffset.RemoveAt(0);
+                    break;
+                }
                 float offset = collider2DObject[i].transform.position.x - transform.position.x;
 
                 if ((Mathf.Sign(enterOffset[i]) != Mathf.Sign(offset)) && !isBending && animator != null)
                 {
                     if (collider2DObject[i].transform.position.x > transform.position.x)
                     {
-                        //Debug.Log("Right");
                         animator.SetTrigger("tRight");
                     }
                     else
                     {
-                        //Debug.Log("Left");
                         animator.SetTrigger("tLeft");
                     }
 
@@ -223,7 +227,6 @@ namespace Foliage
         {
             if (!collider2DObject.Contains(other))
             {
-                //Debug.Log(other.name);
                 collider2DObject.Add(other);
 
                 enterOffset.Add(other.transform.position.x - transform.position.x);
