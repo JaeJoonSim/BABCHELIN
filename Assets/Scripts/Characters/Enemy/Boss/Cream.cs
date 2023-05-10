@@ -70,6 +70,15 @@ public class Cream : MonoBehaviour
                 landingIndicator.transform.localScale = new Vector3(indicatorRadius, indicatorRadius, 1f);
 
                 float redCircleFillAmount = Mathf.Clamp01(1 - (transform.position.z / -10f));
+
+                // Add the following code to update the child sprite scale
+                Transform childSprite = landingIndicator.transform.GetChild(0); // Assumes the sprite is the first child
+                if (childSprite != null)
+                {
+                    float distanceToGround = Mathf.Abs(transform.position.z);
+                    float spriteScale = Mathf.Clamp01(1 - (distanceToGround / 10f)); // Adjust the divisor (10f) to change the distance at which the sprite scale becomes 0
+                    childSprite.localScale = new Vector3(spriteScale, spriteScale, 1f);
+                }
             }
             else
             {
@@ -77,4 +86,5 @@ public class Cream : MonoBehaviour
             }
         }
     }
+
 }
