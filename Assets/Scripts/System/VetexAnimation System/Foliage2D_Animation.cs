@@ -105,12 +105,12 @@ namespace Foliage
                 {
                     if (collider2DObject[i].transform.position.x > transform.position.x)
                     {
-                        Debug.Log("Right");
+                        //Debug.Log("Right");
                         animator.SetTrigger("tRight");
                     }
                     else
                     {
-                        Debug.Log("Left");
+                        //Debug.Log("Left");
                         animator.SetTrigger("tLeft");
                     }
 
