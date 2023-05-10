@@ -159,7 +159,6 @@ public class Pumpkin : UnitObject
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                //state.CURRENT_STATE = StateMachine.State.Moving;
                 if (distanceToPlayer <= AttackDistance)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
@@ -173,8 +172,6 @@ public class Pumpkin : UnitObject
             else
             {
                 agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
             }
         }
     }
