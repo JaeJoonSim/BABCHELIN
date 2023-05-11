@@ -152,7 +152,7 @@ public class Skunk : UnitObject
                 case StateMachine.State.Jump:
                     if (!hasJumpAttacked)
                     {
-                        JumpAttack();
+                        StartCoroutine(JumpAttack());
                         hasJumpAttacked = true;
                     }
                     break;
@@ -333,7 +333,7 @@ public class Skunk : UnitObject
         isThrowing = false;
     }
 
-    private void JumpAttack()
+    private IEnumerator JumpAttack()
     {
         if (!hasJumpAttacked)
         {
@@ -343,18 +343,27 @@ public class Skunk : UnitObject
 
             shockwaveInstance.GetComponent<Shockwave>().Initialize(shockwaveRange, shockwaveDuration);
 
-            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(shockwavePosition, shockwaveRange);
-            foreach (Collider2D enemy in hitEnemies)
+            float currentShockwaveRange = 0;
+            float detectionRangeLowerLimit = currentShockwaveRange - 0.2f;
+            while (currentShockwaveRange <= shockwaveRange)
             {
-                if (enemy.CompareTag("Player"))
+                Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(shockwavePosition, currentShockwaveRange);
+                foreach (Collider2D enemy in hitEnemies)
                 {
-                    Health enemyHealth = enemy.GetComponent<Health>();
-
-                    if (enemyHealth != null)
+                    float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+                    if (enemy.CompareTag("Player") && distanceToEnemy > detectionRangeLowerLimit)
                     {
-                        enemyHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+                        Health enemyHealth = enemy.GetComponent<Health>();
+
+                        if (enemyHealth != null)
+                        {
+                            enemyHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+                        }
                     }
                 }
+                currentShockwaveRange += Time.deltaTime * (shockwaveRange / shockwaveDuration);
+                detectionRangeLowerLimit = currentShockwaveRange - 0.2f;
+                yield return null;
             }
         }
         hasJumpAttacked = false;
