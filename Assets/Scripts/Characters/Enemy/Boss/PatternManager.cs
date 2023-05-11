@@ -27,7 +27,6 @@ public class PatternManager : BaseMonoBehaviour
         {
             remainingPatternDuration -= Time.deltaTime;
 
-            // Add this block
             if (gimmickPatterns.Count > 0)
             {
                 GimmickScriptableObject selectedGimmick = gimmickPatterns[0];
@@ -83,11 +82,15 @@ public class PatternManager : BaseMonoBehaviour
             {
                 randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count + gimmickPatterns.Count);
 
-                if (randomIndex < basicPatterns.Count) // Basic Pattern
+                if (randomIndex < basicPatterns.Count)
                 {
-                    patternList.Add(basicPatterns[randomIndex]);
+                    BasicPatternScriptableObject selectedPattern = basicPatterns[randomIndex];
+                    if (patternList.Count == 0 || !patternList[patternList.Count - 1].Equals(selectedPattern))
+                    {
+                        patternList.Add(selectedPattern);
+                    }
                 }
-                else // Gimmick Pattern
+                else
                 {
                     List<GimmickScriptableObject> validGimmicks = new List<GimmickScriptableObject>();
 
@@ -103,16 +106,23 @@ public class PatternManager : BaseMonoBehaviour
                     {
                         randomIndex = UnityEngine.Random.Range(0, validGimmicks.Count);
                         GimmickScriptableObject selectedGimmick = validGimmicks[randomIndex];
-                        patternList.Insert(0, selectedGimmick);
-                        Debug.Log("기믹패턴예약");
-                        gimmickPatterns.Remove(selectedGimmick);
+                        if (patternList.Count == 0 || !patternList[patternList.Count - 1].Equals(selectedGimmick))
+                        {
+                            patternList.Insert(0, selectedGimmick);
+                            Debug.Log("기믹패턴예약");
+                            gimmickPatterns.Remove(selectedGimmick);
+                        }
                     }
                 }
             }
             else if (basicPatterns.Count > 0)
             {
                 randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
-                patternList.Add(basicPatterns[randomIndex]);
+                BasicPatternScriptableObject selectedPattern = basicPatterns[randomIndex];
+                if (patternList.Count == 0 || !patternList[patternList.Count - 1].Equals(selectedPattern))
+                {
+                    patternList.Add(selectedPattern);
+                }
             }
             else if (gimmickPatterns.Count > 0)
             {
@@ -130,9 +140,12 @@ public class PatternManager : BaseMonoBehaviour
                 {
                     randomIndex = UnityEngine.Random.Range(0, validGimmicks.Count);
                     GimmickScriptableObject selectedGimmick = validGimmicks[randomIndex];
-                    patternList.Insert(0, selectedGimmick);
-                    Debug.Log("기믹패턴예약");
-                    gimmickPatterns.Remove(selectedGimmick);
+                    if (patternList.Count == 0 || !patternList[patternList.Count - 1].Equals(selectedGimmick))
+                    {
+                        patternList.Insert(0, selectedGimmick);
+                        Debug.Log("기믹패턴예약");
+                        gimmickPatterns.Remove(selectedGimmick);
+                    }
                 }
             }
         }
@@ -159,8 +172,15 @@ public class PatternManager : BaseMonoBehaviour
 
         for (int i = 0; i < maxReservations; i++)
         {
-            int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
-            patternList.Add(basicPatterns[randomIndex]);
+            BasicPatternScriptableObject selectedPattern;
+            do
+            {
+                int randomIndex = UnityEngine.Random.Range(0, basicPatterns.Count);
+                selectedPattern = basicPatterns[randomIndex];
+            }
+            while (patternList.Count > 0 && patternList[patternList.Count - 1].Equals(selectedPattern));
+
+            patternList.Add(selectedPattern);
         }
     }
 
@@ -190,13 +210,11 @@ public class PatternManager : BaseMonoBehaviour
         patternList.Clear();
         RegisterBasicPatterns();
 
-        // Add this block
         while (patternList.Count < 3)
         {
             ReserveNewPattern(health);
         }
 
-        // Make sure no gimmick pattern is reserved at game start
         int i = 0;
         while (i < patternList.Count)
         {

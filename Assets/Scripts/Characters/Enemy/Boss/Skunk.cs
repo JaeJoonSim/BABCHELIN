@@ -73,6 +73,7 @@ public class Skunk : UnitObject
     public float zOffset = -10f;
     public GameObject[] bombPrefabs;
 
+    private bool wasJumping = false;
     private bool hasJumpAttacked = false;
     public bool showJumpPattern = false;
     [DrawIf("showJumpPattern", true)]
@@ -139,13 +140,10 @@ public class Skunk : UnitObject
             {
 
                 case StateMachine.State.Idle:
-                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Moving:
-                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Attacking:
-                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Runaway:
                     break;
@@ -154,7 +152,8 @@ public class Skunk : UnitObject
                 case StateMachine.State.Jump:
                     if (!hasJumpAttacked)
                     {
-                        StartCoroutine(JumpAttack());
+                        JumpAttack();
+                        hasJumpAttacked = true;
                     }
                     break;
                 case StateMachine.State.Farting:
@@ -184,6 +183,12 @@ public class Skunk : UnitObject
                 default:
                     break;
             }
+            if (state.CURRENT_STATE != StateMachine.State.Jump && hasJumpAttacked)
+            {
+                hasJumpAttacked = false;
+            }
+
+            wasJumping = (state.CURRENT_STATE == StateMachine.State.Jump);
         }
 
         foreach (var gimmickPattern in patternManager.gimmickPatterns)
@@ -328,10 +333,11 @@ public class Skunk : UnitObject
         isThrowing = false;
     }
 
-    private IEnumerator JumpAttack()
+    private void JumpAttack()
     {
         if (!hasJumpAttacked)
         {
+            hasJumpAttacked = true;
             Vector3 shockwavePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             GameObject shockwaveInstance = Instantiate(shockwavePrefab, shockwavePosition, Quaternion.identity);
 
@@ -350,10 +356,8 @@ public class Skunk : UnitObject
                     }
                 }
             }
-            hasJumpAttacked = true;
-            yield return new WaitForSeconds(3f);
-            hasJumpAttacked = false;
         }
+        hasJumpAttacked = false;
     }
 
     #endregion

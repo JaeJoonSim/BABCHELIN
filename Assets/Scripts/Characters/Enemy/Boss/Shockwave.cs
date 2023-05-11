@@ -26,4 +26,9 @@ public class Shockwave : BaseMonoBehaviour
             transform.localScale = new Vector3(scale, scale, 1f);
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, range);
+    }
 }
