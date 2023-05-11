@@ -45,10 +45,10 @@ public class Skunk : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
-    
+
     public GameObject bulletPrefab;
 
-    [Header("-----------------------------------------------------------------------------")]
+    [Space]
 
     private bool isTailing = false;
     public bool showTailigPattern = false;
@@ -72,6 +72,15 @@ public class Skunk : UnitObject
     [DrawIf("showThrowPattern", true)]
     public float zOffset = -10f;
     public GameObject[] bombPrefabs;
+
+    private bool hasJumpAttacked = false;
+    public bool showJumpPattern = false;
+    [DrawIf("showJumpPattern", true)]
+    public GameObject shockwavePrefab;
+    [DrawIf("showJumpPattern", true)]
+    public float shockwaveRange = 5f;
+    [DrawIf("showJumpPattern", true)]
+    public float shockwaveDuration = 0.5f;
 
     private void Start()
     {
@@ -130,16 +139,23 @@ public class Skunk : UnitObject
             {
 
                 case StateMachine.State.Idle:
+                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Moving:
+                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Attacking:
+                    hasJumpAttacked = false;
                     break;
                 case StateMachine.State.Runaway:
                     break;
                 case StateMachine.State.Patrol:
                     break;
                 case StateMachine.State.Jump:
+                    if (!hasJumpAttacked)
+                    {
+                        StartCoroutine(JumpAttack());
+                    }
                     break;
                 case StateMachine.State.Farting:
                     if (!wasFarting)
@@ -225,12 +241,10 @@ public class Skunk : UnitObject
     {
         if (state.CURRENT_STATE == StateMachine.State.Farting)
         {
-            // Rotate and face the tail towards the player
             Vector3 directionToTarget = (target.position - transform.position).normalized;
             float angle = Mathf.Atan2(directionToTarget.y, directionToTarget.x) * Mathf.Rad2Deg;
             //SpineTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
 
-            // Spawn the fart
             Instantiate(fartPrefab, transform.position, Quaternion.identity);
         }
     }
@@ -312,6 +326,34 @@ public class Skunk : UnitObject
             }
         }
         isThrowing = false;
+    }
+
+    private IEnumerator JumpAttack()
+    {
+        if (!hasJumpAttacked)
+        {
+            Vector3 shockwavePosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+            GameObject shockwaveInstance = Instantiate(shockwavePrefab, shockwavePosition, Quaternion.identity);
+
+            shockwaveInstance.GetComponent<Shockwave>().Initialize(shockwaveRange, shockwaveDuration);
+
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(shockwavePosition, shockwaveRange);
+            foreach (Collider2D enemy in hitEnemies)
+            {
+                if (enemy.CompareTag("Player"))
+                {
+                    Health enemyHealth = enemy.GetComponent<Health>();
+
+                    if (enemyHealth != null)
+                    {
+                        enemyHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+                    }
+                }
+            }
+            hasJumpAttacked = true;
+            yield return new WaitForSeconds(3f);
+            hasJumpAttacked = false;
+        }
     }
 
     #endregion
