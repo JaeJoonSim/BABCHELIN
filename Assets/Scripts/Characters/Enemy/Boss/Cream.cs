@@ -15,8 +15,10 @@ public class Cream : MonoBehaviour
     [Header("Landing Indicator Parameters")]
     public GameObject landingIndicatorPrefab;
     public float indicatorRadius = 1f;
+    public float fallingDamage = 1f;
     private GameObject landingIndicator;
     public float yOffset = 0.1f;
+    private bool hasDamaged = false;
 
     private void Start()
     {
@@ -54,6 +56,21 @@ public class Cream : MonoBehaviour
             fallSpeed = 0f;
         }
 
+        if (transform.position.z >= 0f && !hasDamaged)
+        {
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), indicatorRadius);
+            foreach (var hitCollider in hitColliders)
+            {
+                HealthPlayer player = hitCollider.GetComponent<HealthPlayer>();
+                if (player != null)
+                {
+                    player.Damaged(gameObject, transform.position, fallingDamage, HealthPlayer.AttackType.Normal);
+                    hasDamaged = true;
+                    break;
+                }
+            }
+        }
+
         UpdateLandingIndicator();
     }
 
@@ -69,14 +86,11 @@ public class Cream : MonoBehaviour
                 landingIndicator.transform.position = landingPosition + new Vector3(0, yOffset, 0);
                 landingIndicator.transform.localScale = new Vector3(indicatorRadius, indicatorRadius, 1f);
 
-                float redCircleFillAmount = Mathf.Clamp01(1 - (transform.position.z / -10f));
-
-                // Add the following code to update the child sprite scale
-                Transform childSprite = landingIndicator.transform.GetChild(0); // Assumes the sprite is the first child
+                Transform childSprite = landingIndicator.transform.GetChild(0);
                 if (childSprite != null)
                 {
                     float distanceToGround = Mathf.Abs(transform.position.z);
-                    float spriteScale = Mathf.Clamp01(1 - (distanceToGround / 10f)); // Adjust the divisor (10f) to change the distance at which the sprite scale becomes 0
+                    float spriteScale = Mathf.Clamp01(1 - (distanceToGround / 10f));
                     childSprite.localScale = new Vector3(spriteScale, spriteScale, 1f);
                 }
             }
