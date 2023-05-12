@@ -20,6 +20,8 @@ public class Skunk : UnitObject
 
     [Space]
 
+    public float DestructionGauge = 10f;
+
     [SerializeField] Transform target;
     [SerializeField] float detectionRange = 10f;
     [SerializeField] float AttackDistance = 2f;
@@ -49,6 +51,8 @@ public class Skunk : UnitObject
     public GameObject bulletPrefab;
 
     [Space]
+
+    private int partDestruction = 3;
 
     private bool isTailing = false;
     public bool showTailigPattern = false;

@@ -80,12 +80,11 @@ public class PlayerController : BaseMonoBehaviour
     {
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause)
         {
-            Debug.Log("Pause");
             return;
         }
 
-        xDir = Input.GetAxis("Horizontal");
-        yDir = Input.GetAxis("Vertical");
+        xDir = Input.GetAxisRaw("Horizontal");
+        yDir = Input.GetAxisRaw("Vertical");
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);

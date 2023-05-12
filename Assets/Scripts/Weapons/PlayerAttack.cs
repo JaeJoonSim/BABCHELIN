@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAttack : MonoBehaviour
+public class PlayerAttack : BaseMonoBehaviour
 {
     public float Damage;
     public float speed;
     public float range;
     public int Cost;
+    public float destructionGauge;
     Vector2 spownPos;
     public ParticleSystem HitEffet;
 
@@ -28,8 +29,10 @@ public class PlayerAttack : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
+            Debug.Log("Hit Test");
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
+            PartDestructionGauge(collision, destructionGauge);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
         }
@@ -39,6 +42,15 @@ public class PlayerAttack : MonoBehaviour
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
             Destroy(collision.gameObject);
+        }
+    }
+
+    protected virtual void PartDestructionGauge(Collider2D other, float gauge)
+    {
+        Skunk boss = other.GetComponent<Skunk>();
+        if (boss != null) 
+        {
+            boss.DestructionGauge -= gauge;
         }
     }
 }

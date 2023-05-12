@@ -11,6 +11,7 @@ public class SmallAttack : BaseMonoBehaviour
     public float Damage;
     public float AttackSpeed;
     public int Cost;
+    public float destructionGauge;
 
     public ParticleSystem HitEffet;
 
@@ -58,9 +59,18 @@ public class SmallAttack : BaseMonoBehaviour
                 Vector3 collisionPoint = targetInRange[i].ClosestPoint(transform.position);
                 collisionPoint += new Vector3(0, 0, -1);
                 targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
+                PartDestructionGauge(targetInRange[i], destructionGauge);
                 Instantiate(HitEffet, collisionPoint, Quaternion.identity);               
             }
         }
     }
 
+    private void PartDestructionGauge(Collider2D other, float gauge)
+    {
+        Skunk boss = other.GetComponent<Skunk>();
+        if (boss != null)
+        {
+            boss.DestructionGauge -= gauge;
+        }
+    }
 }
