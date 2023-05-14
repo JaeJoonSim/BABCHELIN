@@ -15,7 +15,6 @@ public class CookieMouse3 : UnitObject
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
-    [SerializeField] float attackDistance = 0f;
     //[SerializeField] float moveTime = 0f;
 
     [Space]
@@ -211,16 +210,7 @@ public class CookieMouse3 : UnitObject
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                if (distanceToPlayer <= attackDistance)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                    agent.isStopped = true;
-                }
-                else
-                {
-                    agent.isStopped = false;
-                }
+                agent.isStopped = false;
             }
             else
             {
@@ -321,7 +311,7 @@ public class CookieMouse3 : UnitObject
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
+        Gizmos.DrawWireSphere(transform.position, detectionAttackRange);
     }
 
 }

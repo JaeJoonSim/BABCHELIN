@@ -150,7 +150,9 @@ MonoBehaviour:
   Moving: {fileID: 11400000, guid: 9c73df530b783a141bd82ce31404020a, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
+  NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
+  SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: a80f63aa63a3828499329697f04e3ebf, type: 2}
   NorthAttack: {fileID: 0}
@@ -206,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -251,7 +253,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3275738440347693820}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -294,6 +296,7 @@ MonoBehaviour:
   currentHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
+  isPoisoned: 0
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
@@ -355,16 +358,28 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 8270591769108072770}
+  AnimationTrack: 0
+  Hide: {fileID: 11400000, guid: 9295211d70a49ac49b22e7f051724374, type: 2}
+  Hidden: {fileID: 11400000, guid: f8f4976b5d92aff4d85d6d31ac2e97de, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
   AttackDistance: 1.5
+  JumpDistance: 7
   AttackDelay: 3
-  AttackDuration: 1
   AttackTimer: 0
+  delayTime: 1
+  time: 0
+  patrolRange: 10
+  patrolMinTime: 3
+  patrolMaxTime: 5
+  idleMinTime: 3
+  idleMaxTime: 5
   forceDir: 0
   xDir: 0
   yDir: 0
+  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+    type: 3}
 --- !u!195 &3275738440347693771
 NavMeshAgent:
   m_ObjectHideFlags: 0

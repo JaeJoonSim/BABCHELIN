@@ -4918,6 +4918,7 @@ GameObject:
   - component: {fileID: 4239218463878451153}
   - component: {fileID: 6517613828372655618}
   - component: {fileID: 2286752850635540843}
+  - component: {fileID: -6364771083010338931}
   m_Layer: 0
   m_Name: Monster Explosion Effect
   m_TagString: Untagged
@@ -4933,7 +4934,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5475312332936819876}
   m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: -1.3046691, y: -0.2143184, z: -0.03333212}
+  m_LocalPosition: {x: -7.414334, y: 2.0400386, z: -0.03333239}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9735,6 +9736,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7d1f0c9cd84f5a409561a355cae572f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6364771083010338931
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5475312332936819876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e334feff158004abc91fe4a9a620b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 0.5
 --- !u!1 &5689421010211744680
 GameObject:
   m_ObjectHideFlags: 0

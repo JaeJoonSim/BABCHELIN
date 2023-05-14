@@ -19,7 +19,6 @@ public class CookieMouse : UnitObject
 
     [Space]
     [SerializeField] float AttackDelay;
-    public float AttackDuration = 0.3f;
     [SerializeField] float AttackTimer;
     [SerializeField] float delayTime = 5f;
     [SerializeField] float time = 0;
@@ -115,6 +114,10 @@ public class CookieMouse : UnitObject
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
+                case StateMachine.State.Patrol:
+                    Patrol();
+                    break;
+
                 case StateMachine.State.Moving:
                     agent.speed = 3f;
                     AttackTimer = 0f;
@@ -165,10 +168,6 @@ public class CookieMouse : UnitObject
                     //state.LookAngle = state.facingAngle;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
-                    break;
-
-                case StateMachine.State.Patrol:
-                    Patrol();
                     break;
 
                 case StateMachine.State.Delay:
