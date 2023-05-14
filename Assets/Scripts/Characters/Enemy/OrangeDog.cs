@@ -28,6 +28,8 @@ public class OrangeDog : UnitObject
     public float Damaged = 2f;
     bool hasAppliedDamage = false;
 
+    Rigidbody2D rb2d;
+
     [Space]
 
     [SerializeField] Transform target;
@@ -38,7 +40,7 @@ public class OrangeDog : UnitObject
     [Space]
     [SerializeField] float AttackDelay;
     [SerializeField] float AttackTimer;
-    [SerializeField] float delayTime = 5f;
+    [SerializeField] float delayTime;
     [SerializeField] float time = 0;
     [SerializeField] float time2 = 0;
 
@@ -76,11 +78,9 @@ public class OrangeDog : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
-    private Vector3 direction = Vector3.zero;
-    float currentJumpForce;
-
     private void Start()
     {
+        rb2d = gameObject.GetComponent<Rigidbody2D>();
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -214,36 +214,22 @@ public class OrangeDog : UnitObject
                     SpineTransform.localPosition = Vector3.zero;
                     forceDir = state.facingAngle;
                     agent.isStopped = false;
-                    agent.speed = 10f;
+                    agent.speed = 7f;
                     //float distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
                     agent.SetDestination(jumpPoint);
-                    time += Time.deltaTime;
-                    if (Vector3.Distance(transform.position, jumpPoint) >= distanceToJumppoint / 2)
-                    {
-                        time += Time.deltaTime;
-                        //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 2 * Mathf.Sin(2 * time));
-                        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - Mathf.Sin(2 * time));
-                    }
-                    else
-                    {
-                        time2 += Time.deltaTime;
-                        //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + 1 * Mathf.Sin(2 * time2));
-                        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + Mathf.Sin(2 * time2));
-                    }
-                    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - Mathf.Sin(2 * time));
-                    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - distanceToJumppoint / 2 * Mathf.Sin(2 * time));
-                    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 1 * Mathf.Sin(2 * time));
 
-                    //jumpPoint = new Vector3(jumpPoint.x, jumpPoint.y, (speed * Mathf.Sin(90f * Mathf.Deg2Rad) * time + 0.5f * 2 * time) / 50f);
-                    //this.transform.position = new Vector3(jumpPoint.x, jumpPoint.y, jumpPoint.z - (speed * Mathf.Sin(90f * Mathf.Deg2Rad) * time - 0.5f * 2 * time) / 50f);
+                    distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
 
-                    if (transform.position.z > -0.03333196f)
+                    if(distanceToJumppoint < 0.5f)
                     {
-                        transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.03333196f);
-                        time = 0f;
-                        time2 = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Delay;
+                        playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+                        state.CURRENT_STATE = StateMachine.State.JumpDelay;
                     }
+                    //if (transform.position.z > -0.03333196f)
+                    //{
+                    //    transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.03333196f);
+                    //    state.CURRENT_STATE = StateMachine.State.Delay;
+                    //}
                     break;
 
                 case StateMachine.State.Delay:
@@ -252,7 +238,7 @@ public class OrangeDog : UnitObject
                     {
                         time = 0f;
 
-                        if(distanceToPlayer <= JumpDistance)
+                        if (distanceToPlayer <= JumpDistance)
                         {
                             xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
                             if (0 <= xDir)  //보는 방향
@@ -264,9 +250,30 @@ public class OrangeDog : UnitObject
                                 this.transform.localScale = new Vector3(-1f, 1f, 1f);
                             }
                             jumpPoint = target.transform.position;
-                            distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
-                            time = 0f;
                             state.CURRENT_STATE = StateMachine.State.Jump;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
+                        }
+                    }
+
+                    agent.isStopped = true;
+                    break;
+
+                case StateMachine.State.JumpDelay:
+                    time += Time.deltaTime;
+                    if (time >= delayTime)
+                    {
+                        time = 0f;
+
+                        if (distanceToPlayer <= AttackDistance)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Attacking;
+                        }
+                        else if (AttackDistance < distanceToPlayer && distanceToPlayer <= detectionRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Moving;
                         }
                         else
                         {

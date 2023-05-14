@@ -33,7 +33,7 @@ public class StateMachine : MonoBehaviour
         Hidden = 25,
         Delay = 26,
         InstantKill = 27,
-
+        JumpDelay = 28,
 
     }
 

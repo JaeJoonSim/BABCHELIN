@@ -12,7 +12,7 @@ public class TomatoBulletScript : BaseMonoBehaviour
 
     private ColliderEvents colliderEvents;
     private Vector3 direction;
-    //public float angle = 45f;
+    
     public float gravity = 1f;
     private float time;
 
