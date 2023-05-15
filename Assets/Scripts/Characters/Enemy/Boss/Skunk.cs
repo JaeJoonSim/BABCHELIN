@@ -26,9 +26,16 @@ public class Skunk : UnitObject
     private float currentDestructionTime;
     private float currentDestructionHP;
     private float originGauge;
-    private bool destructionStun = false;
+    public bool destructionStun = false;
     [HideInInspector] public int destructionCount = 3;
     private IEnumerator destructionCoroutine;
+
+    [Space]
+    [Header("부위파괴시 독가스 설정")]
+    public GameObject poisonGasPrefab;
+    public float poisonGasRadius;
+    public float poisonGasDamage;
+    public float poisonGasDuration;
 
     [Space]
 
@@ -269,7 +276,8 @@ public class Skunk : UnitObject
             {
                 currentDestructionHP = health.CurrentHP() - DestructionHP;
                 destructionCoroutine = StartDestructTime();
-                StartCoroutine(destructionCoroutine);
+                if(!destructionStun)
+                    StartCoroutine(destructionCoroutine);
             }
         }
 
@@ -304,6 +312,12 @@ public class Skunk : UnitObject
     {
         destructionStun = true;
         yield return new WaitForSeconds(DestructionTime);
+
+        GameObject poisonGas = Instantiate(poisonGasPrefab, transform.position, Quaternion.identity);
+        poisonGas.GetComponent<PoisonGas>().radius = poisonGasRadius;
+        poisonGas.GetComponent<PoisonGas>().damage = poisonGasDamage;
+        poisonGas.GetComponent<PoisonGas>().duration = poisonGasDuration;
+
         destructionStun = false;
         yield return null;
     }
