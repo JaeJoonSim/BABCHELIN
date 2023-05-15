@@ -17,13 +17,20 @@ public class PatternManager : BaseMonoBehaviour
 
     public event Action<PatternScriptableObject> OnPatternChange;
 
+    Skunk skunk;
+
+    private void Start()
+    {
+        skunk = health.gameObject.GetComponent<Skunk>();
+    }
+
     private void Update()
     {
-        if (CurrentPattern == null)
+        if (CurrentPattern == null && !skunk.destructionStun)
         {
             DequeuePattern(health);
         }
-        else
+        else if (CurrentPattern != null && !skunk.destructionStun)
         {
             remainingPatternDuration -= Time.deltaTime;
 
@@ -229,7 +236,8 @@ public class PatternManager : BaseMonoBehaviour
             }
         }
 
-        DequeuePattern(health);
+        if (!skunk.destructionStun)
+            DequeuePattern(health);
     }
 
 }

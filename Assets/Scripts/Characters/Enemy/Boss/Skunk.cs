@@ -128,6 +128,8 @@ public class Skunk : UnitObject
 
         originGauge = DestructionGauge;
         currentDestructionTime = DestructionTime - 0.1f;
+
+        destructionCoroutine = StartDestructTime();
     }
 
     public override void OnEnable()
@@ -147,11 +149,6 @@ public class Skunk : UnitObject
     public override void Update()
     {
         base.Update();
-
-        if (patternManager.CurrentPattern == null)
-        {
-            patternManager.DequeuePattern(health);
-        }
 
         if (state.CURRENT_STATE != StateMachine.State.Farting)
         {
@@ -275,7 +272,7 @@ public class Skunk : UnitObject
             if (DestructionGauge <= 0)
             {
                 currentDestructionHP = health.CurrentHP() - DestructionHP;
-                destructionCoroutine = StartDestructTime();
+                
                 if(!destructionStun)
                     StartCoroutine(destructionCoroutine);
             }
@@ -283,6 +280,7 @@ public class Skunk : UnitObject
 
         if (destructionStun)
         {
+            state.CURRENT_STATE = StateMachine.State.Stun;
             currentDestructionTime -= Time.deltaTime;
 
             if (currentDestructionTime <= 0)
