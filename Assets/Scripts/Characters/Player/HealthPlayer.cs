@@ -11,7 +11,7 @@ public class HealthPlayer : Health
     [HideInInspector] public float poisoningDamage;
     public float clearPoisonTimer;
     public float curPoisonTimer;
-    [HideInInspector] public float poisonDamage;
+    [HideInInspector] public float poisonDamage = 5f;
     public float poisonDamageInterval;
     public float poisonIntervalCounter;
 
@@ -20,6 +20,10 @@ public class HealthPlayer : Health
         base.Start();
         if(RetryPanel.activeSelf)
             RetryPanel.SetActive(false);
+
+        if (poisonDamage == 0)
+            poisonDamage = 5f;
+
         controller = GetComponent<PlayerController>();
         OnDamaged += ApplyKnockbackAndChangeState;
     }

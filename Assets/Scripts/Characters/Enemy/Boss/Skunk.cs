@@ -23,7 +23,7 @@ public class Skunk : UnitObject
     public float DestructionGauge = 10f;
     public float DestructionHP = 2f;
     public float DestructionTime = 3f;
-    private float currentDestructionTime;
+    public float currentDestructionTime;
     private float currentDestructionHP;
     private float originGauge;
     public bool destructionStun = false;
@@ -272,7 +272,6 @@ public class Skunk : UnitObject
             if (DestructionGauge <= 0)
             {
                 currentDestructionHP = health.CurrentHP() - DestructionHP;
-                
                 if(!destructionStun)
                     StartCoroutine(destructionCoroutine);
             }
@@ -318,6 +317,7 @@ public class Skunk : UnitObject
         yield return new WaitForSeconds(DestructionTime);
         
         destructionStun = false;
+        destructionCoroutine = StartDestructTime();
         yield return null;
     }
 
