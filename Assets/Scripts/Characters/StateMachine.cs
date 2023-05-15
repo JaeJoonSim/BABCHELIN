@@ -35,6 +35,7 @@ public class StateMachine : MonoBehaviour
         InstantKill = 27,
         JumpDelay = 28,
         Stun = 29,
+        PhaseChange = 30,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

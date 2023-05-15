@@ -26,11 +26,11 @@ public class PatternManager : BaseMonoBehaviour
 
     private void Update()
     {
-        if (CurrentPattern == null && !skunk.destructionStun)
+        if (CurrentPattern == null && !skunk.destructionStun && !skunk.isPatternPause)
         {
             DequeuePattern(health);
         }
-        else if (CurrentPattern != null && !skunk.destructionStun)
+        else if (CurrentPattern != null && !skunk.destructionStun && !skunk.isPatternPause)
         {
             remainingPatternDuration -= Time.deltaTime;
 
@@ -236,7 +236,7 @@ public class PatternManager : BaseMonoBehaviour
             }
         }
 
-        if (!skunk.destructionStun)
+        if (!skunk.destructionStun && !skunk.isPatternPause)
             DequeuePattern(health);
     }
 

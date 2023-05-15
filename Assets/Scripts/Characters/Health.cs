@@ -30,6 +30,7 @@ public class Health : BaseMonoBehaviour
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
     [HideInInspector] public bool untouchable = false;
+    [HideInInspector] public bool damageDecrease = false;
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation, AttackType type);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage, AttackType type);
@@ -62,6 +63,11 @@ public class Health : BaseMonoBehaviour
         if (destructionCount > 0)
         {
             damage = damage - (damage * (destructionCount * 0.1f));
+        }
+
+        if (damageDecrease)
+        {
+            damage *= 0.01f;
         }
 
         currentHealth -= damage;

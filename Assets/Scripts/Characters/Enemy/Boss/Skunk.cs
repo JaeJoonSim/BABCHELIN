@@ -9,7 +9,8 @@ public class Skunk : UnitObject
 {
     [SerializeField] private PatternManager patternManager;
 
-    [SerializeField] private List<BasicPatternScriptableObject> basicPatterns;
+    [SerializeField] private List<BasicPatternScriptableObject> phase1BasicPatterns;
+    [SerializeField] private List<BasicPatternScriptableObject> phase2BasicPatterns;
     [SerializeField] private List<GimmickScriptableObject> gimmickPatterns;
 
     [Space]
@@ -23,12 +24,21 @@ public class Skunk : UnitObject
     public float DestructionGauge = 10f;
     public float DestructionHP = 2f;
     public float DestructionTime = 3f;
-    public float currentDestructionTime;
+    private float currentDestructionTime;
     private float currentDestructionHP;
     private float originGauge;
-    public bool destructionStun = false;
+    [HideInInspector] public bool destructionStun = false;
+    [HideInInspector] public bool isPatternPause = false;
     public int destructionCount = 3;
     private IEnumerator destructionCoroutine;
+    public float InstantKillTimelimit = 60f;
+    public float checkMultipleHealthLine = 3f;
+
+    [Header("부위파괴 성공 패턴")]
+    public float phaseChangeTimeLimit = 30f;
+    public int currentPhase = 1;
+    public bool isPhaseChanged = false;
+    public float phaseChangeAttackAngle = 180f;
 
     [Space]
     [Header("부위파괴시 독가스 설정")]
@@ -122,12 +132,15 @@ public class Skunk : UnitObject
             patternManager = FindObjectOfType<PatternManager>();
         }
 
-        patternManager.basicPatterns = basicPatterns;
+        patternManager.basicPatterns = phase1BasicPatterns;
         patternManager.gimmickPatterns = gimmickPatterns;
         patternManager.Initialize();
 
         originGauge = DestructionGauge;
         currentDestructionTime = DestructionTime - 0.1f;
+
+        if (checkMultipleHealthLine >= health.multipleHealthLine)
+            checkMultipleHealthLine = health.multipleHealthLine;
 
         destructionCoroutine = StartDestructTime();
     }
@@ -153,6 +166,22 @@ public class Skunk : UnitObject
         if (state.CURRENT_STATE != StateMachine.State.Farting)
         {
             wasFarting = false;
+        }
+
+        if (InstantKillTimelimit > 0 && currentPhase == 1)
+            InstantKillTimelimit -= Time.deltaTime;
+
+        if (InstantKillTimelimit <= 0 && checkMultipleHealthLine <= health.multipleHealthLine)
+        {
+            isPatternPause = true;
+            state.CURRENT_STATE = StateMachine.State.InstantKill;
+        }
+
+        if (InstantKillTimelimit > 0 && destructionCount <= 0 && currentPhase == 1)
+        {
+            isPatternPause = true;
+            health.damageDecrease = true;
+            state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
 
         DestructionPart();
@@ -191,13 +220,48 @@ public class Skunk : UnitObject
                 case StateMachine.State.Tailing:
                     if (!isTailing)
                     {
-                        StartCoroutine(Tailing());
+                        StartCoroutine(Tailing(maxAngle));
                     }
                     break;
                 case StateMachine.State.Throwing:
                     if (!isThrowing)
                     {
                         StartCoroutine(CreamThrow());
+                    }
+                    break;
+                case StateMachine.State.InstantKill:
+                    playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
+                    break;
+                case StateMachine.State.PhaseChange:
+                    if (!isPhaseChanged)
+                    {
+                        phaseChangeTimeLimit -= Time.deltaTime;
+
+                        if (!isTailing)
+                        {
+                            StartCoroutine(Tailing(phaseChangeAttackAngle));
+                        }
+                        if (!isThrowing)
+                        {
+                            StartCoroutine(CreamThrow());
+                        }
+                        
+                    }
+                    else if (isPhaseChanged)
+                    {
+                        currentPhase++;
+                        patternManager.basicPatterns.Clear();
+                        patternManager.patternList.Clear();
+                        patternManager.basicPatterns = phase2BasicPatterns;
+                        isPhaseChanged = false;
+                        isPatternPause = false;
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+
+                    if (phaseChangeTimeLimit <= 0)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.InstantKill;
+                        isPhaseChanged = true;
                     }
                     break;
                 case StateMachine.State.Dead:
@@ -271,8 +335,7 @@ public class Skunk : UnitObject
         {
             if (DestructionGauge <= 0)
             {
-                
-                if(!destructionStun)
+                if (!destructionStun)
                     StartCoroutine(destructionCoroutine);
             }
         }
@@ -313,7 +376,7 @@ public class Skunk : UnitObject
         poisonGas.GetComponent<PoisonGas>().radius = poisonGasRadius;
         poisonGas.GetComponent<PoisonGas>().damage = poisonGasDamage;
         poisonGas.GetComponent<PoisonGas>().duration = poisonGasDuration;
-        
+
         yield return new WaitForSeconds(DestructionTime);
         destructionStun = false;
         destructionCoroutine = StartDestructTime();
@@ -332,14 +395,14 @@ public class Skunk : UnitObject
         }
     }
 
-    private IEnumerator Tailing()
+    private IEnumerator Tailing(float angle)
     {
         isTailing = true;
-        float angleStep = maxAngle / numberOfBullets;
-        float currentAngle = -maxAngle / 2 - 90;
+        float angleStep = angle / numberOfBullets;
+        float currentAngle = -angle / 2 - 90;
         float angleIncrement = angleStep;
 
-        while (state.CURRENT_STATE == StateMachine.State.Tailing)
+        while (state.CURRENT_STATE == StateMachine.State.Tailing || state.CURRENT_STATE == StateMachine.State.PhaseChange)
         {
             float angleInRadians = currentAngle * Mathf.Deg2Rad;
             Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
@@ -350,11 +413,11 @@ public class Skunk : UnitObject
 
             currentAngle += angleIncrement;
 
-            if (currentAngle > maxAngle / 2 - 90)
+            if (currentAngle > angle / 2 - 90)
             {
                 angleIncrement = -angleStep;
             }
-            else if (currentAngle < -maxAngle / 2 - 90)
+            else if (currentAngle < -angle / 2 - 90)
             {
                 angleIncrement = angleStep;
             }
@@ -367,47 +430,46 @@ public class Skunk : UnitObject
     private IEnumerator CreamThrow()
     {
         isThrowing = true;
-        if (state.CURRENT_STATE == StateMachine.State.Throwing)
+
+        if (mapObject == null)
         {
-            if (mapObject == null)
+            mapObject = GameObject.FindWithTag("Ground");
+        }
+
+        if (mapObject != null)
+        {
+            BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+
+            if (mapCollider != null)
             {
-                mapObject = GameObject.FindWithTag("Ground");
-            }
+                Bounds mapBounds = mapCollider.bounds;
 
-            if (mapObject != null)
-            {
-                BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+                float minX = mapBounds.min.x;
+                float maxX = mapBounds.max.x;
+                float minY = mapBounds.min.y;
+                float maxY = mapBounds.max.y;
 
-                if (mapCollider != null)
+                for (int i = 0; i < numberOfBombs; i++)
                 {
-                    Bounds mapBounds = mapCollider.bounds;
+                    Vector3 dropPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), zOffset);
 
-                    float minX = mapBounds.min.x;
-                    float maxX = mapBounds.max.x;
-                    float minY = mapBounds.min.y;
-                    float maxY = mapBounds.max.y;
+                    GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
 
-                    for (int i = 0; i < numberOfBombs; i++)
-                    {
-                        Vector3 dropPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), zOffset);
+                    Instantiate(bombPrefab, dropPosition, Quaternion.identity);
 
-                        GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
-
-                        Instantiate(bombPrefab, dropPosition, Quaternion.identity);
-
-                        yield return new WaitForSeconds(dropDelay);
-                    }
-                }
-                else
-                {
-                    Debug.LogError("No BoxCollider2D found on map object.");
+                    yield return new WaitForSeconds(dropDelay);
                 }
             }
             else
             {
-                Debug.LogError("Map object not found.");
+                Debug.LogError("No BoxCollider2D found on map object.");
             }
         }
+        else
+        {
+            Debug.LogError("Map object not found.");
+        }
+
         isThrowing = false;
     }
 
