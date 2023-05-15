@@ -27,7 +27,7 @@ public class Skunk : UnitObject
     private float currentDestructionHP;
     private float originGauge;
     public bool destructionStun = false;
-    [HideInInspector] public int destructionCount = 3;
+    public int destructionCount = 3;
     private IEnumerator destructionCoroutine;
 
     [Space]
@@ -311,13 +311,14 @@ public class Skunk : UnitObject
     private IEnumerator StartDestructTime()
     {
         destructionStun = true;
-        yield return new WaitForSeconds(DestructionTime);
-
+        
         GameObject poisonGas = Instantiate(poisonGasPrefab, transform.position, Quaternion.identity);
         poisonGas.GetComponent<PoisonGas>().radius = poisonGasRadius;
         poisonGas.GetComponent<PoisonGas>().damage = poisonGasDamage;
         poisonGas.GetComponent<PoisonGas>().duration = poisonGasDuration;
-
+        
+        yield return new WaitForSeconds(DestructionTime);
+        
         destructionStun = false;
         yield return null;
     }

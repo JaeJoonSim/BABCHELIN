@@ -16,7 +16,7 @@ public class PoisonGas : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.GetComponent<Health>().Damaged(gameObject, transform.position, damage, Health.AttackType.Poison);
+            collision.gameObject.GetComponent<HealthPlayer>().isPoisoned = true;
         }
     }
 
@@ -30,5 +30,10 @@ public class PoisonGas : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.DrawWireSphere(transform.position, radius);
     }
 }
