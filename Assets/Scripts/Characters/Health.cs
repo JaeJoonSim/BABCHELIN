@@ -16,7 +16,7 @@ public class Health : BaseMonoBehaviour
     public int multipleHealthLine;
     public int HpLineAmount;
     public bool isPoisoned = false;
-    public bool IsPoisoned 
+    public bool IsPoisoned
     {
         get { return isPoisoned; }
         set { isPoisoned = value; }
@@ -54,10 +54,15 @@ public class Health : BaseMonoBehaviour
         multipleHealthLine = (int)(currentHealth / HpLineAmount);
     }
 
-    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
+    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type, int destructionCount = 0)
     {
         if (IsInvincible()) return;
         //if (Attacker == base.gameObject) return;
+
+        if (destructionCount > 0)
+        {
+            damage = damage - (damage * (destructionCount * 0.1f));
+        }
 
         currentHealth -= damage;
 
@@ -107,7 +112,7 @@ public class Health : BaseMonoBehaviour
         meshRenderer.enabled = true;
         isInvincible = false;
 
-        if(currentHealth > 0)
+        if (currentHealth > 0)
             state.ChangeToIdleState();
     }
 

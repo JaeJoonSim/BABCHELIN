@@ -30,8 +30,12 @@ public class PlayerAttack : BaseMonoBehaviour
         if (collision.tag == "Enemy")
         {
             Debug.Log("Hit Test");
+            Skunk skunk = collision.GetComponent<Skunk>();
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
-            collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
+            if (skunk != null)
+                collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal, skunk.destructionCount);
+            else
+                collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
             PartDestructionGauge(collision, destructionGauge);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
@@ -48,7 +52,7 @@ public class PlayerAttack : BaseMonoBehaviour
     protected virtual void PartDestructionGauge(Collider2D other, float gauge)
     {
         Skunk boss = other.GetComponent<Skunk>();
-        if (boss != null) 
+        if (boss != null)
         {
             boss.DestructionGauge -= gauge;
         }

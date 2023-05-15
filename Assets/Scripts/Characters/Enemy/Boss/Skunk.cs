@@ -19,8 +19,18 @@ public class Skunk : UnitObject
     bool hasAppliedDamage = false;
 
     [Space]
-
+    [Header("ºÎÀ§ ÆÄ±«")]
     public float DestructionGauge = 10f;
+    public float DestructionHP = 2f;
+    public float DestructionTime = 3f;
+    private float currentDestructionTime;
+    private float currentDestructionHP;
+    private float originGauge;
+    private bool destructionStun = false;
+    [HideInInspector] public int destructionCount = 3;
+    private IEnumerator destructionCoroutine;
+
+    [Space]
 
     [SerializeField] Transform target;
     [SerializeField] float detectionRange = 10f;
@@ -108,6 +118,9 @@ public class Skunk : UnitObject
         patternManager.basicPatterns = basicPatterns;
         patternManager.gimmickPatterns = gimmickPatterns;
         patternManager.Initialize();
+
+        originGauge = DestructionGauge;
+        currentDestructionTime = DestructionTime - 0.1f;
     }
 
     public override void OnEnable()
@@ -137,6 +150,8 @@ public class Skunk : UnitObject
         {
             wasFarting = false;
         }
+
+        DestructionPart();
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
@@ -244,6 +259,53 @@ public class Skunk : UnitObject
                 yDir = 0f;
             }
         }
+    }
+
+    private void DestructionPart()
+    {
+        if (destructionCount > 0)
+        {
+            if (DestructionGauge <= 0)
+            {
+                currentDestructionHP = health.CurrentHP() - DestructionHP;
+                destructionCoroutine = StartDestructTime();
+                StartCoroutine(destructionCoroutine);
+            }
+        }
+
+        if (destructionStun)
+        {
+            currentDestructionTime -= Time.deltaTime;
+
+            if (currentDestructionTime <= 0)
+            {
+                if (health.CurrentHP() <= currentDestructionHP)
+                {
+                    destructionCount--;
+                    StopCoroutine(destructionCoroutine);
+                    destructionStun = false;
+                    DestructionGauge = originGauge;
+                }
+                else if (health.CurrentHP() > currentDestructionHP)
+                {
+                    StopCoroutine(destructionCoroutine);
+                    destructionStun = false;
+                    DestructionGauge = originGauge;
+                }
+            }
+        }
+        else
+        {
+            currentDestructionTime = DestructionTime - 0.1f;
+        }
+    }
+
+    private IEnumerator StartDestructTime()
+    {
+        destructionStun = true;
+        yield return new WaitForSeconds(DestructionTime);
+        destructionStun = false;
+        yield return null;
     }
 
     private void Fart()
