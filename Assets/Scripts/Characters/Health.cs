@@ -104,12 +104,14 @@ public class Health : BaseMonoBehaviour
 
         while (elapsedTime < duration)
         {
-            meshRenderer.enabled = !meshRenderer.enabled;
+            if (meshRenderer != null)
+                meshRenderer.enabled = !meshRenderer.enabled;
             elapsedTime += blinkInterval;
             yield return new WaitForSeconds(blinkInterval);
         }
 
-        meshRenderer.enabled = true;
+        if (meshRenderer != null)
+            meshRenderer.enabled = true;
         isInvincible = false;
 
         if (currentHealth > 0)
