@@ -10,7 +10,7 @@ public class BerryBird : UnitObject
 
     private bool hasAppliedDamage = false;
     public GameObject bullet;
-    
+
 
     [Space]
     [SerializeField] Transform target;
@@ -48,6 +48,8 @@ public class BerryBird : UnitObject
 
     private void Start()
     {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -96,8 +98,8 @@ public class BerryBird : UnitObject
                         idleTimer = 0f;
                     }
 
-                    if (isPlayerInRange)
-                        state.CURRENT_STATE = StateMachine.State.Moving;
+                    if (isPlayerInRange && canAttack == false)
+                        state.CURRENT_STATE = StateMachine.State.Runaway;
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
@@ -136,10 +138,10 @@ public class BerryBird : UnitObject
                         hasAppliedDamage = false;
                     }
 
-                    if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration)
+                    if (distanceToPlayer > AttackDistance && AttackTimer >= AttackDuration && canAttack && !IsAttackAnimationPlaying())
                     {
                         AttackTimer = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        state.CURRENT_STATE = StateMachine.State.Moving;
                     }
                     else if (AttackTimer < 0.1f)
                     {
@@ -147,7 +149,7 @@ public class BerryBird : UnitObject
                     }
                     else if (AttackTimer >= AttackDuration && AttackTimer < AttackDuration + AttackDelay)
                     {
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        //state.CURRENT_STATE = StateMachine.State.Idle;
                     }
                     else if (AttackTimer >= AttackDuration + AttackDelay && canAttack == true)
                     {
@@ -167,7 +169,7 @@ public class BerryBird : UnitObject
 
     private void FollowTarget()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Attacking || !IsAttackAnimationPlaying())
         {
             float distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
@@ -188,7 +190,7 @@ public class BerryBird : UnitObject
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                //state.CURRENT_STATE = StateMachine.State.Moving;
+                state.CURRENT_STATE = StateMachine.State.Moving;
                 if (distanceToPlayer <= AttackDistance && canAttack == true)
                 {
                     state.CURRENT_STATE = StateMachine.State.Attacking;
@@ -222,13 +224,12 @@ public class BerryBird : UnitObject
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
         }
-        else if (patrolTimer < patrolMoveDuration + patrolIdleDuration)
-        {
-            agent.isStopped = true;
-        }
         else
         {
             patrolTimer = 0f;
+            agent.isStopped = true;
+            if(!canAttack)
+                state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
@@ -247,6 +248,7 @@ public class BerryBird : UnitObject
         {
             agent.speed /= runawaySpeedMultiplier;
             state.CURRENT_STATE = StateMachine.State.Idle;
+            Debug.Log("1");
         }
     }
 
@@ -259,16 +261,21 @@ public class BerryBird : UnitObject
         return hit.position;
     }
 
+    private bool IsAttackAnimationPlaying()
+    {
+        var currentAnimation = spineAnimation.AnimationState.GetCurrent(0);
+        return currentAnimation.Animation.Name.ToLower().Contains("attack") && !currentAnimation.IsComplete;
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "attack" || e.Data.Name == "Attack")
         {
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                if (AttackDistance > distanceToPlayer)
-                {
-                    Instantiate(bullet, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
-                }
+
+                Instantiate(bullet, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+
                 hasAppliedDamage = true;
             }
         }
@@ -276,8 +283,7 @@ public class BerryBird : UnitObject
 
     public override void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
-        if (canAttack == false) canAttack = true;
-        Debug.Log($"공격가능: {canAttack}");
+        if (!canAttack) canAttack = true;
     }
 
     public void OnDie()

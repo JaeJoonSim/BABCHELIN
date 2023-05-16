@@ -15,7 +15,6 @@ public class CookieMouse3 : UnitObject
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
-    [SerializeField] float attackDistance = 0f;
     //[SerializeField] float moveTime = 0f;
 
     [Space]
@@ -35,9 +34,12 @@ public class CookieMouse3 : UnitObject
 
     [Space]
     [SerializeField] float patrolRange = 10f;
-    [SerializeField] float patrolMoveDuration = 2f;
-    [SerializeField] float runawaySpeedMultiplier = 1.5f;
-    [SerializeField] float idleToPatrolDelay = 5f;
+    private float patrolMoveDuration = 0f;
+    [SerializeField] float patrolMinTime;
+    [SerializeField] float patrolMaxTime;
+    private float idleToPatrolDelay = 0f;
+    [SerializeField] float idleMinTime;
+    [SerializeField] float idleMaxTime;
     private float idleTimer;
     private float patrolTimer;
     private Vector3 patrolStartPosition;
@@ -56,6 +58,9 @@ public class CookieMouse3 : UnitObject
 
     private void Start()
     {
+        idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+        patrolStartPosition = transform.position;
+
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -98,6 +103,7 @@ public class CookieMouse3 : UnitObject
 
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
+                        patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
@@ -108,6 +114,7 @@ public class CookieMouse3 : UnitObject
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
+
                 case StateMachine.State.Moving:
                     agent.speed = 3f;
                     AttackTimer = 0f;
@@ -115,10 +122,16 @@ public class CookieMouse3 : UnitObject
                     {
                         break;
                     }
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
 
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
+                    if (0 <= xDir)  //보는 방향
+                    {
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
+
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
                     if (!isPlayerInRange)
@@ -145,9 +158,6 @@ public class CookieMouse3 : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     break;
 
@@ -200,16 +210,7 @@ public class CookieMouse3 : UnitObject
                 yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
                 agent.SetDestination(target.position);
-                if (distanceToPlayer <= attackDistance)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                    agent.isStopped = true;
-                }
-                else
-                {
-                    agent.isStopped = false;
-                }
+                agent.isStopped = false;
             }
             else
             {
@@ -222,10 +223,6 @@ public class CookieMouse3 : UnitObject
 
     private void Patrol()
     {
-        state.facingAngle = Utils.GetAngle(transform.position, patrolTargetPosition);
-        state.LookAngle = state.facingAngle;
-        patrolTimer += Time.deltaTime;
-
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
         {
             patrolTargetPosition = GetRandomPositionInPatrolRange();
@@ -240,12 +237,24 @@ public class CookieMouse3 : UnitObject
         {
             agent.isStopped = true;
             patrolTimer = 0f;
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         if (isPlayerInRange)
         {
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
+        }
+
+        xDir = Mathf.Clamp((patrolTargetPosition.x - transform.position.x), -1f, 1f);
+        if (0 <= xDir)
+        {
+            this.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else
+        {
+            this.transform.localScale = new Vector3(-1f, 1f, 1f);
         }
     }
 
@@ -270,7 +279,6 @@ public class CookieMouse3 : UnitObject
             else if(state.CURRENT_STATE == StateMachine.State.Dead)
             {
                 GameObject bombEffect = BombEffect;
-                Debug.Log(state.facingAngle);
 
                 if(0 <= xDir)
                 {
@@ -303,7 +311,7 @@ public class CookieMouse3 : UnitObject
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectionRange);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(transform.position, attackDistance);
+        Gizmos.DrawWireSphere(transform.position, detectionAttackRange);
     }
 
 }

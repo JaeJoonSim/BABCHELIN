@@ -32,11 +32,14 @@ public class StateMachine : MonoBehaviour
         Hide = 24,
         Hidden = 25,
         Delay = 26,
-
+        InstantKill = 27,
+        JumpDelay = 28,
+        Stun = 29,
+        PhaseChange = 30,
     }
 
     public delegate void StateChange(State NewState, State PrevState);
-    public bool IsPlayer;
+    public bool IsPlayer = false;
     public StateChange OnStateChange;
     [SerializeField] private State currentState;
     public float facingAngle;

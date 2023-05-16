@@ -11,9 +11,13 @@ public class GrapeBulletScript : BaseMonoBehaviour
     public float destroyTime = 5f;
 
     private ColliderEvents colliderEvents;
-    private Vector2 direction;
+    private Vector3 direction;
 
     public GameObject PlayerEffect;
+    public GameObject GroundEffect;
+
+    public float gravity = 1f;
+    private float time;
 
     private void Start()
     {
@@ -31,7 +35,17 @@ public class GrapeBulletScript : BaseMonoBehaviour
 
     private void Update()
     {
+        time += Time.deltaTime;
+        direction = new Vector3(direction.x, direction.y, (speed * Mathf.Sin(90f * Mathf.Deg2Rad) * time + 0.5f * gravity * time) / 50f);
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
+
+        if (transform.position.z >= 0)
+        {
+            GameObject groundEffect = GroundEffect;
+            groundEffect.transform.position = transform.position;
+            Instantiate(groundEffect);
+            Destroy(gameObject);
+        }
     }
 
     public void SetDirection(Vector2 newDirection)
@@ -48,9 +62,9 @@ public class GrapeBulletScript : BaseMonoBehaviour
 
             GameObject playerEffect = PlayerEffect;
             playerEffect.transform.position = transform.position;
-            Instantiate(PlayerEffect);
+            Instantiate(playerEffect);
 
-            Destroy(gameObject, 0f);
+            Destroy(gameObject);
         }
         else if (collider.tag == "Player")
         {

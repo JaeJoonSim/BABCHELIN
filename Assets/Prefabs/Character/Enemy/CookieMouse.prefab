@@ -364,15 +364,17 @@ MonoBehaviour:
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
-  AttackDistance: 0.5
+  AttackDistance: 1
   AttackDelay: 2
   AttackDuration: 0.3
   AttackTimer: 0
   delayTime: 1
   time: 0
   patrolRange: 10
-  patrolMoveDuration: 2
-  idleToPatrolDelay: 2
+  patrolMinTime: 3
+  patrolMaxTime: 5
+  idleMinTime: 3
+  idleMaxTime: 5
   forceDir: 0
   xDir: 0
   yDir: 0

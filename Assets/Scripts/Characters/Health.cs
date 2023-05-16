@@ -16,7 +16,7 @@ public class Health : BaseMonoBehaviour
     public int multipleHealthLine;
     public int HpLineAmount;
     public bool isPoisoned = false;
-    public bool IsPoisoned 
+    public bool IsPoisoned
     {
         get { return isPoisoned; }
         set { isPoisoned = value; }
@@ -30,6 +30,7 @@ public class Health : BaseMonoBehaviour
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
     [HideInInspector] public bool untouchable = false;
+    [HideInInspector] public bool damageDecrease = false;
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation, AttackType type);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage, AttackType type);
@@ -54,10 +55,20 @@ public class Health : BaseMonoBehaviour
         multipleHealthLine = (int)(currentHealth / HpLineAmount);
     }
 
-    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
+    public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type, int destructionCount = 0)
     {
         if (IsInvincible()) return;
         //if (Attacker == base.gameObject) return;
+
+        if (destructionCount > 0)
+        {
+            damage = damage - (damage * (destructionCount * 0.1f));
+        }
+
+        if (damageDecrease)
+        {
+            damage *= 0.01f;
+        }
 
         currentHealth -= damage;
 
@@ -99,15 +110,17 @@ public class Health : BaseMonoBehaviour
 
         while (elapsedTime < duration)
         {
-            meshRenderer.enabled = !meshRenderer.enabled;
+            if (meshRenderer != null)
+                meshRenderer.enabled = !meshRenderer.enabled;
             elapsedTime += blinkInterval;
             yield return new WaitForSeconds(blinkInterval);
         }
 
-        meshRenderer.enabled = true;
+        if (meshRenderer != null)
+            meshRenderer.enabled = true;
         isInvincible = false;
 
-        if(currentHealth > 0)
+        if (currentHealth > 0)
             state.ChangeToIdleState();
     }
 

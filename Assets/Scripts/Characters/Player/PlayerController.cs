@@ -24,31 +24,31 @@ public class PlayerController : BaseMonoBehaviour
     [HideInInspector] public float xDir;
     [HideInInspector] public float yDir;
 
-    [Space, Header("구르기")]
-    public float DodgeTimer;
-    public float DodgeSpeed = 12f;
-    public float DodgeAngle = 0f;
-    public float DodgeDuration = 0.3f;
-    public float DodgeMaxDuration = 0.5f;
-    public float DodgeDelay = 0.3f;
-    private float DodgeCollisionDelay;
+    [Header("회피")]
+    public bool showDodge = false;
+    [DrawIf("showDodge", true)] public float DodgeTimer;
+    [DrawIf("showDodge", true)] public float DodgeSpeed = 12f;
+    [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
+    [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
+    [DrawIf("showDodge", true)] public float DodgeMaxDuration = 0.5f;
+    [DrawIf("showDodge", true)] public float DodgeDelay = 0.3f;
+    [DrawIf("showDodge", true)] private float DodgeCollisionDelay;
 
     [Header("흡수")]
-    public float SuctionSpeed = 1f;
-    public float SuctionAngle = 30f;
-    public float SuctionRange = 10f;
-    public float SuctionDelay = 1f;
-    public ParticleSystem absorbEffet;
+    public bool showAbsorb = false;
+    [DrawIf("showAbsorb", true)] public float SuctionSpeed = 1f;
+    [DrawIf("showAbsorb", true)] public float SuctionAngle = 30f;
+    [DrawIf("showAbsorb", true)] public float SuctionRange = 10f;
+    [DrawIf("showAbsorb", true)] public float SuctionDelay = 1f;
+    [DrawIf("showAbsorb", true)] public ParticleSystem absorbEffet;
 
-    [Header("공격")]
+    [Header("공격"),Space]
+
     public int BulletGauge;
     public int maxBulletGauge;
-
     public GameObject[] Attack;
     public int CurAttack;
     public float[] AttackSpeed;
-    public ParticleSystem[] AttackEffet;
-
 
     public Transform muzzleBone;
     public Transform GrinderControl;
@@ -80,12 +80,11 @@ public class PlayerController : BaseMonoBehaviour
     {
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause)
         {
-            Debug.Log("Pause");
             return;
         }
 
-        xDir = Input.GetAxis("Horizontal");
-        yDir = Input.GetAxis("Vertical");
+        xDir = Input.GetAxisRaw("Horizontal");
+        yDir = Input.GetAxisRaw("Vertical");
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);

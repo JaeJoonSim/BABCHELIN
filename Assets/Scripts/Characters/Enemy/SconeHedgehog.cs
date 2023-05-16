@@ -5,7 +5,7 @@ using Spine;
 using Spine.Unity;
 using System.Collections;
 
-public class ConeIcecreamHedgehog : UnitObject
+public class SconeHedgehog : UnitObject
 {
     public Transform SpineTransform;
 

@@ -99,6 +99,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             track = value;
             track.AttachmentThreshold = 1f;
             track.MixDuration = 0f;
+            
         }
     }
     private TrackEntry secondTrack;
@@ -543,6 +544,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (Track != null)
         {
+            //Debug.Log(Track.Animation);
             switch (cs)
             {
                 case StateMachine.State.Idle:
@@ -726,24 +728,28 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     break;
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
-                    if (Hit != null)
+                    if (Hit != null && Track.Animation != Hit.Animation)
                     {
-                        anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
                     }
                     break;
                 case StateMachine.State.Dead:
-                    if (Dead != null)
+                    if (Dead != null && Track.Animation != Dead.Animation)
                     {
-                        anim.AnimationState.SetAnimation(AnimationTrack, Dead, loop: false);
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Dead, loop: false);
                     }
                     break;
                 case StateMachine.State.Pause:
-                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    if (Idle != null && Track.Animation != Idle.Animation)
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    }
+                   
                     break;
                 default:
-                    if (Idle != null && anim.AnimationState != null)
+                    if (Idle != null && Track.Animation != Idle.Animation)
                     {
-                        anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                     }
                     break;
             }
