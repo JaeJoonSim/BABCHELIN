@@ -19,6 +19,8 @@ public class PatternManager : BaseMonoBehaviour
 
     Skunk skunk;
 
+    public float waitNextPatternTime = 2.0f;
+
     private void Start()
     {
         skunk = health.gameObject.GetComponent<Skunk>();
@@ -46,6 +48,11 @@ public class PatternManager : BaseMonoBehaviour
             }
 
             if (remainingPatternDuration <= 0)
+            {
+                skunk.state.CURRENT_STATE = StateMachine.State.Idle;
+            }
+
+            if (remainingPatternDuration <= (waitNextPatternTime * -1))
             {
                 CurrentPattern.onPatternEnd?.Invoke();
                 DequeuePattern(health);

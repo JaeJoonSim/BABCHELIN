@@ -114,6 +114,16 @@ public class Skunk : UnitObject
     [DrawIf("showJumpPattern", true)]
     public float shockwaveDuration = 0.5f;
 
+    [Header("Runaway settings")]
+    public float runawaySpeed = 5f;
+    public float bombDropInterval = 2f;
+    public float waitAfterReachingDestination = 2f;
+    public GameObject bombPrefab;
+
+    public bool isRunningAway = false;
+    private Vector3 runawayDestination;
+    private float bombDropTimer;
+
     private void Start()
     {
         if (target == null)
@@ -198,6 +208,10 @@ public class Skunk : UnitObject
                 case StateMachine.State.Attacking:
                     break;
                 case StateMachine.State.Runaway:
+                    if (!isRunningAway)
+                    {
+                        StartCoroutine(RunawayAndDropBombs());
+                    }
                     break;
                 case StateMachine.State.Patrol:
                     break;
@@ -205,7 +219,6 @@ public class Skunk : UnitObject
                     if (!hasJumpAttacked)
                     {
                         StartCoroutine(JumpAttack());
-                        hasJumpAttacked = true;
                     }
                     break;
                 case StateMachine.State.Farting:
@@ -507,6 +520,57 @@ public class Skunk : UnitObject
             }
         }
         hasJumpAttacked = false;
+    }
+
+    private IEnumerator RunawayAndDropBombs()
+    {
+        isRunningAway = true;
+
+        if (mapObject == null)
+        {
+            mapObject = GameObject.FindWithTag("Ground");
+        }
+
+        BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+
+        if (mapCollider != null)
+        {
+            Vector2 mapBoundsMin = mapCollider.bounds.min;
+            Vector2 mapBoundsMax = mapCollider.bounds.max;
+
+            runawayDestination = new Vector2(
+                Random.Range(mapBoundsMin.x, mapBoundsMax.x),
+                Random.Range(mapBoundsMin.y, mapBoundsMax.y)
+            );
+        }
+        else
+        {
+            Debug.LogWarning("mapObject does not have a BoxCollider2D! Using current position as the runawayDestination.");
+            runawayDestination = transform.position;
+        }
+
+        while (Vector3.Distance(transform.position, runawayDestination) > 1f)
+        {
+            if (state.CURRENT_STATE != StateMachine.State.Runaway)
+            {
+                isRunningAway = false;
+                yield break;
+            }
+
+            Vector3 direction = (runawayDestination - transform.position).normalized;
+            agent.Move(direction * runawaySpeed * Time.deltaTime);
+            bombDropTimer += Time.deltaTime;
+            if (bombDropTimer >= bombDropInterval && bombPrefab != null)
+            {
+                Instantiate(bombPrefab, transform.position, Quaternion.identity);
+                bombDropTimer = 0f;
+            }
+            yield return null;
+        }
+        
+        yield return new WaitForSeconds(waitAfterReachingDestination);
+        
+        isRunningAway = false;
     }
 
     #endregion

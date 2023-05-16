@@ -821,6 +821,7 @@ MonoBehaviour:
   basicPatterns: []
   gimmickPatterns: []
   usedGimmickPatterns: []
+  patternChangeDelay: 1
   remainingPatternDuration: 0
   health: {fileID: 1907767823}
 --- !u!4 &502016576
@@ -3549,8 +3550,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 0
-  currentState: 30
+  IsPlayer: 1
+  currentState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -3653,8 +3654,8 @@ MonoBehaviour:
   maxSpeed: 0.05
   patternManager: {fileID: 502016575}
   phase1BasicPatterns:
-  - {fileID: 11400000, guid: 6e1e7a145e2b8b641bb4305bb84648af, type: 2}
-  - {fileID: 11400000, guid: 09c3925b2eeabbd4daa7d6c3d527f242, type: 2}
+  - {fileID: 11400000, guid: c85125f8e618ad94a95d88652eaa5a70, type: 2}
+  - {fileID: 11400000, guid: c7e7b4e214b0d4e43b39e67f963a9fdb, type: 2}
   phase2BasicPatterns: []
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
@@ -3702,12 +3703,20 @@ MonoBehaviour:
   dropDelay: 0.5
   zOffset: -10
   bombPrefabs:
+  - {fileID: 5709324960040911722, guid: dd6949932c6bc2b4f91409fe11671027, type: 3}
+  - {fileID: 5709324960040911722, guid: 19c1162b0eb7404448035c3a1cb5971a, type: 3}
+  - {fileID: 5709324960040911722, guid: 13c7e59cd6186424db4792e7c338de8a, type: 3}
   - {fileID: 5709324960040911722, guid: 22e1611e78945f148afa6b30c5efd148, type: 3}
   showJumpPattern: 1
   shockwavePrefab: {fileID: 8694230099179371521, guid: 4119cd01e13dda64db90786aae0eb0c2,
     type: 3}
   shockwaveRange: 5
   shockwaveDuration: 1.5
+  runawaySpeed: 10
+  bombDropInterval: 2
+  waitAfterReachingDestination: 1
+  bombPrefab: {fileID: 0}
+  isRunningAway: 0
 --- !u!114 &1907767828
 MonoBehaviour:
   m_ObjectHideFlags: 0
