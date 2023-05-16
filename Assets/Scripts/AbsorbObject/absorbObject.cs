@@ -63,7 +63,7 @@ public class absorbObject : MonoBehaviour
     {
         if (!isAbsorb)
         {
-            if (inAbsorbArea)
+            if (inAbsorbArea && transform.position.z >= 0f)
             {
                 curAbsorbTime -= Time.deltaTime;
 
@@ -114,8 +114,12 @@ public class absorbObject : MonoBehaviour
         {
             collision.GetComponent<PlayerController>().addBullet(addBullet);
             Destroy(gameObject);
+
+            Cream parent = gameObject.GetComponentInParent<Cream>();
+            if (parent != null)
+                Destroy(parent);
         }
- 
+
     }
 
 }

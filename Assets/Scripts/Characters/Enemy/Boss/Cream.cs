@@ -69,6 +69,7 @@ public class Cream : MonoBehaviour
                     break;
                 }
             }
+            hasDamaged = true;
         }
 
         UpdateLandingIndicator();
