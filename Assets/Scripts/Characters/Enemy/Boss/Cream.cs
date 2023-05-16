@@ -19,6 +19,7 @@ public class Cream : MonoBehaviour
     private GameObject landingIndicator;
     public float yOffset = 0.1f;
     private bool hasDamaged = false;
+    public ParticleSystem throwEffect;
 
     private void Start()
     {
@@ -97,6 +98,8 @@ public class Cream : MonoBehaviour
             }
             else
             {
+                if (throwEffect != null)
+                    throwEffect.Play();
                 Destroy(landingIndicator);
             }
         }

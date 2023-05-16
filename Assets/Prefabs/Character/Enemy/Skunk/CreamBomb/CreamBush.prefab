@@ -32,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6972612385965008837}
+  - {fileID: 4935818590996685383}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -91,6 +92,7 @@ MonoBehaviour:
   indicatorRadius: 2
   fallingDamage: 1
   yOffset: 0.1
+  throwEffect: {fileID: 4935818590996685382}
 --- !u!1001 &4544299546553860206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -165,4 +167,85 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6904909218191583147, guid: 444a20140bd2a964abb58f64fed6b6a8,
     type: 3}
   m_PrefabInstance: {fileID: 4544299546553860206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &7718616749064256773
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5709324960040911721}
+    m_Modifications:
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3414157130813054845, guid: e620c85c47078c34387895b86a0e770b,
+        type: 3}
+      propertyPath: m_Name
+      value: Skunk Cream Throw Effect 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e620c85c47078c34387895b86a0e770b, type: 3}
+--- !u!198 &4935818590996685382 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 3414157130813054787, guid: e620c85c47078c34387895b86a0e770b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7718616749064256773}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4935818590996685383 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3414157130813054786, guid: e620c85c47078c34387895b86a0e770b,
+    type: 3}
+  m_PrefabInstance: {fileID: 7718616749064256773}
   m_PrefabAsset: {fileID: 0}
