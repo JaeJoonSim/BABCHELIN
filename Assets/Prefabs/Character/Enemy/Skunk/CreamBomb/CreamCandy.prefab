@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5709324960040911722
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5709324960040911721}
+  - component: {fileID: 5491962324675648713}
+  - component: {fileID: 136468772146748960}
+  - component: {fileID: 1770818277674014111}
+  m_Layer: 0
+  m_Name: CreamCandy
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5709324960040911721
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709324960040911722}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.11, y: 3.34, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 328480995267521814}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &5491962324675648713
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709324960040911722}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
+--- !u!50 &136468772146748960
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709324960040911722}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!114 &1770818277674014111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5709324960040911722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a652a5ae0e91ff345982b0b51a02cd9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bombCollider: {fileID: 0}
+  gravity: 9.81
+  landingIndicatorPrefab: {fileID: 4137881345454485455, guid: de652f318ff83704aaaa25dd08494a31,
+    type: 3}
+  indicatorRadius: 2
+  fallingDamage: 1
+  yOffset: 0.1
+--- !u!1001 &6583653389052283581
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5709324960040911721}
+    m_Modifications:
+    - target: {fileID: 6904909218191583146, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_Name
+      value: Dungeon_candy_1_1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 38fc7e3c723efcd4a9a5296fffffef83, type: 3}
+--- !u!4 &328480995267521814 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6904909218191583147, guid: 38fc7e3c723efcd4a9a5296fffffef83,
+    type: 3}
+  m_PrefabInstance: {fileID: 6583653389052283581}
+  m_PrefabAsset: {fileID: 0}
