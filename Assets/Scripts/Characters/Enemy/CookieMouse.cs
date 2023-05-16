@@ -7,6 +7,21 @@ using Spine.Unity;
 public class CookieMouse : UnitObject
 {
     public Transform SpineTransform;
+    public int AnimationTrack = 0;
+    private SkeletonAnimation _anim;
+    private SkeletonAnimation anim
+    {
+        get
+        {
+            if (_anim == null)
+            {
+                _anim = this.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            }
+            return _anim;
+        }
+    }
+    public AnimationReferenceAsset Walk;
+    private float aniCount = 0;
 
     public float Damaged = 2f;
     bool hasAppliedDamage = false;
@@ -115,6 +130,14 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Patrol:
+                    if (Walk != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
+                            aniCount++;
+                        }
+                    }
                     Patrol();
                     break;
 
@@ -231,6 +254,7 @@ public class CookieMouse : UnitObject
         else
         {
             agent.isStopped = true;
+            aniCount = 0;
             patrolTimer = 0f;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -238,6 +262,7 @@ public class CookieMouse : UnitObject
 
         if (isPlayerInRange)
         {
+            aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
         }

@@ -118,6 +118,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,6 +177,9 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 572980232343476603}
+  AnimationTrack: 0
+  Walk: {fileID: 11400000, guid: b63f165d890b5bb4796d38f8ff897327, type: 2}
+  Runaway: {fileID: 11400000, guid: 09db6e3304e18c3448eb532a827940f3, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
@@ -435,12 +439,12 @@ PrefabInstance:
     - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1274.925
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -723.325
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4749391056252403431, guid: bbfffd681482f2949b4d2cd9b8024cb5,
         type: 3}
@@ -521,12 +525,12 @@ PrefabInstance:
     - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1274.925
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -723.325
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 4749391056252403431, guid: 8ab619b0a58df2749963ea2651d7e499,
         type: 3}

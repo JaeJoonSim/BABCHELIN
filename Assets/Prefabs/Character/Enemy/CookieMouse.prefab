@@ -303,6 +303,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -361,12 +362,13 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 8270591769108072770}
+  AnimationTrack: 0
+  Walk: {fileID: 0}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
   AttackDistance: 1
   AttackDelay: 2
-  AttackDuration: 0.3
   AttackTimer: 0
   delayTime: 1
   time: 0

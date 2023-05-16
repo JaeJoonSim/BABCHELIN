@@ -83,4 +83,5 @@ public class UnitObject : BaseMonoBehaviour
     {
         CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
     }
+
 }

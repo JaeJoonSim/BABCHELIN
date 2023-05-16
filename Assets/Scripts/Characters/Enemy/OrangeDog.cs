@@ -28,8 +28,6 @@ public class OrangeDog : UnitObject
     public float Damaged = 2f;
     bool hasAppliedDamage = false;
 
-    Rigidbody2D rb2d;
-
     [Space]
 
     [SerializeField] Transform target;
@@ -78,9 +76,16 @@ public class OrangeDog : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    Rigidbody2D rb2d;
+
+    public float gravity = 9.81f;
+    private float fallSpeed = 0f;
+    private Vector3 fallDirection = new Vector3(0, 0, 1);
+
     private void Start()
     {
-        rb2d = gameObject.GetComponent<Rigidbody2D>();
+        rb2d = transform.GetComponent<Rigidbody2D>();
+
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -102,7 +107,7 @@ public class OrangeDog : UnitObject
     public override void Update()
     {
         base.Update();
-
+        fallDirection = new Vector3(transform.position.x, transform.position.y, 1);
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             FollowTarget();
@@ -216,18 +221,52 @@ public class OrangeDog : UnitObject
                     agent.isStopped = false;
                     agent.speed = 7f;
                     //float distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
-                    agent.SetDestination(jumpPoint);
+                    //if (distanceToPlayer > distanceToJumppoint / 2)
+                    //{
+                    //    time2 += Time.deltaTime;
+                    //    transform.position -= jumpVector;
+                    //    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - time2);
+                    //}
+                    //else
+                    //{
+                    //    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + time2);
+                    //}
 
-                    distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
+                    //if(transform.position.z > -2)
+                    //{
+                    //    time += Time.deltaTime;
+                    //    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - time);
+                    //}
+                    //else if (transform.position.z <= -2)
+                    //{
+                    //    time2 += Time.deltaTime;
+                    //    agent.SetDestination(jumpPoint);
+                    //    rb2d.gravityScale = 2f;
+                    //    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + time2);
+                    //}
 
-                    if(distanceToJumppoint < 0.5f)
+                    if(transform.position.z < -5)
                     {
-                        playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                        state.CURRENT_STATE = StateMachine.State.JumpDelay;
+                        fallSpeed -= gravity * Time.deltaTime;
+                        transform.position += fallDirection * fallSpeed * Time.deltaTime;
                     }
+
+                    //if (transform.position.z < 0f)
+                    //{
+                    //    fallSpeed += gravity * Time.deltaTime;
+                    //    transform.position += fallDirection * fallSpeed * Time.deltaTime;
+                    //}
+
+                    //if (distanceToJumppoint < 0.5f)
+                    //{
+                    //    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+                    //    state.CURRENT_STATE = StateMachine.State.JumpDelay;
+                    //}
                     //if (transform.position.z > -0.03333196f)
                     //{
+                    //    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                     //    transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.03333196f);
+                    //    rb2d.gravityScale = 0f;
                     //    state.CURRENT_STATE = StateMachine.State.Delay;
                     //}
                     break;
@@ -250,6 +289,8 @@ public class OrangeDog : UnitObject
                                 this.transform.localScale = new Vector3(-1f, 1f, 1f);
                             }
                             jumpPoint = target.transform.position;
+                            distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
+                            time2 = 0;
                             state.CURRENT_STATE = StateMachine.State.Jump;
                         }
                         else

@@ -8,6 +8,22 @@ using System.Collections;
 public class CookieMouse2 : UnitObject
 {
     public Transform SpineTransform;
+    public int AnimationTrack = 0;
+    private SkeletonAnimation _anim;
+    private SkeletonAnimation anim
+    {
+        get
+        {
+            if (_anim == null)
+            {
+                _anim = this.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            }
+            return _anim;
+        }
+    }
+    public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Runaway;
+    private int aniCount = 0;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -198,11 +214,27 @@ public class CookieMouse2 : UnitObject
                     break;
 
                 case StateMachine.State.Patrol:
+                    if (Walk != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
+                            aniCount++;
+                        }
+                    }
                     Patrol();
                     break;
                 case StateMachine.State.Runaway:
                     SlideEffect_L.SetActive(false);
                     SlideEffect_R.SetActive(false);
+                    if (Runaway != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Runaway, loop: true);
+                            aniCount++;
+                        }
+                    }
                     RunAway();
                     break;
             }
@@ -278,6 +310,7 @@ public class CookieMouse2 : UnitObject
         else
         {
             agent.isStopped = true;
+            aniCount = 0;
             patrolTimer = 0f;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -285,6 +318,7 @@ public class CookieMouse2 : UnitObject
 
         if (isPlayerInRange)
         {
+            aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
         }
@@ -319,6 +353,7 @@ public class CookieMouse2 : UnitObject
         else
         {
             moveTime = 0;
+            aniCount = 0;
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
     }

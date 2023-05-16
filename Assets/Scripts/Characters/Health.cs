@@ -102,7 +102,7 @@ public class Health : BaseMonoBehaviour
         OnDie?.Invoke();
     }
 
-    protected IEnumerator InvincibilityAndBlink(float duration)
+    protected virtual IEnumerator InvincibilityAndBlink(float duration)
     {
         isInvincible = true;
         float blinkInterval = 0.1f;

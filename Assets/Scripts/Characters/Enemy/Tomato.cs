@@ -22,7 +22,7 @@ public class Tomato : UnitObject
     }
     public AnimationReferenceAsset Hidden;
     public AnimationReferenceAsset Runaway;
-    private int ac = 0;
+    private int aniCount = 0;
 
     public float Damaged = 1f;
 
@@ -41,7 +41,7 @@ public class Tomato : UnitObject
     [SerializeField] float AttackCount = 0f;
     [SerializeField] float delayTime = 1f;
     [SerializeField] float time = 0;
-    private float runawayCount = 1;
+    private int runawayCount = 1;
     private bool isShot = false;
 
     private Health playerHealth;
@@ -102,8 +102,12 @@ public class Tomato : UnitObject
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             FollowTarget();
-            if(playerHealth.CurrentHP() <= 3)
+
+            if(health.CurrentHP() <= 3 && runawayCount >= 1)
             {
+                Debug.Log(health.CurrentHP());
+                detectionRange *= 2;
+                runawayCount--;
                 state.CURRENT_STATE = StateMachine.State.Runaway;
             }
         }
@@ -123,18 +127,17 @@ public class Tomato : UnitObject
                     //agent.isStopped = true;
                     if (Hidden != null)
                     {
-                        while (ac < 1)
+                        while (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, Hidden, loop: true);
-                            ac++;
+                            aniCount++;
                         }
                     }
 
                     if (isPlayerInRange)
                     {
                         //moveTime = UnityEngine.Random.Range(2, 4);
-                        ac = 0;
-                        runawayCount--;
+                        aniCount = 0;
                         movePoint = target.position;
                         directionToPoint = (transform.position - movePoint).normalized;
                         state.CURRENT_STATE = StateMachine.State.Runaway;
@@ -155,7 +158,7 @@ public class Tomato : UnitObject
 
                     if (distanceToPlayer <= detectionAttackRange)
                     {
-                        ac = 0;
+                        aniCount = 0;
                         moveTime = 0;
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
@@ -171,10 +174,10 @@ public class Tomato : UnitObject
                 case StateMachine.State.Runaway:
                     if (Runaway != null)
                     {
-                        while (ac < 1)
+                        while (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, Runaway, loop: true);
-                            ac++;
+                            aniCount++;
                         }
                     }
                     RunAway();
@@ -345,20 +348,19 @@ public class Tomato : UnitObject
         xDir = Mathf.Clamp((transform.position.x + directionToPoint.x), -1f, 1f);
         if (moveTime <= 2)
         {
-            Debug.Log(target.transform.position);
             distanceToPlayer = Vector3.Distance(transform.position, target.position);
             agent.SetDestination(transform.position + directionToPoint);
 
-            if(detectionRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
+            if(detectionRange < distanceToPlayer)
             {
-                ac = 0;
+                aniCount = 0;
                 moveTime = 0;
                 state.CURRENT_STATE = StateMachine.State.Attacking;
             }
         }
         else
         {
-            ac = 0;
+            aniCount = 0;
             moveTime = 0;
             state.CURRENT_STATE = StateMachine.State.Idle;
         }

@@ -193,8 +193,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3275738440347693763}
-  - component: {fileID: 3275738440347693766}
-  - component: {fileID: 3275738440347693767}
+  - component: {fileID: 2136423636588843370}
+  - component: {fileID: 1562910686434002550}
   - component: {fileID: 3275738440347693760}
   - component: {fileID: 3275738440347693761}
   - component: {fileID: 3275738440347693762}
@@ -208,7 +208,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -225,7 +225,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!50 &3275738440347693766
+--- !u!50 &2136423636588843370
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -246,14 +246,14 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!58 &3275738440347693767
+--- !u!58 &1562910686434002550
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3275738440347693820}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -300,6 +300,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -370,6 +371,7 @@ MonoBehaviour:
   AttackTimer: 0
   delayTime: 1
   time: 0
+  time2: 0
   patrolRange: 10
   patrolMinTime: 3
   patrolMaxTime: 5
