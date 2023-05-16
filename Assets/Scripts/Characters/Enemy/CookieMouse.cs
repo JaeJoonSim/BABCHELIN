@@ -65,6 +65,8 @@ public class CookieMouse : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private Cream creamParent;
+
     private void Start()
     {
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
@@ -83,11 +85,18 @@ public class CookieMouse : UnitObject
 
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
+
+        creamParent = gameObject.GetComponentInParent<Cream>();
+        if (creamParent != null)
+            agent.enabled = false;
     }
 
     public override void Update()
     {
         base.Update();
+
+        if (creamParent != null && !agent.enabled && transform.position.z >= 0)
+            agent.enabled = true;
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
@@ -144,7 +153,8 @@ public class CookieMouse : UnitObject
                 case StateMachine.State.Moving:
                     agent.speed = 3f;
                     AttackTimer = 0f;
-                    agent.isStopped = false;
+                    if (agent.enabled)
+                        agent.isStopped = false;
                     if (Time.timeScale == 0f)
                         break;
 
@@ -157,7 +167,8 @@ public class CookieMouse : UnitObject
                         this.transform.localScale = new Vector3(-1f, 1f, 1f);
                     }
 
-                    agent.SetDestination(target.position);
+                    if (agent.enabled)
+                        agent.SetDestination(target.position);
 
                     if (distanceToPlayer <= AttackDistance)
                     {
@@ -181,7 +192,7 @@ public class CookieMouse : UnitObject
                     AttackTimer += Time.deltaTime;
                     agent.isStopped = true;
 
-                    if(AttackTimer >= 0.7)
+                    if (AttackTimer >= 0.7)
                     {
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
@@ -230,7 +241,8 @@ public class CookieMouse : UnitObject
             }
             else
             {
-                agent.isStopped = true;
+                if (agent.enabled)
+                    agent.isStopped = true;
                 xDir = 0f;
                 yDir = 0f;
             }
@@ -275,7 +287,7 @@ public class CookieMouse : UnitObject
         else
         {
             this.transform.localScale = new Vector3(-1f, 1f, 1f);
-        } 
+        }
     }
 
     private Vector3 GetRandomPositionInPatrolRange()
