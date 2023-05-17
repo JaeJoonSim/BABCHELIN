@@ -19,6 +19,7 @@ public class SkunkBomb : BaseMonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            Debug.Log("플레이어 접촉");
             StopCoroutine(explosionCoroutine);
             Explode();
         }
