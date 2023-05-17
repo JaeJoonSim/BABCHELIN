@@ -7766,6 +7766,7 @@ GameObject:
   - component: {fileID: 6160722343811252263}
   - component: {fileID: 6160722343811252256}
   - component: {fileID: 6160722343811252258}
+  - component: {fileID: 1318243719}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -7876,6 +7877,7 @@ MonoBehaviour:
   DodgeDuration: 0.5
   DodgeMaxDuration: 0.5
   DodgeDelay: 2
+  showAbsorb: 0
   SuctionSpeed: 10
   SuctionAngle: 50
   SuctionRange: 3.3
@@ -7892,10 +7894,6 @@ MonoBehaviour:
   - 0
   - 3
   - 3
-  AttackEffet:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   muzzleBone: {fileID: 3539228761506531520}
   GrinderControl: {fileID: 7891809091688786568}
   BulletUI: {fileID: 2240774985979930406}
@@ -7987,6 +7985,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
   controller: {fileID: 0}
   KnockbackForce: 2
   RetryPanel: {fileID: 6160722343175086447}
@@ -7996,6 +7995,69 @@ MonoBehaviour:
   poisonDamage: 0
   poisonDamageInterval: 0
   poisonIntervalCounter: 0
+--- !u!114 &1318243719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160722343811252264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: -944628639613478452, guid: 049427c115734ca46ab9dffb2a4d2431,
+    type: 3}
+  m_NotificationBehavior: 2
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: move
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 93e3291c-6bbe-4298-b578-6aa1bb886f00
+    m_ActionName: Action/Move[/Keyboard/w,/Keyboard/a,/Keyboard/s,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: mouse
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5d9bbce6-4e97-4de6-b237-ecacb89cbfc6
+    m_ActionName: Action/New action
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: Player
+  m_DefaultActionMap: Action
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &6160722343933064625
 GameObject:
   m_ObjectHideFlags: 0
