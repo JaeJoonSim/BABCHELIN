@@ -104,6 +104,12 @@ public class CookieMouse3 : UnitObject
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
+
+        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        {
+            state.LockStateChanges = false;
+        }
+
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
@@ -163,6 +169,7 @@ public class CookieMouse3 : UnitObject
                     detectionRange *= 2f;
                     break;
                 case StateMachine.State.Attacking:
+                    state.LockStateChanges = true;
                     agent.speed = 0f;
                     agent.isStopped = true;
                     AttackTimer += Time.deltaTime;

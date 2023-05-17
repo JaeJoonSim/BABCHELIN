@@ -9,6 +9,7 @@ public class Health : BaseMonoBehaviour
     {
         Normal,
         Poison,
+
     }
 
     [SerializeField] protected float maxHealth;
@@ -31,6 +32,8 @@ public class Health : BaseMonoBehaviour
     [HideInInspector] public bool isInvincible = false;
     [HideInInspector] public bool untouchable = false;
     [HideInInspector] public bool damageDecrease = false;
+
+    [SerializeField] private bool isMonster;
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation, AttackType type);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage, AttackType type);
@@ -97,6 +100,7 @@ public class Health : BaseMonoBehaviour
     {
         // 사망 로직 구현
         //Debug.Log($"{base.gameObject.name} Dead");
+        state.LockStateChanges = false;
         untouchable = true;
         state.CURRENT_STATE = StateMachine.State.Dead;
         OnDie?.Invoke();
@@ -121,13 +125,23 @@ public class Health : BaseMonoBehaviour
         isInvincible = false;
 
         if (currentHealth > 0)
-            state.ChangeToIdleState();
+        {
+            if(isMonster)
+            {
+                state.ChangeToPreviousState();
+                Debug.Log(state.CURRENT_STATE);
+            }
+            else
+            {
+                state.ChangeToIdleState();
+            }
+        }
     }
 
     protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage, AttackType type)
     {
-        if (type == AttackType.Normal)
-        {
+        if(type == AttackType.Normal)
+            {
             StartCoroutine(InvincibilityAndBlink(recoveryTime));
             state.ChangeToHitState(attackLocation);
         }

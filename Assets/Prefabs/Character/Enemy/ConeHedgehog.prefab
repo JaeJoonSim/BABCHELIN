@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4262851435986658329
 Transform:
   m_ObjectHideFlags: 0
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -112,9 +113,12 @@ MonoBehaviour:
   currentHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
+  isPoisoned: 0
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
+  isMonster: 0
 --- !u!114 &4262851435986658328
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,7 +182,9 @@ MonoBehaviour:
   detectionRange: 7
   detectionAttackRange: 3
   attackDistance: 0.3
-  moveTime: 0
+  dashTime: 0
+  delayTime: 5
+  time: 0
   AttackDelay: 0
   AttackDuration: 0.3
   AttackTimer: 0
@@ -376,7 +382,9 @@ MonoBehaviour:
   Moving: {fileID: 11400000, guid: e7108f96e72967c489a736730fd2cfda, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
+  NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
+  SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 1a12b34f4e6bf404d8f3d9c65f8e5524, type: 2}
   NorthAttack: {fileID: 0}

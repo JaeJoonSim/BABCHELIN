@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4265093594819362734}
   - component: {fileID: 4265093594819362729}
   - component: {fileID: 4265093594819362728}
+  - component: {fileID: 4265093594819362721}
   - component: {fileID: 4265093594819362732}
   - component: {fileID: 4265093594819362722}
   - component: {fileID: 4265093594819362723}
-  - component: {fileID: 4265093594819362721}
   m_Layer: 8
-  m_Name: Bird
+  m_Name: BerryBird
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,9 +109,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
+  multipleHealthLine: 0
+  HpLineAmount: 0
+  isPoisoned: 0
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  damageDecrease: 0
+--- !u!114 &4265093594819362721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265093594819362709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f88204897db36324faf288bfde5e7b4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  state: {fileID: 0}
+  health: {fileID: 0}
+  vx: 0
+  vy: 0
+  moveVX: 0
+  moveVY: 0
+  speed: 0
+  maxSpeed: 0.05
+  SpineTransform: {fileID: 9079983999551196370}
+  AnimationTrack: 0
+  Walk: {fileID: 0}
+  Damaged: 1
+  target: {fileID: 0}
+  detectionRange: 5
+  detectionAttackRange: 0
+  AttackDelay: 2
+  AttackDuration: 0.3
+  AttackTimer: 0
+  delayTime: 1
+  time: 0
+  moveTime: 0
+  patrolRange: 5
+  patrolMinTime: 0
+  patrolMaxTime: 0
+  idleMinTime: 0
+  idleMaxTime: 0
+  forceDir: 0
+  xDir: 0
+  yDir: 0
+  BulletObject: {fileID: 0}
+  BombEffect: {fileID: 0}
+  ExplosionEffect: {fileID: 0}
 --- !u!114 &4265093594819362732
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,43 +210,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4265093594819362721
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265093594819362709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f88204897db36324faf288bfde5e7b4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  state: {fileID: 0}
-  health: {fileID: 0}
-  vx: 0
-  vy: 0
-  moveVX: 0
-  moveVY: 0
-  speed: 0
-  maxSpeed: 0.05
-  SpineTransform: {fileID: 9079983999551196370}
-  bullet: {fileID: 0}
-  target: {fileID: 0}
-  detectionRange: 5
-  AttackDistance: 2
-  AttackDelay: 2
-  AttackDuration: 0.3
-  AttackTimer: 0
-  forceDir: 0
-  xDir: 0
-  yDir: 0
-  patrolRange: 5
-  patrolMoveDuration: 2
-  patrolIdleDuration: 1
-  runawaySpeedMultiplier: 1
-  idleToPatrolDelay: 2
 --- !u!1 &9079983999551196373
 GameObject:
   m_ObjectHideFlags: 0
@@ -352,7 +364,9 @@ MonoBehaviour:
   Moving: {fileID: 11400000, guid: 787f51fb902ba20438ec6e965dbd860d, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
+  NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
+  SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: bbafa37e8ef201b428da3707ba319e63, type: 2}
   NorthAttack: {fileID: 0}
