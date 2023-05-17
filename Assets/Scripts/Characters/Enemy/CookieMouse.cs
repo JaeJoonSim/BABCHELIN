@@ -108,6 +108,12 @@ public class CookieMouse : UnitObject
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
             forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
         }
+
+        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        {
+            state.LockStateChanges = false;
+        }
+
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
@@ -188,6 +194,7 @@ public class CookieMouse : UnitObject
 
                 case StateMachine.State.Attacking:
                     SpineTransform.localPosition = Vector3.zero;
+                    state.LockStateChanges = true;
                     forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
                     agent.isStopped = true;
