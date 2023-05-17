@@ -3552,6 +3552,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -3577,6 +3578,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!58 &1907767824
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3654,9 +3656,11 @@ MonoBehaviour:
   maxSpeed: 0.05
   patternManager: {fileID: 502016575}
   phase1BasicPatterns:
-  - {fileID: 11400000, guid: c85125f8e618ad94a95d88652eaa5a70, type: 2}
   - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
-  phase2BasicPatterns: []
+  - {fileID: 11400000, guid: 9fb21205ee5ee08428dcfe7cb70f0c49, type: 2}
+  phase2BasicPatterns:
+  - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
+  - {fileID: 11400000, guid: c7e7b4e214b0d4e43b39e67f963a9fdb, type: 2}
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 0}
@@ -3724,6 +3728,8 @@ MonoBehaviour:
   shieldRadius: 2
   waitIdleTime: 2
   isShieldActive: 0
+  healthLineThreshold: 1
+  objectToSpawnDuringOutburst: {fileID: 0}
 --- !u!114 &1907767828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4287,6 +4293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -4312,6 +4319,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!4 &4265093593579167795
 Transform:
   m_ObjectHideFlags: 0
@@ -4436,21 +4444,28 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 9079983998375957323}
-  bullet: {fileID: 2862424241139748284, guid: 4b9de06b6d7e6fc438b0d3c6b66e62d5, type: 3}
+  AnimationTrack: 0
+  Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
-  AttackDistance: 2
+  detectionAttackRange: 0
+  moveTime: 0
   AttackDelay: 2
   AttackDuration: 0.3
   AttackTimer: 0
+  delayTime: 1
+  time: 0
+  patrolRange: 5
+  patrolMinTime: 0
+  patrolMaxTime: 0
+  idleMinTime: 0
+  idleMaxTime: 0
   forceDir: 0
   xDir: 0
   yDir: 0
-  patrolRange: 5
-  patrolMoveDuration: 2
-  patrolIdleDuration: 1
-  runawaySpeedMultiplier: 1
-  idleToPatrolDelay: 2
+  BulletObject: {fileID: 0}
+  BombEffect: {fileID: 0}
+  ExplosionEffect: {fileID: 0}
 --- !u!1001 &4365943962577559183
 PrefabInstance:
   m_ObjectHideFlags: 0

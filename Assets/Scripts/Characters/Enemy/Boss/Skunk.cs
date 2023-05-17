@@ -132,7 +132,12 @@ public class Skunk : UnitObject
     public float waitIdleTime = 2.0f;
     [HideInInspector] public bool isShieldActive = false;
     private float shieldRegenTimer;
-    private float shieldHealth;
+
+    [Header("Outburst settings")]
+    public int healthLineThreshold = 1;
+    public float outburstDamage = 5f;
+    public GameObject objectToSpawnDuringOutburst;
+    private int lastHealthLine;
 
     private void Start()
     {
@@ -204,6 +209,12 @@ public class Skunk : UnitObject
             state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
 
+        if (currentPhase == 2 && lastHealthLine - health.multipleHealthLine >= healthLineThreshold)
+        {
+            state.CURRENT_STATE = StateMachine.State.Outburst;
+            lastHealthLine = health.multipleHealthLine;
+        }
+
         DestructionPart();
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
@@ -242,7 +253,7 @@ public class Skunk : UnitObject
                     if (!isShieldActive)
                     {
                         shieldRegenTimer -= Time.deltaTime;
-                        if(shieldRegenTimer <= 0)
+                        if (shieldRegenTimer <= 0)
                         {
                             CreateShield();
                             StartCoroutine(KeepStateIdle(waitIdleTime));
@@ -281,7 +292,7 @@ public class Skunk : UnitObject
                         {
                             StartCoroutine(CreamThrow());
                         }
-                        
+
                     }
                     else if (isPhaseChanged)
                     {
@@ -298,6 +309,12 @@ public class Skunk : UnitObject
                     {
                         state.CURRENT_STATE = StateMachine.State.InstantKill;
                         isPhaseChanged = true;
+                    }
+                    break;
+                case StateMachine.State.Outburst:
+                    if (!isRunningAway)
+                    {
+                        StartCoroutine(OutburstAttack());
                     }
                     break;
                 case StateMachine.State.Dead:
@@ -590,9 +607,9 @@ public class Skunk : UnitObject
             }
             yield return null;
         }
-        
+
         yield return new WaitForSeconds(waitAfterReachingDestination);
-        
+
         isRunningAway = false;
     }
 
@@ -625,6 +642,38 @@ public class Skunk : UnitObject
         state.CURRENT_STATE = StateMachine.State.Idle;
         yield return new WaitForSeconds(time);
         isPatternPause = false;
+    }
+
+    private void DealDamageToPlayer(float damage)
+    {
+        playerHealth.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
+    }
+
+    private IEnumerator OutburstAttack()
+    {
+        isRunningAway = true;
+
+        Vector3 playerPosition = target.position;
+        Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+
+        while (Vector3.Distance(transform.position, playerPosition) > 0.1f)
+        {
+            transform.position += directionToPlayer * runawaySpeed * Time.deltaTime;
+
+            if (objectToSpawnDuringOutburst != null && isShieldActive)
+                Instantiate(objectToSpawnDuringOutburst, transform.position, Quaternion.identity);
+
+            if (Vector3.Distance(transform.position, playerPosition) < 1f)
+            {
+                DealDamageToPlayer(outburstDamage);
+                break;
+            }
+
+            yield return null;
+        }
+
+        isRunningAway = false;
+        state.CURRENT_STATE = StateMachine.State.Idle;
     }
 
     #endregion
