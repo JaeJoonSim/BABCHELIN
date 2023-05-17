@@ -48,6 +48,9 @@ public class Health : BaseMonoBehaviour
         meshRenderer = GetComponentInChildren<MeshRenderer>();
 
         OnDamaged += ApplyChangeToHitState;
+
+        if (HpLineAmount <= 0)
+            HpLineAmount = 1;
     }
 
     private void Update()

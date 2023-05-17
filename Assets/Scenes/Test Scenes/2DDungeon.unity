@@ -3550,7 +3550,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 1
+  IsPlayer: 0
   currentState: 0
   facingAngle: 0
   LookAngle: 0
@@ -3655,7 +3655,7 @@ MonoBehaviour:
   patternManager: {fileID: 502016575}
   phase1BasicPatterns:
   - {fileID: 11400000, guid: c85125f8e618ad94a95d88652eaa5a70, type: 2}
-  - {fileID: 11400000, guid: c7e7b4e214b0d4e43b39e67f963a9fdb, type: 2}
+  - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
   phase2BasicPatterns: []
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
@@ -3718,6 +3718,12 @@ MonoBehaviour:
   bombPrefab: {fileID: 4745528697331135154, guid: b0d1a371d3faad34f9c67cd8771f75f6,
     type: 3}
   isRunningAway: 0
+  shieldPrefab: {fileID: 2004267044961894299, guid: daaf44fa2cad181498d90a60140fbb4a,
+    type: 3}
+  shieldRegenTime: 5
+  shieldRadius: 2
+  waitIdleTime: 2
+  isShieldActive: 0
 --- !u!114 &1907767828
 MonoBehaviour:
   m_ObjectHideFlags: 0

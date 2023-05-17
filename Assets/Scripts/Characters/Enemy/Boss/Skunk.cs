@@ -124,6 +124,15 @@ public class Skunk : UnitObject
     private Vector3 runawayDestination;
     private float bombDropTimer;
 
+    public GameObject shieldPrefab;
+    private GameObject currentShield;
+    public float shieldRegenTime = 5.0f;
+    public float shieldRadius = 2.0f;
+    public float waitIdleTime = 2.0f;
+    [HideInInspector] public bool isShieldActive = false;
+    private float shieldRegenTimer;
+    private float shieldHealth;
+
     private void Start()
     {
         if (target == null)
@@ -229,6 +238,19 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.FartShield:
+                    if (!isShieldActive)
+                    {
+                        shieldRegenTimer -= Time.deltaTime;
+                        if(shieldRegenTimer <= 0)
+                        {
+                            CreateShield();
+                            StartCoroutine(KeepStateIdle(waitIdleTime));
+                        }
+                    }
+                    else
+                    {
+                        patternManager.CurrentPattern = null;
+                    }
                     break;
                 case StateMachine.State.Tailing:
                     if (!isTailing)
@@ -571,6 +593,37 @@ public class Skunk : UnitObject
         yield return new WaitForSeconds(waitAfterReachingDestination);
         
         isRunningAway = false;
+    }
+
+    private void CreateShield()
+    {
+        if (!isShieldActive)
+        {
+            currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+            currentShield.transform.SetParent(this.transform);
+            currentShield.transform.localScale = new Vector3(shieldRadius, shieldRadius, shieldRadius);
+            isShieldActive = true;
+            isPatternPause = true;
+            health.untouchable = true;
+        }
+    }
+
+    public void RemoveShield()
+    {
+        if (isShieldActive)
+        {
+            Destroy(currentShield);
+            isShieldActive = false;
+            health.untouchable = false;
+            shieldRegenTimer = shieldRegenTime;
+        }
+    }
+
+    private IEnumerator KeepStateIdle(float time)
+    {
+        state.CURRENT_STATE = StateMachine.State.Idle;
+        yield return new WaitForSeconds(time);
+        isPatternPause = false;
     }
 
     #endregion
