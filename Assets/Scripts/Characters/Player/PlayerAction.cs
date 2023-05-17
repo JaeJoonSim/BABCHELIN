@@ -162,11 +162,11 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            Debug.Log("mouse down");
+            //Debug.Log("mouse down");
         }
         else if (context.canceled)
         {
-            Debug.Log("mouse UP");
+            //Debug.Log("mouse UP");
         }
     }
 
