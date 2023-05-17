@@ -14,6 +14,7 @@ public class HealthPlayer : Health
     [HideInInspector] public float poisonDamage = 5f;
     public float poisonDamageInterval;
     public float poisonIntervalCounter;
+    [HideInInspector] public int fartShieldCount = 0;
 
     protected override void Start()
     {

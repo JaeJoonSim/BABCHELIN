@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Health))]
 public class FartShield : BaseMonoBehaviour
 {
+    public float shieldDamage = 2f;
+    public int touchPlayerCount = 3;
+
     private Health health;
     private Skunk skunk;
 
@@ -22,6 +25,24 @@ public class FartShield : BaseMonoBehaviour
         {
             skunk.RemoveShield();
             Destroy(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            HealthPlayer player = collision.GetComponent<HealthPlayer>();
+            if (player != null)
+            {
+                player.Damaged(gameObject, transform.position, shieldDamage, Health.AttackType.Normal);
+                player.fartShieldCount++;
+                if(player.fartShieldCount >= touchPlayerCount)
+                {
+                    player.isPoisoned = true;
+                    player.fartShieldCount = 0;
+                }
+            }
         }
     }
 }

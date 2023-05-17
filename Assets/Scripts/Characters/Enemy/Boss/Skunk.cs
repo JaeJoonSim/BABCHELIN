@@ -124,6 +124,7 @@ public class Skunk : UnitObject
     private Vector3 runawayDestination;
     private float bombDropTimer;
 
+    [Header("Fart Shield settings")]
     public GameObject shieldPrefab;
     private GameObject currentShield;
     public float shieldRegenTime = 5.0f;
