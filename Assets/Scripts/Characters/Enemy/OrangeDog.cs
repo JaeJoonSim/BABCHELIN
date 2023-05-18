@@ -20,9 +20,11 @@ public class OrangeDog : UnitObject
             return _anim;
         }
     }
-
     public AnimationReferenceAsset Hide;
     public AnimationReferenceAsset Hidden;
+    public AnimationReferenceAsset Appearance;
+    public AnimationReferenceAsset Attack2;
+    //public AnimationReferenceAsset Jump;
     private int ac = 0;
 
     public float Damaged = 2f;
@@ -40,11 +42,10 @@ public class OrangeDog : UnitObject
     [SerializeField] float AttackTimer;
     [SerializeField] float delayTime;
     [SerializeField] float time = 0;
-    [SerializeField] float time2 = 0;
 
     private Health playerHealth;
     private NavMeshAgent agent;
-    private bool isPlayerInRange;
+    private bool isPlayerInRange = false;
     private float distanceToPlayer;
     Vector3 jumpPoint;
     private float distanceToJumppoint;
@@ -52,18 +53,18 @@ public class OrangeDog : UnitObject
     [Space]
     Vector3 directionToTarget;
     [SerializeField] float patrolRange = 10f;
-    private float patrolMoveDuration;
+    private float patrolToIdleTime;
     [SerializeField] float patrolMinTime;
     [SerializeField] float patrolMaxTime;
-    private float idleToPatrolDelay;
+    private float idleToPatrolTime;
     [SerializeField] float idleMinTime;
     [SerializeField] float idleMaxTime;
-    private float idleTimer;
-    private float patrolTimer;
     private float hideTimer = 0f;
     private Vector3 patrolStartPosition;
     private Vector3 patrolTargetPosition;
     private float jumpZ;
+    private int attackNum = 0;
+    private float attackAniTime;
 
     [Space]
     public float forceDir;
@@ -86,7 +87,7 @@ public class OrangeDog : UnitObject
     {
         rb2d = transform.GetComponent<Rigidbody2D>();
 
-        idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+        idleToPatrolTime = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
         if (target == null)
@@ -107,7 +108,6 @@ public class OrangeDog : UnitObject
     public override void Update()
     {
         base.Update();
-        fallDirection = new Vector3(transform.position.x, transform.position.y, 1);
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             FollowTarget();
@@ -118,6 +118,12 @@ public class OrangeDog : UnitObject
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
             forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
         }
+
+        if(state.CURRENT_STATE != StateMachine.State.Attacking)
+        {
+            state.LockStateChanges = false;
+        }
+
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
@@ -130,15 +136,15 @@ public class OrangeDog : UnitObject
             {
                 case StateMachine.State.Idle:
                     agent.speed = 1f;
-                    idleTimer += Time.deltaTime;
+                    time += Time.deltaTime;
                     hideTimer += Time.deltaTime;
 
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                    if (!isPlayerInRange && time >= idleToPatrolTime)
                     {
                         patrolTargetPosition = GetRandomPositionInPatrolRange();
-                        patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
+                        patrolToIdleTime = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
-                        idleTimer = 0f;
+                        time = 0f;
                     }
 
                     if (isPlayerInRange)
@@ -194,18 +200,44 @@ public class OrangeDog : UnitObject
 
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
+                    time += Time.deltaTime;
                     detectionRange *= 2f;
                     break;
 
                 case StateMachine.State.Attacking:
                     SpineTransform.localPosition = Vector3.zero;
+                    state.LockStateChanges = true;
+
+                    if(attackAniTime == 0)
+                    {
+                        attackAniTime = 1.4f;
+                    }
+                    else
+                    {
+                        attackAniTime = 0.8667f;
+                    }
+
+                    if (attackNum == 1)
+                    {
+                        if (Attack2 != null)
+                        {
+                            while (ac < 1)
+                            {
+                                anim.AnimationState.SetAnimation(AnimationTrack, Attack2, loop: false);
+                                ac++;
+                            }
+                        }
+                    }
                     forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
                     agent.isStopped = true;
 
-                    if (AttackTimer >= 0.7)
+                    if (AttackTimer >= attackAniTime)
                     {
+                        state.LockStateChanges = false;
+                        ac = 0;
                         AttackTimer = 0f;
+                        time = 0f;
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
@@ -215,69 +247,45 @@ public class OrangeDog : UnitObject
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
                     break;
-                case StateMachine.State.Jump:
-                    SpineTransform.localPosition = Vector3.zero;
-                    forceDir = state.facingAngle;
-                    agent.isStopped = false;
-                    agent.speed = 7f;
-                    //float distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
-                    //if (distanceToPlayer > distanceToJumppoint / 2)
-                    //{
-                    //    time2 += Time.deltaTime;
-                    //    transform.position -= jumpVector;
-                    //    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - time2);
-                    //}
-                    //else
-                    //{
-                    //    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + time2);
-                    //}
 
-                    //if(transform.position.z > -2)
-                    //{
-                    //    time += Time.deltaTime;
-                    //    transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - time);
-                    //}
-                    //else if (transform.position.z <= -2)
-                    //{
-                    //    time2 += Time.deltaTime;
-                    //    agent.SetDestination(jumpPoint);
-                    //    rb2d.gravityScale = 2f;
-                    //    //transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z + time2);
-                    //}
+                //case StateMachine.State.Jump:
+                //    SpineTransform.localPosition = Vector3.zero;
+                //    if (Jump != null)
+                //    {
+                //        while (ac < 1)
+                //        {
+                //            anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
+                //            ac++;
+                //        }
+                //    }
 
-                    if(transform.position.z < -5)
-                    {
-                        fallSpeed -= gravity * Time.deltaTime;
-                        transform.position += fallDirection * fallSpeed * Time.deltaTime;
-                    }
+                //    agent.SetDestination(target.position);
+                //    if(distanceToJumppoint < 0.5f)
+                //    {
+                //        ac = 0;
+                //        state.CURRENT_STATE = StateMachine.State.JumpDelay;
+                //    }
 
-                    //if (transform.position.z < 0f)
-                    //{
-                    //    fallSpeed += gravity * Time.deltaTime;
-                    //    transform.position += fallDirection * fallSpeed * Time.deltaTime;
-                    //}
 
-                    //if (distanceToJumppoint < 0.5f)
-                    //{
-                    //    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                    //    state.CURRENT_STATE = StateMachine.State.JumpDelay;
-                    //}
-                    //if (transform.position.z > -0.03333196f)
-                    //{
-                    //    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                    //    transform.position = new Vector3(this.transform.position.x, this.transform.position.y, -0.03333196f);
-                    //    rb2d.gravityScale = 0f;
-                    //    state.CURRENT_STATE = StateMachine.State.Delay;
-                    //}
-                    break;
+                //    forceDir = state.facingAngle;
+                //    agent.isStopped = false;
+                //    agent.speed = 7f;
+
+                //    //////////////////if(transform.position.z < 0)
+                //    //////////////////{
+                //    //////////////////    fallSpeed -= gravity * Time.deltaTime;
+                //    //////////////////    transform.position += fallDirection * fallSpeed * Time.deltaTime;
+                //    //////////////////}
+                //    break;
 
                 case StateMachine.State.Delay:
+                    SpineTransform.localPosition = Vector3.zero;
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {
                         time = 0f;
-
-                        if (distanceToPlayer <= JumpDistance)
+                        attackNum = UnityEngine.Random.Range(0, 2);
+                        if (distanceToPlayer <= AttackDistance)
                         {
                             xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
                             if (0 <= xDir)  //보는 방향
@@ -288,42 +296,40 @@ public class OrangeDog : UnitObject
                             {
                                 this.transform.localScale = new Vector3(-1f, 1f, 1f);
                             }
-                            jumpPoint = target.transform.position;
-                            distanceToJumppoint = Vector3.Distance(transform.position, jumpPoint);
-                            time2 = 0;
-                            state.CURRENT_STATE = StateMachine.State.Jump;
-                        }
-                        else
-                        {
-                            state.CURRENT_STATE = StateMachine.State.Idle;
-                        }
-                    }
-
-                    agent.isStopped = true;
-                    break;
-
-                case StateMachine.State.JumpDelay:
-                    time += Time.deltaTime;
-                    if (time >= delayTime)
-                    {
-                        time = 0f;
-
-                        if (distanceToPlayer <= AttackDistance)
-                        {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
-                        else if (AttackDistance < distanceToPlayer && distanceToPlayer <= detectionRange)
-                        {
-                            state.CURRENT_STATE = StateMachine.State.Moving;
-                        }
                         else
                         {
                             state.CURRENT_STATE = StateMachine.State.Idle;
                         }
                     }
 
+                    agent.speed = 0f;
                     agent.isStopped = true;
                     break;
+
+                //case StateMachine.State.JumpDelay:
+                //    time += Time.deltaTime;
+                //    if (time >= delayTime)
+                //    {
+                //        time = 0f;
+
+                //        if (distanceToPlayer <= AttackDistance)
+                //        {
+                //            state.CURRENT_STATE = StateMachine.State.Attacking;
+                //        }
+                //        else if (AttackDistance < distanceToPlayer && distanceToPlayer <= detectionRange)
+                //        {
+                //            state.CURRENT_STATE = StateMachine.State.Moving;
+                //        }
+                //        else
+                //        {
+                //            state.CURRENT_STATE = StateMachine.State.Idle;
+                //        }
+                //    }
+
+                //    agent.isStopped = true;
+                //    break;
 
                 case StateMachine.State.Hidden:
                     SpineTransform.localPosition = Vector3.zero;
@@ -340,12 +346,34 @@ public class OrangeDog : UnitObject
                     if (isPlayerInRange)
                     {
                         ac = 0;
-                        state.CURRENT_STATE = StateMachine.State.Moving;
+                        state.CURRENT_STATE = StateMachine.State.Appearance;
                     }
 
                     agent.isStopped = true;
                     break;
 
+                case StateMachine.State.Appearance:
+                    SpineTransform.localPosition = Vector3.zero;
+                    time += Time.deltaTime;
+
+                    if (Appearance != null && Hide != null)
+                    {
+                        while (ac < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Appearance, loop: false);
+                            ac++;
+                        }
+                    }
+
+                    if (time >= 3.3f)
+                    {
+                        ac = 0;
+                        time = 0;
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+
+                    agent.isStopped = true;
+                    break;
             }
         }
     }
@@ -381,14 +409,14 @@ public class OrangeDog : UnitObject
 
     private void Patrol()
     {
-        patrolTimer += Time.deltaTime;
+        time += Time.deltaTime;
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
         {
             patrolTargetPosition = GetRandomPositionInPatrolRange();
         }
 
-        if (patrolTimer < patrolMoveDuration)
+        if (time < patrolToIdleTime)
         {
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
@@ -396,14 +424,15 @@ public class OrangeDog : UnitObject
         else
         {
             agent.isStopped = true;
-            patrolTimer = 0f;
-            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+            time = 0f;
+            idleToPatrolTime = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
+
         }
 
         if (isPlayerInRange)
         {
-            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+            idleToPatrolTime = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
         }
 

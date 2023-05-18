@@ -36,12 +36,15 @@ public class StateMachine : MonoBehaviour
         JumpDelay = 28,
         Stun = 29,
         PhaseChange = 30,
+        Appearance = 31,
+        Outburst = 32,
     }
 
     public delegate void StateChange(State NewState, State PrevState);
     public bool IsPlayer = false;
     public StateChange OnStateChange;
     [SerializeField] private State currentState;
+    [SerializeField] private State previousState;
     public float facingAngle;
     public float LookAngle;
     [HideInInspector] public bool isDefending;
@@ -69,6 +72,31 @@ public class StateMachine : MonoBehaviour
                 }
             }
         }
+    }
+
+    public State PREVIOUS_STATE
+    {
+        get
+        {
+            return previousState;
+        }
+        set
+        {
+            if (!LockStateChanges)
+            {
+                Timer = 0f;
+                if (OnStateChange != null)
+                {
+                    OnStateChange(value, previousState);
+                }
+                previousState = value;
+                if (IsPlayer)
+                {
+                    Debug.Log(value);
+                }
+            }
+        }
+
     }
 
     public bool LockStateChanges { get; set; }
@@ -102,6 +130,7 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeToHitState(Vector3 attackLocation)
     {
+        PREVIOUS_STATE = CURRENT_STATE;
         if (transform.position.x > attackLocation.x)
         {
             CURRENT_STATE = State.HitLeft;
@@ -115,5 +144,10 @@ public class StateMachine : MonoBehaviour
     public void ChangeToIdleState()
     {
         CURRENT_STATE = State.Idle;
+    }
+
+    public void ChangeToPreviousState()
+    {
+        CURRENT_STATE = PREVIOUS_STATE;
     }
 }

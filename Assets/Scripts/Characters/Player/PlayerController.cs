@@ -83,8 +83,8 @@ public class PlayerController : BaseMonoBehaviour
             return;
         }
 
-        xDir = Input.GetAxisRaw("Horizontal");
-        yDir = Input.GetAxisRaw("Vertical");
+        //xDir = Input.GetAxisRaw("Horizontal");
+        //yDir = Input.GetAxisRaw("Vertical");
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
