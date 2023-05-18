@@ -3574,7 +3574,7 @@ MonoBehaviour:
   multipleHealthLine: 5
   HpLineAmount: 20
   isPoisoned: 0
-  recoveryTime: 2
+  recoveryTime: 1
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
@@ -3656,22 +3656,25 @@ MonoBehaviour:
   maxSpeed: 0.05
   patternManager: {fileID: 502016575}
   phase1BasicPatterns:
-  - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
-  - {fileID: 11400000, guid: 9fb21205ee5ee08428dcfe7cb70f0c49, type: 2}
+  - {fileID: 11400000, guid: 6e1e7a145e2b8b641bb4305bb84648af, type: 2}
+  - {fileID: 11400000, guid: c85125f8e618ad94a95d88652eaa5a70, type: 2}
+  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  - {fileID: 11400000, guid: 09c3925b2eeabbd4daa7d6c3d527f242, type: 2}
   phase2BasicPatterns:
   - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
   - {fileID: 11400000, guid: c7e7b4e214b0d4e43b39e67f963a9fdb, type: 2}
+  - {fileID: 11400000, guid: 9fb21205ee5ee08428dcfe7cb70f0c49, type: 2}
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 0}
-  Damaged: 1
+  Damaged: 2
   DestructionGauge: 10
   DestructionHP: 2
   DestructionTime: 3
   destructionStun: 0
   isPatternPause: 0
   destructionCount: 1
-  InstantKillTimelimit: 60
+  InstantKillTimelimit: 90
   checkMultipleHealthLine: 3
   phaseChangeTimeLimit: 30
   currentPhase: 1
@@ -3729,6 +3732,7 @@ MonoBehaviour:
   waitIdleTime: 2
   isShieldActive: 0
   healthLineThreshold: 1
+  outburstDamage: 5
   objectToSpawnDuringOutburst: {fileID: 0}
 --- !u!114 &1907767828
 MonoBehaviour:
