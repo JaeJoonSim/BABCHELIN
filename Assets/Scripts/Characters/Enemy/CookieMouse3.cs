@@ -109,6 +109,10 @@ public class CookieMouse3 : UnitObject
         {
             state.LockStateChanges = false;
         }
+        if (health.CurrentHP() <= 0)
+        {
+            state.LockStateChanges = false;
+        }
 
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
@@ -176,6 +180,7 @@ public class CookieMouse3 : UnitObject
 
                     if(AttackTimer >= 0.7667f)
                     {
+                        state.LockStateChanges = false;
                         AttackTimer = 0f;
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
