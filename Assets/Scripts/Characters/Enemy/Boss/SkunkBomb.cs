@@ -19,7 +19,6 @@ public class SkunkBomb : BaseMonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("ÇÃ·¹ÀÌ¾î Á¢ÃË");
             StopCoroutine(explosionCoroutine);
             Explode();
         }
@@ -42,7 +41,6 @@ public class SkunkBomb : BaseMonoBehaviour
                 player.Damaged(gameObject, transform.position, explosionDamage, Health.AttackType.Normal);
             }
         }
-        Debug.Log("ÆøÅº ÅÍÁü");
         Destroy(gameObject);
     }
 
