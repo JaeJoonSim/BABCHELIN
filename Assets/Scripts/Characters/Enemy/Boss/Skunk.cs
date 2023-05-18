@@ -124,6 +124,21 @@ public class Skunk : UnitObject
     private Vector3 runawayDestination;
     private float bombDropTimer;
 
+    [Header("Fart Shield settings")]
+    public GameObject shieldPrefab;
+    private GameObject currentShield;
+    public float shieldRegenTime = 5.0f;
+    public float shieldRadius = 2.0f;
+    public float waitIdleTime = 2.0f;
+    [HideInInspector] public bool isShieldActive = false;
+    private float shieldRegenTimer;
+
+    [Header("Outburst settings")]
+    public int healthLineThreshold = 1;
+    public float outburstDamage = 5f;
+    public GameObject objectToSpawnDuringOutburst;
+    private int lastHealthLine;
+
     private void Start()
     {
         if (target == null)
@@ -194,6 +209,12 @@ public class Skunk : UnitObject
             state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
 
+        if (currentPhase == 2 && lastHealthLine - health.multipleHealthLine >= healthLineThreshold)
+        {
+            state.CURRENT_STATE = StateMachine.State.Outburst;
+            lastHealthLine = health.multipleHealthLine;
+        }
+
         DestructionPart();
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
@@ -229,6 +250,19 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.FartShield:
+                    if (!isShieldActive)
+                    {
+                        shieldRegenTimer -= Time.deltaTime;
+                        if (shieldRegenTimer <= 0)
+                        {
+                            CreateShield();
+                            StartCoroutine(KeepStateIdle(waitIdleTime));
+                        }
+                    }
+                    else
+                    {
+                        patternManager.CurrentPattern = null;
+                    }
                     break;
                 case StateMachine.State.Tailing:
                     if (!isTailing)
@@ -258,7 +292,7 @@ public class Skunk : UnitObject
                         {
                             StartCoroutine(CreamThrow());
                         }
-                        
+
                     }
                     else if (isPhaseChanged)
                     {
@@ -275,6 +309,12 @@ public class Skunk : UnitObject
                     {
                         state.CURRENT_STATE = StateMachine.State.InstantKill;
                         isPhaseChanged = true;
+                    }
+                    break;
+                case StateMachine.State.Outburst:
+                    if (!isRunningAway)
+                    {
+                        StartCoroutine(OutburstAttack());
                     }
                     break;
                 case StateMachine.State.Dead:
@@ -451,7 +491,7 @@ public class Skunk : UnitObject
 
         if (mapObject != null)
         {
-            BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+            var mapCollider = mapObject.GetComponent<Collider2D>();
 
             if (mapCollider != null)
             {
@@ -461,6 +501,28 @@ public class Skunk : UnitObject
                 float maxX = mapBounds.max.x;
                 float minY = mapBounds.min.y;
                 float maxY = mapBounds.max.y;
+
+                if (mapCollider is BoxCollider2D)
+                {
+                    BoxCollider2D boxCollider = (BoxCollider2D)mapCollider;
+
+                    minX = boxCollider.bounds.min.x;
+                    maxX = boxCollider.bounds.max.x;
+                    minY = boxCollider.bounds.min.y;
+                    maxY = boxCollider.bounds.max.y;
+                }
+                else if (mapCollider is CircleCollider2D)
+                {
+                    CircleCollider2D circleCollider = (CircleCollider2D)mapCollider;
+
+                    Vector2 mapCenter = circleCollider.bounds.center;
+                    float mapRadius = circleCollider.bounds.extents.x;
+
+                    minX = mapCenter.x - mapRadius;
+                    maxX = mapCenter.x + mapRadius;
+                    minY = mapCenter.y - mapRadius;
+                    maxY = mapCenter.y + mapRadius;
+                }
 
                 for (int i = 0; i < numberOfBombs; i++)
                 {
@@ -475,7 +537,7 @@ public class Skunk : UnitObject
             }
             else
             {
-                Debug.LogError("No BoxCollider2D found on map object.");
+                Debug.LogError("No Collider2D found on map object.");
             }
         }
         else
@@ -531,21 +593,34 @@ public class Skunk : UnitObject
             mapObject = GameObject.FindWithTag("Ground");
         }
 
-        BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+        var mapCollider = mapObject.GetComponent<Collider2D>();
 
         if (mapCollider != null)
         {
-            Vector2 mapBoundsMin = mapCollider.bounds.min;
-            Vector2 mapBoundsMax = mapCollider.bounds.max;
+            if (mapCollider is BoxCollider2D)
+            {
+                BoxCollider2D boxCollider = (BoxCollider2D)mapCollider;
+                Vector2 mapBoundsMin = boxCollider.bounds.min;
+                Vector2 mapBoundsMax = boxCollider.bounds.max;
 
-            runawayDestination = new Vector2(
-                Random.Range(mapBoundsMin.x, mapBoundsMax.x),
-                Random.Range(mapBoundsMin.y, mapBoundsMax.y)
-            );
+                runawayDestination = new Vector2(
+                    Random.Range(mapBoundsMin.x, mapBoundsMax.x),
+                    Random.Range(mapBoundsMin.y, mapBoundsMax.y)
+                );
+            }
+            else if (mapCollider is CircleCollider2D)
+            {
+                CircleCollider2D circleCollider = (CircleCollider2D)mapCollider;
+                Vector2 mapCenter = circleCollider.bounds.center;
+                float mapRadius = circleCollider.bounds.extents.x;
+
+                Vector2 randomPoint = Random.insideUnitCircle.normalized * mapRadius;
+                runawayDestination = mapCenter + randomPoint;
+            }
         }
         else
         {
-            Debug.LogWarning("mapObject does not have a BoxCollider2D! Using current position as the runawayDestination.");
+            Debug.LogWarning("mapObject does not have a Collider2D! Using current position as the runawayDestination.");
             runawayDestination = transform.position;
         }
 
@@ -567,10 +642,73 @@ public class Skunk : UnitObject
             }
             yield return null;
         }
-        
+
         yield return new WaitForSeconds(waitAfterReachingDestination);
-        
+
         isRunningAway = false;
+    }
+
+    private void CreateShield()
+    {
+        if (!isShieldActive)
+        {
+            currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
+            currentShield.transform.SetParent(this.transform);
+            currentShield.transform.localScale = new Vector3(shieldRadius, shieldRadius, shieldRadius);
+            isShieldActive = true;
+            isPatternPause = true;
+            health.untouchable = true;
+        }
+    }
+
+    public void RemoveShield()
+    {
+        if (isShieldActive)
+        {
+            Destroy(currentShield);
+            isShieldActive = false;
+            health.untouchable = false;
+            shieldRegenTimer = shieldRegenTime;
+        }
+    }
+
+    private IEnumerator KeepStateIdle(float time)
+    {
+        state.CURRENT_STATE = StateMachine.State.Idle;
+        yield return new WaitForSeconds(time);
+        isPatternPause = false;
+    }
+
+    private void DealDamageToPlayer(float damage)
+    {
+        playerHealth.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
+    }
+
+    private IEnumerator OutburstAttack()
+    {
+        isRunningAway = true;
+
+        Vector3 playerPosition = target.position;
+        Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+
+        while (Vector3.Distance(transform.position, playerPosition) > 0.1f)
+        {
+            transform.position += directionToPlayer * runawaySpeed * Time.deltaTime;
+
+            if (objectToSpawnDuringOutburst != null && isShieldActive)
+                Instantiate(objectToSpawnDuringOutburst, transform.position, Quaternion.identity);
+
+            if (Vector3.Distance(transform.position, playerPosition) < 1f)
+            {
+                DealDamageToPlayer(outburstDamage);
+                break;
+            }
+
+            yield return null;
+        }
+
+        isRunningAway = false;
+        state.CURRENT_STATE = StateMachine.State.Idle;
     }
 
     #endregion

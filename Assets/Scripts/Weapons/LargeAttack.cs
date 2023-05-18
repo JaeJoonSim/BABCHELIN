@@ -17,6 +17,7 @@ public class LargeAttack : PlayerAttack
             for (int i = 0; i < targetInRange.Length; i++)
             {
                 targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage / 2, Health.AttackType.Normal);
+                PartDestructionGauge(targetInRange[i], destructionGauge);
             }
             Destroy(gameObject);
         }

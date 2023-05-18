@@ -36,6 +36,7 @@ public class PlayerAttack : BaseMonoBehaviour
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal, skunk.destructionCount);
             else
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
+
             PartDestructionGauge(collision, destructionGauge);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
