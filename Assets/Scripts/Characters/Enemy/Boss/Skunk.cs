@@ -491,7 +491,7 @@ public class Skunk : UnitObject
 
         if (mapObject != null)
         {
-            BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+            var mapCollider = mapObject.GetComponent<Collider2D>();
 
             if (mapCollider != null)
             {
@@ -501,6 +501,28 @@ public class Skunk : UnitObject
                 float maxX = mapBounds.max.x;
                 float minY = mapBounds.min.y;
                 float maxY = mapBounds.max.y;
+
+                if (mapCollider is BoxCollider2D)
+                {
+                    BoxCollider2D boxCollider = (BoxCollider2D)mapCollider;
+
+                    minX = boxCollider.bounds.min.x;
+                    maxX = boxCollider.bounds.max.x;
+                    minY = boxCollider.bounds.min.y;
+                    maxY = boxCollider.bounds.max.y;
+                }
+                else if (mapCollider is CircleCollider2D)
+                {
+                    CircleCollider2D circleCollider = (CircleCollider2D)mapCollider;
+
+                    Vector2 mapCenter = circleCollider.bounds.center;
+                    float mapRadius = circleCollider.bounds.extents.x;
+
+                    minX = mapCenter.x - mapRadius;
+                    maxX = mapCenter.x + mapRadius;
+                    minY = mapCenter.y - mapRadius;
+                    maxY = mapCenter.y + mapRadius;
+                }
 
                 for (int i = 0; i < numberOfBombs; i++)
                 {
@@ -515,7 +537,7 @@ public class Skunk : UnitObject
             }
             else
             {
-                Debug.LogError("No BoxCollider2D found on map object.");
+                Debug.LogError("No Collider2D found on map object.");
             }
         }
         else
@@ -571,21 +593,34 @@ public class Skunk : UnitObject
             mapObject = GameObject.FindWithTag("Ground");
         }
 
-        BoxCollider2D mapCollider = mapObject.GetComponent<BoxCollider2D>();
+        var mapCollider = mapObject.GetComponent<Collider2D>();
 
         if (mapCollider != null)
         {
-            Vector2 mapBoundsMin = mapCollider.bounds.min;
-            Vector2 mapBoundsMax = mapCollider.bounds.max;
+            if (mapCollider is BoxCollider2D)
+            {
+                BoxCollider2D boxCollider = (BoxCollider2D)mapCollider;
+                Vector2 mapBoundsMin = boxCollider.bounds.min;
+                Vector2 mapBoundsMax = boxCollider.bounds.max;
 
-            runawayDestination = new Vector2(
-                Random.Range(mapBoundsMin.x, mapBoundsMax.x),
-                Random.Range(mapBoundsMin.y, mapBoundsMax.y)
-            );
+                runawayDestination = new Vector2(
+                    Random.Range(mapBoundsMin.x, mapBoundsMax.x),
+                    Random.Range(mapBoundsMin.y, mapBoundsMax.y)
+                );
+            }
+            else if (mapCollider is CircleCollider2D)
+            {
+                CircleCollider2D circleCollider = (CircleCollider2D)mapCollider;
+                Vector2 mapCenter = circleCollider.bounds.center;
+                float mapRadius = circleCollider.bounds.extents.x;
+
+                Vector2 randomPoint = Random.insideUnitCircle.normalized * mapRadius;
+                runawayDestination = mapCenter + randomPoint;
+            }
         }
         else
         {
-            Debug.LogWarning("mapObject does not have a BoxCollider2D! Using current position as the runawayDestination.");
+            Debug.LogWarning("mapObject does not have a Collider2D! Using current position as the runawayDestination.");
             runawayDestination = transform.position;
         }
 
