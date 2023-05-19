@@ -329,8 +329,7 @@ public class Tomato : UnitObject
         if (isPlayerInRange)
         {
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
-            movePoint = target.position;
-            directionToPoint = (transform.position - movePoint).normalized;
+            directionToPoint = (transform.position - target.position).normalized;
             state.CURRENT_STATE = StateMachine.State.Runaway;
         }
 

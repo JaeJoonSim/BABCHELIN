@@ -132,7 +132,6 @@ public class Health : BaseMonoBehaviour
             if(isMonster)
             {
                 state.ChangeToPreviousState();
-                Debug.Log(state.CURRENT_STATE);
             }
             else
             {

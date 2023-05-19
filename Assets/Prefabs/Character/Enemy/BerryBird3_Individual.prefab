@@ -13,12 +13,12 @@ GameObject:
   - component: {fileID: 4265093594819362734}
   - component: {fileID: 4265093594819362729}
   - component: {fileID: 4265093594819362728}
-  - component: {fileID: 4265093594819362721}
+  - component: {fileID: 7897791494618200129}
   - component: {fileID: 4265093594819362732}
   - component: {fileID: 4265093594819362722}
   - component: {fileID: 4265093594819362723}
   m_Layer: 8
-  m_Name: BerryBird
+  m_Name: BerryBird3_Individual
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4265093594819362709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.743494, y: -4.46, z: 0.5505825}
+  m_LocalPosition: {x: -4.6510406, y: 0.26970673, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -118,7 +118,7 @@ MonoBehaviour:
   untouchable: 0
   damageDecrease: 0
   isMonster: 1
---- !u!114 &4265093594819362721
+--- !u!114 &7897791494618200129
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,7 +127,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4265093594819362709}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f88204897db36324faf288bfde5e7b4a, type: 3}
+  m_Script: {fileID: 11500000, guid: d80f2b6f5c29c194f8b8d224302513de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -140,21 +140,9 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 9079983999551196370}
-  AnimationTrack: 0
-  Damaged: 1
   target: {fileID: 0}
-  detectionRange: 5
   detectionAttackRange: 3
-  AttackDelay: 2
-  AttackDuration: 0.3
   AttackTimer: 0
-  delayTime: 1
-  time: 0
-  patrolRange: 5
-  patrolMinTime: 2
-  patrolMaxTime: 2
-  idleMinTime: 1
-  idleMaxTime: 1
   forceDir: 0
   xDir: 0
   yDir: 0
@@ -309,7 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 5307b62ad38d2804396033ad0e0c956c, type: 2}
-  initialSkinName: Grapefruit
+  initialSkinName: Blackberry
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -352,20 +340,20 @@ MonoBehaviour:
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
-  DefaultLoop: {fileID: 11400000, guid: 7e9a8a4ef70a26443991384dab1e4660, type: 2}
+  DefaultLoop: {fileID: 11400000, guid: 86b853ebd1568c248b18c8ec052c9acd, type: 2}
   Animations: []
-  Idle: {fileID: 11400000, guid: 7e9a8a4ef70a26443991384dab1e4660, type: 2}
+  Idle: {fileID: 11400000, guid: 86b853ebd1568c248b18c8ec052c9acd, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
-  Moving: {fileID: 11400000, guid: 33683b394ec230449ae3e63bbe6331ec, type: 2}
+  Moving: {fileID: 11400000, guid: f2fdc1a00dea2614ea9ba8490abd6339, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
-  Attack: {fileID: 11400000, guid: 29c0c892de14dd541821f4d27a8ae512, type: 2}
+  Attack: {fileID: 11400000, guid: 03b4d6b8309c2b3419b2ab88a040b4b7, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
   PlayerAttack:
