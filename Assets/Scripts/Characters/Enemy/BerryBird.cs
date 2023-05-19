@@ -42,8 +42,8 @@ public class BerryBird : UnitObject
     private NavMeshAgent agent;
     private bool isPlayerInRange;
     private float distanceToPlayer;
-    Vector3 movePoint;
     Vector3 directionToPoint;
+    private StateMachine[] otherBirdState;
 
     [Space]
     [SerializeField] float patrolRange = 10f;
@@ -80,6 +80,12 @@ public class BerryBird : UnitObject
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+
+        otherBirdState = new StateMachine[transform.parent.childCount - 1];         //다른 베뱁새 상태 가져오기
+        for (int a = 0; a < otherBirdState.Length; a++)
+        {
+            otherBirdState[a] = transform.parent.GetChild(a + 1).GetComponent<StateMachine>();
+        }
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -199,8 +205,11 @@ public class BerryBird : UnitObject
                     if(state.PREVIOUS_STATE == StateMachine.State.Runaway)
                     {
                         agent.speed = 0;
-                        state.PREVIOUS_STATE = StateMachine.State.Moving;
-                        state.CURRENT_STATE = StateMachine.State.Moving;
+                        for (int a = 0; a < otherBirdState.Length; a++)
+                        {
+                            otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                        }
                     }
                     break;
 
