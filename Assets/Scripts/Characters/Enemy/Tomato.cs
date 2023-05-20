@@ -44,6 +44,7 @@ public class Tomato : UnitObject
     private int runawayCount = 1;
     private bool isShot = false;
 
+    private Health thisHealth;
     private Health playerHealth;
     private NavMeshAgent agent;
     private bool isPlayerInRange;
@@ -85,6 +86,7 @@ public class Tomato : UnitObject
             target = GameObject.FindGameObjectWithTag("Player").transform;
         }
         playerHealth = target.GetComponent<Health>();
+        thisHealth = transform.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
@@ -116,6 +118,11 @@ public class Tomato : UnitObject
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
+        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        {
+            state.LockStateChanges = false;
+        }
+
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
@@ -193,9 +200,10 @@ public class Tomato : UnitObject
                     break;
 
                 case StateMachine.State.Attacking:
+                    state.LockStateChanges = true;
                     agent.speed = 0f;
                     agent.isStopped = true;
-
+                    state.LockStateChanges = true;
                     Vector3 directionToTarget = (target.position - transform.position).normalized;
                     xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
                     if (0 <= xDir)  //보는 방향
@@ -222,6 +230,7 @@ public class Tomato : UnitObject
 
                     if (AttackCount >= 2)
                     {
+                        state.LockStateChanges = false;
                         isShot = false;
                         AttackCount = 0;
                         state.CURRENT_STATE = StateMachine.State.Delay;
@@ -382,11 +391,6 @@ public class Tomato : UnitObject
         {
             DeathEffect();
         }
-    }
-
-    private void Attack()
-    {
-
     }
 
     public void OnDie()

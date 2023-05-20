@@ -821,9 +821,9 @@ MonoBehaviour:
   basicPatterns: []
   gimmickPatterns: []
   usedGimmickPatterns: []
-  patternChangeDelay: 1
   remainingPatternDuration: 0
   health: {fileID: 1907767823}
+  waitNextPatternTime: 2
 --- !u!4 &502016576
 Transform:
   m_ObjectHideFlags: 0
@@ -3550,8 +3550,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 1
+  IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -3573,10 +3574,11 @@ MonoBehaviour:
   multipleHealthLine: 5
   HpLineAmount: 20
   isPoisoned: 0
-  recoveryTime: 2
+  recoveryTime: 1
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!58 &1907767824
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -3654,20 +3656,25 @@ MonoBehaviour:
   maxSpeed: 0.05
   patternManager: {fileID: 502016575}
   phase1BasicPatterns:
+  - {fileID: 11400000, guid: 6e1e7a145e2b8b641bb4305bb84648af, type: 2}
   - {fileID: 11400000, guid: c85125f8e618ad94a95d88652eaa5a70, type: 2}
+  - {fileID: 11400000, guid: 42c47f420d2171c4a928f8e0bd90b12b, type: 2}
+  - {fileID: 11400000, guid: 09c3925b2eeabbd4daa7d6c3d527f242, type: 2}
+  phase2BasicPatterns:
+  - {fileID: 11400000, guid: 2a395f3745731224d8474cbd30662f32, type: 2}
   - {fileID: 11400000, guid: c7e7b4e214b0d4e43b39e67f963a9fdb, type: 2}
-  phase2BasicPatterns: []
+  - {fileID: 11400000, guid: 9fb21205ee5ee08428dcfe7cb70f0c49, type: 2}
   gimmickPatterns:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 0}
-  Damaged: 1
+  Damaged: 2
   DestructionGauge: 10
   DestructionHP: 2
   DestructionTime: 3
   destructionStun: 0
   isPatternPause: 0
   destructionCount: 1
-  InstantKillTimelimit: 60
+  InstantKillTimelimit: 90
   checkMultipleHealthLine: 3
   phaseChangeTimeLimit: 30
   currentPhase: 1
@@ -3713,10 +3720,20 @@ MonoBehaviour:
   shockwaveRange: 5
   shockwaveDuration: 1.5
   runawaySpeed: 10
-  bombDropInterval: 2
+  bombDropInterval: 0.5
   waitAfterReachingDestination: 1
-  bombPrefab: {fileID: 0}
+  bombPrefab: {fileID: 4745528697331135154, guid: b0d1a371d3faad34f9c67cd8771f75f6,
+    type: 3}
   isRunningAway: 0
+  shieldPrefab: {fileID: 2004267044961894299, guid: daaf44fa2cad181498d90a60140fbb4a,
+    type: 3}
+  shieldRegenTime: 5
+  shieldRadius: 2
+  waitIdleTime: 2
+  isShieldActive: 0
+  healthLineThreshold: 1
+  outburstDamage: 5
+  objectToSpawnDuringOutburst: {fileID: 0}
 --- !u!114 &1907767828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4280,6 +4297,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -4305,6 +4323,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!4 &4265093593579167795
 Transform:
   m_ObjectHideFlags: 0
@@ -4429,21 +4448,28 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 9079983998375957323}
-  bullet: {fileID: 2862424241139748284, guid: 4b9de06b6d7e6fc438b0d3c6b66e62d5, type: 3}
+  AnimationTrack: 0
+  Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
-  AttackDistance: 2
+  detectionAttackRange: 0
+  moveTime: 0
   AttackDelay: 2
   AttackDuration: 0.3
   AttackTimer: 0
+  delayTime: 1
+  time: 0
+  patrolRange: 5
+  patrolMinTime: 0
+  patrolMaxTime: 0
+  idleMinTime: 0
+  idleMaxTime: 0
   forceDir: 0
   xDir: 0
   yDir: 0
-  patrolRange: 5
-  patrolMoveDuration: 2
-  patrolIdleDuration: 1
-  runawaySpeedMultiplier: 1
-  idleToPatrolDelay: 2
+  BulletObject: {fileID: 0}
+  BombEffect: {fileID: 0}
+  ExplosionEffect: {fileID: 0}
 --- !u!1001 &4365943962577559183
 PrefabInstance:
   m_ObjectHideFlags: 0

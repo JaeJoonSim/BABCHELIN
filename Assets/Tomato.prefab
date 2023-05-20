@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4262851435986658329
 Transform:
   m_ObjectHideFlags: 0
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 25
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -117,6 +118,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!114 &4262851435986658328
 MonoBehaviour:
   m_ObjectHideFlags: 0

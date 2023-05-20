@@ -2,7 +2,7 @@ using Spine;
 using Spine.Unity;
 using System;
 using UnityEngine;
-
+using UnityEngine.InputSystem;
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -146,6 +146,28 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         PreviousPosition = base.transform.position;
+    }
+
+    public void move(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        if (input != null)
+        {
+            playerController.xDir = input.x;
+            playerController.yDir = input.y;
+        }
+    }
+
+    public void mouse(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //Debug.Log("mouse down");
+        }
+        else if (context.canceled)
+        {
+            //Debug.Log("mouse UP");
+        }
     }
 
     void getMouseInfo()

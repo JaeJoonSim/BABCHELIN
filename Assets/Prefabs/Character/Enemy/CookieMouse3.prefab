@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -92,6 +92,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -117,6 +118,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  isMonster: 0
 --- !u!114 &3275738440347693762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,7 +178,7 @@ MonoBehaviour:
   maxSpeed: 0.05
   SpineTransform: {fileID: 7201015291326591664}
   AnimationTrack: 0
-  Walk: {fileID: 0}
+  Walk: {fileID: 11400000, guid: b63f165d890b5bb4796d38f8ff897327, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 5
