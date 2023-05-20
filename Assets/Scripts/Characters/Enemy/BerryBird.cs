@@ -47,7 +47,7 @@ public class BerryBird : UnitObject
 
     [Space]
     [SerializeField] float patrolRange = 10f;
-    private float patrolMoveDuration = 0f;
+    private float patrolToIdleDelay = 0f;
     [SerializeField] float patrolMinTime;
     [SerializeField] float patrolMaxTime;
     private float idleToPatrolDelay = 0f;
@@ -137,7 +137,7 @@ public class BerryBird : UnitObject
                     if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
                     {
                         patrolTargetPosition = GetRandomPositionInPatrolRange();
-                        patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
+                        patrolToIdleDelay = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
@@ -303,7 +303,7 @@ public class BerryBird : UnitObject
             patrolTargetPosition = GetRandomPositionInPatrolRange();
         }
 
-        if (patrolTimer < patrolMoveDuration)
+        if (patrolTimer < patrolToIdleDelay)
         {
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
