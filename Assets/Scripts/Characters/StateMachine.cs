@@ -38,6 +38,7 @@ public class StateMachine : MonoBehaviour
         PhaseChange = 30,
         Appearance = 31,
         Outburst = 32,
+        Defend = 33,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

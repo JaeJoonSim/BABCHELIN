@@ -14,17 +14,17 @@ GameObject:
   - component: {fileID: 3275738440347693760}
   - component: {fileID: 3275738440347693761}
   - component: {fileID: 3275738440347693762}
-  - component: {fileID: -8393492126844389286}
+  - component: {fileID: 4485326522824373774}
   - component: {fileID: 3275738440347693765}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
   m_Layer: 8
-  m_Name: SconeHedgehog
+  m_Name: ButterCat
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -140,7 +140,7 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
---- !u!114 &-8393492126844389286
+--- !u!114 &4485326522824373774
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -149,7 +149,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3275738440347693820}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a014471d7d8584ba9bc559a3ce5823, type: 3}
+  m_Script: {fileID: 11500000, guid: c3d03b4463687d64783e2951ccd5eb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
@@ -164,24 +164,20 @@ MonoBehaviour:
   SpineTransform: {fileID: 572980232343476603}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 7
-  detectionDashRange: 5
-  detectionJumpRange: 3
-  attackDistance: 0.5
-  dashTime: 0
-  delayTime: 5
+  detectionRange: 0
+  moveTime: 0
   time: 0
   AttackDelay: 0
   AttackDuration: 0.3
-  patrolRange: 10
-  patrolMinTime: 1
-  patrolMaxTime: 5
-  idleMinTime: 1
-  idleMaxTime: 5
+  AttackTimer: 0
+  runMinTime: 2
+  runMaxTime: 3
   forceDir: 0
   xDir: 0
   yDir: 0
+  DestroyObject: {fileID: 0}
   BombObject: {fileID: 0}
+  ExplosionEffect: {fileID: 0}
 --- !u!114 &3275738440347693765
 MonoBehaviour:
   m_ObjectHideFlags: 0
