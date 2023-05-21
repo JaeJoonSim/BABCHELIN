@@ -123,6 +123,10 @@ public class OrangeDog : UnitObject
         {
             state.LockStateChanges = false;
         }
+        if (health.CurrentHP() <= 0)
+        {
+            state.LockStateChanges = false;
+        }
 
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));

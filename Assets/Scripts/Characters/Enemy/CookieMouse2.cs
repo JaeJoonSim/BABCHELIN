@@ -113,6 +113,10 @@ public class CookieMouse2 : UnitObject
         {
             state.LockStateChanges = false;
         }
+        if (health.CurrentHP() <= 0)
+        {
+            state.LockStateChanges = false;
+        }
 
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
@@ -193,6 +197,7 @@ public class CookieMouse2 : UnitObject
                     }
                     else
                     {
+                        state.LockStateChanges = false;
                         moveTime = 0;
                         if (distanceToPlayer <= detectionAttackRange)
                         {

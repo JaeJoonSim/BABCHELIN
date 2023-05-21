@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using Spine;
 using Spine.Unity;
 
-public class CookieMouse3 : UnitObject
+public class BerryBird3_Group : UnitObject
 {
     public Transform SpineTransform;
     public int AnimationTrack = 0;
@@ -66,8 +66,8 @@ public class CookieMouse3 : UnitObject
     public float yDir;
 
     public GameObject BulletObject;
-    public GameObject BombEffect;
     public GameObject ExplosionEffect;
+    public GameObject Jinjin_Bird;
 
     private SkeletonAnimation spineAnimation;
 
@@ -170,7 +170,6 @@ public class CookieMouse3 : UnitObject
 
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
-                    detectionRange *= 2f;
                     break;
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
@@ -178,7 +177,7 @@ public class CookieMouse3 : UnitObject
                     agent.isStopped = true;
                     AttackTimer += Time.deltaTime;
 
-                    if(AttackTimer >= 0.7667f)
+                    if (AttackTimer >= 0.7667f)
                     {
                         state.LockStateChanges = false;
                         AttackTimer = 0f;
@@ -306,25 +305,12 @@ public class CookieMouse3 : UnitObject
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "attack_grape")
+        if (e.Data.Name == "Attack")
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 GameObject bullet = BulletObject;
                 Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 1), Quaternion.Euler(0, 0, state.facingAngle));
-            }
-            else if(state.CURRENT_STATE == StateMachine.State.Dead)
-            {
-                GameObject bombEffect = BombEffect;
-
-                if(0 <= xDir)
-                {
-                    Instantiate(bombEffect, new Vector3(transform.position.x + 0.6f, transform.position.y, transform.position.z), Quaternion.Euler(0, 0, state.facingAngle));
-                }
-                else
-                {
-                    Instantiate(bombEffect, new Vector3(transform.position.x - 0.6f, transform.position.y, transform.position.z), Quaternion.Euler(0, 0, state.facingAngle));
-                }
             }
         }
     }
@@ -332,8 +318,8 @@ public class CookieMouse3 : UnitObject
     public void OnDie()
     {
         agent.speed = 0f;
-        Invoke("DeathEffect", 4f);
-        Destroy(gameObject, 4f);
+        Invoke("DeathEffect", 0.8333f);
+        Destroy(gameObject, 0.8333f);
     }
 
     private void DeathEffect()
@@ -341,6 +327,13 @@ public class CookieMouse3 : UnitObject
         GameObject explosion = ExplosionEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
+        for (int a = 0; a < 3; a++)
+        {
+            GameObject jinjin = Jinjin_Bird;
+            Vector3 spawnPosition = new Vector3(transform.localPosition.x + a, transform.localPosition.y + a, 0f);
+            jinjin.transform.position = spawnPosition;
+            Instantiate(jinjin, transform.parent);
+        }
     }
 
     private void OnDrawGizmos()

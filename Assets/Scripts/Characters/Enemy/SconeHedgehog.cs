@@ -15,7 +15,8 @@ public class SconeHedgehog : UnitObject
     [Space]
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
-    [SerializeField] float detectionAttackRange;
+    [SerializeField] float detectionDashRange;
+    [SerializeField] float detectionJumpRange;
     [SerializeField] float attackDistance = 0f;
     [SerializeField] float dashTime = 0f;
     [SerializeField] float delayTime = 5f;
@@ -25,23 +26,23 @@ public class SconeHedgehog : UnitObject
     [Space]
     [SerializeField] float AttackDelay;
     public float AttackDuration = 0.3f;
-    [SerializeField] float AttackTimer;
-    [SerializeField] float moveSpeed;
 
     private Health playerHealth;
     private NavMeshAgent agent;
-    private bool isPlayerInRange;
-    private bool isPlayerInAttackRange;
     private float distanceToPlayer;
+    Transform moveTarget;
+    Vector3 directionToTarget;
     Vector3 movePoint;
     Vector3 directionToPoint;
 
     [Space]
     [SerializeField] float patrolRange = 10f;
-    [SerializeField] float patrolMoveDuration = 2f;
-    [SerializeField] float patrolIdleDuration = 1f;
-    [SerializeField] float runawaySpeedMultiplier = 1.5f;
-    [SerializeField] float idleToPatrolDelay = 5f;
+    private float patrolToIdleDelay = 0f;
+    [SerializeField] float patrolMinTime;
+    [SerializeField] float patrolMaxTime;
+    private float idleToPatrolDelay = 0f;
+    [SerializeField] float idleMinTime;
+    [SerializeField] float idleMaxTime;
     private float idleTimer;
     private float patrolTimer;
     private Vector3 patrolStartPosition;
@@ -58,6 +59,9 @@ public class SconeHedgehog : UnitObject
 
     private void Start()
     {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+        moveTarget = transform;
+
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -69,6 +73,11 @@ public class SconeHedgehog : UnitObject
         agent.updateRotation = false;
         agent.updateUpAxis = false;
 
+        idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+        patrolStartPosition = transform.position;
+        patrolTargetPosition = GetRandomPositionInPatrolRange();
+
+        health.OnHit += OnHit;
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
     }
@@ -77,15 +86,14 @@ public class SconeHedgehog : UnitObject
     {
         base.Update();
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
-        {
-            FollowTarget();
-        }
+        xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
+        yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
+
         speed = Mathf.Max(speed, 0f);
         vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
@@ -94,46 +102,55 @@ public class SconeHedgehog : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
+                    agent.isStopped = true;
                     idleTimer += Time.deltaTime;
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                    if (idleTimer >= idleToPatrolDelay)
                     {
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
 
-                    if (isPlayerInRange)
+                    if (distanceToPlayer <= detectionRange)
                     {
-                        Debug.Log("pc 감지");
-                        state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                        state.LookAngle = state.facingAngle;
                         state.CURRENT_STATE = StateMachine.State.Moving;
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
+                    break;
+
+                case StateMachine.State.Patrol:
+                    agent.isStopped = false;
+                    Patrol();
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Moving:
+                    agent.isStopped = false;
                     agent.speed = 3f;
-                    AttackTimer = 0f;
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     if (Time.timeScale == 0f)
                     {
                         break;
                     }
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
 
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-
-                    if (!isPlayerInRange)
-                        state.ChangeToIdleState();
-
-                    if (isPlayerInAttackRange)
+                    if (transform.position.x <= target.position.x)  //보는 방향
                     {
-                        movePoint = target.position;
-                        directionToPoint = (movePoint - transform.position).normalized;
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
+
+                    agent.SetDestination(target.position);
+                    if (distanceToPlayer <= detectionDashRange)
+                    {
+                        directionToPoint = (target.position - transform.position).normalized;
                         state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
+                    if (detectionRange < distanceToPlayer)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Idle;
                     }
                     break;
 
@@ -142,112 +159,74 @@ public class SconeHedgehog : UnitObject
                     detectionRange *= 2f;
                     break;
                 case StateMachine.State.Attacking:
+                    agent.isStopped = false;
                     dashTime += Time.deltaTime;
-                    agent.speed = 5f;
+                    agent.speed = 10f;
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
-                    if (dashTime <= 1.5f)
+                    agent.SetDestination(transform.position + directionToPoint);
+
+                    if (dashTime <= 2f)
                     {
-                        agent.SetDestination(transform.position + directionToPoint);
-
                         if (distanceToPlayer <= attackDistance)
                         {
                             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                         }
-                        agent.isStopped = false;
                     }
                     else
                     {
                         dashTime = 0;
-                        if (distanceToPlayer <= detectionAttackRange)
-                        {
-                            movePoint = target.position;
-                            directionToPoint = (transform.position - movePoint).normalized;
-                            state.CURRENT_STATE = StateMachine.State.Runaway;
-                        }
-                        else
-                        {
-                            state.CURRENT_STATE = StateMachine.State.Idle;
-                        }
+                        dashCount++;
+                        state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    state.LookAngle = state.facingAngle;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-                    break;
-
-                case StateMachine.State.Patrol:
-                    Patrol();
-                    break;
-
-                case StateMachine.State.Runaway:
-                    RunAway();
                     break;
 
                 case StateMachine.State.Delay:
                     time += Time.deltaTime;
-                    if (time >= delayTime)
+                    if(time >= 1f)
                     {
-                        time = 0;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        time = 0f;
+                        if (dashCount < 3)
+                        {
+                            if (transform.position.x <= target.position.x)  //보는 방향
+                            {
+                                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                            }
+                            else
+                            {
+                                this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                            }
+                            directionToPoint = (target.position - transform.position).normalized;
+                            state.CURRENT_STATE = StateMachine.State.Attacking;
+                        }
+                        else
+                        {
+                            dashCount = 0;
+                            if (distanceToPlayer <= detectionDashRange)
+                            {
+                                if (transform.position.x <= target.position.x)  //보는 방향
+                                {
+                                    this.transform.localScale = new Vector3(1f, 1f, 1f);
+                                }
+                                else
+                                {
+                                    this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                                }
+                                directionToPoint = (target.position - transform.position).normalized;
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                            }
+                            else
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                        }
                     }
-
-                    agent.isStopped = true;
-                    SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
-            }
-        }
-    }
 
-    private void FollowTarget()
-    {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
-        {
+                case StateMachine.State.Jump:
 
-            if (distanceToPlayer <= detectionRange)
-            {
-                isPlayerInRange = true;
-            }
-            else
-            {
-                isPlayerInRange = false;
-            }
-
-            if (distanceToPlayer <= detectionAttackRange)
-            {
-                isPlayerInAttackRange = true;
-            }
-            else
-            {
-                isPlayerInAttackRange = false;
-            }
-
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
-            {
-                agent.speed = 3f;
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-
-                agent.SetDestination(target.position);
-                if (distanceToPlayer <= attackDistance)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                    agent.isStopped = true;
-                }
-                else
-                {
-                    agent.isStopped = false;
-                }
-            }
-            else
-            {
-                agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
+                    break;
             }
         }
     }
@@ -261,23 +240,20 @@ public class SconeHedgehog : UnitObject
             patrolTargetPosition = GetRandomPositionInPatrolRange();
         }
 
-        if (patrolTimer < patrolMoveDuration)
+        if (patrolTimer < patrolToIdleDelay)
         {
             agent.SetDestination(patrolTargetPosition);
-            agent.isStopped = false;
-        }
-        else if (patrolTimer < patrolMoveDuration + patrolIdleDuration)
-        {
-            agent.isStopped = true;
         }
         else
         {
             patrolTimer = 0f;
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (isPlayerInRange)
+        if (distanceToPlayer <= detectionRange)
         {
-            state.CURRENT_STATE = StateMachine.State.Idle;
+            state.CURRENT_STATE = StateMachine.State.Moving;
         }
     }
 
@@ -288,20 +264,6 @@ public class SconeHedgehog : UnitObject
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
-    }
-    private void RunAway()
-    {
-        dashTime += Time.deltaTime;
-        agent.speed = 3f;
-        if (dashTime <= 2)
-        {
-            agent.SetDestination(transform.position + directionToPoint);
-        }
-        else
-        {
-            dashTime = 0;
-            state.CURRENT_STATE = StateMachine.State.Idle;
-        }
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
