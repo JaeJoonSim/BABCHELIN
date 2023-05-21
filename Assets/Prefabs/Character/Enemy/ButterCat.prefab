@@ -175,9 +175,12 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  DestroyObject: {fileID: 0}
-  BombObject: {fileID: 0}
-  ExplosionEffect: {fileID: 0}
+  DestructionObject: {fileID: 2862424241139748284, guid: cfb21486271d69042ac87f5958c3c122,
+    type: 3}
+  BombObject: {fileID: 2862424241139748284, guid: a7e6ea81aaeeaf24c9481e5369da7989,
+    type: 3}
+  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+    type: 3}
 --- !u!114 &3275738440347693765
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +259,7 @@ Transform:
   m_GameObject: {fileID: 8539183711829654339}
   m_LocalRotation: {x: -0.5, y: -0, z: -0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3275738440347693763}
@@ -290,11 +293,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
-  - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
-  - {fileID: 2100000, guid: dcd197d625f069f4cae6cd91bf52258f, type: 2}
-  - {fileID: 2100000, guid: 9c209cd3934d7ed499be7971d769ef67, type: 2}
-  - {fileID: 2100000, guid: d47b680a2a439454586886e62cab7d8e, type: 2}
+  - {fileID: 2100000, guid: 3007486cd4c19e74a822a09091fd6606, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -328,8 +327,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 31120c7c41beccf4484d261c3f676b5a, type: 2}
-  initialSkinName: ChocolateBanana
+  skeletonDataAsset: {fileID: 11400000, guid: 7a46b5bacf4e198428cf6af42b530acb, type: 2}
+  initialSkinName: 
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
@@ -372,20 +371,20 @@ MonoBehaviour:
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
-  DefaultLoop: {fileID: 11400000, guid: a6a01aacf6aa7f444b14c04f45a74eca, type: 2}
+  DefaultLoop: {fileID: 11400000, guid: f64c4fb3f6f5c4a4e8c4ab69978df820, type: 2}
   Animations: []
-  Idle: {fileID: 11400000, guid: a6a01aacf6aa7f444b14c04f45a74eca, type: 2}
+  Idle: {fileID: 11400000, guid: 459acc96320de184a8fd60a2b944c354, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
-  Moving: {fileID: 11400000, guid: 36ecfa8f942e5694db6a02212040ebd1, type: 2}
+  Moving: {fileID: 11400000, guid: ea75c1d1f35217745b4519efd37e345b, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
   StopMoving: {fileID: 0}
-  Attack: {fileID: 11400000, guid: 5bde1175d1060eb429c14e18ae2926a8, type: 2}
+  Attack: {fileID: 11400000, guid: 5f7e3eac93cf09e4295867d9d8d416bb, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
   PlayerAttack:
@@ -407,8 +406,8 @@ MonoBehaviour:
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
   Dodge: {fileID: 0}
-  Hit: {fileID: 11400000, guid: 6a40a59154966fb41a807149fb113374, type: 2}
-  Dead: {fileID: 11400000, guid: 21ab1c5ee24d29345a8849aa8b0d9644, type: 2}
+  Hit: {fileID: 11400000, guid: 72c4824beede32048b0e1e341137138f, type: 2}
+  Dead: {fileID: 11400000, guid: 505bb72245d24824c9c795dc13ceb0e6, type: 2}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
