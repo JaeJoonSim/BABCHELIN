@@ -331,7 +331,7 @@ public class CookieMouse3 : UnitObject
 
     public void OnDie()
     {
-        agent.speed = 0f;
+        speed = 0f;
         Invoke("DeathEffect", 4f);
         Destroy(gameObject, 4f);
     }

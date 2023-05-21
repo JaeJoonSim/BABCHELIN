@@ -8,6 +8,7 @@ using System.Collections;
 public class SconeHedgehog : UnitObject
 {
     public Transform SpineTransform;
+    private SkeletonAnimation spineAnimation;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -53,9 +54,8 @@ public class SconeHedgehog : UnitObject
     public float xDir;
     public float yDir;
 
-    public GameObject BombObject;
 
-    private SkeletonAnimation spineAnimation;
+    public GameObject ExplosionEffect;
 
     private void Start()
     {
@@ -99,6 +99,8 @@ public class SconeHedgehog : UnitObject
         vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
+            SpineTransform.localPosition = Vector3.zero;
+
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
@@ -154,11 +156,8 @@ public class SconeHedgehog : UnitObject
                     }
                     break;
 
-                case StateMachine.State.HitLeft:
-                case StateMachine.State.HitRight:
-                    detectionRange *= 2f;
-                    break;
                 case StateMachine.State.Attacking:
+                    state.LockStateChanges = true;
                     agent.isStopped = false;
                     dashTime += Time.deltaTime;
                     agent.speed = 10f;
@@ -166,7 +165,7 @@ public class SconeHedgehog : UnitObject
 
                     agent.SetDestination(transform.position + directionToPoint);
 
-                    if (dashTime <= 2f)
+                    if (dashTime <= 1f)
                     {
                         if (distanceToPlayer <= attackDistance)
                         {
@@ -175,6 +174,7 @@ public class SconeHedgehog : UnitObject
                     }
                     else
                     {
+                        state.LockStateChanges = false;
                         dashTime = 0;
                         dashCount++;
                         state.CURRENT_STATE = StateMachine.State.Delay;
@@ -226,6 +226,10 @@ public class SconeHedgehog : UnitObject
 
                 case StateMachine.State.Jump:
 
+                    break;
+
+                case StateMachine.State.HitLeft:
+                case StateMachine.State.HitRight:
                     break;
             }
         }
@@ -281,12 +285,18 @@ public class SconeHedgehog : UnitObject
 
     public void OnDie()
     {
-        GameObject bomb = BombObject;
-        bomb.transform.position = transform.position;
-        Instantiate(bomb);
-        agent.speed = 0f;
-        Destroy(gameObject, 5f);
+        speed = 0f;
+        Invoke("DeathEffect", 2f);
+        Destroy(gameObject, 2f);
     }
+
+    private void DeathEffect()
+    {
+        GameObject explosion = ExplosionEffect;
+        explosion.transform.position = transform.position;
+        Instantiate(explosion);
+    }
+
 
     private void OnDrawGizmos()
     {

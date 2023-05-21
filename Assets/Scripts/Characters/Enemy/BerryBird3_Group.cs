@@ -67,7 +67,7 @@ public class BerryBird3_Group : UnitObject
 
     public GameObject BulletObject;
     public GameObject ExplosionEffect;
-    public GameObject Jinjin_Bird;
+    public GameObject Single_Bird;
 
     private SkeletonAnimation spineAnimation;
 
@@ -317,7 +317,7 @@ public class BerryBird3_Group : UnitObject
 
     public void OnDie()
     {
-        agent.speed = 0f;
+        speed = 0f;
         Invoke("DeathEffect", 0.8333f);
         Destroy(gameObject, 0.8333f);
     }
@@ -329,7 +329,7 @@ public class BerryBird3_Group : UnitObject
         Instantiate(explosion);
         for (int a = 0; a < 3; a++)
         {
-            GameObject jinjin = Jinjin_Bird;
+            GameObject jinjin = Single_Bird;
             Vector3 spawnPosition = new Vector3(transform.localPosition.x + a, transform.localPosition.y + a, 0f);
             jinjin.transform.position = spawnPosition;
             Instantiate(jinjin, transform.parent);

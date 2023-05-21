@@ -398,7 +398,8 @@ public class Tomato : UnitObject
 
     public void OnDie()
     {
-        agent.speed = 0f;
+        speed = 0f;
+        Invoke("DeathEffect", 3f);
         Destroy(gameObject, 3f);
     }
 

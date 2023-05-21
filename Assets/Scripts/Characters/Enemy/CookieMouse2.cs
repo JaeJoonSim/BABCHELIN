@@ -387,7 +387,7 @@ public class CookieMouse2 : UnitObject
     {
         SlideEffect_L.SetActive(false);
         SlideEffect_R.SetActive(false);
-        agent.speed = 0f;
+        speed = 0f;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }

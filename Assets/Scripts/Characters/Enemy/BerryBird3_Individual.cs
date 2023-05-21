@@ -170,7 +170,7 @@ public class BerryBird3_Individual : UnitObject
 
     public void OnDie()
     {
-        agent.speed = 0f;
+        speed = 0f;
         Invoke("DeathEffect", 3.2333f);
         Destroy(gameObject, 3.2333f);
     }
