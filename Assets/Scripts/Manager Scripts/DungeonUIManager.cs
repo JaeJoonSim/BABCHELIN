@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class DungeonUIManager : BaseMonoBehaviour
 {
+    public GameObject escPanel;
     public GameObject settingPanel;
 
     private void Start()
     {
+        escPanel.SetActive(false);
         settingPanel.SetActive(false);
     }
 
@@ -17,7 +19,8 @@ public class DungeonUIManager : BaseMonoBehaviour
         {
             if (Time.timeScale != 1) Time.timeScale = 1;
             else Time.timeScale = 0;
-            settingPanel.SetActive(!settingPanel.activeSelf);
+            escPanel.SetActive(!escPanel.activeSelf);
+            settingPanel.SetActive(false);
         }
     }
 
@@ -34,5 +37,16 @@ public class DungeonUIManager : BaseMonoBehaviour
 #else
         Application.Quit();
 #endif
+    }
+
+    public void Resume()
+    {
+        escPanel.SetActive(false);
+    }
+
+    public void SettingUI()
+    {
+        escPanel.SetActive(!escPanel.activeSelf);
+        settingPanel.SetActive(!settingPanel.activeSelf);
     }
 }
