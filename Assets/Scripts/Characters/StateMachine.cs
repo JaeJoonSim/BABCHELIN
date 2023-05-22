@@ -40,6 +40,8 @@ public class StateMachine : MonoBehaviour
         Outburst = 32,
         Defend = 33,
         StopMoving = 34,
+        Skill = 35,
+        ultimate = 36,
     }
 
     public delegate void StateChange(State NewState, State PrevState);
@@ -67,6 +69,7 @@ public class StateMachine : MonoBehaviour
                 {
                     OnStateChange(value, currentState);
                 }
+                previousState = currentState;
                 currentState = value;
                 if (IsPlayer)
                 {

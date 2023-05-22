@@ -8489,10 +8489,12 @@ MonoBehaviour:
   SuctionRange: 3.3
   SuctionDelay: 1
   absorbEffet: {fileID: 5729501917595095277}
+  showAttack: 1
   BulletGauge: 300
   maxBulletGauge: 1000
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
-  AttackSpeed: 10
+  AttackSpeed: 100
+  SkillIndex: 0
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
   BulletUI: {fileID: 276941507017972697}
@@ -9229,6 +9231,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 1
   AutomaticallySetFacing: 1
@@ -9254,6 +9257,9 @@ MonoBehaviour:
   Absorb: {fileID: 11400000, guid: ea240685ac2cdd947b7ded31e1c661d4, type: 2}
   NorthAbsorb: {fileID: 11400000, guid: 05a2d1703029500409ab9c8a70cf5515, type: 2}
   SouthAbsorb: {fileID: 11400000, guid: 41ecfe2e0e0f49e4e95d623b67f430d9, type: 2}
+  Skill: {fileID: 11400000, guid: f6f8af442e28d4b429a405e08199c065, type: 2}
+  NorthSkill: {fileID: 11400000, guid: e284cef3227e0cb49a911ab65eab513a, type: 2}
+  SouthSkill: {fileID: 11400000, guid: 59aa33c4bec795c4ca950456afa9c5a2, type: 2}
   Loading: {fileID: 11400000, guid: 638907b1bb67fe148843e0b7f13ea9ae, type: 2}
   NorthLoading: {fileID: 11400000, guid: ddd123a390257ae44ae7a29a02fa697d, type: 2}
   SouthLoading: {fileID: 11400000, guid: b16709946dc16d849ada9b1e746787ee, type: 2}

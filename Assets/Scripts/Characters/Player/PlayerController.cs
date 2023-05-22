@@ -42,13 +42,14 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAbsorb", true)] public float SuctionDelay = 1f;
     [DrawIf("showAbsorb", true)] public ParticleSystem absorbEffet;
 
-    [Header("공격"),Space]
+    [Header("공격")]
+    public bool showAttack = false;
+    [DrawIf("showAttack", true)] public int BulletGauge;
+    [DrawIf("showAttack", true)] public int maxBulletGauge;
+    [DrawIf("showAttack", true)] public GameObject Attack;
+    [DrawIf("showAttack", true)] public float AttackSpeed;
 
-    public int BulletGauge;
-    public int maxBulletGauge;
-    public GameObject Attack;
-
-    public float AttackSpeed;
+    [DrawIf("showAttack", true)] public int SkillIndex;
 
     public Transform muzzleBone;
     public Transform GrinderControl;
@@ -98,7 +99,11 @@ public class PlayerController : BaseMonoBehaviour
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && 
+            (state.CURRENT_STATE == StateMachine.State.Attacking || 
+            state.CURRENT_STATE == StateMachine.State.Absorbing ||
+            state.CURRENT_STATE == StateMachine.State.Skill
+            ))
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
@@ -241,6 +246,8 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
+                break;
+            case StateMachine.State.Skill:
                 break;
             case StateMachine.State.Attacking:
                 //이동

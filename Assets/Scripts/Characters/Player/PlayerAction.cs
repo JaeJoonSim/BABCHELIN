@@ -47,9 +47,6 @@ public class PlayerAction : BaseMonoBehaviour
     public GameObject LookToObject;
     private Action GoToCallback;
 
-    private float maxDuration = -1f;
-    private float startMoveTimestamp;
-
     public bool DodgeQueued;
     public bool AllowDodging = true;
 
@@ -126,17 +123,17 @@ public class PlayerAction : BaseMonoBehaviour
             {
                 DodgeDelay -= Time.deltaTime;
             }
+            if (state.CURRENT_STATE == StateMachine.State.Loading)
+            {
+                LoadingDelay -= Time.deltaTime;
+            }
 
             ShotDelay -= Time.deltaTime;
 
             DodgeRoll();
             Shot();
             Absorb();
-        }
-
-        if (state.CURRENT_STATE == StateMachine.State.Loading)
-        {
-            LoadingDelay -= Time.deltaTime;
+            Skill();
         }
 
         PreviousPosition = base.transform.position;
@@ -267,6 +264,21 @@ public class PlayerAction : BaseMonoBehaviour
         return false;
     }
 
+    public bool Skill()
+    {
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            state.CURRENT_STATE = StateMachine.State.Skill;
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.Skill)
+        {
+            if (simpleSpineAnimator.Track.IsComplete)
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+            }
+        }
+        return true;
+    }
     public void FindVisibleTargets()
     {
         if (targetInRange != null)
@@ -333,9 +345,11 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
+            if (trackEntry.TrackTime > 0.02)
+                return;
+            Debug.Log(trackEntry.TrackTime);
             Vector3 spawnPos = playerController.GrinderControl.position;
             spawnPos.z = 0;
-
             float anglet = state.facingAngle - 15;
             playerController.addBullet(-
             Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet))).GetComponent<PlayerAttack>().Cost);
