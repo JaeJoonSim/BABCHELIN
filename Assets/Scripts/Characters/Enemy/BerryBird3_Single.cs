@@ -5,7 +5,7 @@ using Spine;
 using Spine.Unity;
 
 
-public class BerryBird3_Individual : UnitObject
+public class BerryBird3_Single : UnitObject
 {
     public Transform SpineTransform;
 
@@ -104,13 +104,13 @@ public class BerryBird3_Individual : UnitObject
                         break;
                     }
 
-                    if (transform.position.x < target.position.x)  //보는 방향
+                    if (transform.position.x <= target.position.x)  //보는 방향
                     {
-                        this.transform.localScale = new Vector3(1f, 1f, 1f);    //오른쪽
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
                     }
                     else
                     {
-                        this.transform.localScale = new Vector3(-1f, 1f, 1f);   //왼쪽
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
                     }
 
                     agent.SetDestination(target.position);
@@ -170,6 +170,7 @@ public class BerryBird3_Individual : UnitObject
 
     public void OnDie()
     {
+        agent.isStopped = true;
         speed = 0f;
         Invoke("DeathEffect", 3.2333f);
         Destroy(gameObject, 3.2333f);

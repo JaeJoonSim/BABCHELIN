@@ -9,6 +9,25 @@ public class SconeHedgehog : UnitObject
 {
     public Transform SpineTransform;
     private SkeletonAnimation spineAnimation;
+    public int AnimationTrack = 0;
+    private SkeletonAnimation _anim;
+    private SkeletonAnimation anim
+    {
+        get
+        {
+            if (_anim == null)
+            {
+                _anim = this.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            }
+            return _anim;
+        }
+    }
+    public AnimationReferenceAsset Idle;
+    public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset StartMoving;
+    public AnimationReferenceAsset StopMoving;
+    public AnimationReferenceAsset StopDash;
+    private float aniCount = 1;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -61,6 +80,7 @@ public class SconeHedgehog : UnitObject
     {
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         moveTarget = transform;
+        state.CURRENT_STATE = StateMachine.State.Idle;
 
         if (target == null)
         {
@@ -105,6 +125,7 @@ public class SconeHedgehog : UnitObject
             {
                 case StateMachine.State.Idle:
                     agent.isStopped = true;
+                    speed = 0f;
                     idleTimer += Time.deltaTime;
                     if (idleTimer >= idleToPatrolDelay)
                     {
@@ -128,7 +149,7 @@ public class SconeHedgehog : UnitObject
 
                 case StateMachine.State.Moving:
                     agent.isStopped = false;
-                    agent.speed = 3f;
+                    agent.speed = 3;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     if (Time.timeScale == 0f)
                     {
@@ -152,6 +173,30 @@ public class SconeHedgehog : UnitObject
                     }
                     if (detectionRange < distanceToPlayer)
                     {
+                        time = 0;
+                        state.CURRENT_STATE = StateMachine.State.StopMoving;
+                    }
+
+                    aniCount = 1;
+                    break;
+
+                case StateMachine.State.StopMoving:
+                    agent.isStopped = true;
+                    agent.speed = 0;
+                    time += Time.deltaTime;
+                    if (StopMoving != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: false);
+                            aniCount--;
+                        }
+                    }
+
+                    if(time > 0.4667f)
+                    {
+                        aniCount = 1;
+                        time = 0;
                         state.CURRENT_STATE = StateMachine.State.Idle;
                     }
                     break;
@@ -180,11 +225,22 @@ public class SconeHedgehog : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
+                    aniCount = 1;
                     break;
 
                 case StateMachine.State.Delay:
                     time += Time.deltaTime;
-                    if(time >= 1f)
+                    if (StopDash != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StopDash, loop: false);
+                            anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
+                            aniCount--;
+                        }
+                    }
+
+                    if (time >= 1f)
                     {
                         time = 0f;
                         if (dashCount < 3)
@@ -280,6 +336,10 @@ public class SconeHedgehog : UnitObject
                     playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
                 hasAppliedDamage = true;
             }
+        }
+        else if(e.Data.Name == "rolling")
+        {
+            
         }
     }
 

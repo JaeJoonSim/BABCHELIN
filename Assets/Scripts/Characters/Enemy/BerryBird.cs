@@ -178,7 +178,7 @@ public class BerryBird : UnitObject
                     if (Time.timeScale == 0f)
                         break;
 
-                    if (0 <= xDir)  //보는 방향
+                    if (transform.position.x <= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);
                     }
@@ -386,7 +386,7 @@ public class BerryBird : UnitObject
 
     public void OnDie()
     {
-        agent.speed = 0f;
+        speed = 0f;
         Invoke("DeathEffect", 3.233f);
         Destroy(gameObject, 3.233f);
     }
