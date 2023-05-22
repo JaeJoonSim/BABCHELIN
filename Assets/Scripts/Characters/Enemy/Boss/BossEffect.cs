@@ -10,6 +10,9 @@ public class BossEffect : BaseMonoBehaviour
     public ParticleSystem tailWhip;
     public ParticleSystem failExplode;
     public ParticleSystem GimmickSpin;
+    public ParticleSystem runDust;
+    public ParticleSystem Charge;
+    public ParticleSystem Dead;
 
     private SkeletonAnimation anim;
     private StateMachine state;
@@ -31,9 +34,18 @@ public class BossEffect : BaseMonoBehaviour
         }
         else
             GimmickSpin.Stop();
+
+        if (state.CURRENT_STATE == StateMachine.State.Outburst || state.CURRENT_STATE == StateMachine.State.Runaway)
+        {
+            if (runDust != null)
+            {
+                if (!runDust.isPlaying)
+                    runDust.Play();
+            }
+        }
     }
 
-    private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
+    public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         switch (state.CURRENT_STATE)
         {
@@ -58,13 +70,13 @@ public class BossEffect : BaseMonoBehaviour
             case StateMachine.State.Throwing:
                 if (e.Data.Name == "cream_throw")
                 {
-                    
+
                 }
                 break;
             case StateMachine.State.Farting:
                 if (e.Data.Name == "effeck_fart")
                 {
-                    
+
                 }
                 break;
             case StateMachine.State.InstantKill:
@@ -73,6 +85,23 @@ public class BossEffect : BaseMonoBehaviour
                     if (failExplode != null)
                         failExplode.Play();
                 }
+                break;
+            case StateMachine.State.FartShield:
+                if (e.Data.Name == "effeck_fart")
+                {
+
+                }
+                break;
+            case StateMachine.State.Outburst:
+                if (e.Data.Name == "run")
+                {
+                    if (Charge != null)
+                        Charge.Play();
+                }
+                break;
+            case StateMachine.State.Dead:
+                if (Dead != null)
+                    Dead.Play();
                 break;
         }
     }

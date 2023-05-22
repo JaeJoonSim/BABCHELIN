@@ -618,7 +618,7 @@ public class Skunk : UnitObject
         {
             currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
             currentShield.transform.SetParent(this.transform);
-            currentShield.transform.localScale = new Vector3(shieldRadius, shieldRadius, shieldRadius);
+            currentShield.transform.localScale = new Vector3(shieldRadius * 0.1f, shieldRadius * 0.1f, shieldRadius * 0.1f);
             isShieldActive = true;
             health.untouchable = true;
         }
