@@ -46,9 +46,9 @@ public class PlayerController : BaseMonoBehaviour
 
     public int BulletGauge;
     public int maxBulletGauge;
-    public GameObject[] Attack;
-    public int CurAttack;
-    public float[] AttackSpeed;
+    public GameObject Attack;
+
+    public float AttackSpeed;
 
     public Transform muzzleBone;
     public Transform GrinderControl;
@@ -85,6 +85,7 @@ public class PlayerController : BaseMonoBehaviour
 
         //xDir = Input.GetAxisRaw("Horizontal");
         //yDir = Input.GetAxisRaw("Vertical");
+
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
@@ -248,28 +249,6 @@ public class PlayerController : BaseMonoBehaviour
                 else
                 {
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-
-                if(CurAttack == 0f)
-                {
-                    Attack[0].transform.position = GrinderControl.position;
-                    //if (45 <= state.facingAngle && state.facingAngle <= 135)
-                    //{
-                    //    Attack[0].transform.position = 
-                    //        new Vector3(
-                    //            Attack[0].transform.position.x,
-                    //            Attack[0].transform.position.y,
-                    //            0.001f);
-                    //}
-                    //else 
-                    //{
-                    //    Attack[0].transform.position =
-                    //        new Vector3(
-                    //            Attack[0].transform.position.x,
-                    //            Attack[0].transform.position.y,
-                    //            -0.001f);
-                    //}
-                    Attack[0].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 }
                 break;
 

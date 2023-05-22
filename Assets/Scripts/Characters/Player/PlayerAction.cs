@@ -29,9 +29,6 @@ public class PlayerAction : BaseMonoBehaviour
     public float LoadingDelay;
 
     public StateMachine _state;
-    [SerializeField] private WeaponRadialMenu Radial;
-
-
 
     [Space, Header("Spine")]
     public SkeletonAnimation Spine;
@@ -123,21 +120,18 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void Update()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Dodging)
-        {
-            DodgeDelay -= Time.deltaTime;
-        }
-
         if (state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
+            if (state.CURRENT_STATE != StateMachine.State.Dodging)
+            {
+                DodgeDelay -= Time.deltaTime;
+            }
+
+            ShotDelay -= Time.deltaTime;
+
             DodgeRoll();
-            ChangeAttack();
-
-            Radial.transform.position = Camera.main.WorldToScreenPoint(transform.position + new Vector3(0, 1f, 0));
-
             Shot();
             Absorb();
-            ShotDelay -= Time.deltaTime;
         }
 
         if (state.CURRENT_STATE == StateMachine.State.Loading)
@@ -198,10 +192,6 @@ public class PlayerAction : BaseMonoBehaviour
             state.CURRENT_STATE = StateMachine.State.Dodging;
             DodgeDelay = playerController.DodgeDelay;
 
-            //기존 흡수나 공격 취소
-            if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
-                playerController.Attack[0].SetActive(false);
-
             if (playerController.absorbEffet != null)
             {
                 playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -212,83 +202,24 @@ public class PlayerAction : BaseMonoBehaviour
         }
         return false;
     }
-    public bool ChangeAttack()
-    {
-
-        if (state.CURRENT_STATE == StateMachine.State.Dodging && state.CURRENT_STATE == StateMachine.State.Attacking)
-            return false;
-        else if (state.CURRENT_STATE == StateMachine.State.Loading && LoadingDelay < 0)
-        {
-            state.CURRENT_STATE = StateMachine.State.Idle;
-            return false;
-        }
-
-        if (Input.GetMouseButtonDown(2))
-        {
-            Radial.Show();
-        }
-        else if (Input.GetMouseButtonUp(2))
-        {
-            int temp = Radial.Hide();
-            if (temp != -1)
-                playerController.CurAttack = temp;
-
-            if (state.CURRENT_STATE != StateMachine.State.Loading && playerController.CurAttack != -1)
-            {
-                state.CURRENT_STATE = StateMachine.State.Loading;
-
-                LoadingDelay = 0.6667f;
-
-            }
-        }
-        return true;
-    }
     public bool Shot()
     {
-        if (state.CURRENT_STATE == StateMachine.State.Attacking && ShotDelay <= 0.15f && playerController.CurAttack != 0)
+        if (Input.GetMouseButton(0) && state.CURRENT_STATE != StateMachine.State.Dodging)
         {
-            ShotDelay = playerController.AttackSpeed[playerController.CurAttack];
-            state.CURRENT_STATE = StateMachine.State.Idle;
-        }
-        else if (state.CURRENT_STATE == StateMachine.State.Attacking
-            && playerController.CurAttack == 0
-            && !Input.GetMouseButton(0))
-        {
-            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
-                playerController.Attack[0].SetActive(false);
-            state.CURRENT_STATE = StateMachine.State.Idle;
-        }
-        else if (Input.GetMouseButton(0))
-        {
-            if (playerController.BulletGauge <= 0)
+            if (playerController.BulletGauge <= 0 || ShotDelay > 0)
             {
                 if (state.CURRENT_STATE == StateMachine.State.Attacking)
                     state.CURRENT_STATE = StateMachine.State.Idle;
-                if (playerController.Attack[0].activeSelf && playerController.Attack[0] != null)
-                    playerController.Attack[0].SetActive(false);
                 return false;
             }
-
-            if (ShotDelay > 0f ||
-            (state.CURRENT_STATE == StateMachine.State.Dodging
-            || state.CURRENT_STATE == StateMachine.State.Absorbing
-            || state.CURRENT_STATE == StateMachine.State.Attacking))
-            {
-                return false;
-            }
-
-            getMouseInfo();
-            if (Time.timeScale != 0)
-                state.CURRENT_STATE = StateMachine.State.Attacking;
-
-            ShotDelay = (playerController.CurAttack == 0) ? 0 : simpleSpineAnimator.PlayerAttack[playerController.CurAttack].Animation.Duration;
-
-            if (playerController.CurAttack == 0 && playerController.Attack[0] != null)
-                playerController.Attack[0].SetActive(true);
-
-
+            state.CURRENT_STATE = StateMachine.State.Attacking;
+            ShotDelay = playerController.AttackSpeed;
         }
-
+        else if (Input.GetMouseButtonUp(0))
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Attacking)
+                state.CURRENT_STATE = StateMachine.State.Idle;
+        }
 
         return true;
     }
@@ -401,29 +332,15 @@ public class PlayerAction : BaseMonoBehaviour
         {
             Vector3 spawnPos = playerController.GrinderControl.position;
             spawnPos.z = 0;
-            switch (playerController.CurAttack)
+
+            float anglet = state.facingAngle - 15;
+            playerController.addBullet(-
+            Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet))).GetComponent<PlayerAttack>().Cost);
+            for (int i = 0; i < 2; i++)
             {
-                case 1:
-                    float anglet = state.facingAngle - 15;
-                    playerController.addBullet(-
-                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet))).GetComponent<PlayerAttack>().Cost);
-                    for (int i = 0; i < 2; i++)
-                    {
-                        anglet += 30 / 2;
-                        Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                    }
-
-                    break;
-                case 2:
-                    playerController.addBullet(-
-                    Instantiate(playerController.Attack[playerController.CurAttack], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost);
-                    rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 2000f);
-                    break;
-                default:
-                    break;
+                anglet += 30 / 2;
+                Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
             }
-
-
 
         }
     }
