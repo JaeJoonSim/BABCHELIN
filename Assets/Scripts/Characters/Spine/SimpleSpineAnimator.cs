@@ -86,8 +86,18 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset SouthLoading;
 
     [Space, Header("Skunk Settings")]
+
+    public AnimationReferenceAsset Crack;
+    public AnimationReferenceAsset NonCrack;
+
+    [Space]
+
     public AnimationReferenceAsset Jump;
     public AnimationReferenceAsset TailWhip;
+    public AnimationReferenceAsset CreamThrow;
+    public AnimationReferenceAsset fart;
+    public AnimationReferenceAsset SpinStart;
+    public AnimationReferenceAsset Spin;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -379,19 +389,54 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
                 }
                 break;
+
             case StateMachine.State.Jump:
                 if (Jump != null)
                 {
+                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
                     anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
                 }
                 break;
             case StateMachine.State.Tailing:
                 if (TailWhip != null)
                 {
+                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
                     anim.AnimationState.SetAnimation(AnimationTrack, TailWhip, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, TailWhip.Animation.Duration);
                 }
                 break;
+            case StateMachine.State.Throwing:
+                if (CreamThrow != null)
+                {
+                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    anim.AnimationState.SetAnimation(AnimationTrack, CreamThrow, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, CreamThrow.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Farting:
+                if (fart != null)
+                {
+                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    anim.AnimationState.SetAnimation(AnimationTrack, fart, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.PhaseChange:
+                if (SpinStart != null)
+                {
+                    anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+                    anim.AnimationState.SetAnimation(AnimationTrack, SpinStart, loop: false);
+                    if (Spin != null)
+                    {
+                        anim.AnimationState.AddAnimation(AnimationTrack, Spin, loop: true, SpinStart.Animation.Duration);
+                    }
+                    else
+                    {
+                        anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, SpinStart.Animation.Duration);
+                    }
+                }
+                break;
+
             case StateMachine.State.Dead:
                 if (Dead != null)
                 {

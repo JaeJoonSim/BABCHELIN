@@ -204,10 +204,11 @@ public class Skunk : UnitObject
             state.CURRENT_STATE = StateMachine.State.InstantKill;
         }
 
-        if (InstantKillTimelimit > 0 && destructionCount <= 0 && currentPhase == 1)
+        if (InstantKillTimelimit > 0 && destructionCount <= 0 && currentPhase == 1 && !isPatternPause)
         {
             isPatternPause = true;
             health.damageDecrease = true;
+
             state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
 
@@ -239,17 +240,9 @@ public class Skunk : UnitObject
                 case StateMachine.State.Patrol:
                     break;
                 case StateMachine.State.Jump:
-                    //if (!hasJumpAttacked)
-                    //{
-                    //    StartCoroutine(JumpAttack());
-                    //}
                     break;
                 case StateMachine.State.Farting:
-                    if (!wasFarting)
-                    {
-                        Fart();
-                        wasFarting = true;
-                    }
+                    
                     break;
                 case StateMachine.State.FartShield:
                     if (!isShieldActive)
@@ -267,22 +260,25 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.Tailing:
-                    //if (!isTailing)
-                    //{
-                    //    StartCoroutine(Tailing(maxAngle));
-                    //}
                     break;
                 case StateMachine.State.Throwing:
-                    if (!isThrowing)
-                    {
-                        StartCoroutine(CreamThrow());
-                    }
                     break;
                 case StateMachine.State.InstantKill:
                     playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
                     break;
                 case StateMachine.State.PhaseChange:
-                    if (!isPhaseChanged)
+                    if (isPhaseChanged)
+                    {
+                        currentPhase++;
+                        patternManager.basicPatterns.Clear();
+                        patternManager.patternList.Clear();
+                        patternManager.basicPatterns = phase2BasicPatterns;
+                        isPhaseChanged = false;
+                        isPatternPause = false;
+                        health.damageDecrease = false;
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                    else if (!isPhaseChanged)
                     {
                         phaseChangeTimeLimit -= Time.deltaTime;
 
@@ -294,17 +290,6 @@ public class Skunk : UnitObject
                         {
                             StartCoroutine(CreamThrow());
                         }
-
-                    }
-                    else if (isPhaseChanged)
-                    {
-                        currentPhase++;
-                        patternManager.basicPatterns.Clear();
-                        patternManager.patternList.Clear();
-                        patternManager.basicPatterns = phase2BasicPatterns;
-                        isPhaseChanged = false;
-                        isPatternPause = false;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
                     }
 
                     if (phaseChangeTimeLimit <= 0)
@@ -733,6 +718,20 @@ public class Skunk : UnitObject
                     StartCoroutine(Tailing(maxAngle));
                 }
                 break;
+            case StateMachine.State.Throwing:
+                if (!isThrowing && e.Data.Name == "cream_throw")
+                {
+                    StartCoroutine(CreamThrow());
+                }
+                break;
+            case StateMachine.State.Farting:
+                if (!wasFarting && e.Data.Name == "effeck_fart")
+                {
+                    Fart();
+                    wasFarting = true;
+                }
+                break;
+            
         }
     }
 

@@ -129,23 +129,25 @@ public class Health : BaseMonoBehaviour
 
         if (currentHealth > 0)
         {
-            if(isMonster)
+            if (isMonster)
             {
                 state.ChangeToPreviousState();
             }
             else
             {
-                state.ChangeToIdleState();
+                if (!damageDecrease)
+                    state.ChangeToIdleState();
             }
         }
     }
 
     protected virtual void ApplyChangeToHitState(GameObject attacker, Vector3 attackLocation, float damage, AttackType type)
     {
-        if(type == AttackType.Normal)
-            {
+        if (type == AttackType.Normal)
+        {
             StartCoroutine(InvincibilityAndBlink(recoveryTime));
-            state.ChangeToHitState(attackLocation);
+            if (!damageDecrease)
+                state.ChangeToHitState(attackLocation);
         }
     }
 
