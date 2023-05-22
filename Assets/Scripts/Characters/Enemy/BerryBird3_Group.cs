@@ -46,6 +46,7 @@ public class BerryBird3_Group : UnitObject
     private float distanceToPlayer;
     Vector3 movePoint;
     Vector3 directionToPoint;
+    private StateMachine[] otherBirdState;
 
     [Space]
     [SerializeField] float patrolRange = 10f;
@@ -65,6 +66,8 @@ public class BerryBird3_Group : UnitObject
     public float xDir;
     public float yDir;
 
+    [Space]
+    private GameObject[] AttackPoint;
     public GameObject BulletObject;
     public GameObject ExplosionEffect;
     public GameObject Single_Bird;
@@ -83,6 +86,18 @@ public class BerryBird3_Group : UnitObject
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+
+        otherBirdState = new StateMachine[transform.parent.childCount - 1];         //다른 베뱁새 상태 가져오기
+        for (int a = 0; a < otherBirdState.Length; a++)
+        {
+            otherBirdState[a] = transform.parent.GetChild(a + 1).GetComponent<StateMachine>();
+        }
+
+        AttackPoint = new GameObject[transform.childCount - 1];
+        for (int a = 0; a < 3; a++)
+        {
+            AttackPoint[a] = transform.GetChild(a + 1).gameObject;
+        }
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -148,7 +163,7 @@ public class BerryBird3_Group : UnitObject
                         break;
                     }
 
-                    if (0 <= xDir)  //보는 방향
+                    if (transform.position.x <= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);
                     }
@@ -170,12 +185,30 @@ public class BerryBird3_Group : UnitObject
 
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        agent.speed = 0;
+                        for (int a = 0; a < otherBirdState.Length; a++)
+                        {
+                            otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                    }
                     break;
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
                     agent.speed = 0f;
                     agent.isStopped = true;
                     AttackTimer += Time.deltaTime;
+
+                    if (transform.position.x <= target.position.x)  //보는 방향
+                    {
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
 
                     if (AttackTimer >= 0.7667f)
                     {
@@ -310,7 +343,13 @@ public class BerryBird3_Group : UnitObject
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
                 GameObject bullet = BulletObject;
-                Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 1), Quaternion.Euler(0, 0, state.facingAngle));
+                for (int a = 0; a < 3; a++)
+                {
+                    Instantiate(bullet, AttackPoint[a].transform);
+                }
+                //Instantiate(bullet, new Vector3(transform.position.x + 0.605f, transform.position.y, transform.position.z - 1), Quaternion.Euler(0, 0, state.facingAngle));
+                //Instantiate(bullet, new Vector3(transform.position.x + 0.7f, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
+                //Instantiate(bullet, new Vector3(transform.position.x + 0.24f, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
             }
         }
     }

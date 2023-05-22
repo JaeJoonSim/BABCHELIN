@@ -9,7 +9,7 @@ public class FlowerPot : UnitObject
     [SerializeField] float spawnRange;
     [SerializeField] GameObject[] mosterObject;
 
-    private void Update()
+    public override void Update()
     {
         time += Time.deltaTime;
 
@@ -30,7 +30,9 @@ public class FlowerPot : UnitObject
         Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
         Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
 
-        GameObject item = mosterObject[Random.Range(0, mosterObject.Length)];
-        Instantiate(item, dropPosition, Quaternion.identity);
+        //GameObject spawnMonster = mosterObject[Random.Range(0, mosterObject.Length)];
+        GameObject spawnMonster = Instantiate(mosterObject[Random.Range(0, mosterObject.Length)], dropPosition, Quaternion.identity);
+        //Instantiate(spawnMonster, dropPosition, Quaternion.identity);
+        spawnMonster.transform.SetParent(transform.parent);
     }
 }
