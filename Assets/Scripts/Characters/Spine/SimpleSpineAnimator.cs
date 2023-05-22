@@ -100,6 +100,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset SpinStart;
     public AnimationReferenceAsset Destroyed;
     public AnimationReferenceAsset Spin;
+    public AnimationReferenceAsset phase2Idle;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -334,7 +335,17 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         switch (cs)
         {
             case StateMachine.State.Idle:
-                anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                if (skunk != null)
+                {
+                    if (skunk.currentPhase == 1)
+                        anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    else
+                        anim.AnimationState.SetAnimation(AnimationTrack, phase2Idle, loop: true);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                }
                 break;
             case StateMachine.State.Moving:
                 if (StartMoving != null)
@@ -426,9 +437,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Stun:
                 if(Destroyed != null)
                 {
-                    
-                        anim.AnimationState.SetAnimation(AnimationTrack, Destroyed, loop: false);
-                    //anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                    anim.AnimationState.SetAnimation(AnimationTrack, Destroyed, loop: false);
+                    if (skunk.destructionCount <= 1)
+                        anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
                 }
                 break;
             case StateMachine.State.PhaseChange:
@@ -1198,11 +1210,16 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void SetCrackAnim()
     {
-        if (skunk.destructionCount < 1)
+        if (skunk.destructionCount < 1 && skunk.currentPhase == 1)
         {
             anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
         }
-        else
+        else if (skunk.destructionCount >= 1 && skunk.currentPhase == 1)
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+        }
+
+        if (skunk.currentPhase == 2)
         {
             anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
         }

@@ -220,6 +220,11 @@ public class Skunk : UnitObject
 
         DestructionPart();
 
+        if (currentPhase > 1 && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Dieing)
+        {
+            forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+        }
+
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             switch (state.CURRENT_STATE)
@@ -626,7 +631,18 @@ public class Skunk : UnitObject
             }
 
             Vector3 direction = (runawayDestination - transform.position).normalized;
+            
             agent.Move(direction * runawaySpeed * Time.deltaTime);
+            float xDirection = runawayDestination.x - transform.position.x;
+
+            if (xDirection > 0)
+            {
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            }
+            else if (xDirection < 0)
+            {
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            }
             bombDropTimer += Time.deltaTime;
             if (bombDropTimer >= bombDropInterval && bombPrefab != null)
             {
@@ -636,7 +652,14 @@ public class Skunk : UnitObject
             yield return null;
         }
 
-        yield return new WaitForSeconds(waitAfterReachingDestination);
+        var curAnim = GetComponentInChildren<SimpleSpineAnimator>();
+
+        if (Vector3.Distance(transform.position, runawayDestination) <= 1f)
+        {
+            spineAnimation.AnimationState.SetAnimation(curAnim.AnimationTrack, curAnim.phase2Idle, loop: true);
+            yield return new WaitForSeconds(waitAfterReachingDestination);
+            spineAnimation.AnimationState.SetAnimation(curAnim.AnimationTrack, curAnim.Moving, loop: true);
+        }
 
         isRunningAway = false;
     }

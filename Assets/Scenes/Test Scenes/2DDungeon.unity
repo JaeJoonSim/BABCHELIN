@@ -2710,6 +2710,26 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 2736656267968920077, guid: c26496d1036389c40b951bcb4de5f31c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736656267968920077, guid: c26496d1036389c40b951bcb4de5f31c,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736656267968920077, guid: c26496d1036389c40b951bcb4de5f31c,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2736656267968920077, guid: c26496d1036389c40b951bcb4de5f31c,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2813879812073942358, guid: c26496d1036389c40b951bcb4de5f31c,
         type: 3}
       propertyPath: m_Mesh
@@ -3566,7 +3586,7 @@ MonoBehaviour:
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
   StartMoving: {fileID: 0}
-  Moving: {fileID: 0}
+  Moving: {fileID: 11400000, guid: 7dc082f69f1797549b7c9f5180b4f585, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
@@ -3603,6 +3623,7 @@ MonoBehaviour:
   SpinStart: {fileID: 11400000, guid: 4eedd60935bfe304699bbe57b5f99753, type: 2}
   Destroyed: {fileID: 11400000, guid: 066c1435b86d2c3428b0340fd0f14654, type: 2}
   Spin: {fileID: 11400000, guid: 1aa8e9a741ddd754382a0075d89ff37d, type: 2}
+  phase2Idle: {fileID: 11400000, guid: ca15f699fe12e1045b48e508c99093be, type: 2}
   Dodge: {fileID: 0}
   Hit: {fileID: 0}
   Dead: {fileID: 0}
@@ -4666,7 +4687,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsPlayer: 1
+  IsPlayer: 0
   currentState: 0
   previousState: 0
   facingAngle: 0
@@ -4694,6 +4715,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  doNotChange: 0
   isMonster: 0
 --- !u!58 &1907767824
 CircleCollider2D:
@@ -5507,6 +5529,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  doNotChange: 0
   isMonster: 0
 --- !u!4 &4265093593579167795
 Transform:
@@ -7910,6 +7933,7 @@ MonoBehaviour:
   SpinStart: {fileID: 0}
   Destroyed: {fileID: 0}
   Spin: {fileID: 0}
+  phase2Idle: {fileID: 0}
   Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: 2bb116ff07930904cae15a2cbf1f2bd6, type: 2}
   Dead: {fileID: 11400000, guid: 1e6f168844d48b640aee0e89e769a467, type: 2}
