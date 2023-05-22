@@ -453,7 +453,6 @@ public class Skunk : UnitObject
     private IEnumerator Tailing(float angle)
     {
         var curAnim = GetComponentInChildren<SimpleSpineAnimator>();
-        yield return new WaitForSeconds(curAnim.SpinFartStart.Animation.Duration - 1f);
         isTailing = true;
         float angleStep = angle / numberOfBullets;
         float currentAngle = -angle / 2 - 90;
@@ -729,7 +728,7 @@ public class Skunk : UnitObject
                 }
                 break;
             case StateMachine.State.Tailing:
-                if (!isTailing)
+                if (!isTailing && e.Data.Name == "effect_tail_whip")
                 {
                     StartCoroutine(Tailing(maxAngle));
                 }

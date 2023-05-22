@@ -87,8 +87,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     [Space, Header("Skunk Settings")]
     public AnimationReferenceAsset Jump;
-    public AnimationReferenceAsset SpinFartStart;
-    public AnimationReferenceAsset SpinFart;
+    public AnimationReferenceAsset TailWhip;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -387,17 +386,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Tailing:
-                if (SpinFartStart != null)
+                if (TailWhip != null)
                 {
-                    anim.AnimationState.SetAnimation(AnimationTrack, SpinFartStart, loop: false);
-                    if (SpinFart != null)
-                    {
-                        anim.AnimationState.AddAnimation(AnimationTrack, SpinFart, loop: true, 0f);
-                    }    
-                    else
-                    {
-                        anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
-                    }
+                    anim.AnimationState.SetAnimation(AnimationTrack, TailWhip, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, TailWhip.Animation.Duration);
                 }
                 break;
             case StateMachine.State.Dead:
