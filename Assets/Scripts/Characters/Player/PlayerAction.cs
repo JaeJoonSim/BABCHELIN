@@ -204,21 +204,29 @@ public class PlayerAction : BaseMonoBehaviour
     }
     public bool Shot()
     {
-        if (Input.GetMouseButton(0) && state.CURRENT_STATE != StateMachine.State.Dodging)
+        if (Input.GetMouseButton(0) &&
+            (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            if (playerController.BulletGauge <= 0 )
+            if (playerController.BulletGauge <= 0 || ShotDelay > 0)
             {
-                if (state.CURRENT_STATE == StateMachine.State.Attacking)
-                    state.CURRENT_STATE = StateMachine.State.Idle;
                 return false;
             }
             state.CURRENT_STATE = StateMachine.State.Attacking;
-            ShotDelay = playerController.AttackSpeed;
+            ShotDelay = 1 / (playerController.AttackSpeed / 100f);
         }
-        else if (Input.GetMouseButtonUp(0))
+        else if (Input.GetMouseButton(0) && 
+            state.CURRENT_STATE == StateMachine.State.Attacking)
+        {
+            if (ShotDelay <= 0)
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+            }
+        }
+        else if (!Input.GetMouseButton(0))
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
-                state.CURRENT_STATE = StateMachine.State.Idle;
+                if (ShotDelay <= playerController.AttackSpeed / 100f - simpleSpineAnimator.Attack.Animation.Duration + 0.01f)
+                    state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
         return true;
@@ -226,7 +234,7 @@ public class PlayerAction : BaseMonoBehaviour
     public bool Absorb()
     {
         if (Input.GetMouseButton(1) &&
-            (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Attacking))
+            (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
             getMouseInfo();
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
@@ -254,11 +262,6 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
             targetInRange = null;
-
-            if (playerController.absorbEffet != null)
-            {
-                playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            }
         }
 
         return false;

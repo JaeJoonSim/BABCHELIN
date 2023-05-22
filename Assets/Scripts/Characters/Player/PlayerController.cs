@@ -164,6 +164,10 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
 
+        if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
+        {
+            absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
 
         switch (state.CURRENT_STATE)
         {
