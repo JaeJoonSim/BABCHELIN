@@ -11,6 +11,7 @@ public class absorbObject : MonoBehaviour
     [Header("흡수시간")]
     [SerializeField]
     private float absorbTime;
+    [SerializeField]
     private float curAbsorbTime;
 
     [Header("범위 밖 유지시간")]
@@ -63,7 +64,7 @@ public class absorbObject : MonoBehaviour
     {
         if (!isAbsorb)
         {
-            if (inAbsorbArea && transform.position.z >= 0f)
+            if (inAbsorbArea)
             {
                 curAbsorbTime -= Time.deltaTime;
 
