@@ -2652,6 +2652,7 @@ GameObject:
   - component: {fileID: 1539647115}
   - component: {fileID: 1539647114}
   - component: {fileID: 1539647113}
+  - component: {fileID: 1539647117}
   m_Layer: 0
   m_Name: Spine
   m_TagString: Untagged
@@ -2725,6 +2726,8 @@ MonoBehaviour:
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
   Jump: {fileID: 11400000, guid: d355ff6dffed54742a8c0630580c248b, type: 2}
+  SpinFartStart: {fileID: 11400000, guid: 4eedd60935bfe304699bbe57b5f99753, type: 2}
+  SpinFart: {fileID: 11400000, guid: 1aa8e9a741ddd754382a0075d89ff37d, type: 2}
   Dodge: {fileID: 0}
   Hit: {fileID: 0}
   Dead: {fileID: 0}
@@ -2849,6 +2852,19 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1539647111}
   m_Mesh: {fileID: 0}
+--- !u!114 &1539647117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1539647111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b5474901574f4d4da1fece14bd3f8bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skeletonAnimation: {fileID: 1539647114}
 --- !u!1001 &1566693892
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6864,6 +6880,8 @@ MonoBehaviour:
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
   Jump: {fileID: 0}
+  SpinFartStart: {fileID: 0}
+  SpinFart: {fileID: 0}
   Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: 2bb116ff07930904cae15a2cbf1f2bd6, type: 2}
   Dead: {fileID: 11400000, guid: 1e6f168844d48b640aee0e89e769a467, type: 2}

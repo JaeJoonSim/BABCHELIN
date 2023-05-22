@@ -267,10 +267,10 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.Tailing:
-                    if (!isTailing)
-                    {
-                        StartCoroutine(Tailing(maxAngle));
-                    }
+                    //if (!isTailing)
+                    //{
+                    //    StartCoroutine(Tailing(maxAngle));
+                    //}
                     break;
                 case StateMachine.State.Throwing:
                     if (!isThrowing)
@@ -452,6 +452,8 @@ public class Skunk : UnitObject
 
     private IEnumerator Tailing(float angle)
     {
+        var curAnim = GetComponentInChildren<SimpleSpineAnimator>();
+        yield return new WaitForSeconds(curAnim.SpinFartStart.Animation.Duration - 1f);
         isTailing = true;
         float angleStep = angle / numberOfBullets;
         float currentAngle = -angle / 2 - 90;
@@ -721,21 +723,17 @@ public class Skunk : UnitObject
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Jump:
-                if (!hasJumpAttacked)
+                if (!hasJumpAttacked && e.Data.Name == "bump")
                 {
                     StartCoroutine(JumpAttack());
                 }
                 break;
-        }
-
-        if (e.Data.Name == "attack" || e.Data.Name == "Attack")
-        {
-            if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
-            {
-                if (AttackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                hasAppliedDamage = true;
-            }
+            case StateMachine.State.Tailing:
+                if (!isTailing)
+                {
+                    StartCoroutine(Tailing(maxAngle));
+                }
+                break;
         }
     }
 
