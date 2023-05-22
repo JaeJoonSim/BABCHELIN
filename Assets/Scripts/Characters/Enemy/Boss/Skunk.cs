@@ -190,6 +190,11 @@ public class Skunk : UnitObject
     {
         base.Update();
 
+        if (state.CURRENT_STATE == StateMachine.State.Dead)
+        {
+            return;
+        }
+
         if (state.CURRENT_STATE != StateMachine.State.Farting)
         {
             wasFarting = false;
@@ -250,19 +255,7 @@ public class Skunk : UnitObject
                     
                     break;
                 case StateMachine.State.FartShield:
-                    if (!isShieldActive)
-                    {
-                        shieldRegenTimer -= Time.deltaTime;
-                        if (shieldRegenTimer <= 0)
-                        {
-                            CreateShield();
-                            StartCoroutine(KeepStateIdle(waitIdleTime));
-                        }
-                    }
-                    else
-                    {
-                        patternManager.CurrentPattern = null;
-                    }
+                    
                     break;
                 case StateMachine.State.Tailing:
                     break;
@@ -303,10 +296,7 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.Outburst:
-                    if (!isRunningAway)
-                    {
-                        StartCoroutine(OutburstAttack());
-                    }
+                    
                     break;
                 case StateMachine.State.Dead:
                     break;
@@ -630,7 +620,6 @@ public class Skunk : UnitObject
             currentShield.transform.SetParent(this.transform);
             currentShield.transform.localScale = new Vector3(shieldRadius, shieldRadius, shieldRadius);
             isShieldActive = true;
-            isPatternPause = true;
             health.untouchable = true;
         }
     }
@@ -721,12 +710,51 @@ public class Skunk : UnitObject
                 if (e.Data.Name == "effect_explode")
                     playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
                 break;
+            case StateMachine.State.FartShield:
+                if (e.Data.Name == "effeck_fart")
+                {
+                    if (!isShieldActive)
+                    {
+                        shieldRegenTimer -= Time.deltaTime;
+                        if (shieldRegenTimer <= 0)
+                        {
+                            CreateShield();
+                        }
+                    }
+                    else
+                    {
+                        patternManager.CurrentPattern = null;
+                    }
+                }
+                break;
+            case StateMachine.State.Outburst:
+                Vector3 playerPosition = target.position;
+                Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+
+                if (directionToPlayer.x > 0)
+                {
+                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                }
+                else if (directionToPlayer.x < 0)
+                {
+                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                }
+
+                if (e.Data.Name == "run")
+                {
+                    if (!isRunningAway)
+                    {
+                        StartCoroutine(OutburstAttack());
+                    }
+                }
+                break;
         }
     }
 
     public void OnDie()
     {
         agent.speed = 0f;
+        isPatternPause = true;
         Destroy(gameObject, 5f);
     }
     #endregion

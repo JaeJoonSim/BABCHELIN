@@ -92,7 +92,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset NonCrack;
 
     [Space]
-
+    [Header("Phase1")]
     public AnimationReferenceAsset Jump;
     public AnimationReferenceAsset TailWhip;
     public AnimationReferenceAsset CreamThrow;
@@ -101,7 +101,11 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset Destroyed;
     public AnimationReferenceAsset Spin;
     public AnimationReferenceAsset GimmickFailExplode;
+
+    [Header("Phase2")]
     public AnimationReferenceAsset phase2Idle;
+    public AnimationReferenceAsset FartShield;
+    public AnimationReferenceAsset ChargeRun;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -338,6 +342,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Idle:
                 if (skunk != null)
                 {
+                    SetCrackAnim();
                     if (skunk.currentPhase == 1)
                         anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                     else
@@ -463,6 +468,20 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, SpinStart.Animation.Duration);
                     }
+                }
+                break;
+            case StateMachine.State.FartShield:
+                if (FartShield != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, FartShield, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, phase2Idle, loop: true, FartShield.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Outburst:
+                if(ChargeRun != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, ChargeRun, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, phase2Idle, loop: true, ChargeRun.Animation.Duration);
                 }
                 break;
 
