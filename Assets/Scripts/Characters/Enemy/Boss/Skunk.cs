@@ -269,7 +269,6 @@ public class Skunk : UnitObject
                 case StateMachine.State.Throwing:
                     break;
                 case StateMachine.State.InstantKill:
-                    playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
                     break;
                 case StateMachine.State.PhaseChange:
                     if (isPhaseChanged)
@@ -333,47 +332,6 @@ public class Skunk : UnitObject
     }
 
     #region Func
-    private void FollowTarget()
-    {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-            if (distanceToPlayer <= detectionRange)
-            {
-                isPlayerInRange = true;
-            }
-            else
-            {
-                isPlayerInRange = false;
-            }
-
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
-            {
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-                agent.SetDestination(target.position);
-                if (distanceToPlayer <= AttackDistance)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                    agent.isStopped = true;
-                }
-                else
-                {
-                    agent.isStopped = false;
-                }
-            }
-            else
-            {
-                agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
-            }
-        }
-    }
-
     private void DestructionPart()
     {
         if (destructionCount > 0)
@@ -759,7 +717,10 @@ public class Skunk : UnitObject
                     wasFarting = true;
                 }
                 break;
-            
+            case StateMachine.State.InstantKill:
+                if (e.Data.Name == "effect_explode")
+                    playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
+                break;
         }
     }
 

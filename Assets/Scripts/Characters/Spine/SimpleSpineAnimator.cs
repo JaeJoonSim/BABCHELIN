@@ -100,6 +100,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset SpinStart;
     public AnimationReferenceAsset Destroyed;
     public AnimationReferenceAsset Spin;
+    public AnimationReferenceAsset GimmickFailExplode;
     public AnimationReferenceAsset phase2Idle;
 
     [Space, Header("Other")]
@@ -441,6 +442,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     if (skunk.destructionCount <= 1)
                         anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.InstantKill:
+                if (GimmickFailExplode != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, GimmickFailExplode, loop: false);
                 }
                 break;
             case StateMachine.State.PhaseChange:
