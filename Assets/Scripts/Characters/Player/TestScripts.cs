@@ -16,7 +16,7 @@ public class TestScripts : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.E))
         {
-            player.Damaged(gameObject, transform.position, 2f, Health.AttackType.Normal);
+            player.Damaged(gameObject, transform.position, 100f, Health.AttackType.Normal);
         }
     }
 }

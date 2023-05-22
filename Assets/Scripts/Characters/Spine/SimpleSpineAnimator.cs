@@ -49,42 +49,43 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
 
+    public bool North = false;
+    public bool South = false;
+    public bool LeftRight = false;
+
     [Header("Idle")]
-    public AnimationReferenceAsset Idle;
-    public AnimationReferenceAsset NorthIdle;
-    public AnimationReferenceAsset SouthIdle;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Idle;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthIdle;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthIdle;
 
     [Space, Header("Move")]
+
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Moving;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset MovingBack;
+
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthMoving;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthMovingBack;
+
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthMoving;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthMovingBack;
+    [Space]
     public AnimationReferenceAsset StartMoving;
-    public AnimationReferenceAsset Moving;
-    public AnimationReferenceAsset MovingBack;
-
-    public AnimationReferenceAsset NorthMoving;
-    public AnimationReferenceAsset NorthMovingBack;
-
-    public AnimationReferenceAsset SouthMoving;
-    public AnimationReferenceAsset SouthMovingBack;
     public AnimationReferenceAsset StopMoving;
 
     [Space, Header("Attack")]
-    public AnimationReferenceAsset Attack;
-    public AnimationReferenceAsset NorthAttack;
-    public AnimationReferenceAsset SouthAttack;
-
-    [Space, Header("PlayerAttack(플레이어만 할당)")]
-    public AnimationReferenceAsset[] PlayerAttack = new AnimationReferenceAsset[3];
-    public AnimationReferenceAsset[] PlayerNorthAttack = new AnimationReferenceAsset[3];
-    public AnimationReferenceAsset[] PlayerSouthAttack = new AnimationReferenceAsset[3];
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Attack;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthAttack;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthAttack;
 
     [Space, Header("Absorb")]
-    public AnimationReferenceAsset Absorb;
-    public AnimationReferenceAsset NorthAbsorb;
-    public AnimationReferenceAsset SouthAbsorb;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Absorb;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthAbsorb;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthAbsorb;
 
     [Space, Header("Loading")]
-    public AnimationReferenceAsset Loading;
-    public AnimationReferenceAsset NorthLoading;
-    public AnimationReferenceAsset SouthLoading;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Loading;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthLoading;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthLoading;
 
     [Space, Header("Skunk Settings")]
 
@@ -1209,18 +1210,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         }
     }
 
-    private void UpdatePlayerAttack()
-    {
-        if (PlayerAttack[playerController.CurAttack] != null)
-            Attack = PlayerAttack[playerController.CurAttack];
-
-        if (PlayerNorthAttack[playerController.CurAttack] != null)
-            NorthAttack = PlayerNorthAttack[playerController.CurAttack];
-
-        if (PlayerSouthAttack[playerController.CurAttack] != null)
-            SouthAttack = PlayerSouthAttack[playerController.CurAttack];
-    }
-
     private void OnDestroy()
     {
         anim.AnimationState.Event -= SpineEventHandler;
@@ -1291,7 +1280,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (playerController != null)
         {
-            UpdatePlayerAttack();
             UpdateAnimFromFacing();
         }
     }
