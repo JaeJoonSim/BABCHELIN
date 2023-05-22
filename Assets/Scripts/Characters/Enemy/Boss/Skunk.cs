@@ -147,7 +147,7 @@ public class Skunk : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
-        //spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+        spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -174,14 +174,16 @@ public class Skunk : UnitObject
     {
         base.OnEnable();
         health.OnDie += OnDie;
-        //spineAnimation.AnimationState.Event += OnSpineEvent;
+        if (spineAnimation == null)
+            spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+        spineAnimation.AnimationState.Event += OnSpineEvent;
     }
 
     public override void OnDisable()
     {
         base.OnDisable();
         health.OnDie -= OnDie;
-        //spineAnimation.AnimationState.Event -= OnSpineEvent;
+        spineAnimation.AnimationState.Event -= OnSpineEvent;
     }
 
     public override void Update()
@@ -237,10 +239,10 @@ public class Skunk : UnitObject
                 case StateMachine.State.Patrol:
                     break;
                 case StateMachine.State.Jump:
-                    if (!hasJumpAttacked)
-                    {
-                        StartCoroutine(JumpAttack());
-                    }
+                    //if (!hasJumpAttacked)
+                    //{
+                    //    StartCoroutine(JumpAttack());
+                    //}
                     break;
                 case StateMachine.State.Farting:
                     if (!wasFarting)
@@ -716,6 +718,16 @@ public class Skunk : UnitObject
     #region Event
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+        switch (state.CURRENT_STATE)
+        {
+            case StateMachine.State.Jump:
+                if (!hasJumpAttacked)
+                {
+                    StartCoroutine(JumpAttack());
+                }
+                break;
+        }
+
         if (e.Data.Name == "attack" || e.Data.Name == "Attack")
         {
             if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)

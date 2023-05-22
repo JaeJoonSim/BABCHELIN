@@ -85,7 +85,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset NorthLoading;
     public AnimationReferenceAsset SouthLoading;
 
-    [Space, Header(" ")]
+    [Space, Header("Skunk Settings")]
+    public AnimationReferenceAsset Jump;
+
+    [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Hit;
     public AnimationReferenceAsset Dead;
@@ -155,6 +158,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public int _Dir;
 
     public bool ForceDirectionalMovement;
+
+    
 
     private SkeletonAnimation anim
     {
@@ -371,6 +376,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 else
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                }
+                break;
+            case StateMachine.State.Jump:
+                if (Jump != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
                 }
                 break;
             case StateMachine.State.Dead:
