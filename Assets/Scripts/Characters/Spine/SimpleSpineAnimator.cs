@@ -765,21 +765,21 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         if (Track.Animation != NorthAttack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: true);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: false);
                         }
                     }
                     else if (DirectionState == direction3.down && SouthAttack != null)
                     {
                         if (Track.Animation != SouthAttack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: true);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: false);
                         }
                     }
                     else
                     {
                         if (Track.Animation != Attack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: true);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
                         }
                     }
 
