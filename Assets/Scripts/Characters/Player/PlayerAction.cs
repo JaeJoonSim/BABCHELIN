@@ -206,7 +206,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (Input.GetMouseButton(0) && state.CURRENT_STATE != StateMachine.State.Dodging)
         {
-            if (playerController.BulletGauge <= 0 || ShotDelay > 0)
+            if (playerController.BulletGauge <= 0 )
             {
                 if (state.CURRENT_STATE == StateMachine.State.Attacking)
                     state.CURRENT_STATE = StateMachine.State.Idle;
