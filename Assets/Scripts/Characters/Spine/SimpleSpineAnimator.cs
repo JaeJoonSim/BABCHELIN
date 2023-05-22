@@ -87,6 +87,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     [Space, Header("Skunk Settings")]
     public AnimationReferenceAsset Jump;
+    public AnimationReferenceAsset TailWhip;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -382,6 +383,13 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 if (Jump != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
+                }
+                break;
+            case StateMachine.State.Tailing:
+                if (TailWhip != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, TailWhip, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, TailWhip.Animation.Duration);
                 }
                 break;
             case StateMachine.State.Dead:

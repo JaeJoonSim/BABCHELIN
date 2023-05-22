@@ -10,6 +10,7 @@ public abstract class PatternScriptableObject : ScriptableObject
     public Action onPatternEnd;
     public StateMachine.State patternState;
     public AnimationReferenceAsset anim;
+    public AnimationReferenceAsset[] otherAnim;
 
     public virtual void ExecutePattern(Skunk skunk)
     {
@@ -19,6 +20,14 @@ public abstract class PatternScriptableObject : ScriptableObject
             if (animation != null)
             {
                 duration = animation.Duration;
+            }
+
+            if (otherAnim.Length > 0) 
+            {
+                for (int i = 0; i < otherAnim.Length; i++) 
+                {
+                    duration += otherAnim[i].Animation.Duration;
+                }
             }
         }
     }
