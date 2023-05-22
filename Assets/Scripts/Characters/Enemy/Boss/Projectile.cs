@@ -6,9 +6,12 @@ public class Projectile : BaseMonoBehaviour
 {
     public float damage = 1f;
     public float destroyTime = 5f;
-
+    private ParticleSystem fart;
     private void Start()
     {
+        fart = GetComponentInChildren<ParticleSystem>();
+
+        fart.Play(true);
         Destroy(gameObject, destroyTime);
     }
 

@@ -25,13 +25,16 @@ public class FartProjectile : MonoBehaviour
     private Rigidbody2D rb;
     private float timer;
     private bool isPoisoned;
+    private ParticleSystem fart;
 
     private void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
         playerHealth = player.GetComponent<HealthPlayer>();
         rb = GetComponent<Rigidbody2D>();
+        fart = GetComponentInChildren<ParticleSystem>();
 
+        fart.Play(true);
         StartCoroutine(FartBehavior());
     }
 
