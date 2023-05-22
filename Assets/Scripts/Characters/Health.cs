@@ -32,6 +32,7 @@ public class Health : BaseMonoBehaviour
     [HideInInspector] public bool isInvincible = false;
     [HideInInspector] public bool untouchable = false;
     [HideInInspector] public bool damageDecrease = false;
+    [HideInInspector] public bool doNotChange = false;
 
     [SerializeField] private bool isMonster;
 
@@ -135,7 +136,7 @@ public class Health : BaseMonoBehaviour
             }
             else
             {
-                if (!damageDecrease)
+                if (!damageDecrease && !doNotChange)
                     state.ChangeToIdleState();
             }
         }
@@ -146,7 +147,7 @@ public class Health : BaseMonoBehaviour
         if (type == AttackType.Normal)
         {
             StartCoroutine(InvincibilityAndBlink(recoveryTime));
-            if (!damageDecrease)
+            if (!damageDecrease && !doNotChange)
                 state.ChangeToHitState(attackLocation);
         }
     }

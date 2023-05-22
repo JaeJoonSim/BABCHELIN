@@ -376,13 +376,16 @@ public class Skunk : UnitObject
             if (DestructionGauge <= 0)
             {
                 if (!destructionStun)
+                {
                     StartCoroutine(destructionCoroutine);
+                }
             }
         }
 
         if (destructionStun)
         {
-            state.CURRENT_STATE = StateMachine.State.Stun;
+            if (state.CURRENT_STATE != StateMachine.State.Stun)
+                state.CURRENT_STATE = StateMachine.State.Stun;
             currentDestructionTime -= Time.deltaTime;
 
             if (currentDestructionTime <= 0)
@@ -411,6 +414,7 @@ public class Skunk : UnitObject
     private IEnumerator StartDestructTime()
     {
         destructionStun = true;
+        health.doNotChange = true;
         currentDestructionHP = health.CurrentHP() - DestructionHP;
         GameObject poisonGas = Instantiate(poisonGasPrefab, transform.position, Quaternion.identity);
         poisonGas.GetComponent<PoisonGas>().radius = poisonGasRadius;
@@ -418,6 +422,7 @@ public class Skunk : UnitObject
         poisonGas.GetComponent<PoisonGas>().duration = poisonGasDuration;
 
         yield return new WaitForSeconds(DestructionTime);
+        health.doNotChange = false;
         destructionStun = false;
         destructionCoroutine = StartDestructTime();
         yield return null;

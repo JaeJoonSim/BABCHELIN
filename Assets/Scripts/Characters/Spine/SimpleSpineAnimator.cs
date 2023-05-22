@@ -44,6 +44,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     private StateMachine state;
     private PlayerController playerController;
     private SkeletonAnimation _anim;
+    private Skunk skunk;
     public bool AutomaticallySetFacing = true;
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
@@ -97,6 +98,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset CreamThrow;
     public AnimationReferenceAsset fart;
     public AnimationReferenceAsset SpinStart;
+    public AnimationReferenceAsset Destroyed;
     public AnimationReferenceAsset Spin;
 
     [Space, Header("Other")]
@@ -393,14 +395,14 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Jump:
                 if (Jump != null)
                 {
-                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
                 }
                 break;
             case StateMachine.State.Tailing:
                 if (TailWhip != null)
                 {
-                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, TailWhip, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, TailWhip.Animation.Duration);
                 }
@@ -408,7 +410,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Throwing:
                 if (CreamThrow != null)
                 {
-                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, CreamThrow, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, CreamThrow.Animation.Duration);
                 }
@@ -416,15 +418,23 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             case StateMachine.State.Farting:
                 if (fart != null)
                 {
-                    anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, fart, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Stun:
+                if(Destroyed != null)
+                {
+                    
+                        anim.AnimationState.SetAnimation(AnimationTrack, Destroyed, loop: false);
+                    //anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
                 }
                 break;
             case StateMachine.State.PhaseChange:
                 if (SpinStart != null)
                 {
-                    anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, SpinStart, loop: false);
                     if (Spin != null)
                     {
@@ -1097,6 +1107,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         state = GetComponentInParent<StateMachine>();
         playerController = GetComponentInParent<PlayerController>();
+        skunk = GetComponentInParent<Skunk>();
         UpdateIdleAndMoving();
         if (StartOnDefault && anim != null)
         {
@@ -1182,6 +1193,18 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         if (this.OnSpineEvent != null)
         {
             this.OnSpineEvent(e.Data.Name);
+        }
+    }
+
+    private void SetCrackAnim()
+    {
+        if (skunk.destructionCount < 1)
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+        }
+        else
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
         }
     }
 
