@@ -2468,7 +2468,22 @@ PrefabInstance:
     - target: {fileID: 2648169565075864973, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062203400200393489, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
+        type: 3}
+      propertyPath: absorbTimeLarge
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062203400200393489, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
+        type: 3}
+      propertyPath: absorbTimeSmall
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3062203400200393489, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
+        type: 3}
+      propertyPath: absorbTimeMedium
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22dbbba682b1a004dbfc2e8a41bd7523, type: 3}
@@ -4430,7 +4445,12 @@ PrefabInstance:
     - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: showDodge
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: DodgeDelay
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
@@ -6167,6 +6187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
+      propertyPath: fireRate
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
       propertyPath: maxAngle
       value: 200
       objectReference: {fileID: 0}
@@ -6183,12 +6208,12 @@ PrefabInstance:
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: bulletSpeed
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: numberOfBombs
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -6203,7 +6228,7 @@ PrefabInstance:
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: poisonGasRadius
-      value: 8
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -6235,6 +6260,17 @@ PrefabInstance:
       propertyPath: InstantKillTimelimit
       value: 300
       objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: bombPrefabs.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: bombPrefabs.Array.data[4]
+      value: 
+      objectReference: {fileID: 5709324960040911722, guid: 256b48be58118344f8221cf5cc7201c6,
+        type: 3}
     - target: {fileID: 6948086771242223376, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_Name
@@ -6258,7 +6294,7 @@ PrefabInstance:
     - target: {fileID: 6948086772645615394, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: waitNextPatternTime
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e8b38672aa0f8fb4b8ccf75422398037, type: 3}
