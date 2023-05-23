@@ -10,12 +10,14 @@ public class PlayerUI : MonoBehaviour
     private PlayerController playerController;
 
     private Transform PlayerUIBackground;
-    private Image PlayerHPGauge;
-    private Image BulletGauge;
-    private Image UltimateGauge;
+    //private Image BulletGauge;
+    //private Image UltimateGauge;
     private Image DefaultUltIcon;
     private Image ActiveUltIcon;
 
+    public Image UIHealthGauge;
+    public Image UIBulletGauge;
+    public Image UIUltimateGauge;
     public Transform BulletCanvas;
     private Image PlayerBulletGauge;
 
@@ -31,11 +33,8 @@ public class PlayerUI : MonoBehaviour
         PlayerUIBackground = this.transform.GetChild(0).transform;
         Debug.Log(PlayerUIBackground.gameObject.name);
 
-        PlayerHPGauge = PlayerUIBackground.GetChild(0).GetComponent<Image>();
-        BulletGauge = PlayerUIBackground.GetChild(1).GetComponent<Image>();
-        UltimateGauge = PlayerUIBackground.GetChild(3).GetComponent<Image>();
-        DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
-        ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
+        //DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
+        //ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
         playerController = GetComponentInParent<PlayerController>();
 
         PlayerBulletGauge = BulletCanvas.GetChild(1).GetComponent<Image>();
@@ -49,22 +48,22 @@ public class PlayerUI : MonoBehaviour
 
     private void GaugeManagement()
     {
-        PlayerHPGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
-        BulletGauge.fillAmount = playerController.BulletGauge / 1000f;
-        UltimateGauge.fillAmount += Time.deltaTime / 10f;
+        UIHealthGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
+        UIBulletGauge.fillAmount = playerController.BulletGauge / 1000f;
+        UIUltimateGauge.fillAmount += Time.deltaTime / 10f;
 
-        PlayerBulletGauge.fillAmount = (BulletGauge.fillAmount / 5);
+        PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
 
 
-        if (UltimateGauge.fillAmount == 1)
-        {
-            DefaultUltIcon.gameObject.SetActive(false);
-            ActiveUltIcon.gameObject.SetActive(true);
-        }
-        else
-        {
-            DefaultUltIcon.gameObject.SetActive(true);
-            ActiveUltIcon.gameObject.SetActive(false);
-        }
+        //if (UIUltimateGauge.fillAmount == 1)
+        //{
+        //    DefaultUltIcon.gameObject.SetActive(false);
+        //    ActiveUltIcon.gameObject.SetActive(true);
+        //}
+        //else
+        //{
+        //    DefaultUltIcon.gameObject.SetActive(true);
+        //    ActiveUltIcon.gameObject.SetActive(false);
+        //}
     }
 }
