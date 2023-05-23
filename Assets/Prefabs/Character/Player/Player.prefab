@@ -8497,7 +8497,7 @@ MonoBehaviour:
   SkillIndex: 0
   Skills:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
-  - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
+  - {fileID: 2812988272092322134}
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
   BulletUI: {fileID: 276941507017972697}
@@ -8519,6 +8519,7 @@ MonoBehaviour:
   ShotDelay: 0
   SuctionDelay: 0
   LoadingDelay: 0
+  SkillDelay: 0
   _state: {fileID: 6160722343811252260}
   Spine: {fileID: 6160722344988669330}
   simpleSpineAnimator: {fileID: 6160722344988669358}
@@ -9263,9 +9264,12 @@ MonoBehaviour:
   Skill: {fileID: 11400000, guid: f6f8af442e28d4b429a405e08199c065, type: 2}
   NorthSkill: {fileID: 11400000, guid: e284cef3227e0cb49a911ab65eab513a, type: 2}
   SouthSkill: {fileID: 11400000, guid: 59aa33c4bec795c4ca950456afa9c5a2, type: 2}
-  Loading: {fileID: 11400000, guid: 638907b1bb67fe148843e0b7f13ea9ae, type: 2}
-  NorthLoading: {fileID: 11400000, guid: ddd123a390257ae44ae7a29a02fa697d, type: 2}
-  SouthLoading: {fileID: 11400000, guid: b16709946dc16d849ada9b1e746787ee, type: 2}
+  Skill2: {fileID: 11400000, guid: 376d0648b3f661f48af7092cea4db3d1, type: 2}
+  NorthSkill2: {fileID: 11400000, guid: f68d039be28ffcd44b1246e3577d61e5, type: 2}
+  SouthSkill2: {fileID: 11400000, guid: 02a171b01ccc31e4d986b00ecf8acd50, type: 2}
+  Loading: {fileID: 11400000, guid: dec200aeaef6deb4e91db4fea230d451, type: 2}
+  NorthLoading: {fileID: 11400000, guid: 78cff275fb2864940a4970a449f42999, type: 2}
+  SouthLoading: {fileID: 11400000, guid: bcec135cfbc860a489f8cecd77500366, type: 2}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
   Jump: {fileID: 0}
@@ -9282,6 +9286,9 @@ MonoBehaviour:
   Dodge: {fileID: 11400000, guid: 0bb979ff12f6f624db498cfd3356cf32, type: 2}
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
+  MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
+  NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
+  SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
   isFillWhite: 1
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
@@ -13012,6 +13019,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c83979c80dd0cd24db857016fdcd4ce7, type: 3}
+--- !u!1 &2812988272092322134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2812988270417982216, guid: c83979c80dd0cd24db857016fdcd4ce7,
+    type: 3}
+  m_PrefabInstance: {fileID: 1828563550}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3649855111917117966 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3649855110509168720, guid: c83979c80dd0cd24db857016fdcd4ce7,
