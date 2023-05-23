@@ -42,13 +42,14 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAbsorb", true)] public float SuctionDelay = 1f;
     [DrawIf("showAbsorb", true)] public ParticleSystem absorbEffet;
 
-    [Header("공격"),Space]
+    [Header("공격")]
+    public bool showAttack = false;
+    [DrawIf("showAttack", true)] public int BulletGauge;
+    [DrawIf("showAttack", true)] public int maxBulletGauge;
+    [DrawIf("showAttack", true)] public GameObject Attack;
+    [DrawIf("showAttack", true)] public float AttackSpeed;
 
-    public int BulletGauge;
-    public int maxBulletGauge;
-    public GameObject[] Attack;
-    public int CurAttack;
-    public float[] AttackSpeed;
+    [DrawIf("showAttack", true)] public int SkillIndex;
 
     public Transform muzzleBone;
     public Transform GrinderControl;
@@ -78,13 +79,14 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause)
+        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             return;
         }
 
         //xDir = Input.GetAxisRaw("Horizontal");
         //yDir = Input.GetAxisRaw("Vertical");
+
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
@@ -97,7 +99,11 @@ public class PlayerController : BaseMonoBehaviour
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && (state.CURRENT_STATE == StateMachine.State.Attacking || state.CURRENT_STATE == StateMachine.State.Absorbing))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && 
+            (state.CURRENT_STATE == StateMachine.State.Attacking || 
+            state.CURRENT_STATE == StateMachine.State.Absorbing ||
+            state.CURRENT_STATE == StateMachine.State.Skill
+            ))
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
@@ -163,6 +169,10 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
 
+        if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
+        {
+            absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
 
         switch (state.CURRENT_STATE)
         {
@@ -237,6 +247,8 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
+            case StateMachine.State.Skill:
+                break;
             case StateMachine.State.Attacking:
                 //이동
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -248,28 +260,6 @@ public class PlayerController : BaseMonoBehaviour
                 else
                 {
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-
-                if(CurAttack == 0f)
-                {
-                    Attack[0].transform.position = GrinderControl.position;
-                    //if (45 <= state.facingAngle && state.facingAngle <= 135)
-                    //{
-                    //    Attack[0].transform.position = 
-                    //        new Vector3(
-                    //            Attack[0].transform.position.x,
-                    //            Attack[0].transform.position.y,
-                    //            0.001f);
-                    //}
-                    //else 
-                    //{
-                    //    Attack[0].transform.position =
-                    //        new Vector3(
-                    //            Attack[0].transform.position.x,
-                    //            Attack[0].transform.position.y,
-                    //            -0.001f);
-                    //}
-                    Attack[0].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 }
                 break;
 

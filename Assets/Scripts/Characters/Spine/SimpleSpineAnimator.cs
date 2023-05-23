@@ -16,6 +16,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     }
     public direction3 DirectionState;
 
+    public float curAnimTime;
+
     public delegate void SpineEvent(string EventName);
 
     [Serializable]
@@ -44,50 +46,74 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     private StateMachine state;
     private PlayerController playerController;
     private SkeletonAnimation _anim;
+    private Skunk skunk;
     public bool AutomaticallySetFacing = true;
     public AnimationReferenceAsset DefaultLoop;
     public List<SpineChartacterAnimationData> Animations = new List<SpineChartacterAnimationData>();
 
+    public bool North = false;
+    public bool South = false;
+    public bool LeftRight = false;
+
     [Header("Idle")]
-    public AnimationReferenceAsset Idle;
-    public AnimationReferenceAsset NorthIdle;
-    public AnimationReferenceAsset SouthIdle;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Idle;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthIdle;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthIdle;
 
     [Space, Header("Move")]
+
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Moving;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset MovingBack;
+
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthMoving;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthMovingBack;
+
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthMoving;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthMovingBack;
+    [Space]
     public AnimationReferenceAsset StartMoving;
-    public AnimationReferenceAsset Moving;
-    public AnimationReferenceAsset MovingBack;
-
-    public AnimationReferenceAsset NorthMoving;
-    public AnimationReferenceAsset NorthMovingBack;
-
-    public AnimationReferenceAsset SouthMoving;
-    public AnimationReferenceAsset SouthMovingBack;
     public AnimationReferenceAsset StopMoving;
 
     [Space, Header("Attack")]
-    public AnimationReferenceAsset Attack;
-    public AnimationReferenceAsset NorthAttack;
-    public AnimationReferenceAsset SouthAttack;
-
-    [Space, Header("PlayerAttack(플레이어만 할당)")]
-    public AnimationReferenceAsset[] PlayerAttack = new AnimationReferenceAsset[3];
-    public AnimationReferenceAsset[] PlayerNorthAttack = new AnimationReferenceAsset[3];
-    public AnimationReferenceAsset[] PlayerSouthAttack = new AnimationReferenceAsset[3];
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Attack;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthAttack;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthAttack;
 
     [Space, Header("Absorb")]
-    public AnimationReferenceAsset Absorb;
-    public AnimationReferenceAsset NorthAbsorb;
-    public AnimationReferenceAsset SouthAbsorb;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Absorb;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthAbsorb;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthAbsorb;
+
+    [Space, Header("Skill")]
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Skill;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthSkill;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthSkill;
 
     [Space, Header("Loading")]
-    public AnimationReferenceAsset Loading;
-    public AnimationReferenceAsset NorthLoading;
-    public AnimationReferenceAsset SouthLoading;
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Loading;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthLoading;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthLoading;
 
     [Space, Header("Skunk Settings")]
+
+    public AnimationReferenceAsset Crack;
+    public AnimationReferenceAsset NonCrack;
+
+    [Space]
+    [Header("Phase1")]
     public AnimationReferenceAsset Jump;
     public AnimationReferenceAsset TailWhip;
+    public AnimationReferenceAsset CreamThrow;
+    public AnimationReferenceAsset fart;
+    public AnimationReferenceAsset SpinStart;
+    public AnimationReferenceAsset Destroyed;
+    public AnimationReferenceAsset Spin;
+    public AnimationReferenceAsset GimmickFailExplode;
+
+    [Header("Phase2")]
+    public AnimationReferenceAsset phase2Idle;
+    public AnimationReferenceAsset FartShield;
+    public AnimationReferenceAsset ChargeRun;
 
     [Space, Header("Other")]
     public AnimationReferenceAsset Dodge;
@@ -322,7 +348,18 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         switch (cs)
         {
             case StateMachine.State.Idle:
-                anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                if (skunk != null)
+                {
+                    SetCrackAnim();
+                    if (skunk.currentPhase == 1)
+                        anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                    else
+                        anim.AnimationState.SetAnimation(AnimationTrack, phase2Idle, loop: true);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                }
                 break;
             case StateMachine.State.Moving:
                 if (StartMoving != null)
@@ -379,19 +416,83 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
                 }
                 break;
+
             case StateMachine.State.Jump:
                 if (Jump != null)
                 {
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, Jump, loop: false);
                 }
                 break;
             case StateMachine.State.Tailing:
                 if (TailWhip != null)
                 {
+                    SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, TailWhip, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, TailWhip.Animation.Duration);
                 }
                 break;
+            case StateMachine.State.Throwing:
+                if (CreamThrow != null)
+                {
+                    SetCrackAnim();
+                    anim.AnimationState.SetAnimation(AnimationTrack, CreamThrow, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, CreamThrow.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Farting:
+                if (fart != null)
+                {
+                    SetCrackAnim();
+                    anim.AnimationState.SetAnimation(AnimationTrack, fart, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Stun:
+                if(Destroyed != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Destroyed, loop: false);
+                    if (skunk.destructionCount <= 1)
+                        anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+                    anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, fart.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.InstantKill:
+                if (GimmickFailExplode != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, GimmickFailExplode, loop: false);
+                }
+                break;
+            case StateMachine.State.PhaseChange:
+                if (SpinStart != null)
+                {
+                    SetCrackAnim();
+                    anim.AnimationState.SetAnimation(AnimationTrack, SpinStart, loop: false);
+                    if (Spin != null)
+                    {
+                        anim.AnimationState.AddAnimation(AnimationTrack, Spin, loop: true, SpinStart.Animation.Duration);
+                    }
+                    else
+                    {
+                        anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, SpinStart.Animation.Duration);
+                    }
+                }
+                break;
+            case StateMachine.State.FartShield:
+                if (FartShield != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, FartShield, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, phase2Idle, loop: true, FartShield.Animation.Duration);
+                }
+                break;
+            case StateMachine.State.Outburst:
+                if(ChargeRun != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, ChargeRun, loop: false);
+                    anim.AnimationState.AddAnimation(AnimationTrack, phase2Idle, loop: true, ChargeRun.Animation.Duration);
+                }
+                break;
+
             case StateMachine.State.Dead:
                 if (Dead != null)
                 {
@@ -563,8 +664,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (Track != null)
         {
-            //Debug.Log(Track.Animation);
-            switch (cs)
+            curAnimTime = 0;
+
+            switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
 
@@ -666,29 +768,61 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
                     break;
                 case StateMachine.State.Attacking:
-
+                    
                     if (DirectionState == direction3.up && NorthAttack != null)
                     {
                         if (Track.Animation != NorthAttack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: true);
+                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
+                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: false);
+                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else if (DirectionState == direction3.down && SouthAttack != null)
                     {
                         if (Track.Animation != SouthAttack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: true);
+                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
+                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: false);
+                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else
                     {
                         if (Track.Animation != Attack.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: true);
+                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
+                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
+                            Track.TrackTime = curAnimTime;
                         }
                     }
 
+                    break;
+                case StateMachine.State.Skill:
+                    if (DirectionState == direction3.up && NorthSkill != null)
+                    {
+                        if (Track.Animation != NorthSkill.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthSkill, loop: false);
+                        }
+                    }
+                    else if (DirectionState == direction3.down && SouthSkill != null)
+                    {
+                        if (Track.Animation != SouthSkill.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthSkill, loop: false);
+                        }
+                    }
+                    else
+                    {
+                        if (Track.Animation != Skill.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Skill, loop: false);
+                        }
+                    }
                     break;
                 case StateMachine.State.Loading:
 
@@ -1052,6 +1186,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         state = GetComponentInParent<StateMachine>();
         playerController = GetComponentInParent<PlayerController>();
+        skunk = GetComponentInParent<Skunk>();
         UpdateIdleAndMoving();
         if (StartOnDefault && anim != null)
         {
@@ -1115,18 +1250,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         }
     }
 
-    private void UpdatePlayerAttack()
-    {
-        if (PlayerAttack[playerController.CurAttack] != null)
-            Attack = PlayerAttack[playerController.CurAttack];
-
-        if (PlayerNorthAttack[playerController.CurAttack] != null)
-            NorthAttack = PlayerNorthAttack[playerController.CurAttack];
-
-        if (PlayerSouthAttack[playerController.CurAttack] != null)
-            SouthAttack = PlayerSouthAttack[playerController.CurAttack];
-    }
-
     private void OnDestroy()
     {
         anim.AnimationState.Event -= SpineEventHandler;
@@ -1137,6 +1260,23 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         if (this.OnSpineEvent != null)
         {
             this.OnSpineEvent(e.Data.Name);
+        }
+    }
+
+    private void SetCrackAnim()
+    {
+        if (skunk.destructionCount < 1 && skunk.currentPhase == 1)
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+        }
+        else if (skunk.destructionCount >= 1 && skunk.currentPhase == 1)
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+        }
+
+        if (skunk.currentPhase == 2)
+        {
+            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
         }
     }
 
@@ -1180,7 +1320,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (playerController != null)
         {
-            UpdatePlayerAttack();
             UpdateAnimFromFacing();
         }
     }

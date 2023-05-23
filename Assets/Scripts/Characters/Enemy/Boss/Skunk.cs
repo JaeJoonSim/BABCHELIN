@@ -190,6 +190,11 @@ public class Skunk : UnitObject
     {
         base.Update();
 
+        if (state.CURRENT_STATE == StateMachine.State.Dead)
+        {
+            return;
+        }
+
         if (state.CURRENT_STATE != StateMachine.State.Farting)
         {
             wasFarting = false;
@@ -204,10 +209,11 @@ public class Skunk : UnitObject
             state.CURRENT_STATE = StateMachine.State.InstantKill;
         }
 
-        if (InstantKillTimelimit > 0 && destructionCount <= 0 && currentPhase == 1)
+        if (InstantKillTimelimit > 0 && destructionCount <= 0 && currentPhase == 1 && !isPatternPause)
         {
             isPatternPause = true;
             health.damageDecrease = true;
+
             state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
 
@@ -218,6 +224,11 @@ public class Skunk : UnitObject
         }
 
         DestructionPart();
+
+        if (currentPhase > 1 && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Dieing)
+        {
+            forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+        }
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
@@ -239,50 +250,32 @@ public class Skunk : UnitObject
                 case StateMachine.State.Patrol:
                     break;
                 case StateMachine.State.Jump:
-                    //if (!hasJumpAttacked)
-                    //{
-                    //    StartCoroutine(JumpAttack());
-                    //}
                     break;
                 case StateMachine.State.Farting:
-                    if (!wasFarting)
-                    {
-                        Fart();
-                        wasFarting = true;
-                    }
+                    
                     break;
                 case StateMachine.State.FartShield:
-                    if (!isShieldActive)
-                    {
-                        shieldRegenTimer -= Time.deltaTime;
-                        if (shieldRegenTimer <= 0)
-                        {
-                            CreateShield();
-                            StartCoroutine(KeepStateIdle(waitIdleTime));
-                        }
-                    }
-                    else
-                    {
-                        patternManager.CurrentPattern = null;
-                    }
+                    
                     break;
                 case StateMachine.State.Tailing:
-                    //if (!isTailing)
-                    //{
-                    //    StartCoroutine(Tailing(maxAngle));
-                    //}
                     break;
                 case StateMachine.State.Throwing:
-                    if (!isThrowing)
-                    {
-                        StartCoroutine(CreamThrow());
-                    }
                     break;
                 case StateMachine.State.InstantKill:
-                    playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
                     break;
                 case StateMachine.State.PhaseChange:
-                    if (!isPhaseChanged)
+                    if (isPhaseChanged)
+                    {
+                        currentPhase++;
+                        patternManager.basicPatterns.Clear();
+                        patternManager.patternList.Clear();
+                        patternManager.basicPatterns = phase2BasicPatterns;
+                        isPhaseChanged = false;
+                        isPatternPause = false;
+                        health.damageDecrease = false;
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                    else if (!isPhaseChanged)
                     {
                         phaseChangeTimeLimit -= Time.deltaTime;
 
@@ -294,17 +287,6 @@ public class Skunk : UnitObject
                         {
                             StartCoroutine(CreamThrow());
                         }
-
-                    }
-                    else if (isPhaseChanged)
-                    {
-                        currentPhase++;
-                        patternManager.basicPatterns.Clear();
-                        patternManager.patternList.Clear();
-                        patternManager.basicPatterns = phase2BasicPatterns;
-                        isPhaseChanged = false;
-                        isPatternPause = false;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
                     }
 
                     if (phaseChangeTimeLimit <= 0)
@@ -314,10 +296,7 @@ public class Skunk : UnitObject
                     }
                     break;
                 case StateMachine.State.Outburst:
-                    if (!isRunningAway)
-                    {
-                        StartCoroutine(OutburstAttack());
-                    }
+                    
                     break;
                 case StateMachine.State.Dead:
                     break;
@@ -343,47 +322,6 @@ public class Skunk : UnitObject
     }
 
     #region Func
-    private void FollowTarget()
-    {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-            if (distanceToPlayer <= detectionRange)
-            {
-                isPlayerInRange = true;
-            }
-            else
-            {
-                isPlayerInRange = false;
-            }
-
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
-            {
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-                agent.SetDestination(target.position);
-                if (distanceToPlayer <= AttackDistance)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Attacking;
-                    agent.isStopped = true;
-                }
-                else
-                {
-                    agent.isStopped = false;
-                }
-            }
-            else
-            {
-                agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
-            }
-        }
-    }
-
     private void DestructionPart()
     {
         if (destructionCount > 0)
@@ -391,13 +329,16 @@ public class Skunk : UnitObject
             if (DestructionGauge <= 0)
             {
                 if (!destructionStun)
+                {
                     StartCoroutine(destructionCoroutine);
+                }
             }
         }
 
         if (destructionStun)
         {
-            state.CURRENT_STATE = StateMachine.State.Stun;
+            if (state.CURRENT_STATE != StateMachine.State.Stun)
+                state.CURRENT_STATE = StateMachine.State.Stun;
             currentDestructionTime -= Time.deltaTime;
 
             if (currentDestructionTime <= 0)
@@ -426,6 +367,7 @@ public class Skunk : UnitObject
     private IEnumerator StartDestructTime()
     {
         destructionStun = true;
+        health.doNotChange = true;
         currentDestructionHP = health.CurrentHP() - DestructionHP;
         GameObject poisonGas = Instantiate(poisonGasPrefab, transform.position, Quaternion.identity);
         poisonGas.GetComponent<PoisonGas>().radius = poisonGasRadius;
@@ -433,6 +375,7 @@ public class Skunk : UnitObject
         poisonGas.GetComponent<PoisonGas>().duration = poisonGasDuration;
 
         yield return new WaitForSeconds(DestructionTime);
+        health.doNotChange = false;
         destructionStun = false;
         destructionCoroutine = StartDestructTime();
         yield return null;
@@ -636,7 +579,18 @@ public class Skunk : UnitObject
             }
 
             Vector3 direction = (runawayDestination - transform.position).normalized;
+            
             agent.Move(direction * runawaySpeed * Time.deltaTime);
+            float xDirection = runawayDestination.x - transform.position.x;
+
+            if (xDirection > 0)
+            {
+                transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            }
+            else if (xDirection < 0)
+            {
+                transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            }
             bombDropTimer += Time.deltaTime;
             if (bombDropTimer >= bombDropInterval && bombPrefab != null)
             {
@@ -646,7 +600,14 @@ public class Skunk : UnitObject
             yield return null;
         }
 
-        yield return new WaitForSeconds(waitAfterReachingDestination);
+        var curAnim = GetComponentInChildren<SimpleSpineAnimator>();
+
+        if (Vector3.Distance(transform.position, runawayDestination) <= 1f)
+        {
+            spineAnimation.AnimationState.SetAnimation(curAnim.AnimationTrack, curAnim.phase2Idle, loop: true);
+            yield return new WaitForSeconds(waitAfterReachingDestination);
+            spineAnimation.AnimationState.SetAnimation(curAnim.AnimationTrack, curAnim.Moving, loop: true);
+        }
 
         isRunningAway = false;
     }
@@ -657,9 +618,8 @@ public class Skunk : UnitObject
         {
             currentShield = Instantiate(shieldPrefab, transform.position, Quaternion.identity);
             currentShield.transform.SetParent(this.transform);
-            currentShield.transform.localScale = new Vector3(shieldRadius, shieldRadius, shieldRadius);
+            currentShield.transform.localScale = new Vector3(shieldRadius * 0.1f, shieldRadius * 0.1f, shieldRadius * 0.1f);
             isShieldActive = true;
-            isPatternPause = true;
             health.untouchable = true;
         }
     }
@@ -733,12 +693,68 @@ public class Skunk : UnitObject
                     StartCoroutine(Tailing(maxAngle));
                 }
                 break;
+            case StateMachine.State.Throwing:
+                if (!isThrowing && e.Data.Name == "cream_throw")
+                {
+                    StartCoroutine(CreamThrow());
+                }
+                break;
+            case StateMachine.State.Farting:
+                if (!wasFarting && e.Data.Name == "effeck_fart")
+                {
+                    Fart();
+                    wasFarting = true;
+                }
+                break;
+            case StateMachine.State.InstantKill:
+                if (e.Data.Name == "effect_explode")
+                    playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);
+                break;
+            case StateMachine.State.FartShield:
+                if (e.Data.Name == "effeck_fart")
+                {
+                    if (!isShieldActive)
+                    {
+                        shieldRegenTimer -= Time.deltaTime;
+                        if (shieldRegenTimer <= 0)
+                        {
+                            CreateShield();
+                        }
+                    }
+                    else
+                    {
+                        patternManager.CurrentPattern = null;
+                    }
+                }
+                break;
+            case StateMachine.State.Outburst:
+                Vector3 playerPosition = target.position;
+                Vector3 directionToPlayer = (playerPosition - transform.position).normalized;
+
+                if (directionToPlayer.x > 0)
+                {
+                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                }
+                else if (directionToPlayer.x < 0)
+                {
+                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+                }
+
+                if (e.Data.Name == "run")
+                {
+                    if (!isRunningAway)
+                    {
+                        StartCoroutine(OutburstAttack());
+                    }
+                }
+                break;
         }
     }
 
     public void OnDie()
     {
         agent.speed = 0f;
+        isPatternPause = true;
         Destroy(gameObject, 5f);
     }
     #endregion
