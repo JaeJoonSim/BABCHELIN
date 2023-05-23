@@ -139,46 +139,60 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 1
   AutomaticallySetFacing: 1
   DefaultLoop: {fileID: 11400000, guid: 2585e595cbfc8d54abd7f4846a3fb434, type: 2}
   Animations: []
+  North: 0
+  South: 0
+  LeftRight: 0
   Idle: {fileID: 11400000, guid: 2585e595cbfc8d54abd7f4846a3fb434, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: 014e81fd40920ca47992e4dc566ff641, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
+  StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: f7fbe634c368c944eba46d85225bdc7a, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
-  PlayerAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerNorthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerSouthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Absorb: {fileID: 0}
   NorthAbsorb: {fileID: 0}
   SouthAbsorb: {fileID: 0}
+  Skill: {fileID: 0}
+  NorthSkill: {fileID: 0}
+  SouthSkill: {fileID: 0}
+  Skill2: {fileID: 0}
+  NorthSkill2: {fileID: 0}
+  SouthSkill2: {fileID: 0}
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Crack: {fileID: 0}
+  NonCrack: {fileID: 0}
+  Jump: {fileID: 0}
+  TailWhip: {fileID: 0}
+  CreamThrow: {fileID: 0}
+  fart: {fileID: 0}
+  SpinStart: {fileID: 0}
+  Destroyed: {fileID: 0}
+  Spin: {fileID: 0}
+  GimmickFailExplode: {fileID: 0}
+  phase2Idle: {fileID: 0}
+  FartShield: {fileID: 0}
+  ChargeRun: {fileID: 0}
   Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: d53f78934842022469b78dc75afc75ef, type: 2}
   Dead: {fileID: 11400000, guid: 64d351c5a267b4f4c98312dc124f2af1, type: 2}
+  MixIdle: {fileID: 0}
+  NorthMixIdle: {fileID: 0}
+  SouthMixIdle: {fileID: 0}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
@@ -303,7 +317,8 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
-  isMonster: 0
+  doNotChange: 0
+  isMonster: 1
 --- !u!114 &6331368809563081929
 MonoBehaviour:
   m_ObjectHideFlags: 0

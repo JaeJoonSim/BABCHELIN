@@ -67,8 +67,11 @@ public class CookieMouse : UnitObject
 
     private Cream creamParent;
 
+    private NavMeshAgent nav;
+
     private void Start()
     {
+        nav = transform.GetComponent<NavMeshAgent>();
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -323,6 +326,8 @@ public class CookieMouse : UnitObject
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        nav.enabled = false;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }

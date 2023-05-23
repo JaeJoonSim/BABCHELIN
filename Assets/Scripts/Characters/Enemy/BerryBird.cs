@@ -68,8 +68,11 @@ public class BerryBird : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private NavMeshAgent nav;
+
     private void Start()
     {
+        nav = transform.GetComponent<NavMeshAgent>();
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 
         if (target == null)
@@ -202,7 +205,7 @@ public class BerryBird : UnitObject
 
                 case StateMachine.State.HitLeft:
                 case StateMachine.State.HitRight:
-                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway)
+                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
                         agent.speed = 0;
                         for (int a = 0; a < otherBirdState.Length; a++)
@@ -387,6 +390,8 @@ public class BerryBird : UnitObject
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        nav.enabled = false;
         Invoke("DeathEffect", 3.233f);
         Destroy(gameObject, 3.233f);
     }

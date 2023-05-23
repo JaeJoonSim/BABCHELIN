@@ -76,8 +76,11 @@ public class Tomato : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private NavMeshAgent nav;
+
     private void Start()
     {
+        nav = transform.GetComponent<NavMeshAgent>();
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -399,6 +402,8 @@ public class Tomato : UnitObject
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        nav.enabled = false;
         Invoke("DeathEffect", 3f);
         Destroy(gameObject, 3f);
     }

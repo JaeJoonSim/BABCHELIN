@@ -71,8 +71,11 @@ public class CookieMouse3 : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private NavMeshAgent nav;
+
     private void Start()
     {
+        nav = transform.GetComponent<NavMeshAgent>();
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -332,6 +335,8 @@ public class CookieMouse3 : UnitObject
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        nav.enabled = false;
         Invoke("DeathEffect", 4f);
         Destroy(gameObject, 4f);
     }
