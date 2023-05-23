@@ -212,7 +212,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButton(0) &&
             (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            if (playerController.BulletGauge <= 0 || ShotDelay > 0)
+            if (playerController.BulletGauge < playerController.Attack.GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
             {
                 return false;
             }
@@ -241,10 +241,16 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            getMouseInfo();
+            
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
 
+            
+        }
+        else if(Input.GetMouseButton(1) &&
+            (state.CURRENT_STATE == StateMachine.State.Absorbing))
+        {
+            getMouseInfo();
             FindVisibleTargets();
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && !Input.GetMouseButton(1))
@@ -278,13 +284,23 @@ public class PlayerAction : BaseMonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
+                if (playerController.BulletGauge < playerController.Skills[0].GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
+                {
+                    return false;
+                }
                 state.CURRENT_STATE = StateMachine.State.Skill;
+                
                 playerController.SkillIndex = 0;
             }           
             else if (Input.GetKeyDown(KeyCode.E))
             {
+                if (playerController.BulletGauge < playerController.Skills[1].GetComponent<SmallAttack>().Cost || ShotDelay > 0)
+                {
+                    return false;
+                }
                 state.CURRENT_STATE = StateMachine.State.Skill2;
-                playerController.SkillIndex = 1;
+                playerController.addBullet(-playerController.Skills[1].GetComponent<SmallAttack>().Cost);
+               playerController.SkillIndex = 1;
                 SkillDelay = 3;
             }
         }
@@ -336,26 +352,26 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     absorb.inAbsorbArea = true;
                 }
-                //Debug.DrawLine(playerController.GrinderControl.position, targetInRange[i].transform.position, Color.green);
+                Debug.DrawLine(playerController.GrinderControl.position, targetInRange[i].transform.position, Color.green);
             }
         }
     }
 
-    //    public void OnDrawGizmos()
-    //    {
-    //#if UNITY_EDITOR
+    public void OnDrawGizmos()
+    {
+#if UNITY_EDITOR
 
-    //        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
 
-    //        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
-    //        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
+        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
+        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
 
-    //        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
-    //        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
 
-    //#endif
+#endif
 
-    //    }
+    }
 
     public Vector3 DirFromAngle(float angleDegrees, bool angleIsGlobal)
     {
@@ -382,7 +398,7 @@ public class PlayerAction : BaseMonoBehaviour
                     spawnPos.z = 0;
                     //float anglet = state.facingAngle - 15;
                     playerController.addBullet(-
-                    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost);
+                    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost); 
                     //for (int i = 0; i < 2; i++)
                     //{
                     //    anglet += 30 / 2;
