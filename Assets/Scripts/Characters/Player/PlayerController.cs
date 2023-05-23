@@ -82,6 +82,8 @@ public class PlayerController : BaseMonoBehaviour
     {
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
+            SpineTransform.localPosition = Vector3.zero;
+            speed += (0f - speed) / 3f * GameManager.DeltaTime;
             return;
         }
 
