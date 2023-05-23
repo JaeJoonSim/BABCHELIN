@@ -2565,7 +2565,7 @@ Transform:
   m_GameObject: {fileID: 5919918858787812569}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 7.2}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.9, y: 0.9, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 6173731037952674467}
@@ -6123,7 +6123,7 @@ PrefabInstance:
     - target: {fileID: 6948086771242223372, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.88
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223372, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -6167,6 +6167,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
+      propertyPath: maxAngle
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
       propertyPath: dropDelay
       value: 2
       objectReference: {fileID: 0}
@@ -6178,7 +6183,7 @@ PrefabInstance:
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: bulletSpeed
-      value: 5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -6188,12 +6193,32 @@ PrefabInstance:
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: shockwaveRange
-      value: 10
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: numberOfBullets
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: poisonGasRadius
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: showJumpPattern
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: DestructionGauge
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: destructionCount
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -6205,10 +6230,25 @@ PrefabInstance:
       propertyPath: showTailigPattern
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: InstantKillTimelimit
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223376, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_Name
       value: Skunk
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223378, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: maxHealth
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223378, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: recoveryTime
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771670899601, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
