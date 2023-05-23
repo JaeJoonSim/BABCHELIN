@@ -32,9 +32,12 @@ public class BerryBird3_Single : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    private NavMeshAgent nav;
+
     // Start is called before the first frame update
     void Start()
     {
+        nav = transform.GetComponent<NavMeshAgent>();
 
         if (target == null)
         {
@@ -172,6 +175,7 @@ public class BerryBird3_Single : UnitObject
     {
         agent.isStopped = true;
         speed = 0f;
+        nav.enabled = false;
         Invoke("DeathEffect", 3.2333f);
         Destroy(gameObject, 3.2333f);
     }

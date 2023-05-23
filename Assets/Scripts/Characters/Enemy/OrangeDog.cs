@@ -77,16 +77,16 @@ public class OrangeDog : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
-    Rigidbody2D rb2d;
 
     public float gravity = 9.81f;
     private float fallSpeed = 0f;
     private Vector3 fallDirection = new Vector3(0, 0, 1);
 
+    private NavMeshAgent nav;
+
     private void Start()
     {
-        rb2d = transform.GetComponent<Rigidbody2D>();
-
+        nav = transform.GetComponent<NavMeshAgent>();
         idleToPatrolTime = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -472,6 +472,7 @@ public class OrangeDog : UnitObject
     public void OnDie()
     {
         agent.speed = 0f;
+        nav.enabled = false;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }
