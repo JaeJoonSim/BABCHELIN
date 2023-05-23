@@ -1686,6 +1686,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2648169565075864971}
   - component: {fileID: 2648169565075864972}
+  - component: {fileID: 3062203400200393489}
   m_Layer: 0
   m_Name: DungeonManager
   m_TagString: Untagged
@@ -1724,6 +1725,26 @@ MonoBehaviour:
   escPanel: {fileID: 2648169565226017351}
   settingPanel: {fileID: 7212163373184316230}
   ScreenTab: {fileID: 834070215430586152}
+--- !u!114 &3062203400200393489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2648169565075864973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b04b888e33b38e74c80c64b6902e25c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  absorbTimeSmall: 0.1
+  absorbTimeMedium: 0.5
+  absorbTimeLarge: 1
+  addBulletSmall: 20
+  addBulletMedium: 50
+  addBulletLarge: 100
+  absorbKeepTime: 1
+  speed: 10
 --- !u!1 &2648169565226017351
 GameObject:
   m_ObjectHideFlags: 0

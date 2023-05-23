@@ -2,8 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class absorb : Singleton<absorb>
+public class absorb : BaseMonoBehaviour
 {
+    static private absorb instance;
+    static public absorb Instance { get { return instance; } }
+
     public enum objectSize { small, medium, large };
 
     [Header("사이즈별 흡수시간")]
@@ -31,9 +34,21 @@ public class absorb : Singleton<absorb>
     [Header("흡수 속도")]
     public float speed = 10;
 
+
+
     private void Start()
     {
-        if(Player == null)
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+        if (Player == null)
         {
             Player = GameObject.FindWithTag("Player").transform;
         }
