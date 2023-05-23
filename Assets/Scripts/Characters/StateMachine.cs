@@ -41,7 +41,8 @@ public class StateMachine : MonoBehaviour
         Defend = 33,
         StopMoving = 34,
         Skill = 35,
-        ultimate = 36,
+        Skill2 = 36,
+        ultimate = 37,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

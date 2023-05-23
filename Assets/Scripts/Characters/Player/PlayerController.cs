@@ -50,6 +50,7 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAttack", true)] public float AttackSpeed;
 
     [DrawIf("showAttack", true)] public int SkillIndex;
+    public GameObject[] Skills;
 
     public Transform muzzleBone;
     public Transform GrinderControl;
@@ -102,7 +103,8 @@ public class PlayerController : BaseMonoBehaviour
         if (state.CURRENT_STATE != StateMachine.State.Dodging && 
             (state.CURRENT_STATE == StateMachine.State.Attacking || 
             state.CURRENT_STATE == StateMachine.State.Absorbing ||
-            state.CURRENT_STATE == StateMachine.State.Skill
+            state.CURRENT_STATE == StateMachine.State.Skill ||
+            state.CURRENT_STATE == StateMachine.State.Skill2
             ))
         {
             muzzleBone.position = Utils.GetMousePosition();
@@ -172,6 +174,11 @@ public class PlayerController : BaseMonoBehaviour
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+        
+        if(state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
+        {
+            Skills[1].SetActive(false);
         }
 
         switch (state.CURRENT_STATE)
@@ -247,7 +254,32 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
+
             case StateMachine.State.Skill:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                break;
+            case StateMachine.State.Skill2:
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+
+                if (!Skills[1].activeSelf)
+                {
+                    Skills[1].SetActive(true);
+                }
+                Skills[1].transform.position = GrinderControl.position;
+                Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+
                 break;
             case StateMachine.State.Attacking:
                 //이동
