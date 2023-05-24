@@ -23,6 +23,8 @@ public class CookieMouse2 : UnitObject
     }
     public AnimationReferenceAsset Walk;
     public AnimationReferenceAsset Runaway;
+    public AnimationReferenceAsset StartSliding;
+    public AnimationReferenceAsset Sliding;
     private int aniCount = 0;
 
     public float Damaged = 1f;
@@ -184,6 +186,16 @@ public class CookieMouse2 : UnitObject
                     detectionRange *= 2f;
                     break;
                 case StateMachine.State.Attacking:
+                    if (StartSliding != null && Sliding != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StartSliding, loop: false);
+                            anim.AnimationState.AddAnimation(AnimationTrack, Sliding, loop: true, 0f);
+                            aniCount++;
+                        }
+                    }
+
                     state.LockStateChanges = true;
                     moveTime += Time.deltaTime;
                     agent.speed = 4f;
@@ -202,6 +214,7 @@ public class CookieMouse2 : UnitObject
                     {
                         state.LockStateChanges = false;
                         moveTime = 0;
+                        aniCount = 0;
                         if (distanceToPlayer <= detectionAttackRange)
                         {
                             movePoint = target.position;
@@ -215,15 +228,6 @@ public class CookieMouse2 : UnitObject
                     }
 
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-
-                    if (0 <= xDir)
-                    {
-                        SlideEffect_L.SetActive(true);
-                    }
-                    else
-                    {
-                        SlideEffect_R.SetActive(true);
-                    }
 
 
                     break;
@@ -375,13 +379,15 @@ public class CookieMouse2 : UnitObject
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "attack" || e.Data.Name == "Attack")
+        if (e.Data.Name == "slide" || e.Data.Name == "Slide")
         {
-            if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
+            if (0 <= xDir)
             {
-                if (attackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                hasAppliedDamage = true;
+                SlideEffect_L.SetActive(true);
+            }
+            else
+            {
+                SlideEffect_R.SetActive(true);
             }
         }
     }

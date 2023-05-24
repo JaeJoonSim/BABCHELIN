@@ -163,6 +163,10 @@ MonoBehaviour:
   speed: 0
   maxSpeed: 0.05
   SpineTransform: {fileID: 572980232343476603}
+  AnimationTrack: 0
+  StartDefend: {fileID: 11400000, guid: 50eb2c61c1362df4fb4b610c139a0c39, type: 2}
+  Defend: {fileID: 11400000, guid: 711caba4ee0c6af45849ecdc3f5ec159, type: 2}
+  StopDefend: {fileID: 11400000, guid: f06911cc78a13924d8631f03e5de7dee, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 0
@@ -171,8 +175,11 @@ MonoBehaviour:
   AttackDelay: 0
   AttackDuration: 0.3
   AttackTimer: 0
-  runMinTime: 2
-  runMaxTime: 3
+  runMinTime: 4
+  runMaxTime: 5
+  isDefend: 0
+  defendMinTime: 2
+  defendMaxTime: 3
   forceDir: 0
   xDir: 0
   yDir: 0

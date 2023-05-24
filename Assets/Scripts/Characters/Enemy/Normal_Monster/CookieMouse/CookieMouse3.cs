@@ -194,7 +194,7 @@ public class CookieMouse3 : UnitObject
                 case StateMachine.State.Patrol:
                     if (Walk != null)
                     {
-                        while (aniCount < 1)
+                        if (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
                             aniCount++;
