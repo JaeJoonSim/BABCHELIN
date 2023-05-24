@@ -43,6 +43,7 @@ public class StateMachine : MonoBehaviour
         Skill = 35,
         Skill2 = 36,
         ultimate = 37,
+        Dash = 38,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

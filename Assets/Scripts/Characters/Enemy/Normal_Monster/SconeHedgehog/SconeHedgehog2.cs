@@ -5,7 +5,7 @@ using Spine;
 using Spine.Unity;
 using System.Collections;
 
-public class SconeHedgehog : UnitObject
+public class SconeHedgehog2 : UnitObject
 {
     public Transform SpineTransform;
     private SkeletonAnimation spineAnimation;
@@ -26,6 +26,7 @@ public class SconeHedgehog : UnitObject
     public AnimationReferenceAsset Walk;
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset StopMoving;
+    public AnimationReferenceAsset Dash;
     public AnimationReferenceAsset StopDash;
     public AnimationReferenceAsset Jump;
     private float aniCount = 1;
@@ -43,15 +44,16 @@ public class SconeHedgehog : UnitObject
     [SerializeField] float dashTime = 0f;
     [SerializeField] float delayTime = 5f;
     [SerializeField] float time = 0;
+    [SerializeField] float AttackTimer = 0;
+    private float attackPercentage;
+    [SerializeField] int dashPer;
     private int dashCount = 0;
     private bool isJump = false;
     private bool isLand = false;
 
     [Space]
-    [SerializeField] float AttackDelay;
-    public float AttackDuration = 0.3f;
-
     private Health playerHealth;
+    private Health thisHealth;
     private NavMeshAgent agent;
     private float distanceToPlayer;
     Transform moveTarget;
@@ -77,17 +79,20 @@ public class SconeHedgehog : UnitObject
     public float xDir;
     public float yDir;
 
-
+    public GameObject BulletObject;
     public GameObject ExplosionEffect;
 
     private bool isDelay = false;
 
     private void Start()
     {
+        //agent.obstacleAvoidanceType = ObstacleAvoidanceType.NoObstacleAvoidance;
+
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
         moveTarget = transform;
         state.CURRENT_STATE = StateMachine.State.Idle;
 
+        thisHealth = transform.GetComponent<Health>();
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -102,6 +107,8 @@ public class SconeHedgehog : UnitObject
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
         patrolTargetPosition = GetRandomPositionInPatrolRange();
+
+        attackPercentage = UnityEngine.Random.Range(0, 10);
 
         health.OnHit += OnHit;
         health.OnDie += OnDie;
@@ -199,7 +206,7 @@ public class SconeHedgehog : UnitObject
                         }
                     }
 
-                    if(time > 0.4667f)
+                    if (time > 0.4667f)
                     {
                         aniCount = 1;
                         time = 0;
@@ -208,6 +215,31 @@ public class SconeHedgehog : UnitObject
                     break;
 
                 case StateMachine.State.Attacking:
+                    state.LockStateChanges = true;
+                    agent.speed = 0f;
+                    agent.isStopped = true;
+                    AttackTimer += Time.deltaTime;
+
+                    if (AttackTimer >= 1.4f)
+                    {
+                        state.LockStateChanges = false;
+                        AttackTimer = 0f;
+                        state.CURRENT_STATE = StateMachine.State.Delay;
+                    }
+
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                    break;
+
+                case StateMachine.State.Dash:
+                    if (Dash != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Dash, loop: true);
+                            aniCount--;
+                        }
+                    }
+                    thisHealth.isInvincible = true;
                     state.LockStateChanges = true;
                     agent.isStopped = false;
                     dashTime += Time.deltaTime;
@@ -225,6 +257,7 @@ public class SconeHedgehog : UnitObject
                     }
                     else
                     {
+                        thisHealth.isInvincible = false;
                         state.LockStateChanges = false;
                         dashTime = 0;
                         dashCount++;
@@ -234,7 +267,7 @@ public class SconeHedgehog : UnitObject
 
                 case StateMachine.State.Delay:
                     time += Time.deltaTime;
-                    if (StopDash != null)
+                    if (StopDash != null && state.PREVIOUS_STATE == StateMachine.State.Dash)
                     {
                         if (aniCount > 0)
                         {
@@ -248,16 +281,18 @@ public class SconeHedgehog : UnitObject
                     {
                         time = 0f;
                         aniCount = 1;
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
+
+
                         if (dashCount < 3)
                         {
-                            if (transform.position.x <= target.position.x)  //보는 방향
-                            {
-                                this.transform.localScale = new Vector3(1f, 1f, 1f);
-                            }
-                            else
-                            {
-                                this.transform.localScale = new Vector3(-1f, 1f, 1f);
-                            }
                             directionToPoint = (target.position - transform.position).normalized;
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
@@ -266,28 +301,18 @@ public class SconeHedgehog : UnitObject
                             dashCount = 0;
                             if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionDashRange)
                             {
-                                if (transform.position.x <= target.position.x)  //보는 방향
-                                {
-                                    this.transform.localScale = new Vector3(1f, 1f, 1f);
-                                }
-                                else
-                                {
-                                    this.transform.localScale = new Vector3(-1f, 1f, 1f);
-                                }
                                 directionToPoint = (target.position - transform.position).normalized;
-                                state.CURRENT_STATE = StateMachine.State.Attacking;
-                            }
-                            else if(distanceToPlayer <= detectionJumpRange)
-                            {
-                                if (transform.position.x <= target.position.x)  //보는 방향
+                                if (attackPercentage < dashPer)
                                 {
-                                    this.transform.localScale = new Vector3(1f, 1f, 1f);
+                                    state.CURRENT_STATE = StateMachine.State.Attacking;
                                 }
                                 else
                                 {
-                                    this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                                    state.CURRENT_STATE = StateMachine.State.Dash;
                                 }
-
+                            }
+                            else if (distanceToPlayer <= detectionJumpRange)
+                            {
                                 jumpPoint = target.transform.position;
                                 state.CURRENT_STATE = StateMachine.State.Jump;
                             }
@@ -311,12 +336,12 @@ public class SconeHedgehog : UnitObject
 
                     agent.speed = 5f;
 
-                    if(isJump)
+                    if (isJump)
                     {
                         agent.SetDestination(jumpPoint);
                     }
 
-                    if(isLand)
+                    if (isLand)
                     {
                         isJump = false;
                         isLand = false;
@@ -414,18 +439,14 @@ public class SconeHedgehog : UnitObject
     {
         if (e.Data.Name == "attack" || e.Data.Name == "Attack")
         {
-            if (!hasAppliedDamage && state.CURRENT_STATE == StateMachine.State.Attacking)
-            {
-                if (attackDistance > distanceToPlayer)
-                    playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
-                hasAppliedDamage = true;
-            }
+            GameObject bullet = BulletObject;
+            Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
         }
         else if (e.Data.Name == "jump" || e.Data.Name == "Jump")
         {
             isJump = true;
         }
-        else if(e.Data.Name == "land" || e.Data.Name == "Land")
+        else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {
             isLand = true;
             if (jumpDamageRange > distanceToPlayer)
