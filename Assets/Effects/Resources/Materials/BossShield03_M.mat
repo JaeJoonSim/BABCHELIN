@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-8077759879691634020
+--- !u!114 &-3074499265142461945
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,8 +20,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: BossShield_M
-  m_Shader: {fileID: -6465566751694194690, guid: 3c1fdaa59cdfb844594e2bc73634bfe3,
+  m_Name: BossShield03_M
+  m_Shader: {fileID: -6465566751694194690, guid: 549b7b73586e3ea4bb5ceebec75bc82b,
     type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
@@ -48,15 +48,12 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _DepthOffset: 0.48
-    - _Dissolve: 0.495
-    - _DissolveEdgeThickness: 7
-    - _DissolveStartHeight: 0
-    - _FresnelPower: -0.48
+    - _Cutoff_Height: 0
+    - _Noise_Scale: 55
+    - _Noise_Strength: 1.8
     - _Opacity: 1
     - _QueueControl: 0
     - _QueueOffset: 0
     m_Colors:
-    - _DissolveEdgeColor: {r: 1.2323726, g: 0.71498126, b: 0.122074634, a: 0}
-    - _FresnelColor: {r: 0, g: 0, b: 0, a: 0}
+    - _Base_Color: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
