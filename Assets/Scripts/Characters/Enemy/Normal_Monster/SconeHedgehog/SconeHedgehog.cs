@@ -81,7 +81,8 @@ public class SconeHedgehog : UnitObject
 
     public GameObject ExplosionEffect;
 
-    private bool isDelay = false;
+
+    private NavMeshAgent nav;
 
     private void Start()
     {
@@ -110,6 +111,8 @@ public class SconeHedgehog : UnitObject
         health.OnHit += OnHit;
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
+
+        nav = transform.GetComponent<NavMeshAgent>();
     }
 
     public override void Update()
@@ -445,8 +448,10 @@ public class SconeHedgehog : UnitObject
     public void OnDie()
     {
         speed = 0f;
-        Invoke("DeathEffect", 2f);
-        Destroy(gameObject, 2f);
+        agent.isStopped = true;
+        nav.enabled = false;
+        Invoke("DeathEffect", 1.9667f);
+        Destroy(gameObject, 1.9667f);
     }
 
     private void DeathEffect()

@@ -9,6 +9,24 @@ public class ButterCat : UnitObject
 {
     public Transform SpineTransform;
     private SkeletonAnimation spineAnimation;
+    public int AnimationTrack = 0;
+    private SkeletonAnimation _anim;
+    private SkeletonAnimation anim
+    {
+        get
+        {
+            if (_anim == null)
+            {
+                _anim = this.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            }
+            return _anim;
+        }
+    }
+    public AnimationReferenceAsset StartDefend;
+    public AnimationReferenceAsset Defend;
+    public AnimationReferenceAsset StopDefend;
+    private float aniCount = 1;
+
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -36,7 +54,10 @@ public class ButterCat : UnitObject
     [SerializeField] float runMinTime;
     [SerializeField] float runMaxTime;
     private float runTimer;
-    private bool isDefend;
+    [SerializeField] private bool isDefend = false;
+    private float defendToAttackDelay;
+    [SerializeField] float defendMinTime;
+    [SerializeField] float defendMaxTime;
 
     [Space]
     public float forceDir;
@@ -48,6 +69,8 @@ public class ButterCat : UnitObject
     public GameObject DestructionObject;
     public GameObject BombObject;
     public GameObject ExplosionEffect;
+
+    Vector3 direction;
 
     // Start is called before the first frame update
     private void Start()
@@ -67,6 +90,7 @@ public class ButterCat : UnitObject
 
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
+
     }
     // Update is called once per frame
     public override void Update()
@@ -97,12 +121,27 @@ public class ButterCat : UnitObject
             {
                 case StateMachine.State.Idle:
                     time += Time.deltaTime;
+                    agent.enabled = false;
 
                     if(time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
+                        agent.enabled = true;
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
+
+                    if(transform.localScale.x > 0)
+                    {
+                        direction = Vector3.left;
+                    }
+                    else
+                    {
+                        direction = Vector3.right;
+                    }
+
+                    Vector3 moveVector = direction * 5 * Time.deltaTime;
+                    transform.Translate(moveVector);
+
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
@@ -133,32 +172,96 @@ public class ButterCat : UnitObject
                         this.transform.localScale = new Vector3(-1f, 1f, 1f);
                     }
 
-                    if (AttackTimer > 3.21f) //어택 애니메이션 시간
+                    if (AttackTimer > 1.9333f) //어택 애니메이션 시간
                     {
                         state.LockStateChanges = false;
+                        isDefend = false;
                         AttackTimer = 0;
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
                     break;
 
                 case StateMachine.State.Defend:
-                    time += Time.deltaTime;
-
-                    if(time >= 2.46f)   //defend 애니메이션 시간
+                    state.LockStateChanges = true;
+                    if (StartDefend != null || Defend != null)
                     {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StartDefend, loop: false);
+                            anim.AnimationState.AddAnimation(AnimationTrack, Defend, loop: true, 0f);
+                            aniCount--;
+                        }
+                    }
+
+                    time += Time.deltaTime;
+                    health.isInvincible = true;
+                    if(time >= defendToAttackDelay)
+                    {
+                        state.LockStateChanges = false;
                         time = 0;
+                        aniCount = 1;
+                        state.CURRENT_STATE = StateMachine.State.DefendDelay;
+                    }
+                    break;
+
+                case StateMachine.State.DefendDelay:
+                    state.LockStateChanges = true;
+                    if (StopDefend != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StopDefend, loop: false);
+                            aniCount--;
+                        }
+                    }
+
+                    time += Time.deltaTime;
+                    if (time >= 0.3)
+                    {
+                        state.LockStateChanges = false;
+                        time = 0;
+                        aniCount = 1;
+                        health.isInvincible = false;
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
                     break;
 
                 case StateMachine.State.HitLeft:
+                    time += Time.deltaTime;
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway && !isDefend)
+                    {
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
+
+                        time = 0;
+                        isDefend = true;
+                        defendToAttackDelay = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
+                        state.CURRENT_STATE = StateMachine.State.Defend;
+                    }
+                    break;
+
                 case StateMachine.State.HitRight:
                     time += Time.deltaTime;
                     if (state.PREVIOUS_STATE == StateMachine.State.Runaway && !isDefend)
                     {
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
+
                         time = 0;
                         isDefend = true;
-                        state.PREVIOUS_STATE = StateMachine.State.Defend;
+                        defendToAttackDelay = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Defend;
                     }
 

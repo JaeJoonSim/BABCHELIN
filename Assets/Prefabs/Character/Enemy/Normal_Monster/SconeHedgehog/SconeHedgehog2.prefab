@@ -174,9 +174,9 @@ MonoBehaviour:
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 10
-  detectionDashRange: 7
+  detectionAttackRange: 7
   detectionJumpRange: 5
-  jumpDamageRange: 2
+  jumpDamageRange: 3
   attackDistance: 0.5
   dashTime: 0
   delayTime: 5
@@ -307,6 +307,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
+  - {fileID: 2100000, guid: a9e7553f87ad31743a88d27ffe1fa2e1, type: 2}
   - {fileID: 2100000, guid: a3e7f7251657c784c8d175e2bf049997, type: 2}
   - {fileID: 2100000, guid: a00b20ff3e542124d8a22c1952c0e034, type: 2}
   - {fileID: 2100000, guid: a9e7553f87ad31743a88d27ffe1fa2e1, type: 2}
@@ -349,7 +350,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 7b0c6650a47f4414fbd3b94416141a1b, type: 2}
-  initialSkinName: almond
+  initialSkinName: strawberry
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
   initialFlipY: 0
