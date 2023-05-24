@@ -388,6 +388,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (e.Data.Name == "shot")
         {
             Vector3 spawnPos = playerController.GrinderControl.position;
+            spawnPos.z = -0.1f;
             switch (state.CURRENT_STATE)
             {
 
@@ -395,7 +396,7 @@ public class PlayerAction : BaseMonoBehaviour
                     if (trackEntry.TrackTime > 0.02)
                         return;
                     
-                    spawnPos.z = 0;
+                    
                     //float anglet = state.facingAngle - 15;
                     playerController.addBullet(-
                     Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost); 

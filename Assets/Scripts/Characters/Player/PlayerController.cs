@@ -52,8 +52,10 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAttack", true)] public int SkillIndex;
     public GameObject[] Skills;
 
+    public Transform muzzle;
     public Transform muzzleBone;
     public Transform GrinderControl;
+
 
     public GameObject BulletUI;
     private float fadeTime = 0;
@@ -111,6 +113,8 @@ public class PlayerController : BaseMonoBehaviour
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
+            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+
 
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
             {
@@ -236,13 +240,13 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Absorbing:
+                
                 if (absorbEffet != null)
                 {
-                    absorbEffet.transform.position = GrinderControl.position;
-                    absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
+                    //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                    //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-
 
                 //ÀÌµ¿
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -279,8 +283,8 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     Skills[1].SetActive(true);
                 }
-                Skills[1].transform.position = GrinderControl.position;
-                Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+                //Skills[1].transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                //Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
                 break;
             case StateMachine.State.Attacking:
