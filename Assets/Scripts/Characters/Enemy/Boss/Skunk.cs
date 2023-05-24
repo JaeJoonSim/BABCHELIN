@@ -706,6 +706,16 @@ public class Skunk : UnitObject
                     wasFarting = true;
                 }
                 break;
+            case StateMachine.State.Stun:
+                if (e.Data.Name == "stop")
+                {
+                    spineAnimation.timeScale = 0.5f / Time.timeScale;
+                }
+                if (e.Data.Name == "move_start")
+                {
+                    spineAnimation.timeScale = 1f / Time.timeScale;
+                }
+                break;
             case StateMachine.State.InstantKill:
                 if (e.Data.Name == "effect_explode")
                     playerHealth.Damaged(gameObject, transform.position, playerHealth.MaxHP() * 1.01f, Health.AttackType.Normal);

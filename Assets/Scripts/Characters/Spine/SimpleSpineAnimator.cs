@@ -480,14 +480,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 {
                     SetCrackAnim();
                     anim.AnimationState.SetAnimation(AnimationTrack, SpinStart, loop: false);
-                    if (Spin != null)
-                    {
-                        anim.AnimationState.AddAnimation(AnimationTrack, Spin, loop: true, SpinStart.Animation.Duration);
-                    }
-                    else
-                    {
-                        anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, SpinStart.Animation.Duration);
-                    }
                 }
                 break;
             case StateMachine.State.FartShield:
@@ -959,7 +951,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
 
     }
-
+    
     public string CurrentAnimation()
     {
         return anim.AnimationName;
@@ -1307,6 +1299,21 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         if (this.OnSpineEvent != null)
         {
             this.OnSpineEvent(e.Data.Name);
+        }
+
+        if (e.Data.Name == "change_gimmik_spin")
+        {
+            if (state.CURRENT_STATE == StateMachine.State.PhaseChange)
+            {
+                if (Spin != null)
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Spin, loop: true);
+                }
+                else
+                {
+                    anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                }
+            }
         }
     }
 
