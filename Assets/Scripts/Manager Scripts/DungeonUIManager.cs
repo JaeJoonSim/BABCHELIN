@@ -6,6 +6,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 {
     public GameObject escPanel;
     public GameObject settingPanel;
+    public GameObject DungeonUI;
 
     public GameObject ScreenTab;
     GameObject previousTab;
@@ -28,6 +29,9 @@ public class DungeonUIManager : BaseMonoBehaviour
             else Time.timeScale = 0;
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
+
+            if(Time.timeScale != 1) DungeonUI.SetActive(false);
+            else DungeonUI.SetActive(true);
         }
     }
 
