@@ -46,6 +46,7 @@ public class StateMachine : MonoBehaviour
         Dash = 38,
         DashDelay = 39,
         DefendDelay = 40,
+        Landing = 41,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

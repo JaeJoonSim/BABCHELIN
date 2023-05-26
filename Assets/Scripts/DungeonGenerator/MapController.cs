@@ -13,7 +13,7 @@ public class MapController : BaseMonoBehaviour
     public float playerMoveSpeed = 1.0f;
 
     private PlayerController player;
-    private CameraFollowTarget camera;
+    private new CameraFollowTarget camera;
     private float PrevPlayerPos;
 
     private void Start()
@@ -80,6 +80,9 @@ public class MapController : BaseMonoBehaviour
 
         yield return new WaitUntil(() => isFadeInComplete && isMoveDownComplete);
         camera.SnappyMovement = false;
+        player.State.CURRENT_STATE = StateMachine.State.Landing;
+
+        yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
     }
 
