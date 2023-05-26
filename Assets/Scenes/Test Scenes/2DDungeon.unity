@@ -582,6 +582,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 6160722344071664076}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &354659255 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1168773756990295402, guid: 7a0de173b40518b4cb85c0edeb777bea,
+    type: 3}
+  m_PrefabInstance: {fileID: 6160722344071664076}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &361320890
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,10 +2761,12 @@ MonoBehaviour:
   LookDistance: 0.5
   CamWobbleSettings: 0
   target: {fileID: 0}
-  targets: []
-  targetPosition: {x: 0, y: 0, z: 0}
-  targetDistance: 12.5
-  distance: 12.5
+  targets:
+  - gameObject: {fileID: 354659255}
+    Weight: 1
+  targetPosition: {x: 1.028574, y: 2.1813848, z: -0.5}
+  targetDistance: 15
+  distance: 15
   MaxZoom: 13
   MinZoom: 11
   ZoomLimiter: 5
@@ -2768,15 +2776,15 @@ MonoBehaviour:
   angle: -45
   TargetOffset: {x: 0, y: 0, z: 0}
   CurrentOffset: {x: 0, y: 0, z: 0}
-  Look: {x: 0.4, y: 0.4, z: 0}
+  Look: {x: -0.49999973, y: -0.00000004371136, z: 0}
   DisablePlayerLook: 0
   bounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
-  UseCameraLimit: 0
+    m_Extent: {x: 6, y: 6, z: 0}
+  UseCameraLimit: 1
   CameraLimitBounds:
     m_Center: {x: 0, y: 0, z: 0}
-    m_Extent: {x: 0, y: 0, z: 0}
+    m_Extent: {x: 6, y: 6, z: 0}
   TargetCamera: {fileID: 0}
   SnappyMovement: 0
   IN_CONVERSATION: 0
