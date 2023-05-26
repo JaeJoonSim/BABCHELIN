@@ -1319,18 +1319,21 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void SetCrackAnim()
     {
-        if (skunk.destructionCount < 1 && skunk.currentPhase == 1)
+        if (Crack != null && NonCrack != null)
         {
-            anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
-        }
-        else if (skunk.destructionCount >= 1 && skunk.currentPhase == 1)
-        {
-            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
-        }
+            if (skunk.destructionCount < 1 && skunk.currentPhase == 1)
+            {
+                anim.AnimationState.SetAnimation(SecondaryTrack, Crack, loop: true);
+            }
+            else if (skunk.destructionCount >= 1 && skunk.currentPhase == 1)
+            {
+                anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+            }
 
-        if (skunk.currentPhase == 2)
-        {
-            anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+            if (skunk.currentPhase == 2)
+            {
+                anim.AnimationState.SetAnimation(SecondaryTrack, NonCrack, loop: true);
+            }
         }
     }
 

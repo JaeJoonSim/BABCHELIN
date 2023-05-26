@@ -7,7 +7,11 @@ public class PlayerController : BaseMonoBehaviour
 {
     [HideInInspector] UnitObject unitObject;
     private StateMachine state;
-    public StateMachine State { get { return state; } }
+    public StateMachine State
+    {
+        get { return state; }
+        set { state = value; }
+    }
     private CircleCollider2D circleCollider2D;
     private Health health;
 
@@ -104,8 +108,8 @@ public class PlayerController : BaseMonoBehaviour
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && 
-            (state.CURRENT_STATE == StateMachine.State.Attacking || 
+        if (state.CURRENT_STATE != StateMachine.State.Dodging &&
+            (state.CURRENT_STATE == StateMachine.State.Attacking ||
             state.CURRENT_STATE == StateMachine.State.Absorbing ||
             state.CURRENT_STATE == StateMachine.State.Skill ||
             state.CURRENT_STATE == StateMachine.State.Skill2
@@ -181,8 +185,8 @@ public class PlayerController : BaseMonoBehaviour
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
-        
-        if(state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
+
+        if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
         {
             Skills[1].SetActive(false);
         }
@@ -240,7 +244,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Absorbing:
-                
+
                 if (absorbEffet != null)
                 {
                     //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
