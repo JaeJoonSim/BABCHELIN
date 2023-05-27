@@ -1,24 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DungeonUIManager : BaseMonoBehaviour
 {
+    private int tabNum;
+
     public GameObject escPanel;
     public GameObject settingPanel;
     public GameObject DungeonUI;
 
-    public GameObject ScreenTab;
-    GameObject previousTab;
-    GameObject currentTab;
+    public GameObject[] Tabs;
+    public GameObject[] tanBtn;
 
     private void Start()
     {
         escPanel.SetActive(false);
         settingPanel.SetActive(false);
-
-        currentTab = ScreenTab;
-        previousTab = currentTab;
     }
 
     private void Update()
@@ -32,6 +31,20 @@ public class DungeonUIManager : BaseMonoBehaviour
 
             if(Time.timeScale != 1) DungeonUI.SetActive(false);
             else DungeonUI.SetActive(true);
+        }
+
+        for(int a = 0; a < 5; a++)
+        {
+            if(tabNum == a)
+            {
+                Tabs[a].SetActive(true);
+                tanBtn[a].SetActive(false);
+            }
+            else
+            {
+                Tabs[a].SetActive(false);
+                tanBtn[a].SetActive(true);
+            }
         }
     }
 
@@ -63,11 +76,8 @@ public class DungeonUIManager : BaseMonoBehaviour
         settingPanel.SetActive(!settingPanel.activeSelf);
     }
 
-    public void CangeTab(GameObject tab)
+    public void SetTabNum(int a)
     {
-        previousTab = currentTab;
-        previousTab.SetActive(false);
-        tab.SetActive(true);
-        currentTab = tab;
+        tabNum = a;
     }
 }

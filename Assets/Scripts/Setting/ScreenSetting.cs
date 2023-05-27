@@ -10,10 +10,6 @@ public class ScreenSetting : MonoBehaviour
     public TMP_Dropdown screenType;
     public bool isFullscreen = true;
 
-    private void Start()
-    {
-        Screen.SetResolution(1920, 1080, isFullscreen);
-    }
 
     private void Update()
     {
