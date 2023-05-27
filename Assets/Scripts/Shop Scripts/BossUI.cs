@@ -7,8 +7,10 @@ public class BossUI : MonoBehaviour
 {
     [SerializeField] Transform boss;
     private Health bossHealth;
+    private Skunk skunk;
     public Image UIHealthGauge;
     public Slider UIHealthCutline;
+    public Image UIDestroyGauge;
     //public Image UIHealthBackGauge;
 
     // Start is called before the first frame update
@@ -19,6 +21,7 @@ public class BossUI : MonoBehaviour
             boss = GameObject.FindGameObjectWithTag("boss").transform;
         }
         bossHealth = boss.GetComponent<Health>();
+        skunk = boss.GetComponent<Skunk>();
 
         //DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
         //ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
@@ -35,6 +38,7 @@ public class BossUI : MonoBehaviour
     {
         UIHealthGauge.fillAmount = bossHealth.CurrentHP() / bossHealth.MaxHP();
         UIHealthCutline.value = bossHealth.CurrentHP() / bossHealth.MaxHP();
+        UIDestroyGauge.fillAmount = skunk.destructionGauge() / 5;
         //UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
     }
 }

@@ -102,6 +102,7 @@ Transform:
   - {fileID: 2788614578932445049}
   - {fileID: 6190825089392363134}
   - {fileID: 6646885473057054305}
+  - {fileID: 942773698853033862}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -175,6 +176,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
+  backHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
   isPoisoned: 0
@@ -182,6 +184,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  doNotChange: 0
   isMonster: 1
 --- !u!114 &4393575829783002759
 MonoBehaviour:
@@ -448,49 +451,139 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
   DefaultLoop: {fileID: 11400000, guid: b9a20580b7250304d9ce9a591f1a6704, type: 2}
   Animations: []
+  North: 0
+  South: 0
+  LeftRight: 0
   Idle: {fileID: 11400000, guid: b9a20580b7250304d9ce9a591f1a6704, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: 54e971a77d066b14ab08e7a5170eefae, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
+  StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: c07fa426930a00148b5ffc084e6323d4, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
-  PlayerAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerNorthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerSouthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Absorb: {fileID: 0}
   NorthAbsorb: {fileID: 0}
   SouthAbsorb: {fileID: 0}
+  Skill: {fileID: 0}
+  NorthSkill: {fileID: 0}
+  SouthSkill: {fileID: 0}
+  Skill2: {fileID: 0}
+  NorthSkill2: {fileID: 0}
+  SouthSkill2: {fileID: 0}
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Crack: {fileID: 0}
+  NonCrack: {fileID: 0}
+  Jump: {fileID: 0}
+  TailWhip: {fileID: 0}
+  CreamThrow: {fileID: 0}
+  fart: {fileID: 0}
+  SpinStart: {fileID: 0}
+  Destroyed: {fileID: 0}
+  Spin: {fileID: 0}
+  GimmickFailExplode: {fileID: 0}
+  phase2Idle: {fileID: 0}
+  FartShield: {fileID: 0}
+  ChargeRun: {fileID: 0}
   Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: 860d033959c87e645a8eb366866f1d41, type: 2}
   Dead: {fileID: 11400000, guid: 267e987629742bc4f867b992d8aa91f2, type: 2}
+  Landing: {fileID: 0}
+  MixIdle: {fileID: 0}
+  NorthMixIdle: {fileID: 0}
+  SouthMixIdle: {fileID: 0}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
   StartOnDefault: 1
   _Dir: 0
   ForceDirectionalMovement: 0
+--- !u!1001 &5687453014786570715
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 4265093594819362730}
+    m_Modifications:
+    - target: {fileID: 4897809512073047644, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_Name
+      value: NormalMinimapIcon
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 46855c837a7977146ba71504f3edbb9e, type: 3}
+--- !u!4 &942773698853033862 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
+    type: 3}
+  m_PrefabInstance: {fileID: 5687453014786570715}
+  m_PrefabAsset: {fileID: 0}

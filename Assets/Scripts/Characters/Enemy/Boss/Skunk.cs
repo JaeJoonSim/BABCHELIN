@@ -761,6 +761,11 @@ public class Skunk : UnitObject
         }
     }
 
+    public float destructionGauge()
+    {
+        return this.DestructionGauge;
+    }
+
     public void OnDie()
     {
         agent.speed = 0f;
