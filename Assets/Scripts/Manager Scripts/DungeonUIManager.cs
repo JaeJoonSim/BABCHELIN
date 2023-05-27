@@ -9,10 +9,12 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public GameObject escPanel;
     public GameObject settingPanel;
-    public GameObject DungeonUI;
+    public GameObject PlayerUI;
+    public GameObject BossUI;
+    public GameObject Minimap;
 
     public GameObject[] Tabs;
-    public GameObject[] tanBtn;
+    public GameObject[] tabBtn;
 
     private void Start()
     {
@@ -28,9 +30,10 @@ public class DungeonUIManager : BaseMonoBehaviour
             else Time.timeScale = 0;
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
-
-            if(Time.timeScale != 1) DungeonUI.SetActive(false);
-            else DungeonUI.SetActive(true);
+            PlayerUI.SetActive(!PlayerUI.activeSelf);
+            if(BossUI != null)
+                BossUI.SetActive(!BossUI.activeSelf);
+            Minimap.SetActive(!Minimap.activeSelf);
         }
 
         for(int a = 0; a < 5; a++)
@@ -38,12 +41,12 @@ public class DungeonUIManager : BaseMonoBehaviour
             if(tabNum == a)
             {
                 Tabs[a].SetActive(true);
-                tanBtn[a].SetActive(false);
+                tabBtn[a].SetActive(false);
             }
             else
             {
                 Tabs[a].SetActive(false);
-                tanBtn[a].SetActive(true);
+                tabBtn[a].SetActive(true);
             }
         }
     }
@@ -72,7 +75,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public void SettingUI()
     {
-        escPanel.SetActive(!escPanel.activeSelf);
+        //escPanel.SetActive(!escPanel.activeSelf);
         settingPanel.SetActive(!settingPanel.activeSelf);
     }
 
