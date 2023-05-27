@@ -164,13 +164,13 @@ MonoBehaviour:
   maxSpeed: 0.05
   SpineTransform: {fileID: 572980232343476603}
   AnimationTrack: 0
-  Idle: {fileID: 11400000, guid: 6b0161c040d9515419992e9aedd899ab, type: 2}
-  Walk: {fileID: 11400000, guid: ec58b58ca4a56424b9f56e32f19eb75a, type: 2}
-  StartMoving: {fileID: 11400000, guid: 9a9f996d9ca8e6c4b94e19127fe171a6, type: 2}
-  StopMoving: {fileID: 11400000, guid: 97797d9fd76f0394fb11ea8054ca588c, type: 2}
-  Dash: {fileID: 11400000, guid: 6e5b4ed280e83d74a8145344921e7168, type: 2}
-  StopDash: {fileID: 11400000, guid: dd7e985ae000b544dbfacd62a61d6c45, type: 2}
-  Jump: {fileID: 11400000, guid: e834b3ed0d7d8de4faab5f19b969634c, type: 2}
+  Idle: {fileID: 11400000, guid: 97cb85d969f138543a43a4c63f6e0ffe, type: 2}
+  Walk: {fileID: 11400000, guid: cfe5e2463474ed34495602a4b4994c61, type: 2}
+  StartMoving: {fileID: 11400000, guid: 1e45be187d0680243ab51b76b10f9401, type: 2}
+  StopMoving: {fileID: 11400000, guid: 40e5d80ba6aa2bf43ada7b94a76c7eab, type: 2}
+  Dash: {fileID: 11400000, guid: afbdd85ad93fa1c4fb89fb6981a7204e, type: 2}
+  StopDash: {fileID: 11400000, guid: 9ac670328c1c789409bd26d6f2f2e7ca, type: 2}
+  Jump: {fileID: 11400000, guid: 8db6127bf68359044b276e4d3498b09e, type: 2}
   Damaged: 1
   target: {fileID: 0}
   detectionRange: 10
@@ -194,6 +194,8 @@ MonoBehaviour:
   BulletObject: {fileID: 2862424241139748284, guid: cfb21486271d69042ac87f5958c3c122,
     type: 3}
   ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+    type: 3}
+  Buttercat: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
     type: 3}
 --- !u!114 &3275738440347693765
 MonoBehaviour:
@@ -307,15 +309,15 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a9e7553f87ad31743a88d27ffe1fa2e1, type: 2}
-  - {fileID: 2100000, guid: a3e7f7251657c784c8d175e2bf049997, type: 2}
-  - {fileID: 2100000, guid: a00b20ff3e542124d8a22c1952c0e034, type: 2}
-  - {fileID: 2100000, guid: a9e7553f87ad31743a88d27ffe1fa2e1, type: 2}
-  - {fileID: 2100000, guid: a3e7f7251657c784c8d175e2bf049997, type: 2}
-  - {fileID: 2100000, guid: a00b20ff3e542124d8a22c1952c0e034, type: 2}
-  - {fileID: 2100000, guid: a3e7f7251657c784c8d175e2bf049997, type: 2}
-  - {fileID: 2100000, guid: a9e7553f87ad31743a88d27ffe1fa2e1, type: 2}
-  - {fileID: 2100000, guid: a3e7f7251657c784c8d175e2bf049997, type: 2}
+  - {fileID: 2100000, guid: 799a00835281e904997f90b52877d04b, type: 2}
+  - {fileID: 2100000, guid: 4cff6cd357e850a48a54b92222911888, type: 2}
+  - {fileID: 2100000, guid: d39c525cb4f77d64a8c8c2298c074507, type: 2}
+  - {fileID: 2100000, guid: 799a00835281e904997f90b52877d04b, type: 2}
+  - {fileID: 2100000, guid: 4cff6cd357e850a48a54b92222911888, type: 2}
+  - {fileID: 2100000, guid: d39c525cb4f77d64a8c8c2298c074507, type: 2}
+  - {fileID: 2100000, guid: 4cff6cd357e850a48a54b92222911888, type: 2}
+  - {fileID: 2100000, guid: 799a00835281e904997f90b52877d04b, type: 2}
+  - {fileID: 2100000, guid: 4cff6cd357e850a48a54b92222911888, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -349,7 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 7b0c6650a47f4414fbd3b94416141a1b, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 9c04b8aa8060fd34b9954f38beaf7ed9, type: 2}
   initialSkinName: strawberry
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -399,18 +401,18 @@ MonoBehaviour:
   North: 0
   South: 0
   LeftRight: 1
-  Idle: {fileID: 11400000, guid: 6b0161c040d9515419992e9aedd899ab, type: 2}
+  Idle: {fileID: 11400000, guid: 97cb85d969f138543a43a4c63f6e0ffe, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  Moving: {fileID: 11400000, guid: c50f2cfd8223472439567961390aa64f, type: 2}
+  Moving: {fileID: 11400000, guid: 1f0ad563ab259c54dbcf4fcf35d8d700, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
-  StartMoving: {fileID: 11400000, guid: 9a9f996d9ca8e6c4b94e19127fe171a6, type: 2}
-  StopMoving: {fileID: 11400000, guid: 97797d9fd76f0394fb11ea8054ca588c, type: 2}
-  Attack: {fileID: 11400000, guid: 051759e047f311a469e6a2230b27e6e2, type: 2}
+  StartMoving: {fileID: 11400000, guid: 1e45be187d0680243ab51b76b10f9401, type: 2}
+  StopMoving: {fileID: 11400000, guid: 40e5d80ba6aa2bf43ada7b94a76c7eab, type: 2}
+  Attack: {fileID: 11400000, guid: 946089a843e81894ca01d02a0edc1f4c, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
   Absorb: {fileID: 0}
@@ -439,8 +441,9 @@ MonoBehaviour:
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
   Dodge: {fileID: 0}
-  Hit: {fileID: 11400000, guid: 1e5d1dff8d2a9fa4a99f5248d1e080aa, type: 2}
-  Dead: {fileID: 11400000, guid: c884c05a5debd8d42973ccfe06e54c09, type: 2}
+  Hit: {fileID: 11400000, guid: c0e552f696c4c5745ab0d83738c9e109, type: 2}
+  Dead: {fileID: 11400000, guid: a27e238e264c0f244bc82878750e2aaf, type: 2}
+  Landing: {fileID: 0}
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}
   SouthMixIdle: {fileID: 0}

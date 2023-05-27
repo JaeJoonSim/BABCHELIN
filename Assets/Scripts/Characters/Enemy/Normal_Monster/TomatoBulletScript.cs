@@ -13,7 +13,7 @@ public class TomatoBulletScript : BaseMonoBehaviour
     private ColliderEvents colliderEvents;
     private Vector3 direction;
     
-    public float gravity = 1f;
+    public float gravity;
     private float time;
 
     //public GameObject PlayerEffect;
@@ -23,7 +23,6 @@ public class TomatoBulletScript : BaseMonoBehaviour
         colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
         direction = (player.transform.position - transform.position).normalized;
-
         colliderEvents.OnTriggerEnterEvent += OnHit;
 
         Vector3 currentRotation = transform.eulerAngles;
@@ -42,11 +41,6 @@ public class TomatoBulletScript : BaseMonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    public void SetDirection(Vector2 newDirection)
-    {
-        direction = newDirection;
     }
 
     public void OnHit(Collider2D collider)

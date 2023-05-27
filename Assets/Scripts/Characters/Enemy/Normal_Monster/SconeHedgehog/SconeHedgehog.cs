@@ -79,6 +79,7 @@ public class SconeHedgehog : UnitObject
     public float yDir;
 
 
+    public GameObject DeathObject;
     public GameObject ExplosionEffect;
 
 
@@ -125,6 +126,11 @@ public class SconeHedgehog : UnitObject
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
+        }
+
+        if(health.CurrentHP() <= 0 && state.CURRENT_STATE == StateMachine.State.Jump)
+        {
+            state.LockStateChanges = false;
         }
 
         speed = Mathf.Max(speed, 0f);
@@ -317,6 +323,7 @@ public class SconeHedgehog : UnitObject
                             aniCount--;
                         }
                     }
+                    state.LockStateChanges = true;
 
                     agent.speed = 5f;
 
@@ -327,6 +334,7 @@ public class SconeHedgehog : UnitObject
 
                     if(isLand)
                     {
+                        state.LockStateChanges = false;
                         isJump = false;
                         isLand = false;
                         state.CURRENT_STATE = StateMachine.State.JumpDelay;
@@ -442,6 +450,11 @@ public class SconeHedgehog : UnitObject
                 isLand = true;
                 playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
             }
+        }
+        else if (e.Data.Name == "death")
+        {
+            GameObject deathObj = DeathObject;
+            Instantiate(deathObj, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
         }
     }
 

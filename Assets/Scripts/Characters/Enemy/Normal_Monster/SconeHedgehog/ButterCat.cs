@@ -122,11 +122,12 @@ public class ButterCat : UnitObject
                 case StateMachine.State.Idle:
                     time += Time.deltaTime;
                     agent.enabled = false;
-
-                    if(time >= 1.234f)  //스폰 애니메이션 시간
+                    health.isInvincible = true;
+                    if (time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
                         agent.enabled = true;
+                        health.isInvincible = false;
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
 
@@ -282,24 +283,30 @@ public class ButterCat : UnitObject
             time = 0;
             runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
             ObjectRand = UnityEngine.Random.Range(0, 10);
+            Debug.Log(ObjectRand);
             state.CURRENT_STATE = StateMachine.State.Attacking;
         }
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "attack" || e.Data.Name == "Attack")
+        if (e.Data.Name == "ateck" || e.Data.Name == "attack")
         {
+            ObjectRand = UnityEngine.Random.Range(0, 10);
+            Debug.Log(ObjectRand);
             GameObject SpawnBullet;
             if (ObjectRand < 6)
             {
+                Debug.Log("Dest");
                 SpawnBullet = DestructionObject;
             }
             else
             {
+                Debug.Log("bomb");
                 SpawnBullet = BombObject;
             }
-            Instantiate(SpawnBullet, transform);
+            SpawnBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            Instantiate(SpawnBullet);
         }
     }
 
