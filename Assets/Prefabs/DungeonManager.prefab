@@ -143,7 +143,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 20}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -583,9 +583,9 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: -17, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &372407468
 MonoBehaviour:
@@ -1611,7 +1611,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
+  m_AnchoredPosition: {x: 0, y: 0.0000038146973}
   m_SizeDelta: {x: 0, y: 29.7354}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!1 &1344833667
@@ -2285,12 +2285,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2648169565075864972}
         m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
-        m_MethodName: CangeTab
-        m_Mode: 2
+        m_MethodName: SetTabNum
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8541979409236627047}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -3863,7 +3863,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 1.0999756, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5437,7 +5437,18 @@ MonoBehaviour:
   escPanel: {fileID: 2648169565226017351}
   settingPanel: {fileID: 7212163373184316230}
   DungeonUI: {fileID: 0}
-  ScreenTab: {fileID: 834070215430586152}
+  Tabs:
+  - {fileID: 834070215430586152}
+  - {fileID: 5392522307015210170}
+  - {fileID: 8541979409236627047}
+  - {fileID: 8147081258688122034}
+  - {fileID: 7492154561344387877}
+  tanBtn:
+  - {fileID: 5867200161580056454}
+  - {fileID: 5519065119756892323}
+  - {fileID: 297196545951929873}
+  - {fileID: 5387928450033560541}
+  - {fileID: 4442320645928796214}
 --- !u!114 &3062203400200393489
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6675,8 +6686,8 @@ RectTransform:
   m_Father: {fileID: 8997762436003897282}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8501,12 +8512,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2648169565075864972}
         m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
-        m_MethodName: CangeTab
-        m_Mode: 2
+        m_MethodName: SetTabNum
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 7492154561344387877}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 4
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -8815,8 +8826,8 @@ RectTransform:
   m_Father: {fileID: 5071496232824248229}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -9605,12 +9616,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2648169565075864972}
         m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
-        m_MethodName: CangeTab
-        m_Mode: 2
+        m_MethodName: SetTabNum
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 8147081258688122034}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -9780,12 +9791,12 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2648169565075864972}
         m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
-        m_MethodName: CangeTab
-        m_Mode: 2
+        m_MethodName: SetTabNum
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 5392522307015210170}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-          m_IntArgument: 0
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -10131,11 +10142,11 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2648169565075864972}
         m_TargetAssemblyTypeName: DungeonUIManager, Assembly-CSharp
-        m_MethodName: CangeTab
-        m_Mode: 2
+        m_MethodName: SetTabNum
+        m_Mode: 3
         m_Arguments:
-          m_ObjectArgument: {fileID: 834070215430586152}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -10564,7 +10575,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2690336941303892689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14058,7 +14069,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 1.0999756, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
