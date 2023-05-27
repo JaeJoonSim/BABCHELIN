@@ -8,6 +8,7 @@ public class BossUI : MonoBehaviour
     [SerializeField] Transform boss;
     private Health bossHealth;
     public Image UIHealthGauge;
+    public Slider UIHealthCutline;
     //public Image UIHealthBackGauge;
 
     // Start is called before the first frame update
@@ -33,6 +34,7 @@ public class BossUI : MonoBehaviour
     private void GaugeManagement()
     {
         UIHealthGauge.fillAmount = bossHealth.CurrentHP() / bossHealth.MaxHP();
+        UIHealthCutline.value = bossHealth.CurrentHP() / bossHealth.MaxHP();
         //UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
     }
 }
