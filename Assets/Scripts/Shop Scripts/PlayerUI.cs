@@ -16,6 +16,7 @@ public class PlayerUI : MonoBehaviour
     private Image ActiveUltIcon;
 
     public Image UIHealthGauge;
+    public Image UIHealthBackGauge;
     public Image UIBulletGauge;
     public Image UIUltimateGauge;
     public Transform BulletCanvas;
@@ -49,21 +50,10 @@ public class PlayerUI : MonoBehaviour
     private void GaugeManagement()
     {
         UIHealthGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
+        UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
         UIBulletGauge.fillAmount = playerController.BulletGauge / 1000f;
         UIUltimateGauge.fillAmount += Time.deltaTime / 10f;
 
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
-
-
-        //if (UIUltimateGauge.fillAmount == 1)
-        //{
-        //    DefaultUltIcon.gameObject.SetActive(false);
-        //    ActiveUltIcon.gameObject.SetActive(true);
-        //}
-        //else
-        //{
-        //    DefaultUltIcon.gameObject.SetActive(true);
-        //    ActiveUltIcon.gameObject.SetActive(false);
-        //}
     }
 }

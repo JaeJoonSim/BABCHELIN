@@ -8584,6 +8584,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 0
+  backHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 20
   isPoisoned: 0
@@ -9287,6 +9288,7 @@ MonoBehaviour:
   Dodge: {fileID: 11400000, guid: 0bb979ff12f6f624db498cfd3356cf32, type: 2}
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
+  Landing: {fileID: 0}
   MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
   NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
   SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
@@ -13795,6 +13797,10 @@ PrefabInstance:
       propertyPath: BulletCanvas
       value: 
       objectReference: {fileID: 276941507017972696}
+    - target: {fileID: 1260487989, guid: d80bb4748aa26ef408d581d4ab837d54, type: 3}
+      propertyPath: UIHealthBackGauge
+      value: 
+      objectReference: {fileID: 3039813906178890705}
     - target: {fileID: 6659255905930774001, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_Pivot.x
@@ -13913,3 +13919,15 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 6160722343308411391}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3039813906178890705 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9174077566777039406, guid: d80bb4748aa26ef408d581d4ab837d54,
+    type: 3}
+  m_PrefabInstance: {fileID: 6160722343308411391}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

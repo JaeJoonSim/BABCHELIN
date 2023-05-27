@@ -14,6 +14,7 @@ public class Health : BaseMonoBehaviour
 
     [SerializeField] protected float maxHealth;
     [SerializeField] protected float currentHealth;
+    [SerializeField] protected float backHealth;
     public int multipleHealthLine;
     public int HpLineAmount;
     public bool isPoisoned = false;
@@ -49,6 +50,7 @@ public class Health : BaseMonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateMachine>();
         currentHealth = maxHealth;
+        backHealth = currentHealth;
         meshRenderer = GetComponentInChildren<MeshRenderer>();
 
         OnDamaged += ApplyChangeToHitState;
@@ -78,6 +80,7 @@ public class Health : BaseMonoBehaviour
         }
 
         currentHealth -= damage;
+        Invoke("DecreaseBackHP", 0.3f);
 
         if (OnDamaged != null)
         {
@@ -160,5 +163,15 @@ public class Health : BaseMonoBehaviour
     public float CurrentHP()
     {
         return this.currentHealth;
+    }
+
+    private void DecreaseBackHP()
+    {
+        backHealth = currentHealth;
+    }
+
+    public float BackHP()
+    {
+        return this.backHealth;
     }
 }
