@@ -372,16 +372,18 @@ public class SconeHedgehog2 : UnitObject
                     }
 
                     state.LockStateChanges = true;
-                    agent.isStopped = false;
-                    agent.speed = 5f;
 
-                    if (isJump)
+                    if (isJump && !isLand)
                     {
+                        agent.isStopped = false;
+                        agent.speed = 5f;
                         agent.SetDestination(jumpPoint);
                     }
 
                     if (isLand)
                     {
+                        agent.isStopped = true;
+                        speed = 0;
                         isJump = false;
                         isLand = false;
                         state.LockStateChanges = false;
