@@ -7,7 +7,11 @@ public class PlayerController : BaseMonoBehaviour
 {
     [HideInInspector] UnitObject unitObject;
     private StateMachine state;
-    public StateMachine State { get { return state; } }
+    public StateMachine State
+    {
+        get { return state; }
+        set { state = value; }
+    }
     private CircleCollider2D circleCollider2D;
     private Health health;
 
@@ -50,9 +54,12 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAttack", true)] public float AttackSpeed;
 
     [DrawIf("showAttack", true)] public int SkillIndex;
+    public GameObject[] Skills;
 
+    public Transform muzzle;
     public Transform muzzleBone;
     public Transform GrinderControl;
+
 
     public GameObject BulletUI;
     private float fadeTime = 0;
@@ -81,6 +88,8 @@ public class PlayerController : BaseMonoBehaviour
     {
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
+            SpineTransform.localPosition = Vector3.zero;
+            speed += (0f - speed) / 3f * GameManager.DeltaTime;
             return;
         }
 
@@ -99,14 +108,17 @@ public class PlayerController : BaseMonoBehaviour
         //    state.facingAngle = Utils.GetMouseAngle(transform.position);
 
         // Later TODO...
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && 
-            (state.CURRENT_STATE == StateMachine.State.Attacking || 
+        if (state.CURRENT_STATE != StateMachine.State.Dodging &&
+            (state.CURRENT_STATE == StateMachine.State.Attacking ||
             state.CURRENT_STATE == StateMachine.State.Absorbing ||
-            state.CURRENT_STATE == StateMachine.State.Skill
+            state.CURRENT_STATE == StateMachine.State.Skill ||
+            state.CURRENT_STATE == StateMachine.State.Skill2
             ))
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
+            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+
 
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
             {
@@ -174,6 +186,11 @@ public class PlayerController : BaseMonoBehaviour
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
 
+        if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
+        {
+            Skills[1].SetActive(false);
+        }
+
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
@@ -227,13 +244,13 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Absorbing:
+
                 if (absorbEffet != null)
                 {
-                    absorbEffet.transform.position = GrinderControl.position;
-                    absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
+                    //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                    //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-
 
                 //이동
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -247,7 +264,32 @@ public class PlayerController : BaseMonoBehaviour
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 }
                 break;
+
             case StateMachine.State.Skill:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                break;
+            case StateMachine.State.Skill2:
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+
+                if (!Skills[1].activeSelf)
+                {
+                    Skills[1].SetActive(true);
+                }
+                //Skills[1].transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                //Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+
                 break;
             case StateMachine.State.Attacking:
                 //이동

@@ -49,7 +49,7 @@ public class SmallAttack : BaseMonoBehaviour
 
     private void Attack()
     {
-        PlayerController.addBullet(-Cost);
+        //PlayerController.addBullet(-Cost);
         Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, Range, 1 << 8);
         for (int i = 0; i < targetInRange.Length; i++)
         {

@@ -14,7 +14,7 @@ public class TestScripts : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.E))
+        if(Input.GetKeyDown(KeyCode.P))
         {
             player.Damaged(gameObject, transform.position, 100f, Health.AttackType.Normal);
         }

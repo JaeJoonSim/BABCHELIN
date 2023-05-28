@@ -4,6 +4,7 @@ using UnityEngine;
 public class PoisonGas : MonoBehaviour
 {
     public float radius;
+    public float speed;
     public float damage;
     public float duration;
 
@@ -23,11 +24,12 @@ public class PoisonGas : MonoBehaviour
     private IEnumerator SpreadAndDestroy()
     {
         float startTime = Time.time;
-        while (Time.time - startTime < duration)
+        while (transform.localScale.x < radius)
         {
-            transform.localScale += new Vector3(1, 1, 0) * (radius / duration) * Time.deltaTime;
+            transform.localScale += new Vector3(1, 1, 0) * speed * Time.deltaTime;
             yield return null;
         }
+        yield return new WaitForSeconds(duration);
 
         Destroy(gameObject);
     }
