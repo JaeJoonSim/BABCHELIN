@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 95495d6e6a393464ca08fff1799c486b, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.009701632, g: 0.0033293737, b: 0.00060798746, a: 1}
+  m_IndirectSpecularColor: {r: 0.60565186, g: 0.8255402, b: 0.9323155, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -303,6 +303,7 @@ PlayableDirector:
     - 0af013ae74386894aadfdaa00be9fea9: {fileID: 0}
     - 1c23bc1162a657a439af9f042798a6b9: {fileID: 0}
     - 3d1cf7fe53911484c8ad1c92f96be417: {fileID: 0}
+    - bc81de31bd4633a41a93ea7bfb82152d: {fileID: 0}
     - 2864f197445bacd41a21dee0fcb7ad88: {fileID: 0}
     - e7f2ea155aaf7e24584b17fc1f38822e: {fileID: 0}
     - 97f24fdeaa733824e87673fca455120d: {fileID: 0}
@@ -430,7 +431,7 @@ Camera:
   m_GameObject: {fileID: 203985561}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
@@ -35677,14 +35678,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1729381334}
-  m_LocalRotation: {x: 0.5211225, y: -0.21792093, z: 0.13963434, w: 0.8132921}
-  m_LocalPosition: {x: -0.01999998, y: 2.0899997, z: 2.1799998}
+  m_LocalRotation: {x: 0.30989274, y: -0.10368845, z: 0.03402086, w: 0.94448817}
+  m_LocalPosition: {x: -0.01999998, y: 27.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 630311572}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 65.3, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 36.33, y: -12.53, z: 0}
 --- !u!114 &1729381336
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35716,8 +35717,8 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.99881065, b: 0.9669811, a: 1}
-  m_Intensity: 1.09
+  m_Color: {r: 0.8632076, g: 1, b: 0.9749769, a: 1}
+  m_Intensity: 0.54
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -35759,7 +35760,7 @@ Light:
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1.93
+  m_BounceIntensity: 9.04
   m_ColorTemperature: 4162
   m_UseColorTemperature: 0
   m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
