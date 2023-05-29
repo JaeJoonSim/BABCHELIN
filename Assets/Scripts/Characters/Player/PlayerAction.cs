@@ -20,13 +20,10 @@ public class PlayerAction : BaseMonoBehaviour
 
     [Header("µÙ∑π¿Ã")]
     [Tooltip("»∏«« µÙ∑π¿Ã")]
+
     public float DodgeDelay;
     //∞¯∞› µÙ∑π¿Ã
     public float ShotDelay;
-    //»Ìºˆ µÙ∑π¿Ã
-    public float SuctionDelay;
-    //¿Â¿¸ µÙ∑π¿Ã
-    public float LoadingDelay;
     //Ω∫≈≥ µÙ∑π¿Ã
     public float SkillDelay;
 
@@ -126,10 +123,7 @@ public class PlayerAction : BaseMonoBehaviour
             {
                 DodgeDelay -= Time.deltaTime;
             }
-            if (state.CURRENT_STATE == StateMachine.State.Loading)
-            {
-                LoadingDelay -= Time.deltaTime;
-            }
+
             if (state.CURRENT_STATE == StateMachine.State.Skill2)
             {
                 SkillDelay -= Time.deltaTime;
@@ -193,9 +187,9 @@ public class PlayerAction : BaseMonoBehaviour
             DodgeQueued = false;
             _ = state.facingAngle;
             playerController.forceDir = ((playerController.xDir != 0f || playerController.yDir != 0f) ? Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir)) : state.facingAngle);
-            playerController.speed = playerController.DodgeSpeed * 1.2f;
+            playerController.speed = playerController.TotalStatus.dodgeSpeed * 1.2f;
             state.CURRENT_STATE = StateMachine.State.Dodging;
-            DodgeDelay = playerController.DodgeDelay;
+            DodgeDelay = playerController.TotalStatus.dodgeCoolDown;
 
             if (playerController.absorbEffet != null)
             {
@@ -217,7 +211,7 @@ public class PlayerAction : BaseMonoBehaviour
                 return false;
             }
             state.CURRENT_STATE = StateMachine.State.Attacking;
-            ShotDelay = 1 / (playerController.AttackSpeed / 100f);
+            ShotDelay = 1 / (playerController.TotalStatus.atkSpd / 100f);
         }
         else if (Input.GetMouseButton(0) &&
             state.CURRENT_STATE == StateMachine.State.Attacking)
@@ -294,14 +288,14 @@ public class PlayerAction : BaseMonoBehaviour
             }           
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                if (playerController.BulletGauge < playerController.Skills[1].GetComponent<SmallAttack>().Cost || ShotDelay > 0)
+                if (playerController.BulletGauge < playerController.TotalStatus.sk1Cost || ShotDelay > 0)
                 {
                     return false;
                 }
                 state.CURRENT_STATE = StateMachine.State.Skill2;
-                playerController.addBullet(-playerController.Skills[1].GetComponent<SmallAttack>().Cost);
+                playerController.addBullet(-playerController.TotalStatus.sk1Cost);
                playerController.SkillIndex = 1;
-                SkillDelay = 3;
+                SkillDelay = playerController.TotalStatus.sk1CoolDown;
             }
         }
         else
@@ -339,13 +333,13 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
         }
-        targetInRange = Physics2D.OverlapCircleAll(playerController.GrinderControl.position, playerController.SuctionRange, 1 << 20);
+        targetInRange = Physics2D.OverlapCircleAll(playerController.GrinderControl.position, playerController.TotalStatus.absorbRange, 1 << 20);
 
         for (int i = 0; i < targetInRange.Length; i++)
         {
 
             Vector2 dirToTarget = (targetInRange[i].transform.position - playerController.GrinderControl.position).normalized;
-            if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.SuctionAngle / 2)
+            if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.TotalStatus.absorbAngle / 2)
             {
                 absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
                 if (absorb != null)
@@ -361,13 +355,13 @@ public class PlayerAction : BaseMonoBehaviour
     {
 #if UNITY_EDITOR
 
-        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.SuctionRange);
+        UnityEditor.Handles.DrawWireArc(playerController.GrinderControl.position, transform.forward, transform.right, 360, playerController.TotalStatus.absorbRange);
 
-        Vector3 viewAngleA = DirFromAngle(-playerController.SuctionAngle / 2, false);
-        Vector3 viewAngleB = DirFromAngle(playerController.SuctionAngle / 2, false);
+        Vector3 viewAngleA = DirFromAngle(-playerController.TotalStatus.absorbAngle / 2, false);
+        Vector3 viewAngleB = DirFromAngle(playerController.TotalStatus.absorbAngle / 2, false);
 
-        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.SuctionRange);
-        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.SuctionRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleA * playerController.TotalStatus.absorbRange);
+        UnityEditor.Handles.DrawLine(playerController.GrinderControl.position, playerController.GrinderControl.position + viewAngleB * playerController.TotalStatus.absorbRange);
 
 #endif
 
@@ -395,11 +389,11 @@ public class PlayerAction : BaseMonoBehaviour
                 case StateMachine.State.Attacking:
                     if (trackEntry.TrackTime > 0.02)
                         return;
-                    
-                    
+
+
                     //float anglet = state.facingAngle - 15;
-                    playerController.addBullet(-
-                    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost); 
+                    playerController.addBullet(-playerController.TotalStatus.bulletCost);
+                    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>();
                     //for (int i = 0; i < 2; i++)
                     //{
                     //    anglet += 30 / 2;

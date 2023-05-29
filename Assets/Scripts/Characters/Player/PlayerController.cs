@@ -1,6 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : BaseMonoBehaviour
@@ -17,9 +20,17 @@ public class PlayerController : BaseMonoBehaviour
 
     public Transform SpineTransform;
 
-    [Header("이동")]
-    [HideInInspector] public float defaultRunSpeed = 5.5f;
-    public float runSpeed = 5.5f;
+    [Header("BaseStatus")]
+    public status BaseStatus;
+    [Header("ItemStatus")]
+    public status ItemStatusAdd;
+    public status ItemStatusPercent;
+    [Header("BuffStatus")]
+    public status BuffStatus;
+    [Header("TotalStatus")]
+    public status TotalStatus;
+
+
     public static float MinInputForMovement = 0.3f;
 
     //[Header("이동 체크")]
@@ -31,28 +42,21 @@ public class PlayerController : BaseMonoBehaviour
     [Header("회피")]
     public bool showDodge = false;
     [DrawIf("showDodge", true)] public float DodgeTimer;
-    [DrawIf("showDodge", true)] public float DodgeSpeed = 12f;
     [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
     [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
     [DrawIf("showDodge", true)] public float DodgeMaxDuration = 0.5f;
-    [DrawIf("showDodge", true)] public float DodgeDelay = 0.3f;
     [DrawIf("showDodge", true)] private float DodgeCollisionDelay;
 
     [Header("흡수")]
     public bool showAbsorb = false;
-    [DrawIf("showAbsorb", true)] public float SuctionSpeed = 1f;
-    [DrawIf("showAbsorb", true)] public float SuctionAngle = 30f;
-    [DrawIf("showAbsorb", true)] public float SuctionRange = 10f;
-    [DrawIf("showAbsorb", true)] public float SuctionDelay = 1f;
+
     [DrawIf("showAbsorb", true)] public ParticleSystem absorbEffet;
 
     [Header("공격")]
     public bool showAttack = false;
     [DrawIf("showAttack", true)] public int BulletGauge;
-    [DrawIf("showAttack", true)] public int maxBulletGauge;
-    [DrawIf("showAttack", true)] public GameObject Attack;
-    [DrawIf("showAttack", true)] public float AttackSpeed;
 
+    [DrawIf("showAttack", true)] public GameObject Attack;
     [DrawIf("showAttack", true)] public int SkillIndex;
     public GameObject[] Skills;
 
@@ -69,10 +73,10 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Start()
     {
+        getTotalstatus();
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
-        defaultRunSpeed = runSpeed;
     }
 
     private void OnEnable()
@@ -86,6 +90,7 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
+        getTotalstatus();
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
@@ -93,21 +98,168 @@ public class PlayerController : BaseMonoBehaviour
             return;
         }
 
-        //xDir = Input.GetAxisRaw("Horizontal");
-        //yDir = Input.GetAxisRaw("Vertical");
-
-        if (state.CURRENT_STATE == StateMachine.State.Moving)
-        {
-            speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
-        }
+        speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
         speed = Mathf.Max(speed, 0f);
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
-        //if (state.CURRENT_STATE != StateMachine.State.Dodging && state.CURRENT_STATE != StateMachine.State.Dead)
-        //    state.facingAngle = Utils.GetMouseAngle(transform.position);
+        facingAngle();
+        
 
-        // Later TODO...
+        if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
+        {
+            absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+        }
+
+        if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
+        {
+            Skills[1].SetActive(false);
+        }
+
+        switch (state.CURRENT_STATE)
+        {
+            case StateMachine.State.Idle:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Moving;
+                }
+                break;
+
+            case StateMachine.State.Moving:
+                if (Time.timeScale == 0f)
+                {
+                    break;
+                }
+                if (Mathf.Abs(xDir) < MinInputForMovement && Mathf.Abs(yDir) < MinInputForMovement)
+                {
+                    state.ChangeToIdleState();
+                    break;
+                }
+                forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                if (unitObject.vx != 0f || unitObject.vy != 0f)
+                {
+                    //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
+                }
+                state.LookAngle = state.facingAngle;
+                speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                break;
+
+            case StateMachine.State.Dodging:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                forceDir = DodgeAngle;
+                if (DodgeCollisionDelay < 0f)
+                {
+                    speed = Mathf.Lerp(speed, TotalStatus.dodgeSpeed, 2f * Time.deltaTime);
+                }
+                DodgeCollisionDelay -= Time.deltaTime;
+                DodgeTimer += Time.deltaTime;
+                if (DodgeTimer < 0.1f && (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement))
+                {
+                    state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
+                }
+                if ((!Input.GetKey(KeyCode.LeftShift) && DodgeTimer > DodgeDuration) || DodgeTimer > DodgeMaxDuration)
+                {
+                    DodgeTimer = 0f;
+                    DodgeCollisionDelay = 0f;
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+                break;
+            case StateMachine.State.Absorbing:
+
+                if (absorbEffet != null)
+                {
+                    //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                    //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
+                    absorbEffet.Play(true);
+                }
+
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+                break;
+
+            case StateMachine.State.Skill:
+                Z = 0f;
+                SpineTransform.localPosition = Vector3.zero;
+                speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                break;
+            case StateMachine.State.Skill2:
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+
+                if (!Skills[1].activeSelf)
+                {
+                    Skills[1].SetActive(true);
+                }
+                //Skills[1].transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
+                //Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+
+                break;
+            case StateMachine.State.Attacking:
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+                break;
+
+            case StateMachine.State.Loading:
+
+                //이동
+                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+                {
+                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+                    state.LookAngle = state.facingAngle;
+                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                }
+                else
+                {
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                }
+                break;
+
+            case StateMachine.State.Dead:
+                if (circleCollider2D == true) circleCollider2D.enabled = false;
+                break;
+
+            case StateMachine.State.Pause:
+                xDir = 0;
+                yDir = 0;
+                speed = 0;
+                break;
+        }
+
+    }
+
+    private void facingAngle()
+    {
         if (state.CURRENT_STATE != StateMachine.State.Dodging &&
             (state.CURRENT_STATE == StateMachine.State.Attacking ||
             state.CURRENT_STATE == StateMachine.State.Absorbing ||
@@ -180,159 +332,7 @@ public class PlayerController : BaseMonoBehaviour
                 }
             }
         }
-
-        if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
-        {
-            absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-        }
-
-        if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
-        {
-            Skills[1].SetActive(false);
-        }
-
-        switch (state.CURRENT_STATE)
-        {
-            case StateMachine.State.Idle:
-                Z = 0f;
-                SpineTransform.localPosition = Vector3.zero;
-                speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    state.CURRENT_STATE = StateMachine.State.Moving;
-                }
-                break;
-
-            case StateMachine.State.Moving:
-                if (Time.timeScale == 0f)
-                {
-                    break;
-                }
-                if (Mathf.Abs(xDir) < MinInputForMovement && Mathf.Abs(yDir) < MinInputForMovement)
-                {
-                    state.ChangeToIdleState();
-                    break;
-                }
-                forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                if (unitObject.vx != 0f || unitObject.vy != 0f)
-                {
-                    //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
-                }
-                state.LookAngle = state.facingAngle;
-                speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
-                break;
-
-            case StateMachine.State.Dodging:
-                Z = 0f;
-                SpineTransform.localPosition = Vector3.zero;
-                forceDir = DodgeAngle;
-                if (DodgeCollisionDelay < 0f)
-                {
-                    speed = Mathf.Lerp(speed, DodgeSpeed, 2f * Time.deltaTime);
-                }
-                DodgeCollisionDelay -= Time.deltaTime;
-                DodgeTimer += Time.deltaTime;
-                if (DodgeTimer < 0.1f && (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement))
-                {
-                    state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
-                }
-                if ((!Input.GetKey(KeyCode.LeftShift) && DodgeTimer > DodgeDuration) || DodgeTimer > DodgeMaxDuration)
-                {
-                    DodgeTimer = 0f;
-                    DodgeCollisionDelay = 0f;
-                    state.CURRENT_STATE = StateMachine.State.Idle;
-                }
-                break;
-            case StateMachine.State.Absorbing:
-
-                if (absorbEffet != null)
-                {
-                    //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
-                    //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
-                    absorbEffet.Play(true);
-                }
-
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-                break;
-
-            case StateMachine.State.Skill:
-                Z = 0f;
-                SpineTransform.localPosition = Vector3.zero;
-                speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                break;
-            case StateMachine.State.Skill2:
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-
-                if (!Skills[1].activeSelf)
-                {
-                    Skills[1].SetActive(true);
-                }
-                //Skills[1].transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
-                //Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-
-                break;
-            case StateMachine.State.Attacking:
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-                break;
-
-            case StateMachine.State.Loading:
-
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (runSpeed - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-                break;
-
-            case StateMachine.State.Dead:
-                if (circleCollider2D == true) circleCollider2D.enabled = false;
-                break;
-
-            case StateMachine.State.Pause:
-                xDir = 0;
-                yDir = 0;
-                speed = 0;
-                break;
-        }
-
     }
-
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
         if (!health.isInvincible)
@@ -357,13 +357,46 @@ public class PlayerController : BaseMonoBehaviour
         }
     }
 
+    private void getTotalstatus()
+    {
+        //var total = struct2cell(BaseStatus);
+        //TotalStatus.hpMax = BaseStatus.hpMax + ItemStatusAdd.hpMax +(BaseStatus.hpMax / 100  * ItemStatusPercent.hpMax);
+        //TotalStatus.hpRegen = BaseStatus.hpRegen + ItemStatusAdd.hpRegen + (BaseStatus.hpRegen / 100 * ItemStatusPercent.hpRegen);
+        //TotalStatus.def = BaseStatus.def + ItemStatusAdd.def + (BaseStatus.def / 100 * ItemStatusPercent.def);
+        Type structType = typeof(status);
+        FieldInfo[] fields = structType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+        foreach (FieldInfo field in fields)
+        {
+            if (field.FieldType == typeof(int))
+            {
+                int valueA = (int)field.GetValue(BaseStatus);
+
+                int valueB = (int)field.GetValue(ItemStatusAdd);
+                int valueC = (int)field.GetValue(ItemStatusPercent);
+                int sum = valueA + valueB + (valueA / 100 * valueC);
+
+                field.SetValueDirect(__makeref(TotalStatus), sum);
+
+            }
+            else if (field.FieldType == typeof(float))
+            {
+                float valueA = (float)field.GetValue(BaseStatus);
+
+                float valueB = (float)field.GetValue(ItemStatusAdd);
+                float valueC = (float)field.GetValue(ItemStatusPercent);
+                float sum = valueA + valueB + (valueA / 100 * valueC);
+                field.SetValueDirect(__makeref(TotalStatus), sum);
+            }
+        }
+    }
+
     public void addBullet(int add)
     {
         BulletGauge += add;
 
-        if (BulletGauge > maxBulletGauge)
+        if (BulletGauge > TotalStatus.bulletMax)
         {
-            BulletGauge = maxBulletGauge;
+            BulletGauge = TotalStatus.bulletMax;
         }
         if (BulletGauge <= 0)
         {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestScripts : MonoBehaviour
 {
     public Health player;
+    public int damage;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,7 +17,7 @@ public class TestScripts : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.P))
         {
-            player.Damaged(gameObject, transform.position, 100f, Health.AttackType.Normal);
+            player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
         }
     }
 }

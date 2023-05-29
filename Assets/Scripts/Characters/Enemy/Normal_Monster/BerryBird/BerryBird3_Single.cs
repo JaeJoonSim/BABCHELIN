@@ -29,6 +29,7 @@ public class BerryBird3_Single : UnitObject
 
     public GameObject BulletObject;
     public GameObject ExplosionEffect;
+    public GameObject WaterEffect;
 
     private SkeletonAnimation spineAnimation;
 
@@ -184,6 +185,9 @@ public class BerryBird3_Single : UnitObject
         GameObject explosion = ExplosionEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
+        GameObject water = WaterEffect;
+        water.transform.position = transform.position;
+        Instantiate(water);
     }
 
     private void OnDrawGizmos()

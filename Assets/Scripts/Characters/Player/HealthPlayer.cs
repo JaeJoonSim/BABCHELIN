@@ -27,10 +27,12 @@ public class HealthPlayer : Health
 
         controller = GetComponent<PlayerController>();
         OnDamaged += ApplyKnockbackAndChangeState;
+
     }
 
     private void Update()
     {
+        maxHealth = controller.TotalStatus.hpMax;
         if (isPoisoned == true)
         {
             curPoisonTimer += Time.deltaTime;
@@ -91,4 +93,6 @@ public class HealthPlayer : Health
         yield return new WaitForSeconds(3f);
         RetryPanel.SetActive(true);
     }
+
+
 }

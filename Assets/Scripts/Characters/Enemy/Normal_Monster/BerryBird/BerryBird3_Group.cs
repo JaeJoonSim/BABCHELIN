@@ -69,6 +69,7 @@ public class BerryBird3_Group : UnitObject
     [Space]
     private GameObject[] AttackPoint;
     public GameObject BulletObject;
+    public GameObject SplitEffect;
     public GameObject ExplosionEffect;
     public GameObject Single_Bird;
 
@@ -371,6 +372,10 @@ public class BerryBird3_Group : UnitObject
         GameObject explosion = ExplosionEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
+
+        GameObject split = SplitEffect;
+        split.transform.position = transform.position;
+        Instantiate(split);
         for (int a = 0; a < 3; a++)
         {
             GameObject jinjin = Single_Bird;
