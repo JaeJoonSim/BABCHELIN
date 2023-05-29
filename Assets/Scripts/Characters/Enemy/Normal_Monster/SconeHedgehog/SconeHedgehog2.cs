@@ -45,8 +45,10 @@ public class SconeHedgehog2 : UnitObject
     [SerializeField] float delayTime = 5f;
     [SerializeField] float time = 0;
     [SerializeField] float AttackTimer = 0;
-    private int attackPercentage;
+    private int shotPerDash;
+    private int shotPerJump;
     [SerializeField] int dashPer;
+    [SerializeField] int jumpPer;
     private int dashCount = 0;
     private bool isJump = false;
     private bool isLand = false;
@@ -80,7 +82,9 @@ public class SconeHedgehog2 : UnitObject
     public float yDir;
 
     public GameObject BulletObject;
+    public GameObject DotAreaObject;
     public GameObject ExplosionEffect;
+    public GameObject WaterEffect;
     public GameObject Buttercat;
 
     private NavMeshAgent nav;
@@ -180,8 +184,8 @@ public class SconeHedgehog2 : UnitObject
                     agent.SetDestination(target.position);
                     if (distanceToPlayer <= detectionAttackRange)
                     {
-                        attackPercentage = UnityEngine.Random.Range(0, 10);
-                        if (attackPercentage < dashPer)
+                        shotPerDash = UnityEngine.Random.Range(0, 10);
+                        if (shotPerDash < dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
@@ -226,6 +230,15 @@ public class SconeHedgehog2 : UnitObject
                     agent.speed = 0f;
                     agent.isStopped = true;
                     AttackTimer += Time.deltaTime;
+
+                    if (transform.position.x <= target.position.x)  //보는 방향
+                    {
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
 
                     if (AttackTimer >= 1.4f)
                     {
@@ -338,20 +351,28 @@ public class SconeHedgehog2 : UnitObject
                         dashCount = 0;
                         if (distanceToPlayer <= detectionJumpRange)
                         {
-                            jumpPoint = target.transform.position;
-                            state.CURRENT_STATE = StateMachine.State.Jump;
+                            shotPerJump = UnityEngine.Random.Range(0, 10);
+                            if (shotPerJump < jumpPer)
+                            {
+                                jumpPoint = target.transform.position;
+                                state.CURRENT_STATE = StateMachine.State.Jump;
+                            }
+                            else
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                            }
                         }
                         else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            attackPercentage = UnityEngine.Random.Range(0, 10);
-                            if (attackPercentage < dashPer)
+                            shotPerDash = UnityEngine.Random.Range(0, 10);
+                            if (shotPerDash < dashPer)
                             {
-                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                                state.CURRENT_STATE = StateMachine.State.Dash;
                             }
                             else
                             {
-                                state.CURRENT_STATE = StateMachine.State.Dash;
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
                         else
@@ -362,6 +383,7 @@ public class SconeHedgehog2 : UnitObject
                     break;
 
                 case StateMachine.State.Jump:
+                    time += Time.deltaTime;
                     if (Jump != null)
                     {
                         if (aniCount > 0)
@@ -386,6 +408,11 @@ public class SconeHedgehog2 : UnitObject
                         speed = 0;
                         isJump = false;
                         isLand = false;
+                    }
+
+                    if (time >= 1.9f)
+                    {
+                        time = 0;
                         state.LockStateChanges = false;
                         state.CURRENT_STATE = StateMachine.State.JumpDelay;
                     }
@@ -408,23 +435,32 @@ public class SconeHedgehog2 : UnitObject
                         {
                             this.transform.localScale = new Vector3(-1f, 1f, 1f);
                         }
-                        if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
+
+                        if (distanceToPlayer <= detectionJumpRange)
                         {
-                            attackPercentage = UnityEngine.Random.Range(0, 10);
-                            if (attackPercentage < dashPer)
+                            shotPerJump = UnityEngine.Random.Range(0, 10);
+                            if (shotPerJump < jumpPer)
                             {
-                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                                jumpPoint = target.transform.position;
+                                state.CURRENT_STATE = StateMachine.State.Jump;
                             }
                             else
                             {
-                                directionToPoint = (target.position - transform.position).normalized;
-                                state.CURRENT_STATE = StateMachine.State.Dash;
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
-                        else if (distanceToPlayer <= detectionJumpRange)
+                        else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
-                            jumpPoint = target.transform.position;
-                            state.CURRENT_STATE = StateMachine.State.Jump;
+                            directionToPoint = (target.position - transform.position).normalized;
+                            shotPerDash = UnityEngine.Random.Range(0, 10);
+                            if (shotPerDash < dashPer)
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Dash;
+                            }
+                            else
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                            }
                         }
                         else
                         {
@@ -501,6 +537,10 @@ public class SconeHedgehog2 : UnitObject
                 isLand = true;
                 playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
             }
+
+            GameObject dot = DotAreaObject;
+            dot.transform.position = transform.position;
+            Instantiate(dot);
         }
     }
 
@@ -518,6 +558,9 @@ public class SconeHedgehog2 : UnitObject
         GameObject explosion = ExplosionEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
+        GameObject water = WaterEffect;
+        water.transform.position = transform.position;
+        Instantiate(water);
         GameObject buttercat = Buttercat;
         buttercat.transform.position = transform.position;
         if(transform.localScale.x < 0)

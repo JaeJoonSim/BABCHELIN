@@ -184,7 +184,8 @@ MonoBehaviour:
   delayTime: 5
   time: 0
   AttackTimer: 0
-  dashPer: 5
+  dashPer: 4
+  jumpPer: 3
   patrolRange: 10
   patrolMinTime: 3
   patrolMaxTime: 5
@@ -195,7 +196,11 @@ MonoBehaviour:
   yDir: 0
   BulletObject: {fileID: 2862424241139748284, guid: 8d0a9cf2c00c9404492d08cf6340144f,
     type: 3}
-  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+  DotAreaObject: {fileID: 7553270755714708806, guid: c74593668f410ed43a7627d34447428c,
+    type: 3}
+  ExplosionEffect: {fileID: 5475312332936819876, guid: 95de31eaaf364b649b0e16e2cb16faa4,
+    type: 3}
+  WaterEffect: {fileID: 7553270755714708806, guid: 987721f5d5f3e6c42a49ef5362194ba5,
     type: 3}
   Buttercat: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
     type: 3}
@@ -398,7 +403,7 @@ MonoBehaviour:
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
-  DefaultLoop: {fileID: 11400000, guid: 6b0161c040d9515419992e9aedd899ab, type: 2}
+  DefaultLoop: {fileID: 11400000, guid: 97cb85d969f138543a43a4c63f6e0ffe, type: 2}
   Animations: []
   North: 0
   South: 0

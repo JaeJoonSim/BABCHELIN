@@ -9812,9 +9812,11 @@ GameObject:
   - component: {fileID: 4827151424596729335}
   - component: {fileID: 2314887103856692184}
   - component: {fileID: 2546034039559087186}
-  - component: {fileID: 7252555011876174451}
+  - component: {fileID: 250663888882262802}
+  - component: {fileID: 6459743967033998623}
+  - component: {fileID: 2873798251125963738}
   m_Layer: 0
-  m_Name: Background Water Effect
+  m_Name: Area_Dot_Damage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9828,7 +9830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7553270755714708806}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -3.92469, y: -5.360601e-12, z: -0.033332147}
+  m_LocalPosition: {x: -1.5639743, y: -2.3985996, z: -0.03333186}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14722,7 +14724,7 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - 21f70a4093471484882e2e1fb7bc2ae0: {fileID: 7553270755714708806}
---- !u!114 &7252555011876174451
+--- !u!114 &250663888882262802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14731,7 +14733,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 7553270755714708806}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e334feff158004abc91fe4a9a620b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f4da96b73a2e7b4590e22c30e92836d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debug: 0
+  Performance: 0
+  DestroyOnComplete: 0
+--- !u!114 &6459743967033998623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553270755714708806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9635f6469e9ac4098f5ad24faaad3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
   destroyTime: 3
+  player: {fileID: 0}
+--- !u!58 &2873798251125963738
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553270755714708806}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.21856153, y: -120894}
+  serializedVersion: 2
+  m_Radius: 1.0990479

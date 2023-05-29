@@ -65,6 +65,7 @@ public class BerryBird : UnitObject
 
     public GameObject BulletObject;
     public GameObject ExplosionEffect;
+    public GameObject WaterEffect;
 
     private SkeletonAnimation spineAnimation;
 
@@ -400,6 +401,9 @@ public class BerryBird : UnitObject
     {
         GameObject explosion = ExplosionEffect;
         Instantiate(explosion, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+        GameObject water = WaterEffect;
+        water.transform.position = transform.position;
+        Instantiate(water);
     }
 
     private void OnDrawGizmos()
