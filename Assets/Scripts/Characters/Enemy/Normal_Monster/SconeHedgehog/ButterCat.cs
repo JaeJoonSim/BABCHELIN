@@ -75,7 +75,6 @@ public class ButterCat : UnitObject
     // Start is called before the first frame update
     private void Start()
     {
-        runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
 
         if (target == null)
         {
@@ -128,6 +127,7 @@ public class ButterCat : UnitObject
                         time = 0;
                         agent.enabled = true;
                         health.isInvincible = false;
+                        runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
 
@@ -178,6 +178,7 @@ public class ButterCat : UnitObject
                         state.LockStateChanges = false;
                         isDefend = false;
                         AttackTimer = 0;
+                        runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
                     break;
