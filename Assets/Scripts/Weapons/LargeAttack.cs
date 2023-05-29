@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class LargeAttack : PlayerAttack
 {
-    public float explosionRange;
+    public float splashRange;
+    public float splashDmg;
+    public override void getStaus(status val)
+    {
+        Damage = val.sk2Dmg;
+        speed = val.atkSpd / 10;
+        range = val.sk2Range;
+        Cost = val.sk2Cost;
+        destructionGauge = val.sk2DestroyDmg;
+        splashRange = val.sk2SplashRange;
+        splashDmg = val.sk2SplashDmg;
+    }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Enemy")
@@ -13,10 +24,10 @@ public class LargeAttack : PlayerAttack
             collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, 10f, Health.AttackType.Normal);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
 
-            Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, explosionRange, 1 << 8);
+            Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, splashRange, 1 << 8);
             for (int i = 0; i < targetInRange.Length; i++)
             {
-                targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage / 2, Health.AttackType.Normal);
+                targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, splashDmg, Health.AttackType.Normal);
                 PartDestructionGauge(targetInRange[i], destructionGauge);
             }
             Destroy(gameObject);
