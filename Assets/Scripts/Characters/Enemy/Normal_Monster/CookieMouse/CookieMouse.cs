@@ -164,7 +164,7 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Moving:
-                    agent.speed = 3f;
+                    agent.speed = 4.5f;
                     AttackTimer = 0f;
                     if (agent.enabled)
                         agent.isStopped = false;
