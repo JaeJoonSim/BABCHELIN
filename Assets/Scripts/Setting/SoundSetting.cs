@@ -8,24 +8,43 @@ public class SoundSetting : MonoBehaviour
 {
     public AudioMixer audioMixer;
 
+    [Space]
     public Slider MasterVolumeSlider;
     public Slider BGMVolumeSlider;
     public Slider SFXVolumeSlider;
 
-    // Start is called before the first frame update
-    void Start()
-    {
+    [Space]
+    public Button MasterVolumeButton;
+    public Button BGMVolumeButton;
+    public Button SFXVolumeButton;
 
+    public void MasterVolumeButten()
+    {
+        MasterVolumeSlider.value = 0.0001f;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void BGMVolumeButten()
     {
-        
+        BGMVolumeSlider.value = 0.0001f;
     }
 
-    public void VolumeToggle()
+    public void SFXVolumeButten()
     {
-        AudioListener.volume = AudioListener.volume == 0 ? 1 : 0;
+        SFXVolumeSlider.value = 0.0001f;
+    }
+
+    public void SetMasterVolume()
+    {
+        audioMixer.SetFloat("Master", Mathf.Log10(MasterVolumeSlider.value) * 20);
+    }
+
+    public void SetBGMVolume()
+    {
+        audioMixer.SetFloat("BGM", Mathf.Log10(BGMVolumeSlider.value) * 20);
+    }
+
+    public void SetSFXVolume()
+    {
+        audioMixer.SetFloat("SFX", Mathf.Log10(SFXVolumeSlider.value) * 20);
     }
 }
