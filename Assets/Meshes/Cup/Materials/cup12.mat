@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4369821074947172495
+--- !u!114 &-3291932579095242475
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,36 +20,20 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Water
-  m_Shader: {fileID: -6465566751694194690, guid: de28e9bcfd0678640893b6e060fbac81,
-    type: 3}
+  m_Name: cup12
+  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
+  stringTagMap:
+    RenderType: Opaque
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - Texture2D_5917C0F1:
-        m_Texture: {fileID: 2800000, guid: a68205644d5664442a23b84562ce139a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_7255C4CD:
-        m_Texture: {fileID: 2800000, guid: fc459762a4f503943bb4a463672f74b7, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_87DF1992:
-        m_Texture: {fileID: 2800000, guid: d49c40c49c392d24ab8175d84c9370ca, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - Texture2D_AF86F51C:
-        m_Texture: {fileID: 2800000, guid: 9f929de5b036eef4b885dc47b839f226, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -94,10 +78,6 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_08704a61c4c047de814f4bebe32c4c9b_Out_0:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -112,33 +92,6 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - Vector1_2BC1DA0F: 3.61
-    - Vector1_33D6ED88: 0.43
-    - Vector1_3770B5C: 0
-    - Vector1_38047C91: 1
-    - Vector1_40C5EB4E: 0.1
-    - Vector1_41FAE320: 3.38
-    - Vector1_490079ED: 2.84
-    - Vector1_4C7B0289: 0
-    - Vector1_4ED49B17: 14.65
-    - Vector1_52E31C97: 10.77
-    - Vector1_5A3E2040: 0.04
-    - Vector1_5CCADC29: -0.25
-    - Vector1_68B44540: 0
-    - Vector1_717649CF: 1
-    - Vector1_81D95DDA: 0
-    - Vector1_8280C9BC: 0.04
-    - Vector1_894FE3F1: 0.13
-    - Vector1_965BA36C: 0
-    - Vector1_A465D6C0: -0.13
-    - Vector1_B2C28A3D: -0.13
-    - Vector1_B5C121FC: 0
-    - Vector1_C17124A0: 0.74
-    - Vector1_DFF69F7C: 1
-    - Vector1_E280F477: 1
-    - Vector1_E54BAFA9: 1.84
-    - Vector1_E7F1FCE4: 0
-    - Vector1_FCCF8EB4: 0.02
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -156,7 +109,6 @@ Material:
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
     - _Smoothness: 0.5
@@ -167,10 +119,6 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_7CCE133F: {r: 0.8670214, g: 1, b: 0.033018887, a: 0}
-    - Color_8B0C7504: {r: 0.5330188, g: 1, b: 0.8687907, a: 0}
-    - Color_9FE5C60C: {r: 0.09019607, g: 0.77290064, b: 1, a: 0}
-    - Color_DD5D9566: {r: 0.7853929, g: 1, b: 0.19339621, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
