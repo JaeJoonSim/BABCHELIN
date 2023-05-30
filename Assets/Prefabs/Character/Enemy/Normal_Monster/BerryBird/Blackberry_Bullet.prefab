@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 371823184825627162}
   - component: {fileID: 2862424241139748285}
   - component: {fileID: 6779158364017665650}
-  - component: {fileID: 7390580346853972759}
+  - component: {fileID: 7953141306925376712}
   m_Layer: 10
   m_Name: Blackberry_Bullet
   m_TagString: Weapon
@@ -186,7 +186,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_CullTransparentMesh: 1
---- !u!114 &7390580346853972759
+--- !u!114 &7953141306925376712
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,15 +195,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 2862424241139748284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 323e75168d8086644bb220d1ba345296, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ee67bf8d4e46474e87bdd5af89e611f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  speed: 5
   player: {fileID: 0}
-  destroyTime: 5
-  PlayerEffect: {fileID: 3202562302581860845, guid: f2444736b9d3153428f144397cc70720,
-    type: 3}
-  GroundEffect: {fileID: 3975228056248263236, guid: aebb397f7ec2d9846adc2636c66137a5,
-    type: 3}
-  gravity: 1
+  damage: 2
+  speed: 10
+  range: 5
+  PlayerEffect: {fileID: 0}
+  GroundEffect: {fileID: 0}

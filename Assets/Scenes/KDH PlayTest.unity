@@ -941,7 +941,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3524098966121532011, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
@@ -3162,80 +3162,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
---- !u!1001 &1714725865
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4265093594819362709, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_Name
-      value: BerryBird_Blackberry_Single
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.934793
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.2819817
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4265093594819362730, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079983999551196382, guid: e9de0a1c475716e469cb60e6c5036e5e,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e9de0a1c475716e469cb60e6c5036e5e, type: 3}
 --- !u!1 &1860455322 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 282437661694670310, guid: 6e296c7aed89fd9499919034562ec738,
@@ -3947,7 +3873,7 @@ PrefabInstance:
     - target: {fileID: 76411849383532311, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}
       propertyPath: spawnCycleTime
-      value: 5
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 644251064261092629, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}
@@ -4123,6 +4049,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016116600267933989, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_Speed
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8028295292419620618, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}

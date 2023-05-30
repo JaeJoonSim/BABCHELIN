@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class GrapeBulletScript : BaseMonoBehaviour
+public class BulletScript : BaseMonoBehaviour
 {
     public HealthPlayer player;
 
@@ -42,7 +42,7 @@ public class GrapeBulletScript : BaseMonoBehaviour
     {
         distanceRange = Vector3.Distance(startPosition, transform.position);
 
-        if(distanceRange <= range)
+        if (distanceRange <= range)
         {
             direction = new Vector3(direction.x, direction.y, 0);
         }
