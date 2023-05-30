@@ -66,6 +66,8 @@ public struct status
     public int bulletMin;
     [Tooltip("탄환 자연회복량(최소치까지)")]
     public int bulletRegen;
+    [Tooltip("탄환 자연시간(초)(최소치까지)")]
+    public int bulletRegenTime;
 
     //소형탄관련
     [Header("Skill_1(소형탄)"), Space]

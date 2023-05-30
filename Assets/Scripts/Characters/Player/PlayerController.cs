@@ -104,7 +104,7 @@ public class PlayerController : BaseMonoBehaviour
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
         facingAngle();
-        
+
 
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
@@ -256,6 +256,12 @@ public class PlayerController : BaseMonoBehaviour
                 break;
         }
 
+
+
+        // ÅºÈ¯ È¸º¹
+        if (BulletGauge < TotalStatus.bulletMin && !IsInvoking("RestoreBullet"))
+            InvokeRepeating("RestoreBullet", 0f, TotalStatus.bulletRegenTime);
+
     }
 
     private void facingAngle()
@@ -403,6 +409,19 @@ public class PlayerController : BaseMonoBehaviour
             BulletGauge = 0;
         }
 
+    }
+
+    private void RestoreBullet()
+    {
+        
+        BulletGauge += TotalStatus.bulletRegen;
+
+        if (BulletGauge > TotalStatus.bulletMin)
+        {
+            Debug.Log("cnrk");
+            BulletGauge = TotalStatus.bulletMin;
+            CancelInvoke("RestoreBullet");
+        }
     }
 
     private IEnumerator Delay(float delay, Action callback)
