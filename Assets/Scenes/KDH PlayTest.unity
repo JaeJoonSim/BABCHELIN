@@ -931,7 +931,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3524098966121532011, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
@@ -1379,7 +1379,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693820, guid: 4878a6185c7ba7048af9eabe28519867,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4878a6185c7ba7048af9eabe28519867, type: 3}
@@ -3865,6 +3865,11 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 76411849383532311, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: spawnCycleTime
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 644251064261092629, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}
       propertyPath: m_Mesh
@@ -3874,6 +3879,56 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3032200448593191041, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3051190227007048769, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304867832685666707, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3304867832685666707, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionAttackRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4525403861700795321, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020086155480346239, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603300087159166558, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603300087159166563, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: maxHealth
+      value: 55
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603300087159166570, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 5603300087159166570, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionAttackRange
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6056883643617553716, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}
@@ -3940,10 +3995,45 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160721, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160741, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: delayTime
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160741, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: AttackDelay
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160741, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionRange
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160741, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: detectionAttackRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7041893837236160748, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: maxHealth
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8009290671277462474, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016116600267933970, guid: 47a39baf3a2b5c14cad230479df7ba31,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8028295292419620618, guid: 47a39baf3a2b5c14cad230479df7ba31,
         type: 3}

@@ -350,7 +350,7 @@ public class BerryBird : UnitObject
 
     private void RunAway()
     {
-        agent.speed = 4f;
+        agent.speed = 3f;
         directionToPoint = (transform.position - target.position).normalized;
         xDir = Mathf.Clamp((transform.position.x + directionToPoint.x), -1f, 1f);
         if (target.position.x <= transform.position.x)  //보는 방향
