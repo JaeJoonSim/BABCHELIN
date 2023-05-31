@@ -13,8 +13,23 @@ public class RadialMenuUI : MonoBehaviour
 
     public MapController mapController;
 
+    private void Start()
+    {
+        sprites = new Sprite[mapController.mapPool.Count];
+
+        for (int i = 0; i < mapController.mapPool.Count; i++)
+        {
+            sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+        }
+    }
+
     private void Update()
     {
+        for (int i = 0; i < mapController.mapPool.Count; i++)
+        {
+            sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+        }
+
         if (sprites != null)
             radialMenu.SetPieceImageSprites(sprites);
 
