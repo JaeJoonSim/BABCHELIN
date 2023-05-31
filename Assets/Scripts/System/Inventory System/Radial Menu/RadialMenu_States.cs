@@ -238,8 +238,26 @@ public partial class RadialMenu : MonoBehaviour
                 menu._arrowRotationZ = -mousePC.Angle;
                 showArrow = true;
 
-                float fIndex = (mousePC.Angle / 360f) * menu._pieceCount;
-                menu._selectedIndex = Mathf.RoundToInt(fIndex) % menu._pieceCount;
+                if (menu._pieceCount <= 2)
+                {
+                    if (mousePC.Angle >= 270 || mousePC.Angle < 0)
+                    {
+                        menu._selectedIndex = 1;
+                    }
+                    else if (mousePC.Angle >= 0 && mousePC.Angle < 90)
+                    {
+                        menu._selectedIndex = 0;
+                    }
+                    else
+                    {
+                        menu._selectedIndex = -1;
+                    }
+                }
+                else
+                {
+                    float fIndex = (mousePC.Angle / 360f) * menu._pieceCount;
+                    menu._selectedIndex = Mathf.RoundToInt(fIndex) % menu._pieceCount;
+                }
             }
 
             menu.SetArrow(showArrow);

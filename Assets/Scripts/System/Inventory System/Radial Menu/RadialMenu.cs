@@ -70,14 +70,23 @@ public partial class RadialMenu : MonoBehaviour
     {
         _pieceDirections = new Vector2[_pieceCount];
 
-        float angle = 360f / _pieceCount;
-
-        for (int i = 0; i < _pieceCount; i++)
+        if (_pieceCount <= 2)
         {
-            //float angle = i * (Mathf.PI * 2.0f) / _pieceCount;
+            float angle = 90f / (_pieceCount - 1);
 
-            _pieceDirections[i] = new ClockwisePolarCoord(1f, angle * i).ToVector2();
-            //_pieceDirections[i] = new Vector3(Mathf.Cos(angle), Mathf.Sin(angle), 0) *1f;
+            for (int i = 0; i < _pieceCount; i++)
+            {
+                _pieceDirections[i] = new ClockwisePolarCoord(1f, 45f - angle * i).ToVector2();
+            }
+        }
+        else
+        {
+            float angle = 360f / _pieceCount;
+
+            for (int i = 0; i < _pieceCount; i++)
+            {
+                _pieceDirections[i] = new ClockwisePolarCoord(1f, angle * i).ToVector2();
+            }
         }
     }
 
