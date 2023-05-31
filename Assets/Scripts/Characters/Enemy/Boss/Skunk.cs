@@ -456,6 +456,17 @@ public class Skunk : UnitObject
                     maxX = boxCollider.bounds.max.x;
                     minY = boxCollider.bounds.min.y;
                     maxY = boxCollider.bounds.max.y;
+
+                    for (int i = 0; i < numberOfBombs; i++)
+                    {
+                        Vector3 dropPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), zOffset);
+
+                        GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
+
+                        Instantiate(bombPrefab, dropPosition, Quaternion.identity);
+
+                        yield return new WaitForSeconds(dropDelay);
+                    }
                 }
                 else if (mapCollider is CircleCollider2D)
                 {
@@ -463,22 +474,27 @@ public class Skunk : UnitObject
 
                     Vector2 mapCenter = circleCollider.bounds.center;
                     float mapRadius = circleCollider.bounds.extents.x;
-
+                    
                     minX = mapCenter.x - mapRadius;
                     maxX = mapCenter.x + mapRadius;
                     minY = mapCenter.y - mapRadius;
                     maxY = mapCenter.y + mapRadius;
-                }
 
-                for (int i = 0; i < numberOfBombs; i++)
-                {
-                    Vector3 dropPosition = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), zOffset);
+                    for (int i = 0; i < numberOfBombs; i++)
+                    {
+                        float angle = Random.Range(0f, Mathf.PI * 2);
+                        float distance = Random.Range(0f, mapRadius);
 
-                    GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
+                        float x = mapCenter.x + distance * Mathf.Cos(angle);
+                        float y = mapCenter.y + distance * Mathf.Sin(angle);
+                        Vector3 dropPosition = new Vector3(x, y, zOffset);
 
-                    Instantiate(bombPrefab, dropPosition, Quaternion.identity);
+                        GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
 
-                    yield return new WaitForSeconds(dropDelay);
+                        Instantiate(bombPrefab, dropPosition, Quaternion.identity);
+
+                        yield return new WaitForSeconds(dropDelay);
+                    }
                 }
             }
             else
