@@ -340,6 +340,12 @@ public class BerryBird3_Group : UnitObject
         return hit.position;
     }
 
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "Attack")

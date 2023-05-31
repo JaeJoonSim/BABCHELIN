@@ -193,9 +193,13 @@ MonoBehaviour:
   detectionAttackRange: 5
   attackDistance: 0.3
   moveTime: 0
+  patrolSpeed: 1
+  chaseSpeed: 3
+  slidingSpeed: 5
+  runawaySpeed: 4
+  hitSpeed: 1
   AttackDelay: 0
   AttackDuration: 0.3
-  AttackTimer: 0
   moveSpeed: 0
   patrolRange: 10
   patrolMinTime: 3
@@ -513,6 +517,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mouse 2 Slide Effect_R
       objectReference: {fileID: 0}
+    - target: {fileID: 6735896133057680857, guid: bbfffd681482f2949b4d2cd9b8024cb5,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bbfffd681482f2949b4d2cd9b8024cb5, type: 3}
 --- !u!4 &5638932082399214218 stripped
@@ -593,6 +602,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Mouse 2 Slide Effect_L
+      objectReference: {fileID: 0}
+    - target: {fileID: 6735896133057680857, guid: 8ab619b0a58df2749963ea2651d7e499,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8ab619b0a58df2749963ea2651d7e499, type: 3}

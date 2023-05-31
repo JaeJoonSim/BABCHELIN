@@ -33,14 +33,20 @@ public class CookieMouse : UnitObject
     [SerializeField] float AttackDistance = 1f;
 
     [Space]
-    [SerializeField] float AttackDelay;
-    [SerializeField] float AttackTimer;
-    [SerializeField] float delayTime = 5f;
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float hitSpeed;
+
+    [Space]
+    [SerializeField] float attackDelayMinTime;
+    [SerializeField] float attackDelayMaxTime;
     [SerializeField] float time = 0;
+    private float AttackTimer;
+    private float attackDelay;
 
     private Health playerHealth;
     private NavMeshAgent agent;
-    private bool isPlayerInRange;
+    private Collider2D col;
     private float distanceToPlayer;
 
     [Space]
@@ -67,11 +73,8 @@ public class CookieMouse : UnitObject
 
     private Cream creamParent;
 
-    private NavMeshAgent nav;
-
     private void Start()
     {
-        nav = transform.GetComponent<NavMeshAgent>();
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
 
@@ -81,6 +84,7 @@ public class CookieMouse : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         agent.updateRotation = false;
@@ -100,11 +104,6 @@ public class CookieMouse : UnitObject
 
         if (creamParent != null && !agent.enabled && transform.position.z >= 0)
             agent.enabled = true;
-
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
-        {
-            FollowTarget();
-        }
 
         if (state.CURRENT_STATE == StateMachine.State.Moving || state.CURRENT_STATE == StateMachine.State.Patrol)
         {
@@ -132,11 +131,11 @@ public class CookieMouse : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    agent.speed = 1f;
+                    Stop();
                     idleTimer += Time.deltaTime;
                     time = 0;
 
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                    if (idleTimer >= idleToPatrolDelay)
                     {
                         patrolTargetPosition = GetRandomPositionInPatrolRange();
                         patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
@@ -144,8 +143,10 @@ public class CookieMouse : UnitObject
                         idleTimer = 0f;
                     }
 
-                    if (isPlayerInRange)
+                    if (distanceToPlayer <= detectionRange)
+                    {
                         state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
@@ -164,14 +165,14 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Moving:
-                    agent.speed = 4.5f;
+                    agent.isStopped = false;
+                    agent.speed = chaseSpeed;
                     AttackTimer = 0f;
-                    if (agent.enabled)
-                        agent.isStopped = false;
+
                     if (Time.timeScale == 0f)
                         break;
 
-                    if (0 <= xDir)  //보는 방향
+                    if (transform.position.x <= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);
                     }
@@ -190,13 +191,23 @@ public class CookieMouse : UnitObject
 
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
-                    if (!isPlayerInRange)
-                        state.ChangeToIdleState();
                     break;
 
                 case StateMachine.State.HitLeft:
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        agent.SetDestination(target.position);
+                    }
+
+                    agent.speed = hitSpeed;
+                    break;
                 case StateMachine.State.HitRight:
-                    detectionRange *= 2f;
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        agent.SetDestination(target.position);
+                    }
+
+                    agent.speed = hitSpeed;
                     break;
 
                 case StateMachine.State.Attacking:
@@ -208,7 +219,9 @@ public class CookieMouse : UnitObject
 
                     if (AttackTimer >= 0.7)
                     {
+                        AttackTimer = 0;
                         state.LockStateChanges = false;
+                        attackDelay = UnityEngine.Random.Range(attackDelayMinTime, attackDelayMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
@@ -220,46 +233,17 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Delay:
-                    AttackTimer = 0;
                     time += Time.deltaTime;
-                    if (time >= delayTime)
+
+                    if (time >= attackDelay)
                     {
+                        time = 0;
                         state.CURRENT_STATE = StateMachine.State.Idle;
                     }
 
                     agent.isStopped = true;
                     break;
 
-            }
-        }
-    }
-
-    private void FollowTarget()
-    {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking && state.CURRENT_STATE != StateMachine.State.Delay)
-        {
-
-            if (distanceToPlayer <= detectionRange)
-            {
-                isPlayerInRange = true;
-            }
-            else
-            {
-                isPlayerInRange = false;
-            }
-
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
-            {
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-                xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-            }
-            else
-            {
-                if (agent.enabled)
-                    agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
             }
         }
     }
@@ -277,6 +261,7 @@ public class CookieMouse : UnitObject
         {
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
+            agent.speed = patrolSpeed;
         }
         else
         {
@@ -287,15 +272,14 @@ public class CookieMouse : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (isPlayerInRange)
+        if (distanceToPlayer <= detectionRange)
         {
             aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Moving;
         }
 
-        xDir = Mathf.Clamp((patrolTargetPosition.x - transform.position.x), -1f, 1f);
-        if (0 <= xDir)
+        if (transform.position.x <= patrolTargetPosition.x)  //보는 방향
         {
             this.transform.localScale = new Vector3(1f, 1f, 1f);
         }
@@ -314,6 +298,12 @@ public class CookieMouse : UnitObject
         return hit.position;
     }
 
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "attack" || e.Data.Name == "Attack")
@@ -327,7 +317,8 @@ public class CookieMouse : UnitObject
     {
         speed = 0f;
         agent.isStopped = true;
-        nav.enabled = false;
+        agent.enabled = false;
+        col.enabled = false;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }

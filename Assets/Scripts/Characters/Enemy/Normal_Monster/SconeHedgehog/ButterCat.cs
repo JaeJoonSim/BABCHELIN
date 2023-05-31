@@ -289,6 +289,12 @@ public class ButterCat : UnitObject
         }
     }
 
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "ateck" || e.Data.Name == "attack")

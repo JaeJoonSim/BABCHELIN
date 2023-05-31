@@ -9,6 +9,8 @@ public class FlowerPot : UnitObject
     [SerializeField] float spawnRange;
     [SerializeField] GameObject[] mosterObject;
 
+    public GameObject brokenEffect;
+
     public override void Update()
     {
         time += Time.deltaTime;
@@ -21,7 +23,9 @@ public class FlowerPot : UnitObject
 
         if(health.CurrentHP() <= 0)
         {
-            Destroy(gameObject, 1f);
+            brokenEffect.transform.position = transform.position;
+            Instantiate(brokenEffect);
+            Destroy(gameObject);
         }
     }
 

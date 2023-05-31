@@ -386,11 +386,13 @@ MonoBehaviour:
   Walk: {fileID: 11400000, guid: bc8f40823eff89643be4e8490b805b23, type: 2}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 9
+  detectionRange: 7
   AttackDistance: 2
-  AttackDelay: 1
-  AttackTimer: 0
-  delayTime: 0.5
+  patrolSpeed: 1
+  chaseSpeed: 4
+  hitSpeed: 1
+  attackDelayMinTime: 3
+  attackDelayMaxTime: 10
   time: 0
   patrolRange: 10
   patrolMinTime: 3
