@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cloud3
-  m_Shader: {fileID: 4800000, guid: b68b99c2e57cef4419465c63c527201b, type: 3}
+  m_Name: WAVE
+  m_Shader: {fileID: 4800000, guid: 66eac5c3c13934a46a8ff817455614b1, type: 3}
   m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
@@ -20,26 +20,18 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _Flow:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MainTex:
+    - _Main_Tex:
+        m_Texture: {fileID: 10300, guid: 0000000000000000f000000000000000, type: 0}
+        m_Scale: {x: 0, y: 10}
+        m_Offset: {x: 10, y: 10}
+    - _Noise_Tex:
         m_Texture: {fileID: 2800000, guid: a68205644d5664442a23b84562ce139a, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Mask:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Noise:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _texcoord:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 10, y: 10}
+    - _Noise_Tex1:
+        m_Texture: {fileID: 2800000, guid: 5ec5555ce8ee76b4f95af766025c3a42, type: 3}
+        m_Scale: {x: 10, y: 10}
+        m_Offset: {x: 10, y: 10}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -55,17 +47,13 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
-    - _CullMode: 0
-    - _Depthpower: 1
-    - _Emission: 3.69
-    - _Opacity: 0.196
+    - _Inten: 4.97
+    - _Inten1: 2.13
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Usecenterglow: 0
-    - _Usedepth: 0
     m_Colors:
-    - _Color: {r: 0.7877358, g: 1, b: 0.9670014, a: 1}
-    - _DistortionSpeedXYPowerZ: {r: 0, g: 0, b: 0, a: 0}
+    - _Base_Color: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
-    - _SpeedMainTexUVNoiseZW: {r: 0, g: -0.01, b: 0, a: 0}
+    - _Pan_Speed: {r: 0.02, g: -0.02, b: 0, a: 0}
+    - _Pan_Speed1: {r: -0.01, g: -0.01, b: 0, a: 0}
   m_BuildTextureStacks: []
