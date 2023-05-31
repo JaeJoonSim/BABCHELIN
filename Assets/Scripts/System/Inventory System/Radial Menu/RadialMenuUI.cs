@@ -42,7 +42,8 @@ public class RadialMenuUI : MonoBehaviour
             int selected = radialMenu.Hide();
             Debug.Log($"Selected : {selected}");
 
-            mapController.SelectMap(selected);
+            if (selected >= 0)
+                mapController.SelectMap(selected);
             //if (selected >= 0 && inventory.Items.Items[selected].Item.ID > 0)
             //{
             //    if (inventory.Items.Items[selected].ItemObject.Type != ItemType.Equipment)
