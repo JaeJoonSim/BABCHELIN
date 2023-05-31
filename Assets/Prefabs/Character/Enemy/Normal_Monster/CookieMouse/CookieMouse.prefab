@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 50
   currentHealth: 0
   backHealth: 0
   multipleHealthLine: 0
@@ -386,11 +386,13 @@ MonoBehaviour:
   Walk: {fileID: 11400000, guid: bc8f40823eff89643be4e8490b805b23, type: 2}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 5
-  AttackDistance: 1
-  AttackDelay: 2
-  AttackTimer: 0
-  delayTime: 1
+  detectionRange: 7
+  AttackDistance: 2
+  patrolSpeed: 1
+  chaseSpeed: 4
+  hitSpeed: 1
+  attackDelayMinTime: 3
+  attackDelayMaxTime: 10
   time: 0
   patrolRange: 10
   patrolMinTime: 3
@@ -400,7 +402,7 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  ExplosionEffect: {fileID: 5475312332936819876, guid: 95de31eaaf364b649b0e16e2cb16faa4,
+  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
     type: 3}
 --- !u!195 &3275738440347693771
 NavMeshAgent:

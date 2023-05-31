@@ -70,7 +70,12 @@ public class DungeonUIManager : BaseMonoBehaviour
     {
         if (Time.timeScale != 1) 
             Time.timeScale = 1;
-        escPanel.SetActive(false);
+        escPanel.SetActive(!escPanel.activeSelf);
+        settingPanel.SetActive(false);
+        PlayerUI.SetActive(!PlayerUI.activeSelf);
+        if (BossUI != null)
+            BossUI.SetActive(!BossUI.activeSelf);
+        Minimap.SetActive(!Minimap.activeSelf);
     }
 
     public void SettingUI()

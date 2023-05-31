@@ -20,16 +20,24 @@ public class BerryBird : UnitObject
             return _anim;
         }
     }
+    public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
+    public AnimationReferenceAsset Runaway;
     private float aniCount = 0;
 
     public float Damaged = 1f;
 
     [Space]
-
     [SerializeField] Transform target;
     private Transform flowerPot;
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
+
+    [Space]
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float runawaySpeed;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float hitSpeed;
 
     [Space]
     [SerializeField] float AttackDelay;
@@ -40,7 +48,7 @@ public class BerryBird : UnitObject
 
     private Health playerHealth;
     private NavMeshAgent agent;
-    private bool isPlayerInRange;
+    private Collider2D col;
     private float distanceToPlayer;
     Vector3 directionToPoint;
     private StateMachine[] otherBirdState;
@@ -106,11 +114,6 @@ public class BerryBird : UnitObject
     {
         base.Update();
 
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
-        {
-            FollowTarget();
-        }
-
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
@@ -135,10 +138,9 @@ public class BerryBird : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    agent.speed = 1f;
+                    Stop();
                     idleTimer += Time.deltaTime;
-                    time = 0;
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                    if (idleTimer >= idleToPatrolDelay)
                     {
                         patrolTargetPosition = GetRandomPositionInPatrolRange();
                         patrolToIdleDelay = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
@@ -146,7 +148,7 @@ public class BerryBird : UnitObject
                         idleTimer = 0f;
                     }
 
-                    if (isPlayerInRange)
+                    if (distanceToPlayer <= detectionRange)
                     {
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
@@ -161,23 +163,42 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.Patrol:
+                    if (Walk != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
+                            aniCount--;
+                        }
+                    }
                     Patrol();
                     if (flowerPot == null)
                     {
+                        aniCount = 1;
                         state.CURRENT_STATE = StateMachine.State.Moving;
                     }
                     break;
 
                 case StateMachine.State.Runaway:
+                    if (Runaway != null && Notice != null)
+                    {
+                        if (aniCount > 0)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Notice, loop: false);
+                            anim.AnimationState.AddAnimation(AnimationTrack, Runaway, loop: true, 0f);
+                            aniCount--;
+                        }
+                    }
                     if (flowerPot == null)
                     {
+                        aniCount = 1;
                         state.CURRENT_STATE = StateMachine.State.Moving;
                     }
                     RunAway();
                     break;
 
                 case StateMachine.State.Moving:
-                    agent.speed = 2f;
+                    agent.speed = chaseSpeed;
                     agent.isStopped = false;
                     if (Time.timeScale == 0f)
                         break;
@@ -205,16 +226,34 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.HitLeft:
-                case StateMachine.State.HitRight:
-                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
-                        agent.speed = 0;
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
-                            otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
                             otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
                         }
                     }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        agent.SetDestination(target.position);
+                    }
+
+                    agent.speed = hitSpeed;
+                    break;
+                case StateMachine.State.HitRight:
+                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        for (int a = 0; a < otherBirdState.Length; a++)
+                        {
+                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                    }
+                    else if(state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        agent.SetDestination(target.position);
+                    }
+
+                    agent.speed = hitSpeed;
                     break;
 
                 case StateMachine.State.Attacking:
@@ -222,7 +261,7 @@ public class BerryBird : UnitObject
                     state.LockStateChanges = true;
                     forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
-                    agent.isStopped = true;
+                    Stop();
 
                     if (target.position.x <= transform.position.x)  //보는 방향
                     {
@@ -239,8 +278,6 @@ public class BerryBird : UnitObject
                         AttackTimer = 0f;
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
-
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
 
                     break;
 
@@ -266,39 +303,6 @@ public class BerryBird : UnitObject
         }
     }
 
-    private void FollowTarget()
-    {
-        if (state.CURRENT_STATE != StateMachine.State.Attacking || !IsAttackAnimationPlaying())
-        {
-            float distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-            if (distanceToPlayer <= detectionRange)
-            {
-                isPlayerInRange = true;
-            }
-            else
-            {
-                isPlayerInRange = false;
-            }
-
-            if (isPlayerInRange && state.CURRENT_STATE != StateMachine.State.Attacking)
-            {
-                Vector3 directionToTarget = (target.position - transform.position).normalized;
-
-                xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
-                yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
-
-                agent.isStopped = false;
-            }
-            else
-            {
-                agent.isStopped = true;
-                xDir = 0f;
-                yDir = 0f;
-            }
-        }
-    }
-
     private void Patrol()
     {
         patrolTimer += Time.deltaTime;
@@ -311,19 +315,19 @@ public class BerryBird : UnitObject
         {
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
+            agent.speed = patrolSpeed;
         }
         else
         {
-            agent.isStopped = true;
-            aniCount = 0;
+            aniCount = 1;
             patrolTimer = 0f;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (isPlayerInRange)
+        if (distanceToPlayer <= detectionRange)
         {
-            aniCount = 0;
+            aniCount = 1;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Runaway;
         }
@@ -350,7 +354,8 @@ public class BerryBird : UnitObject
 
     private void RunAway()
     {
-        agent.speed = 4f;
+        agent.isStopped = false;
+        agent.speed = runawaySpeed;
         directionToPoint = (transform.position - target.position).normalized;
         xDir = Mathf.Clamp((transform.position.x + directionToPoint.x), -1f, 1f);
         if (target.position.x <= transform.position.x)  //보는 방향
@@ -366,8 +371,15 @@ public class BerryBird : UnitObject
 
         if (distanceToPlayer > detectionRange)
         {
+            aniCount = 1;
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
+    }
+
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
     }
 
     private bool IsAttackAnimationPlaying()
@@ -393,8 +405,8 @@ public class BerryBird : UnitObject
         speed = 0f;
         agent.isStopped = true;
         nav.enabled = false;
-        Invoke("DeathEffect", 3.233f);
-        Destroy(gameObject, 3.233f);
+        Invoke("DeathEffect", 1f);
+        Destroy(gameObject, 1f);
     }
 
     private void DeathEffect()

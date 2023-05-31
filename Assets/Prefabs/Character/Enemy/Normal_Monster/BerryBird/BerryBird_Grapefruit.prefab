@@ -109,7 +109,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 40
   currentHealth: 0
   backHealth: 0
   multipleHealthLine: 0
@@ -144,14 +144,17 @@ MonoBehaviour:
   maxSpeed: 0.05
   SpineTransform: {fileID: 9079983999551196370}
   AnimationTrack: 0
+  Walk: {fileID: 11400000, guid: 6162248ef8342f24baff1b9eb783153c, type: 2}
+  Notice: {fileID: 11400000, guid: 7da170bd9e0bf1b45a8ea9a67cf42db4, type: 2}
+  Runaway: {fileID: 11400000, guid: 00b126253bbd8b647acb97f7cf919084, type: 2}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 5
-  detectionAttackRange: 3
-  AttackDelay: 2
+  detectionRange: 7
+  detectionAttackRange: 5
+  AttackDelay: 1.5
   AttackDuration: 0.3
   AttackTimer: 0
-  delayTime: 1
+  delayTime: 0.5
   time: 0
   patrolRange: 5
   patrolMinTime: 2
@@ -165,7 +168,7 @@ MonoBehaviour:
     type: 3}
   ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
     type: 3}
-  WaterEffect: {fileID: 7553270755714708806, guid: 987721f5d5f3e6c42a49ef5362194ba5,
+  WaterEffect: {fileID: 7553270755714708806, guid: 1caf4234ca9be9e45844e7c1476d1bb1,
     type: 3}
 --- !u!114 &4265093594819362732
 MonoBehaviour:
@@ -279,7 +282,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3e4d7bd11024f9d439b8cc1ec2ea0824, type: 2}
+  - {fileID: 2100000, guid: 3a977adecdeb046458b02fdaaefe8e0e, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -313,7 +316,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 5307b62ad38d2804396033ad0e0c956c, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: 9ae7c29651bca9048aa80d59ceb9e86c, type: 2}
   initialSkinName: Grapefruit
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -358,15 +361,15 @@ MonoBehaviour:
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
-  DefaultLoop: {fileID: 11400000, guid: de22cf4b1e9a5f44bbecdd8a06f38242, type: 2}
+  DefaultLoop: {fileID: 11400000, guid: ba705ba7ee0ea11498171e2efc86157b, type: 2}
   Animations: []
   North: 0
   South: 0
-  LeftRight: 0
-  Idle: {fileID: 11400000, guid: de22cf4b1e9a5f44bbecdd8a06f38242, type: 2}
+  LeftRight: 1
+  Idle: {fileID: 11400000, guid: ba705ba7ee0ea11498171e2efc86157b, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  Moving: {fileID: 11400000, guid: 1d183e31f39d7f34cae1a88aaa5327be, type: 2}
+  Moving: {fileID: 11400000, guid: c8f54b11fbbea4740a6f595fa8eb17d8, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
@@ -374,7 +377,7 @@ MonoBehaviour:
   SouthMovingBack: {fileID: 0}
   StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
-  Attack: {fileID: 11400000, guid: 61be0f6117c046e4ab561fb8f7170a3f, type: 2}
+  Attack: {fileID: 11400000, guid: 2023e310684218a40a33af8e5eecf406, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
   Absorb: {fileID: 0}
@@ -403,8 +406,8 @@ MonoBehaviour:
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
   Dodge: {fileID: 0}
-  Hit: {fileID: 11400000, guid: 6e95c65b381d6e641bfe9299dad09b88, type: 2}
-  Dead: {fileID: 11400000, guid: d37619335537377409c57a2d8d6a05bc, type: 2}
+  Hit: {fileID: 11400000, guid: 833cae2bcc7ee9f448e03648839e69d9, type: 2}
+  Dead: {fileID: 11400000, guid: edd832c8fed472a44937f5ed1c200bb4, type: 2}
   Landing: {fileID: 0}
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}

@@ -5,24 +5,30 @@ using UnityEngine;
 
 public class GrapeBulletScript : BaseMonoBehaviour
 {
-    public float damage = 2f;
-    public float speed = 10f;
     public HealthPlayer player;
-    public float destroyTime = 5f;
+
+    [Space]
+    [SerializeField] private float damage;
+    [SerializeField] private float speed;
+    [SerializeField] private float range;
 
     private ColliderEvents colliderEvents;
     private Vector3 direction;
+    private Vector3 startPosition;
+    private float distanceRange;
 
+    [Space]
     public GameObject PlayerEffect;
     public GameObject GroundEffect;
 
-    public float gravity = 1f;
+    private float gravity = 9.81f;
     private float time;
 
     private void Start()
     {
         colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
+        startPosition = transform.position;
         direction = (player.transform.position - transform.position).normalized;
 
         colliderEvents.OnTriggerEnterEvent += OnHit;
@@ -30,13 +36,21 @@ public class GrapeBulletScript : BaseMonoBehaviour
         Vector3 currentRotation = transform.eulerAngles;
         currentRotation.z = 0;
         transform.eulerAngles = currentRotation;
-        Destroy(gameObject, destroyTime);
     }
 
     private void Update()
     {
-        time += Time.deltaTime;
-        direction = new Vector3(direction.x, direction.y, (speed * Mathf.Sin(90f * Mathf.Deg2Rad) * time + 0.5f * gravity * time) / 50f);
+        distanceRange = Vector3.Distance(startPosition, transform.position);
+
+        if(distanceRange <= range)
+        {
+            direction = new Vector3(direction.x, direction.y, 0);
+        }
+        else
+        {
+            time += Time.deltaTime;
+            direction = new Vector3(direction.x, direction.y, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+        }
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
         if (transform.position.z >= 0)

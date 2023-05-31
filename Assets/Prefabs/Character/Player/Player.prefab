@@ -8372,6 +8372,7 @@ GameObject:
   - component: {fileID: 6160722343811252256}
   - component: {fileID: 6160722343811252258}
   - component: {fileID: 1318243719}
+  - component: {fileID: 2096934568}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -8476,10 +8477,10 @@ MonoBehaviour:
     hpRegen: 30
     def: 0
     movSpd: 5
-    dodgeCoolDown: 2
+    dodgeCoolDown: 0.5
     dodgeSpeed: 5
-    absorbAngle: 0
-    absorbRange: 0
+    absorbAngle: 30
+    absorbRange: 5
     absorbRestore: 0
     absorbSpdSmall: 0.1
     absorbSpdMedium: 0.5
@@ -8494,12 +8495,13 @@ MonoBehaviour:
     bulletCost: 10
     bulletMax: 1000
     bulletMin: 300
-    bulletRegen: 0
+    bulletRegen: 10
+    bulletRegenTime: 1
     sk1Dmg: 2
-    sk1Cost: 0
-    sk1CoolDown: 0
+    sk1Cost: 10
+    sk1CoolDown: 3
     sk1ResistTime: 3
-    sk1Spd: 0
+    sk1Spd: 0.2
     sk1DestroyDmg: 0
     sk1Range: 5
     sk1Angle: 30
@@ -8537,6 +8539,7 @@ MonoBehaviour:
     bulletMax: 0
     bulletMin: 0
     bulletRegen: 0
+    bulletRegenTime: 0
     sk1Dmg: 0
     sk1Cost: 0
     sk1CoolDown: 0
@@ -8579,6 +8582,7 @@ MonoBehaviour:
     bulletMax: 0
     bulletMin: 0
     bulletRegen: 0
+    bulletRegenTime: 0
     sk1Dmg: 0
     sk1Cost: 0
     sk1CoolDown: 0
@@ -8621,6 +8625,7 @@ MonoBehaviour:
     bulletMax: 0
     bulletMin: 0
     bulletRegen: 0
+    bulletRegenTime: 0
     sk1Dmg: 0
     sk1Cost: 0
     sk1CoolDown: 0
@@ -8663,6 +8668,7 @@ MonoBehaviour:
     bulletMax: 0
     bulletMin: 0
     bulletRegen: 0
+    bulletRegenTime: 0
     sk1Dmg: 0
     sk1Cost: 0
     sk1CoolDown: 0
@@ -8693,7 +8699,7 @@ MonoBehaviour:
   showAbsorb: 1
   absorbEffet: {fileID: 5729501917595095277}
   showAttack: 1
-  BulletGauge: 300
+  BulletGauge: 1000
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
   SkillIndex: 0
   Skills:
@@ -8797,10 +8803,10 @@ MonoBehaviour:
   KnockbackForce: 2
   RetryPanel: {fileID: 6160722343175086447}
   poisoningDamage: 0
-  clearPoisonTimer: 0
+  clearPoisonTimer: 3
   curPoisonTimer: 0
   poisonDamage: 0
-  poisonDamageInterval: 0
+  poisonDamageInterval: 0.5
   poisonIntervalCounter: 0
   fartShieldCount: 0
 --- !u!114 &1318243719
@@ -8866,6 +8872,22 @@ MonoBehaviour:
   m_DefaultActionMap: Action
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!58 &2096934568
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160722343811252264}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &6160722343933064625
 GameObject:
   m_ObjectHideFlags: 0
@@ -9473,7 +9495,7 @@ MonoBehaviour:
   SouthLoading: {fileID: 11400000, guid: bcec135cfbc860a489f8cecd77500366, type: 2}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
-  Jump: {fileID: 0}
+  Jump: {fileID: 11400000, guid: 2f1ca3c691ef2e64aba99ad9ed25bec9, type: 2}
   TailWhip: {fileID: 0}
   CreamThrow: {fileID: 0}
   fart: {fileID: 0}
@@ -9487,7 +9509,7 @@ MonoBehaviour:
   Dodge: {fileID: 11400000, guid: 0bb979ff12f6f624db498cfd3356cf32, type: 2}
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
-  Landing: {fileID: 0}
+  Landing: {fileID: 11400000, guid: bc5b4faf503a83a41b8fa14df2440a78, type: 2}
   MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
   NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
   SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
@@ -14000,6 +14022,46 @@ PrefabInstance:
       propertyPath: UIHealthBackGauge
       value: 
       objectReference: {fileID: 3039813906178890705}
+    - target: {fileID: 84777912259579903, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 891802237702371976, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 6105192660880100245, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255904649272494, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.8166464
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255904649272494, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.8166464
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255904649272494, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.8166464
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255904649272494, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 402
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255905257698177, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6659255905930774001, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_Pivot.x
@@ -14109,6 +14171,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerUICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6739624958924594261, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 0.5882353
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80bb4748aa26ef408d581d4ab837d54, type: 3}

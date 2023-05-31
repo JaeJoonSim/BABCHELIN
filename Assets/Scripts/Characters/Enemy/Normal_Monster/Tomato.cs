@@ -381,6 +381,12 @@ public class Tomato : UnitObject
         }
     }
 
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "attack" || e.Data.Name == "ATTACK")
