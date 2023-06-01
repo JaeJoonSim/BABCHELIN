@@ -300,7 +300,7 @@ public class CookieMouse : UnitObject
 
     private void Stop()
     {
-        if (agent! != null)
+        if (agent != null && agent.enabled)
             agent.isStopped = true;
         speed = 0;
     }
