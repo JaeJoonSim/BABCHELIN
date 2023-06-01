@@ -26,19 +26,22 @@ public class DungeonUIManager : BaseMonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (Time.timeScale != 1) Time.timeScale = 1;
-            else Time.timeScale = 0;
+            if (escPanel.activeSelf)
+                Time.timeScale = 1;
+            else 
+                Time.timeScale = 0;
+            
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
             PlayerUI.SetActive(!PlayerUI.activeSelf);
-            if(BossUI != null)
+            if (BossUI != null)
                 BossUI.SetActive(!BossUI.activeSelf);
             Minimap.SetActive(!Minimap.activeSelf);
         }
 
-        for(int a = 0; a < 5; a++)
+        for (int a = 0; a < 5; a++)
         {
-            if(tabNum == a)
+            if (tabNum == a)
             {
                 Tabs[a].SetActive(true);
                 tabBtn[a].SetActive(false);
@@ -68,7 +71,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public void Resume()
     {
-        if (Time.timeScale != 1) 
+        if (Time.timeScale != 1)
             Time.timeScale = 1;
         escPanel.SetActive(!escPanel.activeSelf);
         settingPanel.SetActive(false);
