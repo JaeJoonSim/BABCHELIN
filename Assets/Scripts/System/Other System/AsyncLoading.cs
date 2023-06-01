@@ -6,10 +6,12 @@ using UnityEngine.SceneManagement;
 public class AsyncLoading : BaseMonoBehaviour
 {
     [SerializeField] private float delayTime = 3f;
-    [SerializeField] private string sceneToLoad;
+    private string sceneToLoad;
 
     private void Start()
     {
+        sceneToLoad = PlayerPrefs.GetString("SceneToLoad");
+
         StartCoroutine(LoadSceneAsync());
     }
 

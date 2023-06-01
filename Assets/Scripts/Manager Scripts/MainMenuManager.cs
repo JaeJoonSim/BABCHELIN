@@ -24,7 +24,8 @@ public class MainMenuManager : MonoBehaviour
 
     public void LoadScene(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetString("SceneToLoad", sceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LoadingScene");
     }
 
     public void QuitGame()
