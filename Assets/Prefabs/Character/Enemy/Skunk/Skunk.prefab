@@ -5465,22 +5465,6 @@ MeshRenderer:
   - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
   - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
   - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
-  - {fileID: 2100000, guid: 9931718a51bb38446b31bc7990af7d9c, type: 2}
-  - {fileID: 2100000, guid: 6457fd646e0705c41aebf49b8079d5b7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -5539,7 +5523,7 @@ MonoBehaviour:
   disableRenderingOnOverride: 1
   updateTiming: 1
   unscaledTime: 0
-  _animationName: 
+  _animationName: skunk_idle
   loop: 1
   timeScale: 1
 --- !u!114 &6948086771670899604
@@ -5728,6 +5712,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1708609933456266818, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708609933456266818, guid: c9656c7219330814c83ea15a4b52ea20,
+        type: 3}
       propertyPath: RotationModule.curve.scalar
       value: 15.707963
       objectReference: {fileID: 0}
@@ -5809,7 +5798,7 @@ PrefabInstance:
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.52
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
@@ -5824,12 +5813,12 @@ PrefabInstance:
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0.5
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
@@ -5839,7 +5828,7 @@ PrefabInstance:
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 180
       objectReference: {fileID: 0}
     - target: {fileID: 5426822181036278984, guid: c9656c7219330814c83ea15a4b52ea20,
         type: 3}
@@ -5872,6 +5861,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6948086772136326245}
     m_Modifications:
+    - target: {fileID: 851651771867838182, guid: 57c0c151bc3289248811105faf988756,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1088363534332994387, guid: 57c0c151bc3289248811105faf988756,
         type: 3}
       propertyPath: m_RootOrder
@@ -5880,7 +5874,7 @@ PrefabInstance:
     - target: {fileID: 1088363534332994387, guid: 57c0c151bc3289248811105faf988756,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.84
       objectReference: {fileID: 0}
     - target: {fileID: 1088363534332994387, guid: 57c0c151bc3289248811105faf988756,
         type: 3}
@@ -5890,7 +5884,7 @@ PrefabInstance:
     - target: {fileID: 1088363534332994387, guid: 57c0c151bc3289248811105faf988756,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1.317
       objectReference: {fileID: 0}
     - target: {fileID: 1088363534332994387, guid: 57c0c151bc3289248811105faf988756,
         type: 3}
@@ -5931,6 +5925,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Skunk Death Effect
+      objectReference: {fileID: 0}
+    - target: {fileID: 6251321903367255280, guid: 57c0c151bc3289248811105faf988756,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634519450698561866, guid: 57c0c151bc3289248811105faf988756,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 57c0c151bc3289248811105faf988756, type: 3}
@@ -7510,6 +7514,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8381232776102287976, guid: 50e7b241f2606a44a97c68a6843a5069,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8426998233025581409, guid: 50e7b241f2606a44a97c68a6843a5069,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
@@ -7541,6 +7550,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6948086772136326245}
     m_Modifications:
+    - target: {fileID: 1114907856705982803, guid: 3ad0bb6fc78839344bbd3c436efef255,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1458703302701554771, guid: 3ad0bb6fc78839344bbd3c436efef255,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1712652958373085524, guid: 3ad0bb6fc78839344bbd3c436efef255,
         type: 3}
       propertyPath: m_Name
@@ -7848,6 +7867,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6948086772136326245}
     m_Modifications:
+    - target: {fileID: 4493899571081793456, guid: 62bf98beaddd2724f86c2788706bfb27,
+        type: 3}
+      propertyPath: looping
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4539383417237259449, guid: 62bf98beaddd2724f86c2788706bfb27,
         type: 3}
       propertyPath: CustomDataModule.vector0_1.scalar

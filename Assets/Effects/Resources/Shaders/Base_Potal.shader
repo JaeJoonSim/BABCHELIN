@@ -203,7 +203,8 @@ Shader "HAN/Base_Potal"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Input.hlsl"
 			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/SurfaceData.hlsl"
 
-			
+			#define ASE_NEEDS_FRAG_COLOR
+
 
 			struct VertexInput
 			{
@@ -414,11 +415,12 @@ Shader "HAN/Base_Potal"
 				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
 				float2 texCoord21 = IN.ase_texcoord3.xy * float2( 1,1 ) + float2( 0,0 );
 				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 				float3 BakedAlbedo = 0;
 				float3 BakedEmission = 0;
-				float3 Color = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) ).rgb;
-				float Alpha = 1;
+				float3 Color = temp_output_33_0.rgb;
+				float Alpha = temp_output_33_0.r;
 				float AlphaClipThreshold = 0.5;
 				float AlphaClipThresholdShadow = 0.5;
 
@@ -480,7 +482,8 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -493,7 +496,8 @@ Shader "HAN/Base_Potal"
 				#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR) && defined(ASE_NEEDS_FRAG_SHADOWCOORDS)
 				float4 shadowCoord : TEXCOORD1;
 				#endif
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord2 : TEXCOORD2;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -514,7 +518,10 @@ Shader "HAN/Base_Potal"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _Main_Tex;
+			sampler2D _Noise_Tex;
+			sampler2D _Noise_Tex1;
+
 
 			
 			VertexOutput VertexFunction( VertexInput v  )
@@ -524,7 +531,11 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
+				o.ase_texcoord2.xy = v.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord2.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -564,7 +575,9 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -581,7 +594,8 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -620,7 +634,8 @@ Shader "HAN/Base_Potal"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -657,9 +672,16 @@ Shader "HAN/Base_Potal"
 					#endif
 				#endif
 
+				float2 texCoord12 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner13 = ( 1.0 * _Time.y * float2( 0,0 ) + texCoord12);
+				float2 texCoord17 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
+				float2 texCoord21 = IN.ase_texcoord2.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 
-				float Alpha = 1;
+				float Alpha = temp_output_33_0.r;
 				float AlphaClipThreshold = 0.5;
 
 				#ifdef _ALPHATEST_ON
@@ -712,14 +734,16 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -740,7 +764,10 @@ Shader "HAN/Base_Potal"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _Main_Tex;
+			sampler2D _Noise_Tex;
+			sampler2D _Noise_Tex1;
+
 
 			
 			int _ObjectId;
@@ -761,7 +788,11 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -790,7 +821,9 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -807,7 +840,8 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -846,7 +880,8 @@ Shader "HAN/Base_Potal"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -868,9 +903,16 @@ Shader "HAN/Base_Potal"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 texCoord12 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner13 = ( 1.0 * _Time.y * float2( 0,0 ) + texCoord12);
+				float2 texCoord17 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
+				float2 texCoord21 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_33_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -923,14 +965,16 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
 			struct VertexOutput
 			{
 				float4 clipPos : SV_POSITION;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -951,7 +995,10 @@ Shader "HAN/Base_Potal"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _Main_Tex;
+			sampler2D _Noise_Tex;
+			sampler2D _Noise_Tex1;
+
 
 			
 			float4 _SelectionID;
@@ -972,7 +1019,11 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
+				o.ase_texcoord.xy = v.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -996,7 +1047,9 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1013,7 +1066,8 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1052,7 +1106,8 @@ Shader "HAN/Base_Potal"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1074,9 +1129,16 @@ Shader "HAN/Base_Potal"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 texCoord12 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner13 = ( 1.0 * _Time.y * float2( 0,0 ) + texCoord12);
+				float2 texCoord17 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
+				float2 texCoord21 = IN.ase_texcoord.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_33_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1138,7 +1200,8 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1146,7 +1209,8 @@ Shader "HAN/Base_Potal"
 			{
 				float4 clipPos : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -1167,7 +1231,10 @@ Shader "HAN/Base_Potal"
 			#endif
 			CBUFFER_END
 
-			
+			sampler2D _Main_Tex;
+			sampler2D _Noise_Tex;
+			sampler2D _Noise_Tex1;
+
 
 			
 			struct SurfaceDescription
@@ -1185,7 +1252,11 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord1.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1216,7 +1287,9 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1233,7 +1306,8 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1272,7 +1346,8 @@ Shader "HAN/Base_Potal"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1294,9 +1369,16 @@ Shader "HAN/Base_Potal"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 texCoord12 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner13 = ( 1.0 * _Time.y * float2( 0,0 ) + texCoord12);
+				float2 texCoord17 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
+				float2 texCoord21 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_33_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1359,7 +1441,8 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1367,7 +1450,8 @@ Shader "HAN/Base_Potal"
 			{
 				float4 clipPos : SV_POSITION;
 				float3 normalWS : TEXCOORD0;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
 			};
@@ -1387,7 +1471,10 @@ Shader "HAN/Base_Potal"
 				float _TessMaxDisp;
 			#endif
 			CBUFFER_END
-			
+			sampler2D _Main_Tex;
+			sampler2D _Noise_Tex;
+			sampler2D _Noise_Tex1;
+
 
 			
 			struct SurfaceDescription
@@ -1405,7 +1492,11 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
+				o.ase_color = v.ase_color;
+				o.ase_texcoord1.xy = v.ase_texcoord.xy;
 				
+				//setting value to unused interpolator channels and avoid initialization warnings
+				o.ase_texcoord1.zw = 0;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1436,7 +1527,9 @@ Shader "HAN/Base_Potal"
 			{
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
-				
+				float4 ase_color : COLOR;
+				float4 ase_texcoord : TEXCOORD0;
+
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1453,7 +1546,8 @@ Shader "HAN/Base_Potal"
 				UNITY_TRANSFER_INSTANCE_ID(v, o);
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
-				
+				o.ase_color = v.ase_color;
+				o.ase_texcoord = v.ase_texcoord;
 				return o;
 			}
 
@@ -1492,7 +1586,8 @@ Shader "HAN/Base_Potal"
 				VertexInput o = (VertexInput) 0;
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
-				
+				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
+				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1514,9 +1609,16 @@ Shader "HAN/Base_Potal"
 			{
 				SurfaceDescription surfaceDescription = (SurfaceDescription)0;
 
+				float2 texCoord12 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner13 = ( 1.0 * _Time.y * float2( 0,0 ) + texCoord12);
+				float2 texCoord17 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner19 = ( 1.0 * _Time.y * _Pan_Speed + texCoord17);
+				float2 texCoord21 = IN.ase_texcoord1.xy * float2( 1,1 ) + float2( 0,0 );
+				float2 panner23 = ( 1.0 * _Time.y * _Pan_Speed1 + texCoord21);
+				float4 temp_output_33_0 = ( ( _Base_Color * ( IN.ase_color * tex2D( _Main_Tex, panner13 ) ) ) * ( ( tex2D( _Noise_Tex, panner19 ) * _Inten1 ) * ( tex2D( _Noise_Tex1, panner23 ) * _Inten ) ) );
 				
 
-				surfaceDescription.Alpha = 1;
+				surfaceDescription.Alpha = temp_output_33_0.r;
 				surfaceDescription.AlphaClipThreshold = 0.5;
 
 				#if _ALPHATEST_ON
@@ -1571,12 +1673,12 @@ Node;AmplifyShaderEditor.SamplerNode;20;-1284.113,765.8341;Inherit;True;Property
 Node;AmplifyShaderEditor.Vector2Node;22;-1738.443,932.9908;Inherit;False;Property;_Pan_Speed1;Pan_Speed;4;0;Create;True;0;0;0;False;0;False;-0.1,-0.1;-0.01,-0.01;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.TextureCoordinatesNode;21;-1760.143,783.3865;Inherit;False;0;-1;2;3;2;SAMPLER2D;;False;0;FLOAT2;1,1;False;1;FLOAT2;0,0;False;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;24;-956.4362,776.7463;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;25;-1266.378,974.6107;Inherit;False;Property;_Inten;Inten;5;0;Create;True;0;0;0;False;0;False;6.23425;6.9;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;25;-1266.378,974.6107;Inherit;False;Property;_Inten;Inten;5;0;Create;True;0;0;0;False;0;False;6.23425;3.06;0;10;0;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;18;-784.9954,410.2357;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;23.40944,111.1949;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;HAN/Base_Potal;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;1;False;;1;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638156213913670644;  Blend;2;638156213930466347;Two Sided;0;638210965703470956;Forward Only;0;0;Cast Shadows;0;638210965655754669;  Use Shadow Threshold;0;0;Receive Shadows;0;638210965676954724;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
+Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;1;23.40944,111.1949;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;HAN/Base_Potal;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;2;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;1;False;;1;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;True;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638156213913670644;  Blend;2;638213115257926859;Two Sided;0;638213115679518858;Forward Only;1;638213115291596652;Cast Shadows;0;638210965655754669;  Use Shadow Threshold;0;0;Receive Shadows;0;638210965676954724;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;False;True;False;False;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;33;-323.6454,159.9565;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
 Node;AmplifyShaderEditor.PannerNode;19;-1501.822,456.4295;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.RangedFloatNode;26;-1285.96,603.8638;Inherit;False;Property;_Inten1;Inten;6;0;Create;True;0;0;0;False;0;False;4.825028;4.9;0;10;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;26;-1285.96,603.8638;Inherit;False;Property;_Inten1;Inten;6;0;Create;True;0;0;0;False;0;False;4.825028;10;0;10;0;1;FLOAT;0
 WireConnection;10;1;13;0
 WireConnection;13;0;12;0
 WireConnection;28;0;30;0
@@ -1594,9 +1696,10 @@ WireConnection;24;1;25;0
 WireConnection;18;0;27;0
 WireConnection;18;1;24;0
 WireConnection;1;2;33;0
+WireConnection;1;3;33;0
 WireConnection;33;0;31;0
 WireConnection;33;1;18;0
 WireConnection;19;0;17;0
 WireConnection;19;2;16;0
 ASEEND*/
-//CHKSM=12FF612EB827EEABA4423A18741293E9C809120F
+//CHKSM=80A8737E1DDCEDB22DFD5DE05DA458695B6C29EA

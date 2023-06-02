@@ -131,6 +131,11 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     [DrawIf("North", true)] public AnimationReferenceAsset NorthMixIdle;
     [DrawIf("South", true)] public AnimationReferenceAsset SouthMixIdle;
 
+    [Space, Header("MixMove")]
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset MixMove;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthMixMove;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthMixMove;
+
 
 
     private TrackEntry track;
@@ -158,7 +163,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     }
     private StateMachine.State cs;
     private TrackEntry t;
-
+    [Space(10f)]
     public bool isFillWhite;
 
     public bool UpdateAnimsOnStateChange = true;
@@ -556,49 +561,49 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 {
                     if (DirectionState == direction3.up )
                     {
-                        if (playerController.yDir > 0 && NorthMoving != null)
+                        if (playerController.yDir > 0 && NorthMixMove != null)
                         {
-                            if (SecondTrack.Animation != NorthMoving.Animation)
+                            if (SecondTrack.Animation != NorthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMixMove, loop: true);
                             }
                         }
-                        else if (playerController.yDir < 0 && NorthMovingBack != null)
+                        else if (playerController.yDir < 0 && NorthMixMove != null)
                         {
-                            if (SecondTrack.Animation != NorthMovingBack.Animation)
+                            if (SecondTrack.Animation != NorthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMovingBack, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMixMove, loop: true);
                             }
                         }
                         else
                         {
-                            if (SecondTrack.Animation != NorthMoving.Animation)
+                            if (SecondTrack.Animation != NorthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMoving, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, NorthMixMove, loop: true);
                             }
                         }
                     }
                     else if (DirectionState == direction3.down)
                     {
-                        if (playerController.yDir < 0 && SouthMoving != null)
+                        if (playerController.yDir < 0 && SouthMixMove != null)
                         {
-                            if (SecondTrack.Animation != SouthMoving.Animation)
+                            if (SecondTrack.Animation != SouthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMixMove, loop: true);
                             }
                         }
-                        else if (playerController.yDir > 0 && SouthMovingBack != null)
+                        else if (playerController.yDir > 0 && SouthMixMove != null)
                         {
-                            if (SecondTrack.Animation != SouthMovingBack.Animation)
+                            if (SecondTrack.Animation != SouthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMovingBack, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMixMove, loop: true);
                             }
                         }
                         else
                         {
-                            if (SecondTrack.Animation != SouthMoving.Animation)
+                            if (SecondTrack.Animation != SouthMixMove.Animation)
                             {
-                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMoving, loop: true);
+                                SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, SouthMixMove, loop: true);
                             }
                         }
                     }
@@ -608,23 +613,23 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         {
                             if (playerController.xDir > 0)
                             {
-                                if (SecondTrack.Animation != MovingBack.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MovingBack, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
                             else if (playerController.xDir <= 0)
                             {
-                                if (SecondTrack.Animation != Moving.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
                             else
                             {
-                                if (SecondTrack.Animation != Moving.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
 
@@ -633,29 +638,29 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         {
                             if (playerController.xDir < 0)
                             {
-                                if (SecondTrack.Animation != MovingBack.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MovingBack, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
                             else if (playerController.xDir >= 0)
                             {
-                                if (SecondTrack.Animation != Moving.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
                             else
                             {
-                                if (SecondTrack.Animation != Moving.Animation)
+                                if (SecondTrack.Animation != MixMove.Animation)
                                 {
-                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                                    SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                                 }
                             }
                         }
-                        else if (MovingBack == null)
+                        else if (MixMove == null)
                         {
-                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, Moving, loop: true);
+                            SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, MixMove, loop: true);
                         }
                     }
 

@@ -61,6 +61,7 @@ public class PlayerController : BaseMonoBehaviour
     public GameObject[] Skills;
 
     public Transform muzzle;
+    public Transform muzzleEnd;
     public Transform muzzleBone;
     public Transform GrinderControl;
 
@@ -275,7 +276,6 @@ public class PlayerController : BaseMonoBehaviour
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
-            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
 
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
@@ -286,6 +286,7 @@ public class PlayerController : BaseMonoBehaviour
         }
         else
         {
+            
             if (yDir > 0)
             {
                 if (xDir < 0)
@@ -293,8 +294,7 @@ public class PlayerController : BaseMonoBehaviour
                 else if (xDir > 0)
                     DodgeAngle = 45;
                 else
-                {
-                    state.facingAngle = 90;
+                {                   
                     DodgeAngle = 90f;
                 }
             }
@@ -306,7 +306,6 @@ public class PlayerController : BaseMonoBehaviour
                     DodgeAngle = 315;
                 else
                 {
-                    state.facingAngle = 270;
                     DodgeAngle = 270;
                 }
             }
@@ -314,18 +313,11 @@ public class PlayerController : BaseMonoBehaviour
             {
                 if (xDir < 0)
                 {
-                    muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
-                    state.facingAngle = 180;
                     DodgeAngle = 180;
                 }
                 else if (xDir > 0)
                 {
-                    muzzleBone.position = transform.position + new Vector3(1, 0, 0);
-                    state.facingAngle = 0;
                     DodgeAngle = 0;
-                }
-                else
-                {
                 }
             }
             if (BulletUI.activeSelf)
@@ -337,7 +329,10 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
+            state.facingAngle = DodgeAngle;
+            muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {

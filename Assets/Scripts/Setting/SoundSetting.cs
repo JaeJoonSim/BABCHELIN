@@ -18,6 +18,11 @@ public class SoundSetting : MonoBehaviour
     public Button BGMVolumeButton;
     public Button SFXVolumeButton;
 
+    private void Update()
+    {
+        buttonEnable();
+    }
+
     public void MasterVolumeButten()
     {
         MasterVolumeSlider.value = 0.0001f;
@@ -46,5 +51,35 @@ public class SoundSetting : MonoBehaviour
     public void SetSFXVolume()
     {
         audioMixer.SetFloat("SFX", Mathf.Log10(SFXVolumeSlider.value) * 20);
+    }
+
+    private void buttonEnable()
+    {
+        if (MasterVolumeSlider.value <= 0.0001f)
+        {
+            MasterVolumeButton.interactable = false;
+        }
+        else
+        {
+            MasterVolumeButton.interactable = true;
+        }
+
+        if (BGMVolumeSlider.value <= 0.0001f)
+        {
+            BGMVolumeButton.interactable = false;
+        }
+        else
+        {
+            BGMVolumeButton.interactable = true;
+        }
+
+        if (SFXVolumeSlider.value <= 0.0001f)
+        {
+            SFXVolumeButton.interactable = false;
+        }
+        else
+        {
+            SFXVolumeButton.interactable = true;
+        }
     }
 }

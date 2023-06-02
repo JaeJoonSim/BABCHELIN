@@ -17,7 +17,9 @@ public class PlayerUI : MonoBehaviour
 
     public Image UIHealthGauge;
     public Image UIHealthBackGauge;
+    public Slider UIHealthCutline;
     public Image UIBulletGauge;
+    public Slider UIBulletCutline;
     public Image UIUltimateGauge;
     public Transform BulletCanvas;
     private Image PlayerBulletGauge;
@@ -34,9 +36,7 @@ public class PlayerUI : MonoBehaviour
         PlayerUIBackground = this.transform.GetChild(0).transform;
         Debug.Log(PlayerUIBackground.gameObject.name);
 
-        //DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
-        //ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
-        playerController = GetComponentInParent<PlayerController>();
+        playerController = player.GetComponent<PlayerController>();
 
         PlayerBulletGauge = BulletCanvas.GetChild(1).GetComponent<Image>();
     }
@@ -51,7 +51,9 @@ public class PlayerUI : MonoBehaviour
     {
         UIHealthGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
         UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
+        UIHealthCutline.value = playerHealth.CurrentHP() / playerHealth.MaxHP();
         UIBulletGauge.fillAmount = playerController.BulletGauge / 1000f;
+        UIBulletCutline.value = playerController.BulletGauge / 1000f;
         UIUltimateGauge.fillAmount += Time.deltaTime / 10f;
 
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);

@@ -30,7 +30,8 @@ public class CookieMouse : UnitObject
 
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
-    [SerializeField] float AttackDistance = 1f;
+    [SerializeField] float AttackDistance;
+    [SerializeField] float hitDistance;
 
     [Space]
     [SerializeField] float patrolSpeed;
@@ -111,9 +112,10 @@ public class CookieMouse : UnitObject
             forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            state.LockStateChanges = false;
+            BodyHit();
         }
         if (health.CurrentHP() <= 0)
         {
@@ -300,9 +302,15 @@ public class CookieMouse : UnitObject
 
     private void Stop()
     {
-        if (agent! != null)
+        if (agent != null && agent.enabled)
             agent.isStopped = true;
         speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)

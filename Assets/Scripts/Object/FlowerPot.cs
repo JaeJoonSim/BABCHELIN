@@ -9,7 +9,8 @@ public class FlowerPot : UnitObject
     [SerializeField] float spawnRange;
     [SerializeField] GameObject[] mosterObject;
 
-    public GameObject brokenEffect;
+    public GameObject spawnEffect;
+    public GameObject BrokenEffect;
 
     public override void Update()
     {
@@ -23,7 +24,8 @@ public class FlowerPot : UnitObject
 
         if(health.CurrentHP() <= 0)
         {
-            brokenEffect.transform.position = transform.position;
+            GameObject brokenEffect = BrokenEffect;
+            brokenEffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
             Instantiate(brokenEffect);
             Destroy(gameObject);
         }
@@ -35,6 +37,8 @@ public class FlowerPot : UnitObject
         Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
 
         //GameObject spawnMonster = mosterObject[Random.Range(0, mosterObject.Length)];
+        spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
+        Instantiate(spawnEffect);
         GameObject spawnMonster = Instantiate(mosterObject[Random.Range(0, mosterObject.Length)], dropPosition, Quaternion.identity);
         //Instantiate(spawnMonster, dropPosition, Quaternion.identity);
         spawnMonster.transform.SetParent(transform.parent);

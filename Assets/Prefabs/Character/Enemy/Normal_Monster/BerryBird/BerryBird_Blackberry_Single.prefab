@@ -32,7 +32,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4265093594819362709}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.0543203, y: 1.5826817, z: 0}
+  m_LocalPosition: {x: 0.6036997, y: 0.6427847, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -145,15 +145,17 @@ MonoBehaviour:
   SpineTransform: {fileID: 9079983999551196370}
   target: {fileID: 0}
   detectionAttackRange: 3
+  hitDistance: 0.5
   AttackTimer: 0
+  Damaged: 1
   forceDir: 0
   xDir: 0
   yDir: 0
-  BulletObject: {fileID: 2862424241139748284, guid: cfb21486271d69042ac87f5958c3c122,
+  BulletObject: {fileID: 2862424241139748284, guid: 014bec0328210094dbbd074d737012fd,
     type: 3}
-  ExplosionEffect: {fileID: 5475312332936819876, guid: d4a00a43763349d45b84f4e30c7f0ce6,
+  ExplosionEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
     type: 3}
-  WaterEffect: {fileID: 7553270755714708806, guid: 1caf4234ca9be9e45844e7c1476d1bb1,
+  WaterEffect: {fileID: 9130698541118094153, guid: 15cfde079a9c60b4c8dc4a0fd20c82cd,
     type: 3}
 --- !u!114 &4265093594819362732
 MonoBehaviour:
@@ -233,7 +235,7 @@ Transform:
   m_GameObject: {fileID: 9079983999551196373}
   m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4265093594819362730}
@@ -397,6 +399,9 @@ MonoBehaviour:
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}
   SouthMixIdle: {fileID: 0}
+  MixMove: {fileID: 0}
+  NorthMixMove: {fileID: 0}
+  SouthMixMove: {fileID: 0}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
