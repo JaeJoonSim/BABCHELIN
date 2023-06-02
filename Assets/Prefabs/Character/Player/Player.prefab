@@ -8172,9 +8172,10 @@ Transform:
   m_LocalPosition: {x: 1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 3032504780592518868}
   m_Father: {fileID: 6160722344487673776}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6160722343163715410
 GameObject:
@@ -8701,12 +8702,14 @@ MonoBehaviour:
   absorbEffet: {fileID: 5729501917595095277}
   showAttack: 1
   BulletGauge: 1000
+  PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
   SkillIndex: 0
   Skills:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
   - {fileID: 2812988272092322134}
   muzzle: {fileID: 6160722344487673776}
+  muzzleEnd: {fileID: 6160722343070153728}
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
   BulletUI: {fileID: 276941507017972697}
@@ -9067,7 +9070,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3032504780592518868}
   - {fileID: 6160722343070153728}
   - {fileID: 3649855111917117966}
   m_Father: {fileID: 6160722343811252267}
@@ -9530,6 +9532,9 @@ MonoBehaviour:
   MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
   NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
   SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
+  MixMove: {fileID: 11400000, guid: 4194b92d5c4c3174a9703fda939a1d18, type: 2}
+  NorthMixMove: {fileID: 11400000, guid: eca123fb3d2504b4fabce709d2ac8265, type: 2}
+  SouthMixMove: {fileID: 11400000, guid: ad516c9c26804ce408c6707dc13699da, type: 2}
   isFillWhite: 1
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
@@ -13185,7 +13190,7 @@ PrefabInstance:
     - target: {fileID: 3649855110509168720, guid: c83979c80dd0cd24db857016fdcd4ce7,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3649855110509168720, guid: c83979c80dd0cd24db857016fdcd4ce7,
         type: 3}
@@ -13539,7 +13544,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 6160722344487673776}
+    m_TransformParent: {fileID: 6160722343070153728}
     m_Modifications:
     - target: {fileID: 417212771453791766, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
@@ -13829,7 +13834,7 @@ PrefabInstance:
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.8
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
@@ -14365,6 +14370,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Dialogue Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 4391702874851635626, guid: 8b2bb9bfcbeec6042b4635801d1fbdde,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b2bb9bfcbeec6042b4635801d1fbdde, type: 3}
