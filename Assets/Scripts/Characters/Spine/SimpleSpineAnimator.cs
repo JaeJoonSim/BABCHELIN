@@ -241,12 +241,13 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (cs != value)
             {
                 cs = value;
+
                 if (playerController == null)
                 {
                     UpdateAnimFromState();
                 }
-
             }
+
         }
     }
 
@@ -1364,6 +1365,17 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             return;
         }
 
+        SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
+        if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
+        {
+            return;
+        }
+
+        if (playerController != null)
+        {
+            playerController.facingAngle();
+        }
+
         if (AutomaticallySetFacing)
         {
             if (45 <= state.facingAngle && state.facingAngle <= 135)
@@ -1382,21 +1394,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             }
         }
 
-
-
-        SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
-        if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
-        {
-            return;
-        }
-
-
-
         CurrentState = state.CURRENT_STATE;
 
-
         if (playerController != null)
-        {
+        { 
             UpdateAnimFromFacing();
         }
     }
