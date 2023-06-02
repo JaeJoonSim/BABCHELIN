@@ -11,6 +11,7 @@ public class BossUI : MonoBehaviour
     public Image UIHealthGauge;
     public Slider UIHealthCutline;
     public Image UIDestroyGauge;
+    public Slider UIDestroyGaugeCutline;
     //public Image UIHealthBackGauge;
 
     // Start is called before the first frame update
@@ -39,6 +40,7 @@ public class BossUI : MonoBehaviour
         UIHealthGauge.fillAmount = bossHealth.CurrentHP() / bossHealth.MaxHP();
         UIHealthCutline.value = bossHealth.CurrentHP() / bossHealth.MaxHP();
         UIDestroyGauge.fillAmount = skunk.destructionGauge() / 5;
+        UIDestroyGaugeCutline.value = skunk.destructionGauge() / 5;
         //UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
     }
 }
