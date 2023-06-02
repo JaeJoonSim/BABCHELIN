@@ -420,7 +420,8 @@ public class BerryBird : UnitObject
     private void DeathEffect()
     {
         GameObject explosion = ExplosionEffect;
-        Instantiate(explosion, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+        explosion.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+        Instantiate(explosion);
         GameObject water = WaterEffect;
         water.transform.position = transform.position;
         Instantiate(water);
