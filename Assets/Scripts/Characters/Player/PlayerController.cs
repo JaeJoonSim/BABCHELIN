@@ -35,7 +35,7 @@ public class PlayerController : BaseMonoBehaviour
 
     //[Header("이동 체크")]
     [HideInInspector] public float forceDir;
-    [HideInInspector] public float speed;
+    public float speed;
     [HideInInspector] public float xDir;
     [HideInInspector] public float yDir;
 
@@ -55,7 +55,7 @@ public class PlayerController : BaseMonoBehaviour
     [Header("공격")]
     public bool showAttack = false;
     [DrawIf("showAttack", true)] public int BulletGauge;
-
+    [DrawIf("showAttack", true)] public bool PreesAttack;
     [DrawIf("showAttack", true)] public GameObject Attack;
     [DrawIf("showAttack", true)] public int SkillIndex;
     public GameObject[] Skills;
@@ -265,7 +265,7 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    private void facingAngle()
+    public void facingAngle()
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging &&
             (state.CURRENT_STATE == StateMachine.State.Attacking ||
@@ -319,6 +319,9 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     DodgeAngle = 0;
                 }
+                else
+                {
+                }
             }
             if (BulletUI.activeSelf)
             {
@@ -329,7 +332,9 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
-            state.facingAngle = DodgeAngle;
+            if(!PreesAttack && speed != 0)
+                state.facingAngle = DodgeAngle;
+
             muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
         muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
