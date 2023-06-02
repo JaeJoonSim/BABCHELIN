@@ -32,6 +32,7 @@ public class BerryBird : UnitObject
     private Transform flowerPot;
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
+    [SerializeField] float hitDistance;
 
     [Space]
     [SerializeField] float patrolSpeed;
@@ -119,12 +120,11 @@ public class BerryBird : UnitObject
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            state.LockStateChanges = false;
+            BodyHit();
         }
-
-        if(health.CurrentHP() <= 0)
+        if (health.CurrentHP() <= 0)
         {
             state.LockStateChanges = false;
         }
@@ -238,6 +238,7 @@ public class BerryBird : UnitObject
                         agent.SetDestination(target.position);
                     }
 
+                    aniCount = 1;
                     agent.speed = hitSpeed;
                     break;
                 case StateMachine.State.HitRight:
@@ -253,6 +254,7 @@ public class BerryBird : UnitObject
                         agent.SetDestination(target.position);
                     }
 
+                    aniCount = 1;
                     agent.speed = hitSpeed;
                     break;
 
@@ -380,6 +382,12 @@ public class BerryBird : UnitObject
     {
         agent.isStopped = true;
         speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
     private bool IsAttackAnimationPlaying()

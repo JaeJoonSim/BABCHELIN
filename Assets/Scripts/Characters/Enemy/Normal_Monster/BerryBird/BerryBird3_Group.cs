@@ -30,7 +30,12 @@ public class BerryBird3_Group : UnitObject
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
-    //[SerializeField] float moveTime = 0f;
+    [SerializeField] float hitDistance;
+
+    [Space]
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float hitSpeed;
 
     [Space]
     [SerializeField] float AttackDelay;
@@ -124,9 +129,9 @@ public class BerryBird3_Group : UnitObject
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            state.LockStateChanges = false;
+            BodyHit();
         }
         if (health.CurrentHP() <= 0)
         {
@@ -141,15 +146,14 @@ public class BerryBird3_Group : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    agent.speed = 1f;
-                    idleTimer += Time.deltaTime;
-                    time = 0;
+                    Stop();
+                    time += Time.deltaTime;
 
-                    if (!isPlayerInRange && idleTimer >= idleToPatrolDelay)
+                    if (!isPlayerInRange && time >= idleToPatrolDelay)
                     {
                         patrolMoveDuration = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
-                        idleTimer = 0f;
+                        time = 0f;
                     }
 
                     if (isPlayerInRange)
@@ -160,7 +164,7 @@ public class BerryBird3_Group : UnitObject
                     break;
 
                 case StateMachine.State.Moving:
-                    agent.speed = 3f;
+                    agent.speed = chaseSpeed;
                     AttackTimer = 0f;
                     if (Time.timeScale == 0f)
                     {
@@ -201,8 +205,7 @@ public class BerryBird3_Group : UnitObject
                     break;
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
-                    agent.speed = 0f;
-                    agent.isStopped = true;
+                    Stop();
                     AttackTimer += Time.deltaTime;
 
                     if (transform.position.x <= target.position.x)  //보는 방향
@@ -299,16 +302,16 @@ public class BerryBird3_Group : UnitObject
             patrolTargetPosition = GetRandomPositionInPatrolRange();
         }
 
-        if (patrolTimer < patrolMoveDuration)
+        if (time < patrolMoveDuration)
         {
             agent.SetDestination(patrolTargetPosition);
             agent.isStopped = false;
+            agent.speed = patrolSpeed;
         }
         else
         {
-            agent.isStopped = true;
             aniCount = 0;
-            patrolTimer = 0f;
+            time = 0f;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
@@ -344,6 +347,12 @@ public class BerryBird3_Group : UnitObject
     {
         agent.isStopped = true;
         speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)

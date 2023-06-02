@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3138269602354541805}
   - component: {fileID: 1796185666240072979}
   - component: {fileID: 816244565488904000}
+  - component: {fileID: 268766033630514265}
   m_Layer: 0
   m_Name: RBBBackground Water Effect
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6571891269655631377}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 4.9241285, y: -0.8179861, z: -0.03333154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -4921,6 +4922,19 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - 21f70a4093471484882e2e1fb7bc2ae0: {fileID: 6571891269655631377}
+--- !u!114 &268766033630514265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6571891269655631377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e334feff158004abc91fe4a9a620b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 2.7
 --- !u!1 &8969277166469402055
 GameObject:
   m_ObjectHideFlags: 0

@@ -81,7 +81,7 @@ SpriteRenderer:
   m_Size: {x: 1.14, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!1 &4265093594819362709
@@ -194,6 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 3
   currentHealth: 0
+  backHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
   isPoisoned: 0
@@ -201,6 +202,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  doNotChange: 0
   isMonster: 0
 --- !u!114 &4265093594819362732
 MonoBehaviour:
@@ -246,6 +248,10 @@ MonoBehaviour:
   - {fileID: 3275738440347693820, guid: 4878a6185c7ba7048af9eabe28519867, type: 3}
   - {fileID: 3275738440347693820, guid: 064558c4a29274c4081cc92efb2dcc33, type: 3}
   - {fileID: 4262851435986658342, guid: 4a5315e621e07694188400eeeca5d3f6, type: 3}
+  spawnEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
+    type: 3}
+  BrokenEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
+    type: 3}
 --- !u!195 &4265093594819362722
 NavMeshAgent:
   m_ObjectHideFlags: 0

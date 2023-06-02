@@ -11,11 +11,14 @@ public class BerryBird3_Single : UnitObject
 
     [SerializeField] Transform target;
     [SerializeField] float detectionAttackRange;
+    [SerializeField] float hitDistance;
     //[SerializeField] float moveTime = 0f;
 
     [Space]
     [SerializeField] float AttackTimer;
     private float time = 0;
+
+    public float Damaged = 1f;
 
     private Health playerHealth;
     private NavMeshAgent agent;
@@ -70,9 +73,9 @@ public class BerryBird3_Single : UnitObject
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            state.LockStateChanges = false;
+            BodyHit();
         }
         if (health.CurrentHP() <= 0)
         {
@@ -157,6 +160,19 @@ public class BerryBird3_Single : UnitObject
                     break;
             }
         }
+    }
+
+
+    private void Stop()
+    {
+        agent.isStopped = true;
+        speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
 

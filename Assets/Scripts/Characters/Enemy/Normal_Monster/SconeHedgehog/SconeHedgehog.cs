@@ -57,6 +57,7 @@ public class SconeHedgehog : UnitObject
     private Health playerHealth;
     private Health thisHealth;
     private NavMeshAgent agent;
+    private Collider2D col;
     private float distanceToPlayer;
     Transform moveTarget;
     Vector3 directionToTarget;
@@ -97,6 +98,7 @@ public class SconeHedgehog : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         agent.updateRotation = false;
@@ -544,6 +546,7 @@ public class SconeHedgehog : UnitObject
         speed = 0f;
         agent.isStopped = true;
         agent.enabled = false;
+        col.enabled = false;
         Invoke("DeathEffect", 1.9667f);
         Destroy(gameObject, 1.9667f);
     }
