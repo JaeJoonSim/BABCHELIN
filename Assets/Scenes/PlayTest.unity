@@ -241,7 +241,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &361320891
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,6 +494,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
+      value: 7ea6646e-c8c7-420d-b77d-ebcf6fafdef7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
+      value: Action/Ultimate[/Keyboard/x]
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
+      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 247336170792578375, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1284,6 +1308,21 @@ PrefabInstance:
       propertyPath: muzzleEnd
       value: 
       objectReference: {fileID: 1685257775}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: BaseStatus.dodgeTime
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: BaseStatus.dodgeSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: BaseStatus.dodgeDistance
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252264, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_Name

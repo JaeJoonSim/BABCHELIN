@@ -163,6 +163,18 @@ public class PlayerAction : BaseMonoBehaviour
         }
     }
 
+    public void UltimateIdx(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            //Debug.Log("mouse down");
+        }
+        else if (context.canceled)
+        {
+            //Debug.Log("mouse UP");
+        }
+    }
+
     void getMouseInfo()
     {
         toMousedirection = Utils.GetMouseDirection(transform.position);
@@ -185,12 +197,9 @@ public class PlayerAction : BaseMonoBehaviour
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
         {
             DodgeQueued = false;
-            _ = state.facingAngle;
-            playerController.forceDir = ((playerController.xDir != 0f || playerController.yDir != 0f) ? Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir)) : state.facingAngle);
-            playerController.speed = playerController.TotalStatus.dodgeSpeed * 1.2f;
             state.CURRENT_STATE = StateMachine.State.Dodging;
             DodgeDelay = playerController.TotalStatus.dodgeCoolDown;
-
+            playerController.dodgeSpeed = playerController.TotalStatus.dodgeDistance / playerController.TotalStatus.dodgeTime;
             if (playerController.absorbEffet != null)
             {
                 playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
