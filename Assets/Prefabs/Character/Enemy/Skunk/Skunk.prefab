@@ -5164,7 +5164,7 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -5594,6 +5594,9 @@ MonoBehaviour:
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}
   SouthMixIdle: {fileID: 0}
+  MixMove: {fileID: 0}
+  NorthMixMove: {fileID: 0}
+  SouthMixMove: {fileID: 0}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0
@@ -7522,12 +7525,17 @@ PrefabInstance:
     - target: {fileID: 8426998233025581409, guid: 50e7b241f2606a44a97c68a6843a5069,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.24056602
+      value: 0.9811321
       objectReference: {fileID: 0}
     - target: {fileID: 8426998233025581409, guid: 50e7b241f2606a44a97c68a6843a5069,
         type: 3}
       propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.7972388
+      value: 0.31007475
+      objectReference: {fileID: 0}
+    - target: {fileID: 8426998233025581409, guid: 50e7b241f2606a44a97c68a6843a5069,
+        type: 3}
+      propertyPath: InitialModule.startColor.maxColor.r
+      value: 0.84955233
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 50e7b241f2606a44a97c68a6843a5069, type: 3}
