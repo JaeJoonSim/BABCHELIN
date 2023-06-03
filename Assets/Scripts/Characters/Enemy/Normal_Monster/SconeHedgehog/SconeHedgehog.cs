@@ -24,6 +24,7 @@ public class SconeHedgehog : UnitObject
     }
     public AnimationReferenceAsset Idle;
     public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset StopMoving;
     public AnimationReferenceAsset Dash;
@@ -54,6 +55,12 @@ public class SconeHedgehog : UnitObject
     private bool isLand = false;
 
     [Space]
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float hitSpeed;
+
+
+    [Space]
     private Health playerHealth;
     private Health thisHealth;
     private NavMeshAgent agent;
@@ -72,8 +79,6 @@ public class SconeHedgehog : UnitObject
     private float idleToPatrolDelay = 0f;
     [SerializeField] float idleMinTime;
     [SerializeField] float idleMaxTime;
-    private float idleTimer;
-    private float patrolTimer;
     private Vector3 patrolStartPosition;
     private Vector3 patrolTargetPosition;
 
@@ -135,13 +140,13 @@ public class SconeHedgehog : UnitObject
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-                    agent.isStopped = true;
-                    speed = 0f;
-                    idleTimer += Time.deltaTime;
-                    if (idleTimer >= idleToPatrolDelay)
+                    Stop();
+                    time += Time.deltaTime;
+                    if (time >= idleToPatrolDelay)
                     {
+                        patrolToIdleDelay = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
-                        idleTimer = 0f;
+                        time = 0f;
                     }
 
                     if (distanceToPlayer <= detectionRange)
@@ -160,7 +165,7 @@ public class SconeHedgehog : UnitObject
 
                 case StateMachine.State.Moving:
                     agent.isStopped = false;
-                    agent.speed = 3;
+                    agent.speed = chaseSpeed;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     if (Time.timeScale == 0f)
                     {
@@ -190,18 +195,18 @@ public class SconeHedgehog : UnitObject
                             state.CURRENT_STATE = StateMachine.State.Dash;
                         }
                     }
-                    if (detectionRange < distanceToPlayer)
-                    {
-                        time = 0;
-                        state.CURRENT_STATE = StateMachine.State.StopMoving;
-                    }
+
+                    //if (detectionRange < distanceToPlayer)
+                    //{
+                    //    time = 0;
+                    //    state.CURRENT_STATE = StateMachine.State.StopMoving;
+                    //}
 
                     aniCount = 1;
                     break;
 
                 case StateMachine.State.StopMoving:
-                    agent.isStopped = true;
-                    agent.speed = 0;
+                    Stop();
                     time += Time.deltaTime;
                     if (StopMoving != null)
                     {
@@ -289,6 +294,7 @@ public class SconeHedgehog : UnitObject
                     break;
 
                 case StateMachine.State.DashDelay:
+                    Stop();
                     time += Time.deltaTime;
                     if (StopDash != null)
                     {
@@ -319,6 +325,7 @@ public class SconeHedgehog : UnitObject
                     break;
 
                 case StateMachine.State.Delay:
+                    Stop();
                     time += Time.deltaTime;
                     if (StopDash != null && state.PREVIOUS_STATE == StateMachine.State.Dash)
                     {
@@ -415,6 +422,7 @@ public class SconeHedgehog : UnitObject
                     break;
 
                 case StateMachine.State.JumpDelay:
+                    Stop();
                     time += Time.deltaTime;
 
                     if (time >= 1f)
@@ -473,20 +481,21 @@ public class SconeHedgehog : UnitObject
 
     private void Patrol()
     {
-        patrolTimer += Time.deltaTime;
+        time += Time.deltaTime;
 
         if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
         {
             patrolTargetPosition = GetRandomPositionInPatrolRange();
         }
 
-        if (patrolTimer < patrolToIdleDelay)
+        if (time < patrolToIdleDelay)
         {
             agent.SetDestination(patrolTargetPosition);
+            agent.speed = patrolSpeed;
         }
         else
         {
-            patrolTimer = 0f;
+            time = 0f;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
             state.CURRENT_STATE = StateMachine.State.Idle;
         }

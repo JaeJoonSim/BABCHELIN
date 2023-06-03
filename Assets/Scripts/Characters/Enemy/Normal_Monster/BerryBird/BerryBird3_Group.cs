@@ -21,6 +21,7 @@ public class BerryBird3_Group : UnitObject
         }
     }
     public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
     private float aniCount = 0;
 
     public float Damaged = 1f;

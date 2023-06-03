@@ -24,6 +24,7 @@ public class SconeHedgehog2 : UnitObject
     }
     public AnimationReferenceAsset Idle;
     public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
     public AnimationReferenceAsset StartMoving;
     public AnimationReferenceAsset StopMoving;
     public AnimationReferenceAsset Dash;
@@ -145,6 +146,7 @@ public class SconeHedgehog2 : UnitObject
                     idleTimer += Time.deltaTime;
                     if (idleTimer >= idleToPatrolDelay)
                     {
+                        patrolToIdleDelay = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         idleTimer = 0f;
                     }
