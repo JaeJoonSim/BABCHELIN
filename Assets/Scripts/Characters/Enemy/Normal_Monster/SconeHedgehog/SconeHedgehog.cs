@@ -90,8 +90,10 @@ public class SconeHedgehog : UnitObject
 
     public GameObject BulletObject;
 
+    public GameObject DashEffect;
     public GameObject LandEffect;
     public GameObject DefaulDeathEffect;
+    public GameObject WaterEffect;
     public GameObject BreakEffect;
 
     private void Start()
@@ -116,6 +118,8 @@ public class SconeHedgehog : UnitObject
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
         patrolTargetPosition = GetRandomPositionInPatrolRange();
+
+        DashEffect.SetActive(false);
 
         health.OnHit += OnHit;
         health.OnDie += OnDie;
@@ -241,6 +245,7 @@ public class SconeHedgehog : UnitObject
                 case StateMachine.State.Moving:
                     agent.isStopped = false;
                     agent.speed = chaseSpeed;
+                    state.LockStateChanges = true;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     if (Time.timeScale == 0f)
                     {
@@ -259,6 +264,7 @@ public class SconeHedgehog : UnitObject
                     agent.SetDestination(target.position);
                     if (distanceToPlayer <= detectionAttackRange)
                     {
+                        state.LockStateChanges = false;
                         shotPerDash = UnityEngine.Random.Range(0, 10);
                         if (shotPerDash < dashPer)
                         {
@@ -319,6 +325,7 @@ public class SconeHedgehog : UnitObject
 
                     if (time <= dashTime)
                     {
+                        DashEffect.SetActive(true);
                         if (distanceToPlayer <= attackDistance)
                         {
                             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
@@ -328,6 +335,7 @@ public class SconeHedgehog : UnitObject
                     {
                         thisHealth.isInvincible = false;
                         state.LockStateChanges = false;
+                        DashEffect.SetActive(false);
                         time = 0;
                         aniCount = 0;
                         dashCount++;
@@ -603,11 +611,23 @@ public class SconeHedgehog : UnitObject
         else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {
             isLand = true;
+
+            if (state.CURRENT_STATE == StateMachine.State.Jump)
+            {
+                Debug.Log("Land");
+                GameObject landeffect = LandEffect;
+                landeffect.transform.position = transform.position;
+                Instantiate(landeffect);
+            }
+
             if (distanceToPlayer < jumpDamageRange)
             {
-                isLand = true;
                 playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
             }
+        }
+        else if(e.Data.Name == "dash_middle")
+        {
+            DashEffect.SetActive(true);
         }
     }
 
@@ -629,6 +649,9 @@ public class SconeHedgehog : UnitObject
         GameObject breakEffect = BreakEffect;
         breakEffect.transform.position = transform.position;
         Instantiate(breakEffect);
+        GameObject watereffect = WaterEffect;
+        watereffect.transform.position = transform.position;
+        Instantiate(watereffect);
     }
 
 

@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 1027509913824273922}
   - component: {fileID: 1027509913824273921}
   - component: {fileID: 1027509913824273920}
+  - component: {fileID: -4673938292044602856}
   m_Layer: 0
-  m_Name: Bear Jump Land Effect
+  m_Name: Hedgehog Jump Land Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,9 +27,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027509913824273927}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.83206, y: 0.83206, z: 0.83206}
-  m_ConstrainProportionsScale: 0
+  m_LocalPosition: {x: 15.251042, y: -3.0321012, z: -0.033331275}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1027509914822682425}
   m_Father: {fileID: 0}
@@ -4871,6 +4872,19 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-4673938292044602856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1027509913824273927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7e334feff158004abc91fe4a9a620b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  destroyTime: 1
 --- !u!1 &1027509914822682424
 GameObject:
   m_ObjectHideFlags: 0
