@@ -168,6 +168,9 @@ public class PlayerAction : BaseMonoBehaviour
         if (context.performed)
         {
             //Debug.Log("mouse down");
+
+            playerController.addUltIdx();
+
         }
         else if (context.canceled)
         {

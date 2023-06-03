@@ -8478,9 +8478,9 @@ MonoBehaviour:
     hpMax: 100
     hpRegen: 30
     def: 0
-    movSpd: 5
+    movSpd: 6
     dodgeCoolDown: 0.5
-    dodgeTime: 0.3
+    dodgeTime: 1
     dodgeDistance: 3
     absorbAngle: 30
     absorbRange: 5
@@ -8698,14 +8698,14 @@ MonoBehaviour:
   speed: 0
   xDir: 0
   yDir: 0
-  showDodge: 1
+  showDodge: 0
   dodgeTime: 0
   dodgeSpeed: 0
   DodgeAngle: 0
   DodgeDuration: 0.5
-  showAbsorb: 1
+  showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
-  showAttack: 1
+  showAttack: 0
   BulletGauge: 1000
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
@@ -8718,7 +8718,7 @@ MonoBehaviour:
   muzzleEnd: {fileID: 6160722343070153728}
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
-  showUltimate: 0
+  showUltimate: 1
   UltObj: {fileID: 0}
   UltIdx: 0
   BulletUI: {fileID: 276941507017972697}
@@ -8882,13 +8882,13 @@ MonoBehaviour:
     m_ActionName: Action/New action
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
-        m_Mode: 1
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: UltimateIdx
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -14107,7 +14107,7 @@ PrefabInstance:
     - target: {fileID: 6659255904649272495, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6659255905257698177, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}

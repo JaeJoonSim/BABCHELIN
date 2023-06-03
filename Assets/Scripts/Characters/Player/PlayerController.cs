@@ -73,8 +73,8 @@ public class PlayerController : BaseMonoBehaviour
 
     [Header("±Ã±Ø±â")]
     public bool showUltimate = false;
-    [DrawIf("showMuzzle", true)] public GameObject UltObj;
-    [DrawIf("showMuzzle", true)] public int UltIdx;
+    [DrawIf("showUltimate", true)] public GameObject UltObj;
+    [DrawIf("showUltimate", true)] public int UltIdx;
 
     public GameObject BulletUI;
     private float fadeTime = 0;
