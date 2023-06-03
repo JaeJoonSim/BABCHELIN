@@ -139,6 +139,8 @@ public class Skunk : UnitObject
     public GameObject objectToSpawnDuringOutburst;
     private int lastHealthLine;
 
+    private BossSounds bossSounds;
+
     private void Start()
     {
         if (target == null)
@@ -148,6 +150,7 @@ public class Skunk : UnitObject
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+        bossSounds = GetComponent<BossSounds>();
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -266,6 +269,7 @@ public class Skunk : UnitObject
                 case StateMachine.State.PhaseChange:
                     if (isPhaseChanged)
                     {
+                        bossSounds.PlayBossSound(bossSounds.skunk_Explosion);
                         currentPhase++;
                         patternManager.basicPatterns.Clear();
                         patternManager.patternList.Clear();
