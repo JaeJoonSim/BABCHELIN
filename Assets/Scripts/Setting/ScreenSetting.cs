@@ -8,12 +8,8 @@ public class ScreenSetting : MonoBehaviour
 {
     [SerializeField]private int resolution;
     public TMP_Text resolutionText;
-    public Button resolutionLeftButton;
-    public Button resolutionRightButton;
     [SerializeField] private int screenType;
     public TMP_Text screenTypeText;
-    public Button screenTypeLeftButton;
-    public Button screenTypeRightButton;
     public bool isFullscreen = true;
 
 
