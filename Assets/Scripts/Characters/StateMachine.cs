@@ -49,6 +49,7 @@ public class StateMachine : MonoBehaviour
         Landing = 41,
         Notice = 42,
         StartMoving = 43,
+        Spawn = 44,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

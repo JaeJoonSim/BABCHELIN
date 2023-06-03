@@ -22,11 +22,19 @@ public class ButterCat : UnitObject
             return _anim;
         }
     }
+    public AnimationReferenceAsset Spawn;
+    public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Runaway;
     public AnimationReferenceAsset StartDefend;
     public AnimationReferenceAsset Defend;
     public AnimationReferenceAsset StopDefend;
-    private float aniCount = 1;
+    private float aniCount = 0;
 
+
+    [Space]
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float runawaySpeed;
+    [SerializeField] float hitSpeed;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
@@ -50,6 +58,17 @@ public class ButterCat : UnitObject
     Vector3 directionToPoint;
 
     [Space]
+    [SerializeField] float patrolRange = 10f;
+    private float patrolToIdleDelay = 0f;
+    [SerializeField] float patrolMinTime;
+    [SerializeField] float patrolMaxTime;
+    private float idleToPatrolDelay = 0f;
+    [SerializeField] float idleMinTime;
+    [SerializeField] float idleMaxTime;
+    private Vector3 patrolStartPosition;
+    private Vector3 patrolTargetPosition;
+
+    [Space]
     private float runToAttackDelay;
     [SerializeField] float runMinTime;
     [SerializeField] float runMaxTime;
@@ -68,7 +87,9 @@ public class ButterCat : UnitObject
     private int ObjectRand;
     public GameObject DestructionObject;
     public GameObject BombObject;
-    public GameObject ExplosionEffect;
+
+    public GameObject LandEffect;
+    public GameObject DefaultDeathEffect;
 
     Vector3 direction;
 
@@ -86,6 +107,10 @@ public class ButterCat : UnitObject
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
+
+        idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+        patrolStartPosition = transform.position;
+        patrolTargetPosition = GetRandomPositionInPatrolRange();
 
         health.OnDie += OnDie;
         spineAnimation.AnimationState.Event += OnSpineEvent;
@@ -118,15 +143,25 @@ public class ButterCat : UnitObject
         {
             switch (state.CURRENT_STATE)
             {
-                case StateMachine.State.Idle:
+                case StateMachine.State.Spawn:
+                    if (Spawn != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Spawn, loop: false);
+                            aniCount++;
+                        }
+                    }
+
                     time += Time.deltaTime;
+                    state.LockStateChanges = true;
                     agent.enabled = false;
-                    health.isInvincible = true;
                     if (time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
+                        aniCount = 0;
                         agent.enabled = true;
-                        health.isInvincible = false;
+                        state.LockStateChanges = false;
                         runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
@@ -148,7 +183,52 @@ public class ButterCat : UnitObject
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
+                case StateMachine.State.Idle:
+                    Stop();
+                    time += Time.deltaTime;
+                    if (time >= idleToPatrolDelay)
+                    {
+                        patrolToIdleDelay = UnityEngine.Random.Range(patrolMinTime, patrolMaxTime);
+                        state.CURRENT_STATE = StateMachine.State.Patrol;
+                        time = 0f;
+                    }
+
+                    if (distanceToPlayer <= detectionRange)
+                    {
+                        time = 0f;
+                        aniCount = 0;
+                        state.CURRENT_STATE = StateMachine.State.Notice;
+                    }
+
+                    SpineTransform.localPosition = Vector3.zero;
+                    break;
+
+
+                case StateMachine.State.Patrol:
+                    if (Walk != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
+                            aniCount++;
+                        }
+                    }
+                    agent.isStopped = false;
+                    Patrol();
+                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                    break;
+
+
                 case StateMachine.State.Runaway:
+                    if (Runaway != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Runaway, loop: true);
+                            aniCount++;
+                        }
+                    }
+
                     if (transform.position.x >= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -187,11 +267,11 @@ public class ButterCat : UnitObject
                     state.LockStateChanges = true;
                     if (StartDefend != null || Defend != null)
                     {
-                        if (aniCount > 0)
+                        if (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, StartDefend, loop: false);
                             anim.AnimationState.AddAnimation(AnimationTrack, Defend, loop: true, 0f);
-                            aniCount--;
+                            aniCount++;
                         }
                     }
 
@@ -201,7 +281,7 @@ public class ButterCat : UnitObject
                     {
                         state.LockStateChanges = false;
                         time = 0;
-                        aniCount = 1;
+                        aniCount = 0;
                         state.CURRENT_STATE = StateMachine.State.DefendDelay;
                     }
                     break;
@@ -210,10 +290,10 @@ public class ButterCat : UnitObject
                     state.LockStateChanges = true;
                     if (StopDefend != null)
                     {
-                        if (aniCount > 0)
+                        if (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, StopDefend, loop: false);
-                            aniCount--;
+                            aniCount++;
                         }
                     }
 
@@ -222,7 +302,7 @@ public class ButterCat : UnitObject
                     {
                         state.LockStateChanges = false;
                         time = 0;
-                        aniCount = 1;
+                        aniCount = 0;
                         health.isInvincible = false;
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
@@ -276,17 +356,66 @@ public class ButterCat : UnitObject
     private void RunAway()
     {
         time += Time.deltaTime;
-        agent.speed = 1.5f;
+        agent.speed = runawaySpeed;
         directionToPoint = (target.position - transform.position).normalized;
         agent.SetDestination(transform.position - directionToPoint);
         if (time > runToAttackDelay)
         {
             time = 0;
+            aniCount = 0;
             runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
             ObjectRand = UnityEngine.Random.Range(0, 10);
             Debug.Log(ObjectRand);
             state.CURRENT_STATE = StateMachine.State.Attacking;
         }
+    }
+
+    private void Patrol()
+    {
+        time += Time.deltaTime;
+
+        if (transform.position.x <= patrolTargetPosition.x)  //보는 방향
+        {
+            this.transform.localScale = new Vector3(1f, 1f, 1f);
+        }
+        else
+        {
+            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+        }
+
+        if (Vector3.Distance(transform.position, patrolTargetPosition) < 0.5f)
+        {
+            patrolTargetPosition = GetRandomPositionInPatrolRange();
+        }
+
+        if (time < patrolToIdleDelay)
+        {
+            agent.SetDestination(patrolTargetPosition);
+            agent.speed = patrolSpeed;
+        }
+        else
+        {
+            time = 0f;
+            aniCount = 0;
+            idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+
+        if (distanceToPlayer <= detectionRange)
+        {
+            time = 0;
+            aniCount = 0;
+            state.CURRENT_STATE = StateMachine.State.Notice;
+        }
+    }
+
+    private Vector3 GetRandomPositionInPatrolRange()
+    {
+        Vector3 randomDirection = UnityEngine.Random.insideUnitSphere * patrolRange;
+        randomDirection += patrolStartPosition;
+        NavMeshHit hit;
+        NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
+        return hit.position;
     }
 
     private void Stop()
@@ -315,6 +444,15 @@ public class ButterCat : UnitObject
             SpawnBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
             Instantiate(SpawnBullet);
         }
+        else if (e.Data.Name == "land" || e.Data.Name == "Land")
+        {
+            if(state.CURRENT_STATE == StateMachine.State.Spawn)
+            {
+                GameObject landeffect = LandEffect;
+                landeffect.transform.position = transform.position;
+                Instantiate(landeffect);
+            }
+        }
     }
 
     public void OnDie()
@@ -326,7 +464,7 @@ public class ButterCat : UnitObject
 
     private void DeathEffect()
     {
-        GameObject explosion = ExplosionEffect;
+        GameObject explosion = DefaultDeathEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
     }
