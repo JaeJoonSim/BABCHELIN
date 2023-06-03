@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using static SimpleSpineAnimator;
 
 public class PlayerController : BaseMonoBehaviour
 {
@@ -286,6 +287,11 @@ public class PlayerController : BaseMonoBehaviour
                 BulletUI.GetComponent<CanvasGroup>().alpha = 1;
             }
         }
+        else if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
+            state.CURRENT_STATE == StateMachine.State.HitRight)
+        {
+            return;
+        }
         else
         {
             
@@ -343,6 +349,7 @@ public class PlayerController : BaseMonoBehaviour
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
+
         if (!health.isInvincible)
         {
             return;
@@ -357,6 +364,20 @@ public class PlayerController : BaseMonoBehaviour
             state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
         }
         forceDir = state.facingAngle + 180f;
+
+        if (90 < state.facingAngle && state.facingAngle < 270)
+        {
+            state.facingAngle = 180;
+        }
+        else if (state.facingAngle <= 90 || state.facingAngle >= 270)
+        {
+            state.facingAngle = 0;
+        }
+
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+        muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
+
+        
         if (type == Health.AttackType.Normal)
         {
             CameraManager.shakeCamera(10f, 0f - state.facingAngle);

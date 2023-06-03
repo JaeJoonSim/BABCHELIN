@@ -398,12 +398,9 @@ public class PlayerAction : BaseMonoBehaviour
             spawnPos.z = -0.1f;
             switch (state.CURRENT_STATE)
             {
-
                 case StateMachine.State.Attacking:
-                    if (trackEntry.TrackTime > 0.02)
+                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
                         return;
-
-
                     //float anglet = state.facingAngle - 15;
                     playerController.addBullet(-playerController.TotalStatus.bulletCost);
                     Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>();
@@ -415,7 +412,7 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case StateMachine.State.Skill:
 
-                    if (trackEntry.TrackTime > 0.525)
+                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
                         return;
                     playerController.addBullet(-
                         Instantiate(playerController.Skills[playerController.SkillIndex], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost);

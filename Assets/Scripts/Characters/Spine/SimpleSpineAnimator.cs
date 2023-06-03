@@ -782,70 +782,58 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
                     break;
                 case StateMachine.State.Attacking:
-                    
+                    if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
+                        curAnimTime = Track.TrackTime * anim.skeleton.Data.Fps;
                     if (DirectionState == direction3.up && NorthAttack != null)
                     {
                         if (Track.Animation != NorthAttack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else if (DirectionState == direction3.down && SouthAttack != null)
                     {
                         if (Track.Animation != SouthAttack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else
                     {
                         if (Track.Animation != Attack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
-
+                    Track.TrackTime = curAnimTime / anim.skeleton.Data.Fps;
                     break;
                 case StateMachine.State.Skill:
+
+                    if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
+                        curAnimTime = Track.TrackTime * anim.skeleton.Data.Fps;
+
                     if (DirectionState == direction3.up && NorthSkill != null)
                     {
                         if (Track.Animation != NorthSkill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthSkill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else if (DirectionState == direction3.down && SouthSkill != null)
                     {
                         if (Track.Animation != SouthSkill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthSkill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else
                     {
                         if (Track.Animation != Skill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, Skill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
+                    Track.TrackTime = curAnimTime / anim.skeleton.Data.Fps;
                     break;
                 case StateMachine.State.Skill2:
                     if (DirectionState == direction3.up && NorthSkill2 != null)
