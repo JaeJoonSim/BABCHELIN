@@ -169,19 +169,18 @@ MonoBehaviour:
   Idle: {fileID: 11400000, guid: 97cb85d969f138543a43a4c63f6e0ffe, type: 2}
   Walk: {fileID: 11400000, guid: cfe5e2463474ed34495602a4b4994c61, type: 2}
   Notice: {fileID: 11400000, guid: dfac4c915bd4dd5448a097f3cf35ea85, type: 2}
-  StartMoving: {fileID: 11400000, guid: 1e45be187d0680243ab51b76b10f9401, type: 2}
-  StopMoving: {fileID: 11400000, guid: 40e5d80ba6aa2bf43ada7b94a76c7eab, type: 2}
+  StartMoving: {fileID: 11400000, guid: 25093e2314aa6dc4f8f85349fb246332, type: 2}
   Dash: {fileID: 11400000, guid: afbdd85ad93fa1c4fb89fb6981a7204e, type: 2}
   StopDash: {fileID: 11400000, guid: 9ac670328c1c789409bd26d6f2f2e7ca, type: 2}
   Jump: {fileID: 11400000, guid: 8db6127bf68359044b276e4d3498b09e, type: 2}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 10
-  detectionAttackRange: 7
-  detectionJumpRange: 5
+  detectionRange: 7
+  detectionAttackRange: 5
+  detectionJumpRange: 4
   jumpDamageRange: 3
   attackDistance: 0.5
-  dashTime: 0
+  dashTime: 2
   delayTime: 5
   time: 0
   AttackTimer: 0
@@ -189,6 +188,7 @@ MonoBehaviour:
   jumpPer: 3
   patrolSpeed: 1
   chaseSpeed: 3
+  dashSpeed: 10
   hitSpeed: 1
   patrolRange: 10
   patrolMinTime: 3
@@ -408,14 +408,14 @@ MonoBehaviour:
   Idle: {fileID: 11400000, guid: 97cb85d969f138543a43a4c63f6e0ffe, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  Moving: {fileID: 11400000, guid: 1f0ad563ab259c54dbcf4fcf35d8d700, type: 2}
+  Moving: {fileID: 11400000, guid: afbdd85ad93fa1c4fb89fb6981a7204e, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
   NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
   SouthMovingBack: {fileID: 0}
-  StartMoving: {fileID: 11400000, guid: 1e45be187d0680243ab51b76b10f9401, type: 2}
-  StopMoving: {fileID: 11400000, guid: 40e5d80ba6aa2bf43ada7b94a76c7eab, type: 2}
+  StartMoving: {fileID: 0}
+  StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 946089a843e81894ca01d02a0edc1f4c, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
