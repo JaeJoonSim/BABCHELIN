@@ -334,8 +334,7 @@ public class BerryBird : UnitObject
             state.CURRENT_STATE = StateMachine.State.Runaway;
         }
 
-        xDir = Mathf.Clamp((patrolTargetPosition.x - transform.position.x), -1f, 1f);
-        if (0 <= xDir)
+        if (transform.position.x <= patrolTargetPosition.x)  //보는 방향
         {
             this.transform.localScale = new Vector3(1f, 1f, 1f);
         }
@@ -420,7 +419,8 @@ public class BerryBird : UnitObject
     private void DeathEffect()
     {
         GameObject explosion = ExplosionEffect;
-        Instantiate(explosion, transform.position, Quaternion.Euler(0, 0, state.facingAngle));
+        explosion.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+        Instantiate(explosion);
         GameObject water = WaterEffect;
         water.transform.position = transform.position;
         Instantiate(water);

@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: feb07ae2c8fe09848b8461a491c0f683, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 84b27367b7eba74449ae94fde0e626af, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 371823184825627162}
   - component: {fileID: 2862424241139748285}
   - component: {fileID: 6779158364017665650}
-  - component: {fileID: 7390580346853972759}
+  - component: {fileID: 3139932735841784517}
   m_Layer: 10
   m_Name: Hedgehod_Attack_Bullet_1
   m_TagString: Weapon
@@ -114,8 +114,8 @@ RectTransform:
   m_GameObject: {fileID: 2862424241139748284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 0.25, y: 0.25, z: 2.5}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 2862424239799207040}
   m_Father: {fileID: 0}
@@ -186,7 +186,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_CullTransparentMesh: 1
---- !u!114 &7390580346853972759
+--- !u!114 &3139932735841784517
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,15 +195,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2862424241139748284}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 323e75168d8086644bb220d1ba345296, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ee67bf8d4e46474e87bdd5af89e611f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damage: 2
-  speed: 5
   player: {fileID: 0}
-  destroyTime: 5
-  PlayerEffect: {fileID: 3202562302581860845, guid: f2444736b9d3153428f144397cc70720,
+  damage: 1
+  speed: 10
+  range: 5
+  PlayerEffect: {fileID: 8956660943270651784, guid: 8d13ce33f15a4ff47b0dfa78ee3588dc,
     type: 3}
-  GroundEffect: {fileID: 3975228056248263236, guid: aebb397f7ec2d9846adc2636c66137a5,
+  GroundEffect: {fileID: 8956660943270651784, guid: 8d13ce33f15a4ff47b0dfa78ee3588dc,
     type: 3}
-  gravity: 1

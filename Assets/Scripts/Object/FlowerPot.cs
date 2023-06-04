@@ -8,15 +8,21 @@ public class FlowerPot : UnitObject
     private float time;
     [SerializeField] float spawnRange;
     [SerializeField] GameObject[] mosterObject;
+    private GameObject parentObj;
 
     public GameObject spawnEffect;
     public GameObject BrokenEffect;
+
+    private void Start()
+    {
+        parentObj = transform.parent.gameObject;
+    }
 
     public override void Update()
     {
         time += Time.deltaTime;
 
-        if(time >= spawnCycleTime)
+        if(time >= spawnCycleTime && parentObj.transform.childCount < 7)
         {
             SpawnMonster();
             time = 0;

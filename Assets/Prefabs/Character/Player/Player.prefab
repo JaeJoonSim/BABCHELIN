@@ -8478,9 +8478,10 @@ MonoBehaviour:
     hpMax: 100
     hpRegen: 30
     def: 0
-    movSpd: 5
+    movSpd: 6
     dodgeCoolDown: 0.5
-    dodgeSpeed: 5
+    dodgeTime: 1
+    dodgeDistance: 3
     absorbAngle: 30
     absorbRange: 5
     absorbRestore: 0
@@ -8523,7 +8524,8 @@ MonoBehaviour:
     def: 0
     movSpd: 0
     dodgeCoolDown: 0
-    dodgeSpeed: 0
+    dodgeTime: 0
+    dodgeDistance: 0
     absorbAngle: 0
     absorbRange: 0
     absorbRestore: 0
@@ -8566,7 +8568,8 @@ MonoBehaviour:
     def: 0
     movSpd: 0
     dodgeCoolDown: 0
-    dodgeSpeed: 0
+    dodgeTime: 0
+    dodgeDistance: 0
     absorbAngle: 0
     absorbRange: 0
     absorbRestore: 0
@@ -8609,7 +8612,8 @@ MonoBehaviour:
     def: 0
     movSpd: 0
     dodgeCoolDown: 0
-    dodgeSpeed: 0
+    dodgeTime: 0
+    dodgeDistance: 0
     absorbAngle: 0
     absorbRange: 0
     absorbRestore: 0
@@ -8652,7 +8656,8 @@ MonoBehaviour:
     def: 0
     movSpd: 0
     dodgeCoolDown: 0
-    dodgeSpeed: 0
+    dodgeTime: 0
+    dodgeDistance: 0
     absorbAngle: 0
     absorbRange: 0
     absorbRestore: 0
@@ -8693,14 +8698,14 @@ MonoBehaviour:
   speed: 0
   xDir: 0
   yDir: 0
-  showDodge: 1
-  DodgeTimer: 0
+  showDodge: 0
+  dodgeTime: 0
+  dodgeSpeed: 0
   DodgeAngle: 0
   DodgeDuration: 0.5
-  DodgeMaxDuration: 0.5
-  showAbsorb: 1
+  showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
-  showAttack: 1
+  showAttack: 0
   BulletGauge: 1000
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
@@ -8708,10 +8713,14 @@ MonoBehaviour:
   Skills:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
   - {fileID: 2812988272092322134}
+  showMuzzle: 0
   muzzle: {fileID: 6160722344487673776}
   muzzleEnd: {fileID: 6160722343070153728}
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
+  showUltimate: 1
+  UltObj: {fileID: 0}
+  UltIdx: 0
   BulletUI: {fileID: 276941507017972697}
 --- !u!114 &6160722343811252257
 MonoBehaviour:
@@ -8871,6 +8880,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 5d9bbce6-4e97-4de6-b237-ecacb89cbfc6
     m_ActionName: Action/New action
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: UltimateIdx
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7ea6646e-c8c7-420d-b77d-ebcf6fafdef7
+    m_ActionName: Action/Ultimate[/Keyboard/x]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Action
@@ -14082,7 +14107,7 @@ PrefabInstance:
     - target: {fileID: 6659255904649272495, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6659255905257698177, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}

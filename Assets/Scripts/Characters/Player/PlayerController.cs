@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
+using static SimpleSpineAnimator;
 
 public class PlayerController : BaseMonoBehaviour
 {
@@ -33,19 +34,20 @@ public class PlayerController : BaseMonoBehaviour
 
     public static float MinInputForMovement = 0.3f;
 
-    //[Header("이동 체크")]
-    [HideInInspector] public float forceDir;
-    [HideInInspector] public float speed;
+    [Header("이동 체크")]
+    public float forceDir;
+    public float speed;
     [HideInInspector] public float xDir;
     [HideInInspector] public float yDir;
 
     [Header("회피")]
     public bool showDodge = false;
-    [DrawIf("showDodge", true)] public float DodgeTimer;
+    [DrawIf("showDodge", true)] public float dodgeTime;
+    [DrawIf("showDodge", true)] public float dodgeSpeed;
     [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
     [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
-    [DrawIf("showDodge", true)] public float DodgeMaxDuration = 0.5f;
-    [DrawIf("showDodge", true)] private float DodgeCollisionDelay;
+
+
 
     [Header("흡수")]
     public bool showAbsorb = false;
@@ -55,22 +57,29 @@ public class PlayerController : BaseMonoBehaviour
     [Header("공격")]
     public bool showAttack = false;
     [DrawIf("showAttack", true)] public int BulletGauge;
-
+    [DrawIf("showAttack", true)] public bool PreesAttack;
     [DrawIf("showAttack", true)] public GameObject Attack;
     [DrawIf("showAttack", true)] public int SkillIndex;
     public GameObject[] Skills;
 
-    public Transform muzzle;
-    public Transform muzzleEnd;
-    public Transform muzzleBone;
-    public Transform GrinderControl;
 
+    [Header("muzzle")]
+    public bool showMuzzle = false;
+    [DrawIf("showMuzzle", true)] public Transform muzzle;
+    [DrawIf("showMuzzle", true)] public Transform muzzleEnd;
+    [DrawIf("showMuzzle", true)] public Transform muzzleBone;
+    [DrawIf("showMuzzle", true)] public Transform GrinderControl;
+
+
+    [Header("궁극기")]
+    public bool showUltimate = false;
+    [DrawIf("showUltimate", true)] public GameObject UltObj;
+    [DrawIf("showUltimate", true)] public int UltIdx;
 
     public GameObject BulletUI;
     private float fadeTime = 0;
 
-    private float VZ;
-    private float Z;
+
 
     private void Start()
     {
@@ -99,13 +108,15 @@ public class PlayerController : BaseMonoBehaviour
             return;
         }
 
-        speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
+        if (state.CURRENT_STATE != StateMachine.State.Dodging)
+        {
+            speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
+        }
         speed = Mathf.Max(speed, 0f);
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
         facingAngle();
-
 
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
@@ -120,7 +131,6 @@ public class PlayerController : BaseMonoBehaviour
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
-                Z = 0f;
                 SpineTransform.localPosition = Vector3.zero;
                 speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -149,23 +159,17 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Dodging:
-                Z = 0f;
                 SpineTransform.localPosition = Vector3.zero;
-                forceDir = DodgeAngle;
-                if (DodgeCollisionDelay < 0f)
+
+                if (dodgeTime < TotalStatus.dodgeTime)
                 {
-                    speed = Mathf.Lerp(speed, TotalStatus.dodgeSpeed, 2f * Time.deltaTime);
+                    forceDir = DodgeAngle;
+                    speed = dodgeSpeed;
+                    dodgeTime += Time.deltaTime;
                 }
-                DodgeCollisionDelay -= Time.deltaTime;
-                DodgeTimer += Time.deltaTime;
-                if (DodgeTimer < 0.1f && (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement))
+                else
                 {
-                    state.facingAngle = (forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir)));
-                }
-                if ((!Input.GetKey(KeyCode.LeftShift) && DodgeTimer > DodgeDuration) || DodgeTimer > DodgeMaxDuration)
-                {
-                    DodgeTimer = 0f;
-                    DodgeCollisionDelay = 0f;
+                    dodgeTime = 0;
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
@@ -192,7 +196,6 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Skill:
-                Z = 0f;
                 SpineTransform.localPosition = Vector3.zero;
                 speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 break;
@@ -265,7 +268,7 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    private void facingAngle()
+    public void facingAngle()
     {
         if (state.CURRENT_STATE != StateMachine.State.Dodging &&
             (state.CURRENT_STATE == StateMachine.State.Attacking ||
@@ -283,6 +286,11 @@ public class PlayerController : BaseMonoBehaviour
                 fadeTime = 0;
                 BulletUI.GetComponent<CanvasGroup>().alpha = 1;
             }
+        }
+        else if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
+            state.CURRENT_STATE == StateMachine.State.HitRight)
+        {
+            return;
         }
         else
         {
@@ -319,6 +327,9 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     DodgeAngle = 0;
                 }
+                else
+                {
+                }
             }
             if (BulletUI.activeSelf)
             {
@@ -329,13 +340,16 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
-            state.facingAngle = DodgeAngle;
+            if(!PreesAttack && speed != 0)
+                state.facingAngle = DodgeAngle;
+
             muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
         muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
+
         if (!health.isInvincible)
         {
             return;
@@ -350,6 +364,20 @@ public class PlayerController : BaseMonoBehaviour
             state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
         }
         forceDir = state.facingAngle + 180f;
+
+        if (90 < state.facingAngle && state.facingAngle < 270)
+        {
+            state.facingAngle = 180;
+        }
+        else if (state.facingAngle <= 90 || state.facingAngle >= 270)
+        {
+            state.facingAngle = 0;
+        }
+
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+        muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
+
+        
         if (type == Health.AttackType.Normal)
         {
             CameraManager.shakeCamera(10f, 0f - state.facingAngle);
@@ -413,10 +441,15 @@ public class PlayerController : BaseMonoBehaviour
 
         if (BulletGauge > TotalStatus.bulletMin)
         {
-            Debug.Log("cnrk");
             BulletGauge = TotalStatus.bulletMin;
             CancelInvoke("RestoreBullet");
         }
+    }
+
+    public void addUltIdx()
+    {
+        UltIdx++;
+        UltIdx = UltIdx % 2;
     }
 
     private IEnumerator Delay(float delay, Action callback)

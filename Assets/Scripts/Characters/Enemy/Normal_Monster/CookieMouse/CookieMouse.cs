@@ -21,13 +21,13 @@ public class CookieMouse : UnitObject
         }
     }
     public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
     private float aniCount = 0;
 
     public float Damaged = 2f;
     bool hasAppliedDamage = false;
 
     [Space]
-
     [SerializeField] Transform target;
     [SerializeField] float detectionRange;
     [SerializeField] float AttackDistance;
@@ -112,7 +112,6 @@ public class CookieMouse : UnitObject
             forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
         }
 
-
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             BodyHit();
@@ -147,7 +146,7 @@ public class CookieMouse : UnitObject
 
                     if (distanceToPlayer <= detectionRange)
                     {
-                        state.CURRENT_STATE = StateMachine.State.Moving;
+                        state.CURRENT_STATE = StateMachine.State.Notice;
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
@@ -164,6 +163,28 @@ public class CookieMouse : UnitObject
                         }
                     }
                     Patrol();
+                    break;
+
+                case StateMachine.State.Notice:
+                    Stop();
+                    if (Notice != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Notice, loop: false);
+                            aniCount++;
+                        }
+                    }
+                    time += Time.deltaTime;
+                    state.LockStateChanges = true;
+
+                    if (time >= 0.8f)
+                    {
+                        state.LockStateChanges = false;
+                        time = 0;
+                        aniCount = 0;
+                        state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
                     break;
 
                 case StateMachine.State.Moving:
@@ -278,7 +299,7 @@ public class CookieMouse : UnitObject
         {
             aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
-            state.CURRENT_STATE = StateMachine.State.Moving;
+            state.CURRENT_STATE = StateMachine.State.Notice;
         }
 
         if (transform.position.x <= patrolTargetPosition.x)  //보는 방향

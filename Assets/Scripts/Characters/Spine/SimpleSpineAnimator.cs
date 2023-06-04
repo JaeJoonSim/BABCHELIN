@@ -147,7 +147,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             track = value;
             track.AttachmentThreshold = 1f;
             track.MixDuration = 0f;
-            
+
         }
     }
     private TrackEntry secondTrack;
@@ -156,9 +156,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         get { return secondTrack; }
         set
         {
-                secondTrack = value;
-                SecondTrack.AttachmentThreshold = 1f;
-                SecondTrack.MixDuration = 0f;
+            secondTrack = value;
+            SecondTrack.AttachmentThreshold = 1f;
+            SecondTrack.MixDuration = 0f;
         }
     }
     private StateMachine.State cs;
@@ -204,7 +204,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     public bool ForceDirectionalMovement;
 
-    
+
 
     private SkeletonAnimation anim
     {
@@ -241,12 +241,13 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             if (cs != value)
             {
                 cs = value;
+
                 if (playerController == null)
                 {
                     UpdateAnimFromState();
                 }
-
             }
+
         }
     }
 
@@ -467,7 +468,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Stun:
-                if(Destroyed != null)
+                if (Destroyed != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, Destroyed, loop: false);
                     if (skunk.destructionCount <= 1)
@@ -496,7 +497,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Outburst:
-                if(ChargeRun != null)
+                if (ChargeRun != null)
                 {
                     anim.AnimationState.SetAnimation(AnimationTrack, ChargeRun, loop: false);
                     anim.AnimationState.AddAnimation(AnimationTrack, phase2Idle, loop: true, ChargeRun.Animation.Duration);
@@ -526,10 +527,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         if (SecondTrack != null)
         {
-            if (cs == StateMachine.State.Attacking || 
-                cs == StateMachine.State.Absorbing || 
+            if (cs == StateMachine.State.Attacking ||
+                cs == StateMachine.State.Absorbing ||
                 cs == StateMachine.State.Loading ||
-                cs == StateMachine.State.Skill2 
+                cs == StateMachine.State.Skill2
                 )
             {
                 //공격중 이동 x
@@ -559,7 +560,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
                 else
                 {
-                    if (DirectionState == direction3.up )
+                    if (DirectionState == direction3.up)
                     {
                         if (playerController.yDir > 0 && NorthMixMove != null)
                         {
@@ -781,70 +782,58 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
                     break;
                 case StateMachine.State.Attacking:
-                    
+                    if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
+                        curAnimTime = Track.TrackTime * anim.skeleton.Data.Fps;
                     if (DirectionState == direction3.up && NorthAttack != null)
                     {
                         if (Track.Animation != NorthAttack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthAttack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else if (DirectionState == direction3.down && SouthAttack != null)
                     {
                         if (Track.Animation != SouthAttack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthAttack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else
                     {
                         if (Track.Animation != Attack.Animation)
                         {
-                            if (Track.Animation == Attack.Animation || Track.Animation == NorthAttack.Animation || Track.Animation == SouthAttack.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, Attack, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
-
+                    Track.TrackTime = curAnimTime / anim.skeleton.Data.Fps;
                     break;
                 case StateMachine.State.Skill:
+
+                    if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
+                        curAnimTime = Track.TrackTime * anim.skeleton.Data.Fps;
+
                     if (DirectionState == direction3.up && NorthSkill != null)
                     {
                         if (Track.Animation != NorthSkill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthSkill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else if (DirectionState == direction3.down && SouthSkill != null)
                     {
                         if (Track.Animation != SouthSkill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthSkill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
                     else
                     {
                         if (Track.Animation != Skill.Animation)
                         {
-                            if (Track.Animation == Skill.Animation || Track.Animation == NorthSkill.Animation || Track.Animation == SouthSkill.Animation)
-                                curAnimTime = Track.TrackTime % Track.Animation.Duration;
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, Skill, loop: false);
-                            Track.TrackTime = curAnimTime;
                         }
                     }
+                    Track.TrackTime = curAnimTime / anim.skeleton.Data.Fps;
                     break;
                 case StateMachine.State.Skill2:
                     if (DirectionState == direction3.up && NorthSkill2 != null)
@@ -897,6 +886,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     if (Track.Animation != Dodge.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
+                        Track.TimeScale = Dodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                        Track.End += OnAnimationEnd;
                     }
                     break;
                 case StateMachine.State.CustomAnimation:
@@ -942,7 +933,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                     }
-                   
+
                     break;
 
                 case StateMachine.State.Jump:
@@ -971,7 +962,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
 
     }
-    
+
     public string CurrentAnimation()
     {
         return anim.AnimationName;
@@ -1258,6 +1249,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 Track = anim.AnimationState.SetAnimation(AnimationTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
                 if (playerController != null)
                     SecondTrack = anim.AnimationState.SetAnimation(SecondaryTrack, (DefaultLoop != null) ? DefaultLoop : Idle, loop: true);
+
             }
         }
         else
@@ -1265,7 +1257,11 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             Track = anim.AnimationState.GetCurrent(0);
             if (playerController != null)
                 SecondTrack = anim.AnimationState.GetCurrent(0);
+
         }
+
+
+
         meshRenderer = GetComponent<MeshRenderer>();
         fillColor = Shader.PropertyToID("_FillColor");
         fillAlpha = Shader.PropertyToID("_FillAlpha");
@@ -1364,6 +1360,17 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             return;
         }
 
+        SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
+        if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
+        {
+            return;
+        }
+
+        if (playerController != null)
+        {
+            playerController.facingAngle();
+        }
+
         if (AutomaticallySetFacing)
         {
             if (45 <= state.facingAngle && state.facingAngle <= 135)
@@ -1382,22 +1389,16 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             }
         }
 
-
-
-        SpineChartacterAnimationData animationData = GetAnimationData(StateMachine.State.Moving);
-        if (animationData != null && !(animationData.Animation == animationData.DefaultAnimation) && !ForceDirectionalMovement)
-        {
-            return;
-        }
-
-
-
         CurrentState = state.CURRENT_STATE;
-
 
         if (playerController != null)
         {
             UpdateAnimFromFacing();
         }
+    }
+    void OnAnimationEnd(TrackEntry trackEntry)
+    {
+        Track.TimeScale = 1f;
+        Track.End -= OnAnimationEnd;
     }
 }

@@ -21,8 +21,10 @@ public struct status
 
     [Space, Tooltip("구르기 쿨타임")]
     public float dodgeCoolDown;
-    [Tooltip("구르기 속도")]
-    public float dodgeSpeed;
+    [Tooltip("구르기 시간")]
+    public float dodgeTime;
+    [Tooltip("구르기 거리")]
+    public float dodgeDistance;
 
     //흡수관련
     [Header("Absorb"), Space]

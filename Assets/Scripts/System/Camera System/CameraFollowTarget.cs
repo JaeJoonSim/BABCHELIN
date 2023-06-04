@@ -99,7 +99,7 @@ public class CameraFollowTarget : BaseMonoBehaviour
 
     private float CamWobbleIntensity;
 
-    public Vector3 CurrentPosition { get; set; }
+    public Vector3 CurrentPosition;
 
     public bool IsMoving { get; private set; }
 
@@ -164,7 +164,6 @@ public class CameraFollowTarget : BaseMonoBehaviour
         IN_CONVERSATION = false;
 
         CamWobbleSettings = 0f;
-
     }
 
     public void SnapTo(Vector3 position)

@@ -22,6 +22,7 @@ public class CookieMouse2 : UnitObject
         }
     }
     public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Notice;
     public AnimationReferenceAsset Runaway;
     public AnimationReferenceAsset StartSliding;
     public AnimationReferenceAsset Sliding;
@@ -38,6 +39,7 @@ public class CookieMouse2 : UnitObject
     [SerializeField] float attackDistance = 0f;
     [SerializeField] float hitDistance;
     [SerializeField] float moveTime = 0f;
+    [SerializeField] float time = 0f;
 
     [Space]
     [SerializeField] float patrolSpeed;
@@ -145,12 +147,46 @@ public class CookieMouse2 : UnitObject
 
                     if (distanceToPlayer <= detectionRange)
                     {
-                        state.CURRENT_STATE = StateMachine.State.Moving;
+                        state.CURRENT_STATE = StateMachine.State.Notice;
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
 
+                    break;
+
+                case StateMachine.State.Patrol:
+                    if (Walk != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
+                            aniCount++;
+                        }
+                    }
+                    Patrol();
+                    break;
+
+                case StateMachine.State.Notice:
+                    Stop();
+                    if (Notice != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Notice, loop: false);
+                            aniCount++;
+                        }
+                    }
+                    time += Time.deltaTime;
+                    state.LockStateChanges = true;
+
+                    if (time >= 0.8f)
+                    {
+                        state.LockStateChanges = false;
+                        time = 0;
+                        aniCount = 0;
+                        state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
                     break;
 
                 case StateMachine.State.Moving:
@@ -256,17 +292,6 @@ public class CookieMouse2 : UnitObject
 
                     break;
 
-                case StateMachine.State.Patrol:
-                    if (Walk != null)
-                    {
-                        while (aniCount < 1)
-                        {
-                            anim.AnimationState.SetAnimation(AnimationTrack, Walk, loop: true);
-                            aniCount++;
-                        }
-                    }
-                    Patrol();
-                    break;
                 case StateMachine.State.Runaway:
                     SlideEffect_L.SetActive(false);
                     SlideEffect_R.SetActive(false);
@@ -311,7 +336,7 @@ public class CookieMouse2 : UnitObject
         {
             aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
-            state.CURRENT_STATE = StateMachine.State.Moving;
+            state.CURRENT_STATE = StateMachine.State.Notice;
         }
 
         if (transform.position.x <= patrolTargetPosition.x)

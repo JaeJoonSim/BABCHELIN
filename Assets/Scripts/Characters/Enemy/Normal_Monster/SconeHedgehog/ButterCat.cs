@@ -22,42 +22,53 @@ public class ButterCat : UnitObject
             return _anim;
         }
     }
+    public AnimationReferenceAsset Spawn;
+    public AnimationReferenceAsset Walk;
+    public AnimationReferenceAsset Runaway;
     public AnimationReferenceAsset StartDefend;
     public AnimationReferenceAsset Defend;
     public AnimationReferenceAsset StopDefend;
-    private float aniCount = 1;
+    private float aniCount = 0;
 
+
+    [Space]
+    [SerializeField] float patrolSpeed;
+    [SerializeField] float runawaySpeed;
+    [SerializeField] float chaseSpeed;
+    [SerializeField] float hitSpeed;
 
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
 
     [Space]
     [SerializeField] Transform target;
-    [SerializeField] float detectionRange;
-    [SerializeField] float moveTime = 0f;
+    [SerializeField] float detectionAttackRange;
     [SerializeField] float time = 0;
 
     [Space]
-    [SerializeField] float AttackDelay;
     public float AttackDuration = 0.3f;
     [SerializeField] float AttackTimer;
 
     [Space]
     private Health playerHealth;
     private NavMeshAgent agent;
+    private Collider2D col;
     private float distanceToPlayer;
     Vector3 movePoint;
     Vector3 directionToPoint;
 
+
+
     [Space]
-    private float runToAttackDelay;
+    private float runawayTime;
     [SerializeField] float runMinTime;
     [SerializeField] float runMaxTime;
     private float runTimer;
     [SerializeField] private bool isDefend = false;
-    private float defendToAttackDelay;
+    private float defendTime;
     [SerializeField] float defendMinTime;
     [SerializeField] float defendMaxTime;
+    private bool isShield = false;
 
     [Space]
     public float forceDir;
@@ -65,10 +76,11 @@ public class ButterCat : UnitObject
     public float yDir;
 
     [Space]
-    private int ObjectRand;
-    public GameObject DestructionObject;
     public GameObject BombObject;
-    public GameObject ExplosionEffect;
+
+    public GameObject LandEffect;
+    public GameObject ShieldEffect;
+    public GameObject DefaultDeathEffect;
 
     Vector3 direction;
 
@@ -82,6 +94,7 @@ public class ButterCat : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         agent.updateRotation = false;
@@ -118,17 +131,28 @@ public class ButterCat : UnitObject
         {
             switch (state.CURRENT_STATE)
             {
-                case StateMachine.State.Idle:
+                case StateMachine.State.Spawn:
+                    if (Spawn != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Spawn, loop: false);
+                            aniCount++;
+                        }
+                    }
+
                     time += Time.deltaTime;
+                    state.LockStateChanges = true;
                     agent.enabled = false;
-                    health.isInvincible = true;
                     if (time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
+                        aniCount = 0;
                         agent.enabled = true;
-                        health.isInvincible = false;
-                        runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
-                        state.CURRENT_STATE = StateMachine.State.Runaway;
+                        state.LockStateChanges = false;
+                        runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
+                        Debug.Log("111111111111111111111111");
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
 
                     if(transform.localScale.x > 0)
@@ -148,7 +172,45 @@ public class ButterCat : UnitObject
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
+                case StateMachine.State.Moving:
+                    agent.isStopped = false;
+                    agent.speed = chaseSpeed;
+                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                    if (Time.timeScale == 0f)
+                    {
+                        break;
+                    }
+
+                    if (transform.position.x <= target.position.x)  //보는 방향
+                    {
+                        this.transform.localScale = new Vector3(1f, 1f, 1f);
+                    }
+                    else
+                    {
+                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                    }
+
+                    agent.SetDestination(target.position);
+
+                    if (distanceToPlayer <= detectionAttackRange)
+                    {
+                        Debug.Log("222222222222222222222222222");
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
+
+                        aniCount = 0;
+                    break;
+
                 case StateMachine.State.Runaway:
+                    if (Runaway != null)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Runaway, loop: true);
+                            aniCount++;
+                        }
+                    }
+
                     if (transform.position.x >= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);
@@ -161,24 +223,17 @@ public class ButterCat : UnitObject
                     break;
 
                 case StateMachine.State.Attacking:
+                    Stop();
                     state.LockStateChanges = true;
                     AttackTimer += Time.deltaTime;
-
-                    if (transform.position.x <= target.position.x)  //보는 방향
-                    {
-                        this.transform.localScale = new Vector3(1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
-                    }
 
                     if (AttackTimer > 1.9333f) //어택 애니메이션 시간
                     {
                         state.LockStateChanges = false;
                         isDefend = false;
+                        time = 0;
                         AttackTimer = 0;
-                        runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
+                        runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Runaway;
                     }
                     break;
@@ -187,21 +242,21 @@ public class ButterCat : UnitObject
                     state.LockStateChanges = true;
                     if (StartDefend != null || Defend != null)
                     {
-                        if (aniCount > 0)
+                        if (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, StartDefend, loop: false);
                             anim.AnimationState.AddAnimation(AnimationTrack, Defend, loop: true, 0f);
-                            aniCount--;
+                            aniCount++;
                         }
                     }
 
                     time += Time.deltaTime;
                     health.isInvincible = true;
-                    if(time >= defendToAttackDelay)
+                    if(time >= defendTime)
                     {
                         state.LockStateChanges = false;
                         time = 0;
-                        aniCount = 1;
+                        aniCount = 0;
                         state.CURRENT_STATE = StateMachine.State.DefendDelay;
                     }
                     break;
@@ -210,10 +265,10 @@ public class ButterCat : UnitObject
                     state.LockStateChanges = true;
                     if (StopDefend != null)
                     {
-                        if (aniCount > 0)
+                        if (aniCount < 1)
                         {
                             anim.AnimationState.SetAnimation(AnimationTrack, StopDefend, loop: false);
-                            aniCount--;
+                            aniCount++;
                         }
                     }
 
@@ -222,70 +277,111 @@ public class ButterCat : UnitObject
                     {
                         state.LockStateChanges = false;
                         time = 0;
-                        aniCount = 1;
+                        aniCount = 0;
                         health.isInvincible = false;
+                        Debug.Log("3.33333333333333333333333");
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
                     break;
 
                 case StateMachine.State.HitLeft:
-                    time += Time.deltaTime;
-                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway && !isDefend)
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway)
                     {
-                        if (transform.position.x <= target.position.x)  //보는 방향
+                        if (!isDefend)
                         {
-                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                            if (transform.position.x <= target.position.x)  //보는 방향
+                            {
+                                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                            }
+                            else
+                            {
+                                this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                            }
+
+                            time = 0;
+                            aniCount = 0;
+                            isDefend = true;
+                            defendTime = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
+                            isShield = true;
+                            state.CURRENT_STATE = StateMachine.State.Defend;
                         }
                         else
                         {
-                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                            time += Time.deltaTime;
                         }
-
-                        time = 0;
-                        isDefend = true;
-                        defendToAttackDelay = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
-                        state.CURRENT_STATE = StateMachine.State.Defend;
                     }
                     break;
 
                 case StateMachine.State.HitRight:
-                    time += Time.deltaTime;
-                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway && !isDefend)
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway)
                     {
-                        if (transform.position.x <= target.position.x)  //보는 방향
+                        if (!isDefend)
                         {
-                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                            if (transform.position.x <= target.position.x)  //보는 방향
+                            {
+                                this.transform.localScale = new Vector3(1f, 1f, 1f);
+                            }
+                            else
+                            {
+                                this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                            }
+
+                            time = 0;
+                            aniCount = 0;
+                            isDefend = true;
+                            defendTime = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
+                            isShield = true;
+                            state.CURRENT_STATE = StateMachine.State.Defend;
                         }
                         else
                         {
-                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                            time += Time.deltaTime;
                         }
-
-                        time = 0;
-                        isDefend = true;
-                        defendToAttackDelay = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
-                        state.CURRENT_STATE = StateMachine.State.Defend;
                     }
-
                     break;
 
             }
         }
     }
 
+    private void ShieldOn()
+    {
+        if(isShield)
+        {
+            isShield = false;
+        }
+    }
+
+
     private void RunAway()
     {
         time += Time.deltaTime;
-        agent.speed = 1.5f;
+        agent.isStopped = false;
+        agent.speed = runawaySpeed;
         directionToPoint = (target.position - transform.position).normalized;
         agent.SetDestination(transform.position - directionToPoint);
-        if (time > runToAttackDelay)
+        if (time >= runawayTime)
         {
             time = 0;
-            runToAttackDelay = UnityEngine.Random.Range(runMinTime, runMaxTime);
-            ObjectRand = UnityEngine.Random.Range(0, 10);
-            Debug.Log(ObjectRand);
-            state.CURRENT_STATE = StateMachine.State.Attacking;
+            aniCount = 0;
+            runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
+            if (distanceToPlayer <= detectionAttackRange)
+            {
+                if (transform.position.x <= target.position.x)  //보는 방향
+                {
+                    this.transform.localScale = new Vector3(1f, 1f, 1f);
+                }
+                else
+                {
+                    this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                }
+                Debug.Log("444444444444444444444444");
+                state.CURRENT_STATE = StateMachine.State.Attacking;
+            }
+            else
+            {
+                state.CURRENT_STATE = StateMachine.State.Moving;
+            }
         }
     }
 
@@ -299,34 +395,40 @@ public class ButterCat : UnitObject
     {
         if (e.Data.Name == "ateck" || e.Data.Name == "attack")
         {
-            ObjectRand = UnityEngine.Random.Range(0, 10);
-            Debug.Log(ObjectRand);
-            GameObject SpawnBullet;
-            if (ObjectRand < 6)
-            {
-                Debug.Log("Dest");
-                SpawnBullet = DestructionObject;
-            }
-            else
-            {
-                Debug.Log("bomb");
-                SpawnBullet = BombObject;
-            }
+            GameObject SpawnBullet = BombObject;
             SpawnBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
             Instantiate(SpawnBullet);
+        }
+        else if (e.Data.Name == "land" || e.Data.Name == "Land")
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Spawn)
+            {
+                GameObject landeffect = LandEffect;
+                landeffect.transform.position = transform.position;
+                Instantiate(landeffect);
+            }
+        }
+        else if (e.Data.Name == "defend" || e.Data.Name == "Defend")
+        {
+            GameObject shieldeffect = Instantiate(ShieldEffect, transform);
+            shieldeffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            Destroy(shieldeffect, defendTime);
         }
     }
 
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        agent.enabled = false;
+        col.enabled = false;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }
 
     private void DeathEffect()
     {
-        GameObject explosion = ExplosionEffect;
+        GameObject explosion = DefaultDeathEffect;
         explosion.transform.position = transform.position;
         Instantiate(explosion);
     }
@@ -334,6 +436,6 @@ public class ButterCat : UnitObject
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, detectionRange);
+        Gizmos.DrawWireSphere(transform.position, detectionAttackRange);
     }
 }
