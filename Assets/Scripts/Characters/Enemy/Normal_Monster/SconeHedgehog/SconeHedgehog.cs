@@ -89,6 +89,7 @@ public class SconeHedgehog : UnitObject
 
 
     public GameObject BulletObject;
+    public GameObject DeathBulletObject;
 
     public GameObject DashEffect;
     public GameObject LandEffect;
@@ -628,6 +629,12 @@ public class SconeHedgehog : UnitObject
         else if(e.Data.Name == "dash_middle")
         {
             DashEffect.SetActive(true);
+        }
+        else if(e.Data.Name == "death")
+        {
+            GameObject daethbullet = DeathBulletObject;
+            daethbullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            Instantiate(daethbullet);
         }
     }
 
