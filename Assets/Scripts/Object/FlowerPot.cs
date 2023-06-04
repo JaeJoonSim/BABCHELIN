@@ -15,7 +15,8 @@ public class FlowerPot : UnitObject
 
     private void Start()
     {
-        parentObj = transform.parent.gameObject;
+        if(transform.parent.gameObject != null)
+            parentObj = transform.parent.gameObject;
     }
 
     public override void Update()
@@ -30,9 +31,8 @@ public class FlowerPot : UnitObject
 
         if(health.CurrentHP() <= 0)
         {
-            GameObject brokenEffect = BrokenEffect;
+            GameObject brokenEffect = Instantiate(BrokenEffect);
             brokenEffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
-            Instantiate(brokenEffect);
             Destroy(gameObject);
         }
     }

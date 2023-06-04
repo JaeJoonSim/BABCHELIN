@@ -28,9 +28,9 @@ public class DungeonUIManager : BaseMonoBehaviour
         {
             if (escPanel.activeSelf)
                 Time.timeScale = 1;
-            else 
+            else
                 Time.timeScale = 0;
-            
+
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
             PlayerUI.SetActive(!PlayerUI.activeSelf);
