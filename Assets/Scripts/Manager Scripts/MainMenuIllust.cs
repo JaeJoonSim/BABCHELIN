@@ -1,8 +1,9 @@
 using System;
 using UnityEngine;
-using UnityEngine.AI;
+using UnityEngine.UI;
 using Spine;
 using Spine.Unity;
+using TMPro;
 
 public class MainMenuIllust : MonoBehaviour
 {
@@ -24,8 +25,16 @@ public class MainMenuIllust : MonoBehaviour
     public AnimationReferenceAsset StartAnim;
     public AnimationReferenceAsset IdleAnim;
 
-    public GameObject mainCanvas;
+    public GameObject LogoImage;
+    private Color logoColor;
+    public GameObject[] ElseUI;
+    private Color uiColor;
 
+    public GameObject startButton;
+    public TMP_Text[] uiText;
+
+    private bool logoOn = false;
+    private bool uiOn = false;
 
     // Start is called before the first frame update
     void Start()
@@ -35,7 +44,9 @@ public class MainMenuIllust : MonoBehaviour
 
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
-        //mainCanvas.SetActive(false);
+
+        logoColor = new Color(1, 1, 1, 0);
+        uiColor = new Color(1, 1, 1, 0);
 
         spineAnimation.AnimationState.Event += OnSpineEvent;
     }
@@ -43,14 +54,60 @@ public class MainMenuIllust : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        AppearLogo();
+        AppearUI();
 
+        if(startButton.GetComponent<Image>().color.a < 1)
+        {
+            startButton.GetComponent<Button>().interactable = false;
+        }
+        else
+        {
+            startButton.GetComponent<Button>().interactable = true;
+        }
+    }
+
+    void AppearLogo()
+    {
+        LogoImage.GetComponent<Image>().color = logoColor;
+
+        if (logoOn)
+        {
+            logoColor.a += Time.deltaTime;
+        }
+    }
+
+    void AppearUI()
+    {
+        for (int a = 0; a < ElseUI.Length; a++)
+        {
+            ElseUI[a].GetComponent<Image>().color = uiColor;
+        }
+        for (int a = 0; a < uiText.Length; a++)
+        {
+            uiText[a].color = uiColor;
+        }
+
+        if (uiOn)
+        {
+            if(uiColor.a < 1)
+            {
+                uiColor.a += Time.deltaTime;
+            }
+        }
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "idle start")
+        Debug.Log(e.Data.Name);
+        if (e.Data.Name == "title_ui")
         {
-            //mainCanvas.SetActive(true);
+            logoOn = true;
+            //LogoImage.SetActive(true);
+        }
+        else if (e.Data.Name == "rest_of_ui")
+        {
+            uiOn = true;
         }
     }
 }
