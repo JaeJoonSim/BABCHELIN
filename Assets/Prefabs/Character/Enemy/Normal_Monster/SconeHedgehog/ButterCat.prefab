@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &3275738440347693763
 Transform:
   m_ObjectHideFlags: 0
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsPlayer: 0
-  currentState: 0
-  previousState: 0
+  currentState: 44
+  previousState: 44
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -166,15 +166,20 @@ MonoBehaviour:
   maxSpeed: 0.05
   SpineTransform: {fileID: 572980232343476603}
   AnimationTrack: 0
+  Spawn: {fileID: 11400000, guid: 459acc96320de184a8fd60a2b944c354, type: 2}
+  Walk: {fileID: 11400000, guid: ea75c1d1f35217745b4519efd37e345b, type: 2}
+  Runaway: {fileID: 11400000, guid: ea75c1d1f35217745b4519efd37e345b, type: 2}
   StartDefend: {fileID: 11400000, guid: 50eb2c61c1362df4fb4b610c139a0c39, type: 2}
   Defend: {fileID: 11400000, guid: 711caba4ee0c6af45849ecdc3f5ec159, type: 2}
   StopDefend: {fileID: 11400000, guid: f06911cc78a13924d8631f03e5de7dee, type: 2}
+  patrolSpeed: 1
+  runawaySpeed: 3
+  chaseSpeed: 1
+  hitSpeed: 1
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 0
-  moveTime: 0
+  detectionAttackRange: 5
   time: 0
-  AttackDelay: 0
   AttackDuration: 0.3
   AttackTimer: 0
   runMinTime: 4
@@ -185,11 +190,9 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
-  DestructionObject: {fileID: 5863420388700873065, guid: a5d4d5753feb86f48aa8cdacb8d41ab2,
-    type: 3}
   BombObject: {fileID: 5863420388700873065, guid: fbdcab5882ad85746b8b181096ab4501,
     type: 3}
-  LandEffect: {fileID: 7044222858219997866, guid: 4c05d983d1b4e4d41939345c851d6463,
+  LandEffect: {fileID: 2362333965265700856, guid: 4b5bea01b056e3d4b8b4beaa2b5d5d70,
     type: 3}
   DefaultDeathEffect: {fileID: 7296474961078441307, guid: 52fd1a63b89063a43b41702e87101b6f,
     type: 3}

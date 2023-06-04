@@ -52,6 +52,7 @@ public class ButterCat : UnitObject
     [Space]
     private Health playerHealth;
     private NavMeshAgent agent;
+    private Collider2D col;
     private float distanceToPlayer;
     Vector3 movePoint;
     Vector3 directionToPoint;
@@ -67,6 +68,7 @@ public class ButterCat : UnitObject
     private float defendTime;
     [SerializeField] float defendMinTime;
     [SerializeField] float defendMaxTime;
+    private bool isShield = false;
 
     [Space]
     public float forceDir;
@@ -77,6 +79,7 @@ public class ButterCat : UnitObject
     public GameObject BombObject;
 
     public GameObject LandEffect;
+    public GameObject ShieldEffect;
     public GameObject DefaultDeathEffect;
 
     Vector3 direction;
@@ -91,6 +94,7 @@ public class ButterCat : UnitObject
         }
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         agent.updateRotation = false;
@@ -298,6 +302,7 @@ public class ButterCat : UnitObject
                             aniCount = 0;
                             isDefend = true;
                             defendTime = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
+                            isShield = true;
                             state.CURRENT_STATE = StateMachine.State.Defend;
                         }
                         else
@@ -325,6 +330,7 @@ public class ButterCat : UnitObject
                             aniCount = 0;
                             isDefend = true;
                             defendTime = UnityEngine.Random.Range(defendMinTime, defendMaxTime);
+                            isShield = true;
                             state.CURRENT_STATE = StateMachine.State.Defend;
                         }
                         else
@@ -337,6 +343,15 @@ public class ButterCat : UnitObject
             }
         }
     }
+
+    private void ShieldOn()
+    {
+        if(isShield)
+        {
+            isShield = false;
+        }
+    }
+
 
     private void RunAway()
     {
@@ -386,18 +401,27 @@ public class ButterCat : UnitObject
         }
         else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {
-            if(state.CURRENT_STATE == StateMachine.State.Spawn)
+            if (state.CURRENT_STATE == StateMachine.State.Spawn)
             {
                 GameObject landeffect = LandEffect;
                 landeffect.transform.position = transform.position;
                 Instantiate(landeffect);
             }
         }
+        else if (e.Data.Name == "defend" || e.Data.Name == "Defend")
+        {
+            GameObject shieldeffect = Instantiate(ShieldEffect, transform);
+            shieldeffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            Destroy(shieldeffect, defendTime);
+        }
     }
 
     public void OnDie()
     {
         speed = 0f;
+        agent.isStopped = true;
+        agent.enabled = false;
+        col.enabled = false;
         Invoke("DeathEffect", 2f);
         Destroy(gameObject, 2f);
     }
