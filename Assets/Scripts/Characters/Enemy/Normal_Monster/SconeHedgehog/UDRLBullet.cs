@@ -8,20 +8,23 @@ public class UDRLBullet : MonoBehaviour
     public int num;
 
     [Space]
-    [SerializeField] private float damage;
-    [SerializeField] private float speed;
-    [SerializeField] private float range;
+    public float damage;
+    public float speed;
+    public float range;
 
     public HealthPlayer player;
 
-    private Vector3 startPosition;
-    private float distanceRange;
+    public Vector3 startPosition;
+    public float distanceRange;
 
-    private ColliderEvents colliderEvents;
-    private Vector3 direction;
+    public ColliderEvents colliderEvents;
+    public Vector3 direction;
 
     public float gravity;
-    private float time;
+    public float time;
+
+    public GameObject PlayerEffect;
+    public GameObject GroundEffect;
 
     void Start()
     {
@@ -35,7 +38,7 @@ public class UDRLBullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    public virtual void Update()
     {
         distanceRange = Vector3.Distance(startPosition, transform.position);
         time += Time.deltaTime;
@@ -92,6 +95,9 @@ public class UDRLBullet : MonoBehaviour
 
         if (transform.position.z >= 0)
         {
+            GameObject groundEffect = GroundEffect;
+            groundEffect.transform.position = transform.position;
+            Instantiate(groundEffect);
             Destroy(gameObject);
         }
     }
@@ -102,6 +108,10 @@ public class UDRLBullet : MonoBehaviour
         {
             Debug.Log("Bullet hit " + collider.name);
             player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
+
+            GameObject playerEffect = PlayerEffect;
+            playerEffect.transform.position = transform.position;
+            Instantiate(playerEffect);
 
             Destroy(gameObject);
         }

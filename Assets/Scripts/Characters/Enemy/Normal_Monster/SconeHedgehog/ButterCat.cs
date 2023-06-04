@@ -54,7 +54,7 @@ public class ButterCat : UnitObject
     private NavMeshAgent agent;
     private Collider2D col;
     private float distanceToPlayer;
-    Vector3 movePoint;
+    Vector3 spawnPoint;
     Vector3 directionToPoint;
 
 
@@ -143,12 +143,10 @@ public class ButterCat : UnitObject
 
                     time += Time.deltaTime;
                     state.LockStateChanges = true;
-                    agent.enabled = false;
                     if (time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
                         aniCount = 0;
-                        agent.enabled = true;
                         state.LockStateChanges = false;
                         runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         Debug.Log("111111111111111111111111");
@@ -157,19 +155,22 @@ public class ButterCat : UnitObject
 
                     if(transform.localScale.x > 0)
                     {
-                        direction = Vector3.left;
+                        //direction = Vector3.left;
+                        spawnPoint = new Vector3(transform.position.x - 6, transform.position.y, transform.position.z);
                     }
                     else
                     {
-                        direction = Vector3.right;
+                        //direction = Vector3.right;
+                        spawnPoint = new Vector3(transform.position.x + 6, transform.position.y, transform.position.z);
                     }
 
-                    Vector3 moveVector = direction * 5 * Time.deltaTime;
-                    transform.Translate(moveVector);
+                    agent.SetDestination(spawnPoint);
+                    //Vector3 moveVector = direction * 5 * Time.deltaTime;
+                    //transform.Translate(moveVector);
 
 
                     SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                    agent.speed = 5;
                     break;
 
                 case StateMachine.State.Moving:
@@ -410,6 +411,7 @@ public class ButterCat : UnitObject
         }
         else if (e.Data.Name == "defend" || e.Data.Name == "Defend")
         {
+            Debug.Log("Shield");
             GameObject shieldeffect = Instantiate(ShieldEffect, transform);
             shieldeffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
             Destroy(shieldeffect, defendTime);

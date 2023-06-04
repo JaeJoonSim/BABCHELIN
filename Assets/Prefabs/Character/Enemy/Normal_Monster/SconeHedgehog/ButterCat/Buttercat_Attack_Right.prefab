@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 5034239381484419941}
   - component: {fileID: 4038939852552711602}
   - component: {fileID: 4614997643242956220}
-  - component: {fileID: 6573627249129857403}
+  - component: {fileID: 5287173669201036073}
   m_Layer: 0
-  m_Name: Buttercat Attack
+  m_Name: Buttercat_Attack_Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,14 +29,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6598654692330288185}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 0, y: 0, z: -4.55}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -60, y: 0, z: 0}
 --- !u!198 &1528225855864920498
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4926,7 +4926,7 @@ MonoBehaviour:
   debug: 0
   Performance: 0
   DestroyOnComplete: 0
---- !u!114 &6573627249129857403
+--- !u!114 &5287173669201036073
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -4935,14 +4935,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 6598654692330288185}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0ee67bf8d4e46474e87bdd5af89e611f, type: 3}
+  m_Script: {fileID: 11500000, guid: ccc3cccc1b30e554cb355d724c792ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  damage: 1
-  speed: 8
+  num: 1
+  damage: 3
+  speed: 10
   range: 5
+  player: {fileID: 0}
+  startPosition: {x: 0, y: 0, z: 0}
+  distanceRange: 0
+  colliderEvents: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
+  gravity: 9.81
+  time: 0
   PlayerEffect: {fileID: 9018248885948532350, guid: 7f49b6e7fb248704ba1fe139a60d4b4e,
     type: 3}
   GroundEffect: {fileID: 6421687102599445675, guid: 3d760de9e4a28ae4abe5ce22442545ea,
     type: 3}
+  blastRange: 2
+  target: {fileID: 0}
