@@ -88,6 +88,8 @@ public class SconeHedgehog2 : UnitObject
     public float yDir;
 
 
+    public GameObject jumpPointObject;
+    private GameObject jumppointobj;
     public GameObject BulletObject;
     public GameObject DotAreaObject;
 
@@ -269,7 +271,7 @@ public class SconeHedgehog2 : UnitObject
                     {
                         state.LockStateChanges = false;
                         shotPerDash = UnityEngine.Random.Range(0, 10);
-                        if (shotPerDash < dashPer)
+                        if (shotPerDash > dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
@@ -613,6 +615,9 @@ public class SconeHedgehog2 : UnitObject
         else if (e.Data.Name == "jump" || e.Data.Name == "Jump")
         {
             isJump = true;
+            jumpPointObject.transform.position = jumpPoint;
+            jumppointobj = Instantiate(jumpPointObject);
+            jumppointobj.SetActive(true);
         }
         else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {
@@ -621,6 +626,7 @@ public class SconeHedgehog2 : UnitObject
             if (state.CURRENT_STATE == StateMachine.State.Jump)
             {
                 Debug.Log("Land");
+                Destroy(jumppointobj);
                 GameObject landeffect = LandEffect;
                 landeffect.transform.position = transform.position;
                 Instantiate(landeffect);

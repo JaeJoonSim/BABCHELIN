@@ -182,14 +182,14 @@ MonoBehaviour:
   detectionRange: 7
   detectionAttackRange: 5
   detectionJumpRange: 4
-  jumpDamageRange: 3
+  jumpDamageRange: 2
   attackDistance: 0.5
   dashTime: 2
   delayTime: 5
   time: 0
   AttackTimer: 0
-  dashPer: 4
-  jumpPer: 3
+  dashPer: 9
+  jumpPer: 9
   patrolSpeed: 1
   chaseSpeed: 3
   dashSpeed: 10
@@ -202,6 +202,8 @@ MonoBehaviour:
   forceDir: 0
   xDir: 0
   yDir: 0
+  jumpPointObject: {fileID: 4137881345454485455, guid: 50ca1e018cdd60740a51d4391521949c,
+    type: 3}
   BulletObject: {fileID: 2862424241139748284, guid: a07b783cc7148d04ba58519175cdac64,
     type: 3}
   DeathBulletObject: {fileID: 5863420388700873065, guid: 93eabe58574b7314a971bcc891bc9181,
@@ -472,6 +474,9 @@ MonoBehaviour:
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Dodge: {fileID: 0}
+  NorthDodge: {fileID: 0}
+  SouthDodge: {fileID: 0}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
   Jump: {fileID: 0}
@@ -485,7 +490,6 @@ MonoBehaviour:
   phase2Idle: {fileID: 0}
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
-  Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: c0e552f696c4c5745ab0d83738c9e109, type: 2}
   Dead: {fileID: 11400000, guid: a27e238e264c0f244bc82878750e2aaf, type: 2}
   Landing: {fileID: 0}
