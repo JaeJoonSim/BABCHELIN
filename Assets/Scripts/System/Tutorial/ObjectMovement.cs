@@ -73,6 +73,7 @@ public class ObjectMovement : MonoBehaviour
     {
         if (collision.CompareTag("Player") && !isMoving)
         {
+            CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 1.0f, StackShakes: false);
             StartCoroutine(FadeIn());
             GetComponent<Collider2D>().enabled = false;
             isMoving = true;
