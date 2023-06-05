@@ -19,6 +19,7 @@ public class MapController : BaseMonoBehaviour
     public SkeletonAnimation anim;
     public bool canMove;
     private bool isLaunch;
+    private bool isReady;
 
     [HideInInspector] public int selectedMapIndex;
 
@@ -53,6 +54,12 @@ public class MapController : BaseMonoBehaviour
             canMove = true;
         }
 
+        if (DungeonUIManager.Instance.enemyCount > 1)
+        {
+            canMove = false;
+            anim.gameObject.SetActive(false);
+        }
+
         if (!canMove)
         {
             anim.gameObject.SetActive(false);
@@ -63,13 +70,28 @@ public class MapController : BaseMonoBehaviour
             StartCoroutine(MapTransition(selectedMapIndex));
             isLaunch = false;
         }
+
+        if (isReady && !isLaunch && anim.AnimationName == Launch.Animation.Name)
+        {
+            Vector3 targetPosition = new Vector3(player.transform.position.x, -0.7f, player.transform.position.z);
+            player.transform.position = Vector3.Lerp(player.transform.position, targetPosition, Time.deltaTime * 3);
+        }
+
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && canMove)
         {
             Radial.SetActive(true);
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Radial.SetActive(false);
         }
     }
 
@@ -79,15 +101,16 @@ public class MapController : BaseMonoBehaviour
         player.transform.position = readySpoon.transform.position;
         player.enabled = false;
         camera.SnappyMovement = true;
+        isReady = true;
     }
 
     public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "Launch")
         {
-            Debug.Log("event");
             Radial.SetActive(false);
             isLaunch = true;
+            isReady = false;
         }
     }
 
@@ -107,6 +130,8 @@ public class MapController : BaseMonoBehaviour
         StartCoroutine(MovePlayerUp(() => isMoveUpComplete = true));
 
         yield return new WaitUntil(() => isFadeOutComplete && isMoveUpComplete);
+        canMove = false;
+        anim.gameObject.SetActive(false);
         player.enabled = true;
 
         if (mapPool.Count <= 3)
