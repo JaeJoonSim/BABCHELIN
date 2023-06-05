@@ -43,7 +43,10 @@ public class RadialMenuUI : MonoBehaviour
             Debug.Log($"Selected : {selected}");
 
             if (selected >= 0)
-                mapController.SelectMap(selected);
+            {
+                mapController.selectedMapIndex = selected;
+                mapController.SelectMap();
+            }
             //if (selected >= 0 && inventory.Items.Items[selected].Item.ID > 0)
             //{
             //    if (inventory.Items.Items[selected].ItemObject.Type != ItemType.Equipment)

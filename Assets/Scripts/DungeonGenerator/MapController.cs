@@ -1,9 +1,11 @@
+using Spine;
 using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class MapController : BaseMonoBehaviour
@@ -16,10 +18,19 @@ public class MapController : BaseMonoBehaviour
     public GameObject Radial;
     public SkeletonAnimation anim;
     public bool canMove;
+    private bool isLaunch;
+
+    [HideInInspector] public int selectedMapIndex;
 
     private PlayerController player;
     private new CameraFollowTarget camera;
     private float PrevPlayerPos;
+
+    public Transform readySpoon;
+    public Transform spoon;
+    public AnimationReferenceAsset apperance;
+    public AnimationReferenceAsset Launch;
+
 
     private void Start()
     {
@@ -27,17 +38,30 @@ public class MapController : BaseMonoBehaviour
         camera = Camera.main.GetComponent<CameraFollowTarget>();
 
         Radial.SetActive(false);
+        anim.gameObject.SetActive(false);
+
+        anim.AnimationState.Event += OnSpineEvent;
     }
 
     private void Update()
     {
-        if (DungeonUIManager.Instance.enemyCount <= 1)
+        if (DungeonUIManager.Instance.enemyCount <= 1 && !canMove)
         {
             anim.gameObject.SetActive(true);
+            if (anim.gameObject.activeSelf)
+                anim.AnimationState.SetAnimation(0, apperance, loop: false);
+            canMove = true;
         }
-        else
+
+        if (!canMove)
         {
             anim.gameObject.SetActive(false);
+        }
+
+        if(isLaunch)
+        {
+            StartCoroutine(MapTransition(selectedMapIndex));
+            isLaunch = false;
         }
     }
 
@@ -49,19 +73,33 @@ public class MapController : BaseMonoBehaviour
         }
     }
 
-    public void SelectMap(int choice)
+    public void SelectMap()
     {
-        StartCoroutine(MapTransition(choice));
+        anim.AnimationState.SetAnimation(0, Launch, loop: false);
+        player.transform.position = readySpoon.transform.position;
+        player.enabled = false;
+        camera.SnappyMovement = true;
+    }
+
+    public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        if (e.Data.Name == "Launch")
+        {
+            Debug.Log("event");
+            Radial.SetActive(false);
+            isLaunch = true;
+        }
     }
 
     private IEnumerator MapTransition(int choice)
     {
+        player.transform.position = spoon.transform.position;
         player.enabled = false;
         camera.SnappyMovement = true;
         camera.enabled = false;
-        
+
         player.State.CURRENT_STATE = StateMachine.State.Jump;
-        
+
         bool isFadeOutComplete = false;
         bool isMoveUpComplete = false;
 
@@ -101,9 +139,9 @@ public class MapController : BaseMonoBehaviour
 
         StartCoroutine(FadeIn(() => isFadeInComplete = true));
         StartCoroutine(MovePlayerDown(() => isMoveDownComplete = true));
-        
+
         camera.enabled = true;
-        
+
 
         yield return new WaitUntil(() => isFadeInComplete && isMoveDownComplete);
         camera.SnappyMovement = false;
@@ -150,7 +188,7 @@ public class MapController : BaseMonoBehaviour
     {
         while (player.transform.position.z > -10f)
         {
-            player.transform.position -= new Vector3(0, 0, playerMoveSpeed * Time.deltaTime);
+            player.transform.position -= new Vector3(0, -playerMoveSpeed * Time.deltaTime, playerMoveSpeed * Time.deltaTime);
             yield return null;
         }
         PrevPlayerPos = player.transform.position.z;
