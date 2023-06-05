@@ -99,6 +99,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     [DrawIf("North", true)] public AnimationReferenceAsset NorthLoading;
     [DrawIf("South", true)] public AnimationReferenceAsset SouthLoading;
 
+    [Space, Header("Dodge")]
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset Dodge;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthDodge;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthDodge;
+
+
     [Space, Header("Skunk Settings")]
 
     public AnimationReferenceAsset Crack;
@@ -121,7 +127,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset ChargeRun;
 
     [Space, Header("Other")]
-    public AnimationReferenceAsset Dodge;
     public AnimationReferenceAsset Hit;
     public AnimationReferenceAsset Dead;
     public AnimationReferenceAsset Landing;
@@ -883,7 +888,27 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
                     break;
                 case StateMachine.State.Dodging:
-                    if (Track.Animation != Dodge.Animation)
+
+                    if (DirectionState == direction3.up && NorthDodge != null)
+                    {
+                        if (Track.Animation != NorthDodge.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthDodge, loop: true);
+                            Track.TimeScale = NorthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                            Track.End += OnAnimationEnd;
+                        }
+                    }
+                    else if (DirectionState == direction3.down && SouthDodge != null)
+                    {
+                        if (Track.Animation != SouthDodge.Animation)
+                        {
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthDodge, loop: true);
+                            Track.TimeScale = SouthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                            Track.End += OnAnimationEnd;
+                        }
+                    }
+                    else
+                        if (Track.Animation != Dodge.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
                         Track.TimeScale = Dodge.Animation.Duration / playerController.TotalStatus.dodgeTime;

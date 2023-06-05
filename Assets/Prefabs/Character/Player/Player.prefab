@@ -8480,7 +8480,7 @@ MonoBehaviour:
     def: 0
     movSpd: 6
     dodgeCoolDown: 0.5
-    dodgeTime: 1
+    dodgeTime: 0.3
     dodgeDistance: 3
     absorbAngle: 30
     absorbRange: 5
@@ -8885,7 +8885,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6160722343811252257}
         m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
         m_MethodName: UltimateIdx
-        m_Mode: 0
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9537,6 +9537,9 @@ MonoBehaviour:
   Loading: {fileID: 11400000, guid: dec200aeaef6deb4e91db4fea230d451, type: 2}
   NorthLoading: {fileID: 11400000, guid: 78cff275fb2864940a4970a449f42999, type: 2}
   SouthLoading: {fileID: 11400000, guid: bcec135cfbc860a489f8cecd77500366, type: 2}
+  Dodge: {fileID: 11400000, guid: 0bb979ff12f6f624db498cfd3356cf32, type: 2}
+  NorthDodge: {fileID: 11400000, guid: 159b32b593985b349817cd565429d524, type: 2}
+  SouthDodge: {fileID: 11400000, guid: 84ceab03e80ad294bb5dfa7640bdec2f, type: 2}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
   Jump: {fileID: 11400000, guid: 2f1ca3c691ef2e64aba99ad9ed25bec9, type: 2}
@@ -9550,7 +9553,6 @@ MonoBehaviour:
   phase2Idle: {fileID: 0}
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
-  Dodge: {fileID: 11400000, guid: 0bb979ff12f6f624db498cfd3356cf32, type: 2}
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
   Landing: {fileID: 11400000, guid: bc5b4faf503a83a41b8fa14df2440a78, type: 2}
