@@ -55,7 +55,7 @@ public class ObjectMovement : MonoBehaviour
             float maxDistanceDelta = distanceSpeed * Time.deltaTime;
             cam.targetDistance = Mathf.MoveTowards(cam.targetDistance, 40f, maxDistanceDelta);
 
-            float moveSpeed = (targetZ - transform.position.z) / moveDuration;
+            float moveSpeed = (targetZ) / moveDuration;
             float currentZ = transform.position.z + moveSpeed * Time.deltaTime;
 
             transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
