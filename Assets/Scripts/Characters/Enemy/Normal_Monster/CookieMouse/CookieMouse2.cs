@@ -405,13 +405,13 @@ public class CookieMouse2 : UnitObject
     {
         if (e.Data.Name == "slide" || e.Data.Name == "Slide")
         {
-            if (0 <= xDir)
+            if (transform.position.x <= target.position.x)
             {
-                SlideEffect_L.SetActive(true);
+                SlideEffect_R.SetActive(true);
             }
             else
             {
-                SlideEffect_R.SetActive(true);
+                SlideEffect_L.SetActive(true);
             }
         }
     }
