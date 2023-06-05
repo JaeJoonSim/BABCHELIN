@@ -9,12 +9,14 @@ public class LargeAttack : PlayerAttack
     public override void getStaus(status val)
     {
         Damage = val.sk2Dmg;
-        speed = val.atkSpd / 10;
+        speed = val.bulletSpd;
         range = val.sk2Range;
         Cost = val.sk2Cost;
         destructionGauge = val.sk2DestroyDmg;
         splashRange = val.sk2SplashRange;
         splashDmg = val.sk2SplashDmg;
+        bulletAuto = val.bulletAuto;
+        bulletAutoRange = val.bulletAutoRange;
     }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {

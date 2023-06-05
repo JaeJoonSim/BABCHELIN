@@ -2,10 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading.Tasks;
-using Unity.VisualScripting;
+
 using UnityEngine;
-using static SimpleSpineAnimator;
+
 
 public class PlayerController : BaseMonoBehaviour
 {
@@ -428,6 +427,13 @@ public class PlayerController : BaseMonoBehaviour
                 float valueB = (float)field.GetValue(ItemStatusAdd);
                 float valueC = (float)field.GetValue(ItemStatusPercent);
                 float sum = valueA + valueB + (valueA / 100 * valueC);
+                field.SetValueDirect(__makeref(TotalStatus), sum);
+            }
+            else if (field.FieldType == typeof(bool))
+            {
+                bool valueA = (bool)field.GetValue(BaseStatus);
+                bool valueB = (bool)field.GetValue(ItemStatusAdd);
+                bool sum = valueA || valueB;
                 field.SetValueDirect(__makeref(TotalStatus), sum);
             }
         }

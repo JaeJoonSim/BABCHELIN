@@ -416,18 +416,28 @@ public class PlayerAction : BaseMonoBehaviour
                         return;
                    
                     playerController.addBullet(-playerController.TotalStatus.bulletCost);
-                    Instantiate(playerController.Attack
-                        , spawnPos
-                        , Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
-                        ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
 
 
-                    //float anglet = state.facingAngle - 15;
-                    //for (int i = 0; i < 2; i++)
-                    //{
-                    //    anglet += 30 / 2;
-                    //    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                    //}
+                    if (playerController.TotalStatus.bulletCount <= 1)
+                    {
+                        Instantiate(playerController.Attack
+                       , spawnPos
+                       , Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
+                       ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+                    }
+                    else
+                    {
+                        int bCount = playerController.TotalStatus.bulletCount;
+                        float anglet = state.facingAngle - (10 * (bCount - 1)) / 2;
+                        for (int i = 0; i < bCount; i++)
+                        {
+                            Instantiate(playerController.Attack
+                            , spawnPos
+                            , Quaternion.Euler(new Vector3(0, 0, anglet))
+                            ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+                            anglet += 10;
+                        }
+                    }
                     break;
                 case StateMachine.State.Skill:
                     if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))

@@ -57,6 +57,8 @@ public struct status
     public float atkSpd;
     [Tooltip("기본 공격 발사 갯수")]
     public int bulletCount;
+    [Tooltip("투사체 속도")]
+    public int bulletSpd;
     [Tooltip("기본 공격 사정거리")]
     public int bulletRange;
     [Tooltip("기본 공격 소모량")]
@@ -70,6 +72,10 @@ public struct status
     public int bulletRegen;
     [Tooltip("탄환 자연시간(초)(최소치까지)")]
     public int bulletRegenTime;
+    [Tooltip("가장 가까운 적에게 유도탄")]
+    public bool bulletAuto;
+    [Tooltip("유도 범위")]
+    public float bulletAutoRange;
 
     //소형탄관련
     [Header("Skill_1(소형탄)"), Space]
