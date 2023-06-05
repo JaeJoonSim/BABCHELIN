@@ -42,6 +42,19 @@ public class UnitObject : BaseMonoBehaviour
     public virtual void OnEnable()
     {
         health.OnHit += OnHit;
+        health.OnDie += OnDie;
+    }
+
+    private void OnDie()
+    {
+        if (DungeonUIManager.Instance != null)
+        {
+            DungeonUIManager.Instance.enemyCount--;
+        }
+        else
+        {
+            Debug.Log("instance null");
+        }
     }
 
     public virtual void Update()

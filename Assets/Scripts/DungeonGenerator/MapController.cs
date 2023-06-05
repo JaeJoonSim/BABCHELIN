@@ -11,6 +11,7 @@ public class MapController : BaseMonoBehaviour
     public GameObject currentMap;
     public Image image;
     public float playerMoveSpeed = 1.0f;
+    public GameObject Radial;
 
     private PlayerController player;
     private new CameraFollowTarget camera;
@@ -20,6 +21,16 @@ public class MapController : BaseMonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
+
+        Radial.SetActive(false);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player"))
+        {
+            Radial.SetActive(true);
+        }
     }
 
     public void SelectMap(int choice)
