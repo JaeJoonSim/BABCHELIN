@@ -124,6 +124,7 @@ public class BerryBird : UnitObject
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
+            distanceToPlayer = Vector3.Distance(transform.position, target.position);
             BodyHit();
         }
         if (health.CurrentHP() <= 0)
@@ -217,7 +218,6 @@ public class BerryBird : UnitObject
                     if (agent.enabled)
                         agent.SetDestination(target.position);
 
-                    distanceToPlayer = Vector3.Distance(transform.position, target.position);
                     if (distanceToPlayer <= detectionAttackRange)
                     {
                         state.CURRENT_STATE = StateMachine.State.Attacking;
@@ -287,7 +287,6 @@ public class BerryBird : UnitObject
 
                 case StateMachine.State.Delay:
                     time += Time.deltaTime;
-                    distanceToPlayer = Vector3.Distance(transform.position, target.position);
                     if (time >= delayTime)
                     {
                         time = 0;
@@ -369,7 +368,6 @@ public class BerryBird : UnitObject
         {
             this.transform.localScale = new Vector3(-1f, 1f, 1f);
         }
-        distanceToPlayer = Vector3.Distance(transform.position, target.position);
         agent.SetDestination(transform.position + directionToPoint);
 
         if (distanceToPlayer > detectionRange)

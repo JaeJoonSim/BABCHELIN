@@ -139,12 +139,10 @@ GameObject:
   - component: {fileID: 4265093594819362730}
   - component: {fileID: 4265093594819362735}
   - component: {fileID: 4265093594819362734}
+  - component: {fileID: 6125220645253390736}
   - component: {fileID: 4265093594819362729}
   - component: {fileID: 4265093594819362728}
   - component: {fileID: 4265093594819362732}
-  - component: {fileID: 6125220645253390736}
-  - component: {fileID: 4265093594819362722}
-  - component: {fileID: 4265093594819362723}
   m_Layer: 8
   m_Name: AdePot
   m_TagString: Enemy
@@ -206,6 +204,40 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6125220645253390736
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265093594819362709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbe0518be3a5d6f4192537978e950594, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 0}
+  state: {fileID: 0}
+  health: {fileID: 0}
+  vx: 0
+  vy: 0
+  moveVX: 0
+  moveVY: 0
+  speed: 0
+  maxSpeed: 0.05
+  spawnCycleTime: 10
+  spawnRange: 2
+  mosterObject:
+  - {fileID: 3275738440347693820, guid: bdbe96d2fc5e1fe46bc15a710a4676ce, type: 3}
+  - {fileID: 3275738440347693820, guid: c607d0e110f1deb4ebcd91123f55e76b, type: 3}
+  - {fileID: 3275738440347693820, guid: 4878a6185c7ba7048af9eabe28519867, type: 3}
+  - {fileID: 3275738440347693820, guid: 064558c4a29274c4081cc92efb2dcc33, type: 3}
+  - {fileID: 4262851435986658342, guid: 4a5315e621e07694188400eeeca5d3f6, type: 3}
+  spawnEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
+    type: 3}
+  BrokenEffect: {fileID: 8180159653219317779, guid: f9c07409bbd22204c849edb765562718,
+    type: 3}
+  spawnMax: 0
 --- !u!114 &4265093594819362729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,74 +296,6 @@ MonoBehaviour:
   _data:
     _json: '{"declarations":{"Kind":"Object","collection":{"$content":[],"$version":"A"},"$version":"A"}}'
     _objectReferences: []
---- !u!114 &6125220645253390736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265093594819362709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbe0518be3a5d6f4192537978e950594, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  state: {fileID: 0}
-  health: {fileID: 0}
-  vx: 0
-  vy: 0
-  moveVX: 0
-  moveVY: 0
-  speed: 0
-  maxSpeed: 0.05
-  spawnCycleTime: 10
-  spawnRange: 2
-  mosterObject:
-  - {fileID: 3275738440347693820, guid: bdbe96d2fc5e1fe46bc15a710a4676ce, type: 3}
-  - {fileID: 3275738440347693820, guid: c607d0e110f1deb4ebcd91123f55e76b, type: 3}
-  - {fileID: 3275738440347693820, guid: 4878a6185c7ba7048af9eabe28519867, type: 3}
-  - {fileID: 3275738440347693820, guid: 064558c4a29274c4081cc92efb2dcc33, type: 3}
-  - {fileID: 4262851435986658342, guid: 4a5315e621e07694188400eeeca5d3f6, type: 3}
-  spawnEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
-    type: 3}
-  BrokenEffect: {fileID: 8180159653219317779, guid: f9c07409bbd22204c849edb765562718,
-    type: 3}
-  spawnMax: 0
---- !u!195 &4265093594819362722
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265093594819362709}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 1
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &4265093594819362723
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265093594819362709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5987695874941143013
 GameObject:
   m_ObjectHideFlags: 0
