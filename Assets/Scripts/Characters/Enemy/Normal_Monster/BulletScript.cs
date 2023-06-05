@@ -53,13 +53,6 @@ public class BulletScript : BaseMonoBehaviour
         }
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
-        if (transform.position.z >= 0)
-        {
-            GameObject groundEffect = GroundEffect;
-            groundEffect.transform.position = transform.position;
-            Instantiate(groundEffect);
-            Destroy(gameObject);
-        }
     }
 
     public void SetDirection(Vector2 newDirection)

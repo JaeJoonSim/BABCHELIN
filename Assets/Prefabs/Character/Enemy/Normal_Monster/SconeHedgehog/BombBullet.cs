@@ -35,6 +35,11 @@ public class BombBullet : UDRLBullet
         {
             if(distanceToPlayer <= blastRange)
                 player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
+
+
+            GameObject groundEffect = GroundEffect;
+            groundEffect.transform.position = transform.position;
+            Instantiate(groundEffect);
             Destroy(gameObject);
         }
     }
