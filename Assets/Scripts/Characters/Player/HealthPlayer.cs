@@ -32,7 +32,7 @@ public class HealthPlayer : Health
 
     private void Update()
     {
-        maxHealth = controller.TotalStatus.hpMax;
+        maxHealth = controller.TotalStatus.hpMax.value;
         if (isPoisoned == true)
         {
             curPoisonTimer += Time.deltaTime;

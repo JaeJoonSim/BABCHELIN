@@ -49,7 +49,7 @@ public class FartProjectile : MonoBehaviour
         else if (timer >= duration)
         {
             Vector2 directionToPlayer = (player.position - transform.position).normalized;
-            rb.velocity = directionToPlayer * speed;
+            rb.velocity = directionToPlayer * speed * Time.deltaTime;
         }
     }
 

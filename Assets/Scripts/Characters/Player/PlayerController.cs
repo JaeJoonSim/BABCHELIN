@@ -1,8 +1,10 @@
+using MessagePack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-
+using System.Security.Cryptography;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -78,15 +80,20 @@ public class PlayerController : BaseMonoBehaviour
     public GameObject BulletUI;
     private float fadeTime = 0;
 
-
-
     private void Start()
     {
+        BaseStatus.SaveFieldsToVariables();
+        ItemStatusAdd.SaveFieldsToVariables();
+        ItemStatusPercent.SaveFieldsToVariables();
+        BuffStatus.SaveFieldsToVariables();
+        TotalStatus.SaveFieldsToVariables();
         getTotalstatus();
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
     }
+
+
 
     private void OnEnable()
     {
@@ -99,7 +106,8 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
-        getTotalstatus();
+        //getTotalstatus();
+        //Debug.Log((TotalStatus.hpMax.value));
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
@@ -154,13 +162,13 @@ public class PlayerController : BaseMonoBehaviour
                     //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
                 }
                 state.LookAngle = state.facingAngle;
-                speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 break;
 
             case StateMachine.State.Dodging:
                 SpineTransform.localPosition = Vector3.zero;
 
-                if (dodgeTime < TotalStatus.dodgeTime)
+                if (dodgeTime < TotalStatus.dodgeTime.value)
                 {
                     forceDir = DodgeAngle;
                     speed = dodgeSpeed;
@@ -186,7 +194,7 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 }
                 else
                 {
@@ -204,7 +212,7 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 }
                 else
                 {
@@ -225,7 +233,7 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 }
                 else
                 {
@@ -240,7 +248,7 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
                     state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd - speed) / 3f * GameManager.DeltaTime;
+                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 }
                 else
                 {
@@ -262,8 +270,8 @@ public class PlayerController : BaseMonoBehaviour
 
 
         // ÅºÈ¯ È¸º¹
-        if (BulletGauge < TotalStatus.bulletMin && !IsInvoking("RestoreBullet"))
-            InvokeRepeating("RestoreBullet", 0f, TotalStatus.bulletRegenTime);
+        if (BulletGauge < TotalStatus.bulletMin.value && !IsInvoking("RestoreBullet"))
+            InvokeRepeating("RestoreBullet", 0f, TotalStatus.bulletRegenTime.value);
 
     }
 
@@ -352,7 +360,7 @@ public class PlayerController : BaseMonoBehaviour
             muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
             muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
-        
+
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
@@ -401,40 +409,25 @@ public class PlayerController : BaseMonoBehaviour
 
     private void getTotalstatus()
     {
-        //var total = struct2cell(BaseStatus);
-        //TotalStatus.hpMax = BaseStatus.hpMax + ItemStatusAdd.hpMax +(BaseStatus.hpMax / 100  * ItemStatusPercent.hpMax);
-        //TotalStatus.hpRegen = BaseStatus.hpRegen + ItemStatusAdd.hpRegen + (BaseStatus.hpRegen / 100 * ItemStatusPercent.hpRegen);
-        //TotalStatus.def = BaseStatus.def + ItemStatusAdd.def + (BaseStatus.def / 100 * ItemStatusPercent.def);
-        Type structType = typeof(status);
-        FieldInfo[] fields = structType.GetFields(BindingFlags.Public | BindingFlags.Instance);
-        foreach (FieldInfo field in fields)
+        foreach (KeyValuePair<string, dynamic> total in BaseStatus.variables)
         {
-            if (field.FieldType == typeof(int))
+            if (total.Key != "variables")
             {
-                int valueA = (int)field.GetValue(BaseStatus);
-
-                int valueB = (int)field.GetValue(ItemStatusAdd);
-                int valueC = (int)field.GetValue(ItemStatusPercent);
-                int sum = valueA + valueB + (valueA / 100 * valueC);
-
-                field.SetValueDirect(__makeref(TotalStatus), sum);
-
-            }
-            else if (field.FieldType == typeof(float))
-            {
-                float valueA = (float)field.GetValue(BaseStatus);
-
-                float valueB = (float)field.GetValue(ItemStatusAdd);
-                float valueC = (float)field.GetValue(ItemStatusPercent);
-                float sum = valueA + valueB + (valueA / 100 * valueC);
-                field.SetValueDirect(__makeref(TotalStatus), sum);
-            }
-            else if (field.FieldType == typeof(bool))
-            {
-                bool valueA = (bool)field.GetValue(BaseStatus);
-                bool valueB = (bool)field.GetValue(ItemStatusAdd);
-                bool sum = valueA || valueB;
-                field.SetValueDirect(__makeref(TotalStatus), sum);
+                Type valueType = BaseStatus.variables[total.Key].GetType();
+                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                {
+                    TotalStatus.variables[total.Key].value = 
+                        BaseStatus.variables[total.Key].value
+                        + ItemStatusAdd.variables[total.Key].value
+                        + (BaseStatus.variables[total.Key].value / 100 * ItemStatusPercent.variables[total.Key].value);
+                }
+                else if (valueType == typeof(Stat<bool>))
+                {
+                    TotalStatus.variables[total.Key].value =
+                        BaseStatus.variables[total.Key].value ||
+                        ItemStatusAdd.variables[total.Key].value ||
+                        ItemStatusPercent.variables[total.Key].value;
+                }
             }
         }
     }
@@ -443,9 +436,9 @@ public class PlayerController : BaseMonoBehaviour
     {
         BulletGauge += add;
 
-        if (BulletGauge > TotalStatus.bulletMax)
+        if (BulletGauge > TotalStatus.bulletMax.value)
         {
-            BulletGauge = TotalStatus.bulletMax;
+            BulletGauge = TotalStatus.bulletMax.value;
         }
         if (BulletGauge <= 0)
         {
@@ -457,11 +450,11 @@ public class PlayerController : BaseMonoBehaviour
     private void RestoreBullet()
     {
 
-        BulletGauge += TotalStatus.bulletRegen;
+        BulletGauge += TotalStatus.bulletRegen.value;
 
-        if (BulletGauge > TotalStatus.bulletMin)
+        if (BulletGauge > TotalStatus.bulletMin.value)
         {
-            BulletGauge = TotalStatus.bulletMin;
+            BulletGauge = TotalStatus.bulletMin.value;
             CancelInvoke("RestoreBullet");
         }
     }

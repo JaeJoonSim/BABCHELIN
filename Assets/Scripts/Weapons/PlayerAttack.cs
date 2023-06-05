@@ -49,13 +49,13 @@ public class PlayerAttack : BaseMonoBehaviour
     }
     public virtual void getStaus(status val)
     {
-        Damage = val.atk;
-        speed = val.bulletSpd;
-        range = val.bulletRange;
-        Cost = val.bulletCost;
+        Damage = val.atk.value;
+        speed = val.bulletSpd.value;
+        range = val.bulletRange.value;
+        Cost = val.bulletCost.value;
         destructionGauge = 0;
-        bulletAuto = val.bulletAuto;
-        bulletAutoRange = val.bulletAutoRange;
+        bulletAuto = val.bulletAuto.value;    
+        bulletAutoRange = val.bulletAutoRange.value;
     }
 
     private Transform SearchTarget()

@@ -35,7 +35,7 @@ public class SmallAttack : BaseMonoBehaviour
     {
         AttackTime += Time.deltaTime;
 
-        if ( AttackTime > PlayerController.TotalStatus.sk1Spd) 
+        if ( AttackTime > PlayerController.TotalStatus.sk1Spd.value) 
         {
             AttackTime = 0;
             Attack();
@@ -46,23 +46,23 @@ public class SmallAttack : BaseMonoBehaviour
     private void Attack()
     {
         //PlayerController.addBullet(-Cost);
-        Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, PlayerController.TotalStatus.sk1Range, 1 << 8);
+        Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, PlayerController.TotalStatus.sk1Range.value, 1 << 8);
         for (int i = 0; i < targetInRange.Length; i++)
         {
             Vector2 dirToTarget = (targetInRange[i].transform.position - transform.position).normalized;
-            if (Vector3.Angle(transform.right, dirToTarget) <= PlayerController.TotalStatus.sk1Angle / 2)
+            if (Vector3.Angle(transform.right, dirToTarget) <= PlayerController.TotalStatus.sk1Angle.value / 2)
             {
                 Skunk boss = targetInRange[i].GetComponent<Skunk>();
                 Vector3 collisionPoint = targetInRange[i].ClosestPoint(transform.position);
                 collisionPoint += new Vector3(0, 0, -1);
                 if (boss != null)
-                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg, Health.AttackType.Normal, boss.destructionCount);
+                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg.value, Health.AttackType.Normal, boss.destructionCount);
                 else
-                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg, Health.AttackType.Normal);
-                PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg);
+                    targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg.value, Health.AttackType.Normal);
+                PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg.value);
                 Instantiate(HitEffet, collisionPoint, Quaternion.identity);
                 DmgTextController = targetInRange[i].GetComponent<DamageTextControler>();
-                DmgTextController.ShowDamageText(PlayerController.TotalStatus.sk1Dmg);
+                DmgTextController.ShowDamageText(PlayerController.TotalStatus.sk1Dmg.value);
             }
         }
     }

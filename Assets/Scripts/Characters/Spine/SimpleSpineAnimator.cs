@@ -894,7 +894,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         if (Track.Animation != NorthDodge.Animation)
                         {
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthDodge, loop: true);
-                            Track.TimeScale = NorthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                            Track.TimeScale = NorthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime.value;
                             Track.End += OnAnimationEnd;
                         }
                     }
@@ -903,7 +903,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         if (Track.Animation != SouthDodge.Animation)
                         {
                             Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthDodge, loop: true);
-                            Track.TimeScale = SouthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                            Track.TimeScale = SouthDodge.Animation.Duration / playerController.TotalStatus.dodgeTime.value;
                             Track.End += OnAnimationEnd;
                         }
                     }
@@ -911,7 +911,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                         if (Track.Animation != Dodge.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Dodge, loop: true);
-                        Track.TimeScale = Dodge.Animation.Duration / playerController.TotalStatus.dodgeTime;
+                        Track.TimeScale = Dodge.Animation.Duration / playerController.TotalStatus.dodgeTime.value;
                         Track.End += OnAnimationEnd;
                     }
                     break;
