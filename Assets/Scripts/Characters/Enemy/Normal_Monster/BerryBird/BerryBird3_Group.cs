@@ -83,6 +83,11 @@ public class BerryBird3_Group : UnitObject
 
     private NavMeshAgent nav;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         nav = transform.GetComponent<NavMeshAgent>();

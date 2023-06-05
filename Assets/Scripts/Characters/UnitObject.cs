@@ -27,11 +27,34 @@ public class UnitObject : BaseMonoBehaviour
         health = GetComponent<Health>();
         state = GetComponent<StateMachine>();
         rb = base.gameObject.GetComponent<Rigidbody2D>();
+
+        if (DungeonUIManager.Instance != null)
+        {
+            DungeonUIManager.Instance.RegisterEnemy();
+            Debug.Log($"{gameObject.name}");
+        }
+        else
+        {
+            Debug.Log("instance null");
+        }
     }
 
     public virtual void OnEnable()
     {
         health.OnHit += OnHit;
+        health.OnDie += OnDie;
+    }
+
+    private void OnDie()
+    {
+        if (DungeonUIManager.Instance != null)
+        {
+            DungeonUIManager.Instance.enemyCount--;
+        }
+        else
+        {
+            Debug.Log("instance null");
+        }
     }
 
     public virtual void Update()

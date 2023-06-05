@@ -38,6 +38,11 @@ public class BerryBird3_Single : UnitObject
 
     private NavMeshAgent nav;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     // Start is called before the first frame update
     void Start()
     {

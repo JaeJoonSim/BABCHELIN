@@ -35,6 +35,11 @@ public class Pumpkin : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         if (target == null)

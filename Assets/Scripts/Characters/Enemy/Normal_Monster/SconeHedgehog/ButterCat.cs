@@ -84,6 +84,11 @@ public class ButterCat : UnitObject
 
     Vector3 direction;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     // Start is called before the first frame update
     private void Start()
     {

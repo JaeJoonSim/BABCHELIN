@@ -1,6 +1,8 @@
+using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,6 +13,9 @@ public class MapController : BaseMonoBehaviour
     public GameObject currentMap;
     public Image image;
     public float playerMoveSpeed = 1.0f;
+    public GameObject Radial;
+    public SkeletonAnimation anim;
+    public bool canMove;
 
     private PlayerController player;
     private new CameraFollowTarget camera;
@@ -20,6 +25,28 @@ public class MapController : BaseMonoBehaviour
     {
         player = FindObjectOfType<PlayerController>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
+
+        Radial.SetActive(false);
+    }
+
+    private void Update()
+    {
+        if (DungeonUIManager.Instance.enemyCount <= 1)
+        {
+            anim.gameObject.SetActive(true);
+        }
+        else
+        {
+            anim.gameObject.SetActive(false);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && canMove)
+        {
+            Radial.SetActive(true);
+        }
     }
 
     public void SelectMap(int choice)

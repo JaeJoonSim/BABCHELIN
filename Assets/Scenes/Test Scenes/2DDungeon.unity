@@ -3578,6 +3578,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2072322793}
   - component: {fileID: 2072322792}
+  - component: {fileID: 2072322794}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -3610,6 +3611,7 @@ MonoBehaviour:
   currentMap: {fileID: 6823453643606926232}
   image: {fileID: 1393633440}
   playerMoveSpeed: 7
+  Radial: {fileID: 1250206517}
 --- !u!4 &2072322793
 Transform:
   m_ObjectHideFlags: 0
@@ -3626,6 +3628,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &2072322794
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2072322791}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
 --- !u!1001 &2072786202
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3933,7 +3951,7 @@ PrefabInstance:
     - target: {fileID: 2648169565075864973, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3062203400200393489, guid: 22dbbba682b1a004dbfc2e8a41bd7523,
         type: 3}
@@ -5433,32 +5451,32 @@ PrefabInstance:
     - target: {fileID: 249110354902992861, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 249110354902992861, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 249110354902992861, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6192756456426546478, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6192756456426546478, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6192756456426546478, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223372, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
@@ -5524,6 +5542,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Skunk
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223376, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771670899601, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
