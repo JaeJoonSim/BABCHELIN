@@ -300,7 +300,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 3a977adecdeb046458b02fdaaefe8e0e, type: 2}
+  - {fileID: 2100000, guid: e09365c309bb60a409788176597ecc89, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -334,7 +334,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 9ae7c29651bca9048aa80d59ceb9e86c, type: 2}
+  skeletonDataAsset: {fileID: 11400000, guid: c8286ba744023e44c87f009c636eb28e, type: 2}
   initialSkinName: Blackberry
   fixPrefabOverrideViaMeshFilter: 2
   initialFlipX: 0
@@ -379,12 +379,12 @@ MonoBehaviour:
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
-  DefaultLoop: {fileID: 11400000, guid: ba705ba7ee0ea11498171e2efc86157b, type: 2}
+  DefaultLoop: {fileID: 11400000, guid: c5e283e6a4085a84a9acf02bc71ead04, type: 2}
   Animations: []
   North: 0
   South: 0
   LeftRight: 1
-  Idle: {fileID: 11400000, guid: ba705ba7ee0ea11498171e2efc86157b, type: 2}
+  Idle: {fileID: 11400000, guid: c5e283e6a4085a84a9acf02bc71ead04, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
   Moving: {fileID: 11400000, guid: c8f54b11fbbea4740a6f595fa8eb17d8, type: 2}
@@ -395,7 +395,7 @@ MonoBehaviour:
   SouthMovingBack: {fileID: 0}
   StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
-  Attack: {fileID: 11400000, guid: 517dafed45b27ab4cb642cf3589fc65a, type: 2}
+  Attack: {fileID: 11400000, guid: 7f479bd85649ea0489c6173e281aa078, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
   Absorb: {fileID: 0}
@@ -410,6 +410,9 @@ MonoBehaviour:
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Dodge: {fileID: 0}
+  NorthDodge: {fileID: 0}
+  SouthDodge: {fileID: 0}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
   Jump: {fileID: 0}
@@ -423,9 +426,8 @@ MonoBehaviour:
   phase2Idle: {fileID: 0}
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
-  Dodge: {fileID: 0}
-  Hit: {fileID: 11400000, guid: 833cae2bcc7ee9f448e03648839e69d9, type: 2}
-  Dead: {fileID: 11400000, guid: edd832c8fed472a44937f5ed1c200bb4, type: 2}
+  Hit: {fileID: 11400000, guid: 5bec93f63e817bc47a637cb31c7f3cbf, type: 2}
+  Dead: {fileID: 11400000, guid: 32fd3068fd3b9f246a7ff33312eb7021, type: 2}
   Landing: {fileID: 0}
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}
