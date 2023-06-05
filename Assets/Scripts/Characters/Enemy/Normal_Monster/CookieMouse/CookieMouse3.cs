@@ -74,6 +74,11 @@ public class CookieMouse3 : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);

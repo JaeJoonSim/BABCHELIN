@@ -74,6 +74,11 @@ public class CookieMouse : UnitObject
 
     private Cream creamParent;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);

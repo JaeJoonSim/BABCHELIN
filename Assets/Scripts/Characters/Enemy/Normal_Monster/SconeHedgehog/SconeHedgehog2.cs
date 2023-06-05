@@ -101,6 +101,11 @@ public class SconeHedgehog2 : UnitObject
 
     public GameObject Buttercat;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);

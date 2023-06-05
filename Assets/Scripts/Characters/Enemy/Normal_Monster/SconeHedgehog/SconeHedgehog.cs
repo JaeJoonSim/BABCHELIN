@@ -100,6 +100,11 @@ public class SconeHedgehog : UnitObject
     public GameObject WaterEffect;
     public GameObject BreakEffect;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);

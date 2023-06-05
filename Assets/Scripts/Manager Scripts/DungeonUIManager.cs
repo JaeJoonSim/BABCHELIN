@@ -5,6 +5,26 @@ using UnityEngine.UI;
 
 public class DungeonUIManager : BaseMonoBehaviour
 {
+    private static DungeonUIManager _instance;
+    public static DungeonUIManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+            {
+                _instance = GameObject.FindObjectOfType<DungeonUIManager>();
+
+                if (_instance == null)
+                {
+                    GameObject singleton = new GameObject();
+                    _instance = singleton.AddComponent<DungeonUIManager>();
+                    singleton.name = typeof(DungeonUIManager).ToString() + " (Singleton)";
+                }
+            }
+            return _instance;
+        }
+    }
+
     private int tabNum;
 
     public GameObject escPanel;
@@ -15,6 +35,14 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public GameObject[] Tabs;
     public GameObject[] tabBtn;
+
+    public int enemyCount;
+
+    private void Awake()
+    {
+        if (_instance == null)
+            _instance = this;
+    }
 
     private void Start()
     {
@@ -91,5 +119,10 @@ public class DungeonUIManager : BaseMonoBehaviour
     public void SetTabNum(int a)
     {
         tabNum = a;
+    }
+
+    public void RegisterEnemy()
+    {
+        enemyCount++;
     }
 }

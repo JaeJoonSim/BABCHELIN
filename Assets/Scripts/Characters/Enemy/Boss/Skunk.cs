@@ -141,6 +141,11 @@ public class Skunk : UnitObject
 
     private BossSounds bossSounds;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         if (target == null)

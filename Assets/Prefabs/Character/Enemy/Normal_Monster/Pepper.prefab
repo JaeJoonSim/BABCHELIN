@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 4262851435986658333}
   - component: {fileID: 4262851435986658330}
   - component: {fileID: 4262851435986658331}
-  - component: {fileID: 4262851435986658328}
   - component: {fileID: 4262851435986658335}
   - component: {fileID: 4262851435986658334}
   - component: {fileID: 4262851435986658321}
@@ -92,6 +91,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   IsPlayer: 0
   currentState: 0
+  previousState: 0
   facingAngle: 0
   LookAngle: 0
   isDefending: 0
@@ -110,32 +110,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 10
   currentHealth: 0
+  backHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
+  isPoisoned: 0
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
---- !u!114 &4262851435986658328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4262851435986658342}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 040209aa6d4ddda41b73b5f5a9a2dffa, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  state: {fileID: 0}
-  health: {fileID: 0}
-  vx: 0
-  vy: 0
-  moveVX: 0
-  moveVY: 0
-  speed: 0
-  maxSpeed: 0.05
+  damageDecrease: 0
+  doNotChange: 0
+  isMonster: 0
 --- !u!114 &4262851435986658335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,44 +339,66 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 0
   AutomaticallySetFacing: 1
   DefaultLoop: {fileID: 11400000, guid: 05d4ae6a0a3dfe8418d16ffe7669de55, type: 2}
   Animations: []
+  North: 0
+  South: 0
+  LeftRight: 0
   Idle: {fileID: 11400000, guid: 05d4ae6a0a3dfe8418d16ffe7669de55, type: 2}
   NorthIdle: {fileID: 0}
   SouthIdle: {fileID: 0}
-  StartMoving: {fileID: 0}
   Moving: {fileID: 11400000, guid: e7108f96e72967c489a736730fd2cfda, type: 2}
   MovingBack: {fileID: 0}
   NorthMoving: {fileID: 0}
+  NorthMovingBack: {fileID: 0}
   SouthMoving: {fileID: 0}
+  SouthMovingBack: {fileID: 0}
+  StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 1a12b34f4e6bf404d8f3d9c65f8e5524, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
-  PlayerAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerNorthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  PlayerSouthAttack:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   Absorb: {fileID: 0}
   NorthAbsorb: {fileID: 0}
   SouthAbsorb: {fileID: 0}
+  Skill: {fileID: 0}
+  NorthSkill: {fileID: 0}
+  SouthSkill: {fileID: 0}
+  Skill2: {fileID: 0}
+  NorthSkill2: {fileID: 0}
+  SouthSkill2: {fileID: 0}
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
   Dodge: {fileID: 0}
+  NorthDodge: {fileID: 0}
+  SouthDodge: {fileID: 0}
+  Crack: {fileID: 0}
+  NonCrack: {fileID: 0}
+  Jump: {fileID: 0}
+  TailWhip: {fileID: 0}
+  CreamThrow: {fileID: 0}
+  fart: {fileID: 0}
+  SpinStart: {fileID: 0}
+  Destroyed: {fileID: 0}
+  Spin: {fileID: 0}
+  GimmickFailExplode: {fileID: 0}
+  phase2Idle: {fileID: 0}
+  FartShield: {fileID: 0}
+  ChargeRun: {fileID: 0}
   Hit: {fileID: 11400000, guid: 2bb116ff07930904cae15a2cbf1f2bd6, type: 2}
   Dead: {fileID: 11400000, guid: 1e6f168844d48b640aee0e89e769a467, type: 2}
+  Landing: {fileID: 0}
+  MixIdle: {fileID: 0}
+  NorthMixIdle: {fileID: 0}
+  SouthMixIdle: {fileID: 0}
+  MixMove: {fileID: 0}
+  NorthMixMove: {fileID: 0}
+  SouthMixMove: {fileID: 0}
   isFillWhite: 0
   UpdateAnimsOnStateChange: 1
   ReverseFacing: 0

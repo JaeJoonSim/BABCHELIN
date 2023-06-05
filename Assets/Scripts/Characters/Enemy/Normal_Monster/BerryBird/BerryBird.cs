@@ -78,6 +78,11 @@ public class BerryBird : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
