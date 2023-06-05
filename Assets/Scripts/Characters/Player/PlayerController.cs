@@ -270,19 +270,11 @@ public class PlayerController : BaseMonoBehaviour
 
     public void facingAngle()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Dodging &&
-            (state.CURRENT_STATE == StateMachine.State.Attacking ||
-            state.CURRENT_STATE == StateMachine.State.Absorbing ||
-            state.CURRENT_STATE == StateMachine.State.Skill ||
-            state.CURRENT_STATE == StateMachine.State.Skill2
-            ))
+        if (PreesAttack)
         {
-
-            if (PreesAttack)
-            {
-                muzzleBone.position = Utils.GetMousePosition();
-                state.facingAngle = Utils.GetMouseAngle(transform.position);
-            }
+            muzzleBone.position = Utils.GetMousePosition();
+            state.facingAngle = Utils.GetMouseAngle(transform.position);
+            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
             if (45 <= state.facingAngle && state.facingAngle <= 135)
                 DodgeAngle = 90f;
@@ -347,6 +339,7 @@ public class PlayerController : BaseMonoBehaviour
                 {
                 }
             }
+
             if (BulletUI.activeSelf)
             {
                 fadeTime += Time.deltaTime;
@@ -356,12 +349,11 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
-            if (!PreesAttack)
-                state.facingAngle = DodgeAngle;
-
+            state.facingAngle = DodgeAngle;
+            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
             muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
-        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+        
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
