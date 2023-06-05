@@ -13,6 +13,10 @@ public class FlowerPot : UnitObject
     public GameObject spawnEffect;
     public GameObject BrokenEffect;
 
+    [Space]
+    [SerializeField] private int spawnMax;
+
+
     private void Start()
     {
         if(transform.parent.gameObject != null)
@@ -23,7 +27,7 @@ public class FlowerPot : UnitObject
     {
         time += Time.deltaTime;
 
-        if(time >= spawnCycleTime && parentObj.transform.childCount < 7)
+        if(time >= spawnCycleTime && parentObj.transform.childCount < spawnMax + 1)
         {
             SpawnMonster();
             time = 0;

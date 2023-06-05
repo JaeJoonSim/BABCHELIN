@@ -78,11 +78,8 @@ public class BerryBird : UnitObject
 
     private SkeletonAnimation spineAnimation;
 
-    private NavMeshAgent nav;
-
     private void Start()
     {
-        nav = transform.GetComponent<NavMeshAgent>();
         UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
 
         if (target == null)
@@ -411,7 +408,8 @@ public class BerryBird : UnitObject
     {
         speed = 0f;
         agent.isStopped = true;
-        nav.enabled = false;
+        agent.enabled = false;
+        col.enabled = false;
         Invoke("DeathEffect", 1f);
         Destroy(gameObject, 1f);
     }
