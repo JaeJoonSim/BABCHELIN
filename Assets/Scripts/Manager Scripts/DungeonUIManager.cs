@@ -36,7 +36,8 @@ public class DungeonUIManager : BaseMonoBehaviour
             PlayerUI.SetActive(!PlayerUI.activeSelf);
             if (BossUI != null)
                 BossUI.SetActive(!BossUI.activeSelf);
-            Minimap.SetActive(!Minimap.activeSelf);
+            if(Minimap != null)
+                Minimap.SetActive(!Minimap.activeSelf);
         }
 
         for (int a = 0; a < 5; a++)

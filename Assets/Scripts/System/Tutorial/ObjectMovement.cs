@@ -1,4 +1,8 @@
+using System;
+using System.Collections;
+using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class ObjectMovement : MonoBehaviour
@@ -8,107 +12,153 @@ public class ObjectMovement : MonoBehaviour
     public float fadeDuration;      // Fade In/Out에 걸리는 시간
     public float fadeInDelay;       // Fade In 시작까지의 대기 시간
     public float fadeOutDelay;      // Fade Out 시작까지의 대기 시간
-    public GameObject tutorialPanel;    // TutorialPanel 오브젝트
-    public Image logoImage;         // TutorialGameLogo의 Image 컴포넌트
 
-    private Vector3 initialPosition; // 초기 위치
+    [Header("Panel UI")]
+    public Transform tutorialTopLetter;
+    public Transform tutorialBottomLetter;
+    public Image logoImage;         // TutorialGameLogo의 Image 컴포넌트
+    public float letterMoveDuration;
+    public GameObject dialogue;
+
     private bool isMoving;          // 이동 중인지 여부
+
+    public Action OnFadeOutComplete;
+    public Action OnCameraChangeRotationComplete;
+
+    private Camera mainCam;
+    private CameraFollowTarget cam;
+    private GameObject player;
+    private PlayerInput playerInput;
+
+    private PlayerAction playerAction;
 
     private void Start()
     {
-        initialPosition = transform.position;
-        isMoving = false;
-        tutorialPanel.SetActive(false);
-        logoImage.gameObject.SetActive(false);
+        mainCam = Camera.main;
+        cam = mainCam.GetComponent<CameraFollowTarget>();
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerInput = player.GetComponent<PlayerInput>();
+        playerAction = player.GetComponent<PlayerAction>();
+
+        OnFadeOutComplete += FadeOutCompleted;
+        OnCameraChangeRotationComplete += CameraChangeRotationCompleted;
     }
+
 
     private void Update()
     {
         if (isMoving)
         {
-            float t = Mathf.Clamp01(Time.deltaTime / moveDuration);
-            float currentZ = Mathf.Lerp(transform.position.z, targetZ, t);
+            cam.SnappyMovement = true;
+
+            float distanceSpeed = (40f - cam.targetDistance) / moveDuration;
+            float maxDistanceDelta = distanceSpeed * Time.deltaTime;
+            cam.targetDistance = Mathf.MoveTowards(cam.targetDistance, 40f, maxDistanceDelta);
+
+            float moveSpeed = (targetZ - transform.position.z) / moveDuration;
+            float currentZ = transform.position.z + moveSpeed * Time.deltaTime;
+
             transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
 
-            if (Mathf.Approximately(transform.position.z, targetZ))
+            if (Mathf.Abs(transform.position.z - targetZ) <= 1)
             {
                 isMoving = false;
-                tutorialPanel.SetActive(true);
-                logoImage.gameObject.SetActive(true);
-                StartCoroutine(MoveAndFade());
+                playerInput.enabled = true;
+                playerAction.enabled = true;
+                StartCoroutine(ChangeCameraRotation());
             }
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (other.CompareTag("Player"))
+        if (collision.CompareTag("Player") && !isMoving)
         {
-            CircleCollider2D playerCollider = other.GetComponent<CircleCollider2D>();
-            Collider2D moveTriggerCollider = GetComponent<Collider2D>();
-
-            if (playerCollider != null && moveTriggerCollider != null && playerCollider.IsTouching(moveTriggerCollider))
-            {
-                Debug.Log("Move");
-                isMoving = true;
-                tutorialPanel.SetActive(true);
-                logoImage.gameObject.SetActive(true);
-            }
+            StartCoroutine(FadeIn());
+            GetComponent<Collider2D>().enabled = false;
+            isMoving = true;
+            playerInput.enabled = false;
+            playerAction.enabled = false;
         }
     }
 
-    private System.Collections.IEnumerator MoveAndFade()
+    private IEnumerator FadeIn()
     {
-        tutorialPanel.SetActive(true);
-        logoImage.gameObject.SetActive(true);
+        StartCoroutine(MoveTutorialLetter(tutorialTopLetter, true));
+        StartCoroutine(MoveTutorialLetter(tutorialBottomLetter, false));
 
-        // Fade In 대기
         yield return new WaitForSeconds(fadeInDelay);
 
-        // 로고 Fade In
-        float startTime = Time.time;
-        Color startColor = logoImage.color;
-        Color endColor = new Color(startColor.r, startColor.g, startColor.b, 1f);
-
-        while (Time.time - startTime < fadeDuration)
+        float t = 0f;
+        while (t < 1f)
         {
-            float t = (Time.time - startTime) / fadeDuration;
-            logoImage.color = Color.Lerp(startColor, endColor, t);
+            t += Time.deltaTime / fadeDuration;
+            logoImage.color = new Color(1f, 1f, 1f, t);
             yield return null;
         }
+        StartCoroutine(FadeOut());
+    }
 
-        logoImage.color = endColor;
-
-        // 유지 대기
-        yield return new WaitForSeconds(moveDuration - fadeInDelay - fadeDuration - fadeOutDelay);
-
-        // 로고 Fade Out
-        startTime = Time.time;
-        startColor = logoImage.color;
-        endColor = new Color(startColor.r, startColor.g, startColor.b, 0f);
-
-        while (Time.time - startTime < fadeDuration)
-        {
-            float t = (Time.time - startTime) / fadeDuration;
-            logoImage.color = Color.Lerp(startColor, endColor, t);
-            yield return null;
-        }
-
-        logoImage.color = endColor;
-
-        // Fade Out 대기
+    private IEnumerator FadeOut()
+    {
         yield return new WaitForSeconds(fadeOutDelay);
+        float t = 1f;
+        while (t > 0f)
+        {
+            t -= Time.deltaTime / fadeDuration;
+            logoImage.color = new Color(1f, 1f, 1f, t);
+            yield return null;
+        }
+        StartCoroutine(MoveTutorialLetter(tutorialTopLetter, false));
+        StartCoroutine(MoveTutorialLetter(tutorialBottomLetter, true));
 
-        tutorialPanel.SetActive(false);
-        logoImage.gameObject.SetActive(false);
+        OnFadeOutComplete?.Invoke();
+    }
+
+    private void FadeOutCompleted()
+    {
+        // TODO...
+    }
+
+    private IEnumerator MoveTutorialLetter(Transform letter, bool b)
+    {
+        Vector3 startPosition = letter.position;
+        Vector3 newLetterPosition;
+        if (b)
+            newLetterPosition = new Vector3(startPosition.x, startPosition.y - 200f, startPosition.z);
+        else
+            newLetterPosition = new Vector3(startPosition.x, startPosition.y + 200f, startPosition.z);
+
+        float t = 0;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / letterMoveDuration;
+            letter.position = Vector3.Lerp(startPosition, newLetterPosition, t);
+            yield return null;
+        }
+    }
+
+    private IEnumerator ChangeCameraRotation()
+    {
+        Quaternion startRotation = mainCam.transform.rotation;
+        Quaternion targetRotation = Quaternion.Euler(-45f, mainCam.transform.eulerAngles.y, mainCam.transform.eulerAngles.z);
+
+        
+        cam.targetDistance = 17f;
+
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / 2f;
+            mainCam.transform.rotation = Quaternion.Lerp(startRotation, targetRotation, t);
+            yield return null;
+        }
+        cam.SnappyMovement = false;
+        OnCameraChangeRotationComplete?.Invoke();
+    }
+
+    private void CameraChangeRotationCompleted()
+    {
+        //TODO...
+        dialogue.SetActive(true);
     }
 }
-
-
-
-
-
-
-
-
-
