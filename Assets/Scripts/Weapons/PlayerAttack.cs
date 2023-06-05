@@ -49,8 +49,15 @@ public class PlayerAttack : BaseMonoBehaviour
 
             PartDestructionGauge(collision, destructionGauge);
             DmgTextController = collision.gameObject.GetComponent<DamageTextControler>();
+            if(DmgTextController != null)
+            {
+                DmgTextController.ShowDamageText(Damage);
+            }
+            else
+            {
+
+            }
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
-            DmgTextController.ShowDamageText(Damage);
             Destroy(gameObject);
         }
         else if (collision.tag == "DestroyableObject ")

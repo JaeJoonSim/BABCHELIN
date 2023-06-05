@@ -52,6 +52,7 @@ public class SconeHedgehog : UnitObject
     private int dashCount = 0;
     private bool isJump = false;
     private bool isLand = false;
+    private float jumpTime = 0;
 
     [Space]
     [SerializeField] float patrolSpeed;
@@ -88,6 +89,8 @@ public class SconeHedgehog : UnitObject
     public float yDir;
 
 
+    public GameObject jumpPointObject;
+    private GameObject jumppointobj;
     public GameObject BulletObject;
     public GameObject DeathBulletObject;
 
@@ -426,7 +429,7 @@ public class SconeHedgehog : UnitObject
                         {
                             directionToPoint = (target.position - transform.position).normalized;
                             shotPerDash = UnityEngine.Random.Range(0, 10);
-                            if (shotPerDash < dashPer)
+                            if (shotPerDash > dashPer)
                             {
                                 state.CURRENT_STATE = StateMachine.State.Dash;
                             }
@@ -458,7 +461,8 @@ public class SconeHedgehog : UnitObject
                     if (isJump && !isLand)
                     {
                         agent.isStopped = false;
-                        agent.speed = 5f;
+                        agent.speed = 8f;
+                        jumpTime += Time.deltaTime;
                         agent.SetDestination(jumpPoint);
                     }
 
@@ -607,15 +611,19 @@ public class SconeHedgehog : UnitObject
         }
         else if (e.Data.Name == "jump" || e.Data.Name == "Jump")
         {
+            jumpPointObject.transform.position = jumpPoint;
+            jumppointobj = Instantiate(jumpPointObject);
+            jumppointobj.SetActive(true);
             isJump = true;
         }
         else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {
             isLand = true;
-
+            //Spine.Skeleton
             if (state.CURRENT_STATE == StateMachine.State.Jump)
             {
                 Debug.Log("Land");
+                Destroy(jumppointobj);
                 GameObject landeffect = LandEffect;
                 landeffect.transform.position = transform.position;
                 Instantiate(landeffect);
