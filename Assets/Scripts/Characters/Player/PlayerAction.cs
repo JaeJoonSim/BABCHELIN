@@ -237,10 +237,13 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (!Input.GetMouseButton(0))
         {
-            playerController.PreesAttack = false;
+
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
                 if (simpleSpineAnimator.Track.IsComplete)
+                {
+                    playerController.PreesAttack = false;
                     state.CURRENT_STATE = StateMachine.State.Idle;
+                }
         }
 
         return true;
@@ -250,16 +253,18 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            
+
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
+            {
+                playerController.PreesAttack = true;
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
+            }
 
             
         }
         else if(Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Absorbing))
         {
-            playerController.PreesAttack = true;
             getMouseInfo();
             FindVisibleTargets();
         }
@@ -300,7 +305,7 @@ public class PlayerAction : BaseMonoBehaviour
                     return false;
                 }
                 state.CURRENT_STATE = StateMachine.State.Skill;
-                
+                playerController.PreesAttack = true;
                 playerController.SkillIndex = 0;
             }           
             else if (Input.GetKeyDown(KeyCode.E))
@@ -310,8 +315,9 @@ public class PlayerAction : BaseMonoBehaviour
                     return false;
                 }
                 state.CURRENT_STATE = StateMachine.State.Skill2;
+                playerController.PreesAttack = true;
                 playerController.addBullet(-playerController.TotalStatus.sk1Cost);
-               playerController.SkillIndex = 1;
+                playerController.SkillIndex = 1;
                 SkillDelay = playerController.TotalStatus.sk1CoolDown;
             }
         }
@@ -326,6 +332,7 @@ public class PlayerAction : BaseMonoBehaviour
             }
             else if (state.CURRENT_STATE == StateMachine.State.Skill2 && SkillDelay <= 0)
             {
+                playerController.PreesAttack = false;
                 state.CURRENT_STATE = StateMachine.State.Idle;
             }
         }
@@ -356,7 +363,6 @@ public class PlayerAction : BaseMonoBehaviour
         {
 
             Vector2 dirToTarget = (targetInRange[i].bounds.center - playerController.muzzleEnd.position).normalized;
-            Debug.Log(Vector3.Angle(toMousedirection, dirToTarget));
             if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.TotalStatus.absorbAngle / 2)
             {
                 absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
@@ -406,9 +412,15 @@ public class PlayerAction : BaseMonoBehaviour
                 case StateMachine.State.Attacking:
                     if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
                         return;
-                    //float anglet = state.facingAngle - 15;
+                   
                     playerController.addBullet(-playerController.TotalStatus.bulletCost);
-                    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>();
+                    Instantiate(playerController.Attack
+                        , spawnPos
+                        , Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
+                        ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+
+
+                    //float anglet = state.facingAngle - 15;
                     //for (int i = 0; i < 2; i++)
                     //{
                     //    anglet += 30 / 2;
@@ -416,12 +428,18 @@ public class PlayerAction : BaseMonoBehaviour
                     //}
                     break;
                 case StateMachine.State.Skill:
-
                     if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
                         return;
-                    playerController.addBullet(-
-                        Instantiate(playerController.Skills[playerController.SkillIndex], spawnPos, Quaternion.Euler(new Vector3(0, 0, state.facingAngle))).GetComponent<PlayerAttack>().Cost);
+
+                    playerController.addBullet(-playerController.TotalStatus.sk2Cost);
+
+                    Instantiate(playerController.Skills[playerController.SkillIndex],
+                        spawnPos,
+                        Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
+                        ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+
                     rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 4000f);
+                    playerController.PreesAttack = false;
                     break;
                 case StateMachine.State.ultimate:
                     break;

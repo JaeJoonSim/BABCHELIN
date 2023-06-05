@@ -93,7 +93,7 @@ public struct status
 
 
     //대형탄관련
-    [Header("Skill_1(대형탄)"), Space]
+    [Header("Skill_2(대형탄)"), Space]
 
     [Tooltip("대형탄 데미지")]
     public float sk2Dmg;
