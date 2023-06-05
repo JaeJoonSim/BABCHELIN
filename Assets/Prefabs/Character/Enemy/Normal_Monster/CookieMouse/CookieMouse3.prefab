@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: -1213034669811131865}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
+  - component: {fileID: 4661085411298321936}
+  - component: {fileID: 3738988024933125600}
   m_Layer: 8
   m_Name: CookieMouse3
   m_TagString: Enemy
@@ -245,6 +247,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4661085411298321936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b552237e79e44ae4a8e7483e5148b209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterUICanvas: {fileID: 7905141216258385289}
+--- !u!114 &3738988024933125600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b43c98db64b1b4689d0b723eb4290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgText: {fileID: 7770634992118864270, guid: 7fab5e5fb1997fe438b7f665048f3455, type: 3}
+  monsterUICanvas: {fileID: 7905141216258385293}
+  textPosX: 0
 --- !u!1 &4544881708174517991
 GameObject:
   m_ObjectHideFlags: 0
@@ -658,6 +688,18 @@ PrefabInstance:
 --- !u!224 &7905141216258385288 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7235685042963222995}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7905141216258385289 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711257821363008602, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7235685042963222995}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &7905141216258385293 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 711257821363008606, guid: 98f425fb659341d468a28828ac80e2c6,
     type: 3}
   m_PrefabInstance: {fileID: 7235685042963222995}
   m_PrefabAsset: {fileID: 0}

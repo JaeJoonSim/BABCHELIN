@@ -17,6 +17,8 @@ GameObject:
   - component: {fileID: 4265093594819362732}
   - component: {fileID: 4265093594819362722}
   - component: {fileID: 4265093594819362723}
+  - component: {fileID: 8020502999105655149}
+  - component: {fileID: 1777734368668771172}
   m_Layer: 8
   m_Name: BerryBird_Grapefruit
   m_TagString: Enemy
@@ -225,6 +227,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8020502999105655149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265093594819362709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b552237e79e44ae4a8e7483e5148b209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterUICanvas: {fileID: 7542359980431940763}
+--- !u!114 &1777734368668771172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265093594819362709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b43c98db64b1b4689d0b723eb4290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgText: {fileID: 7770634992118864270, guid: 7fab5e5fb1997fe438b7f665048f3455, type: 3}
+  monsterUICanvas: {fileID: 7542359980431940767}
+  textPosX: 0
 --- !u!1 &9079983999551196373
 GameObject:
   m_ObjectHideFlags: 0
@@ -629,6 +659,18 @@ PrefabInstance:
 --- !u!224 &7542359980431940762 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7022586576417581249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7542359980431940763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711257821363008602, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7022586576417581249}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &7542359980431940767 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 711257821363008606, guid: 98f425fb659341d468a28828ac80e2c6,
     type: 3}
   m_PrefabInstance: {fileID: 7022586576417581249}
   m_PrefabAsset: {fileID: 0}

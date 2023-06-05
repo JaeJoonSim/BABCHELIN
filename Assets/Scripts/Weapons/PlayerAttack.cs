@@ -11,6 +11,7 @@ public class PlayerAttack : BaseMonoBehaviour
     public float destructionGauge;
     Vector2 spownPos;
     public ParticleSystem HitEffet;
+    private DamageTextControler DmgTextController;
 
     private void Start()
     {
@@ -47,7 +48,9 @@ public class PlayerAttack : BaseMonoBehaviour
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
 
             PartDestructionGauge(collision, destructionGauge);
+            DmgTextController = collision.gameObject.GetComponent<DamageTextControler>();
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
+            DmgTextController.ShowDamageText(Damage);
             Destroy(gameObject);
         }
         else if (collision.tag == "DestroyableObject ")

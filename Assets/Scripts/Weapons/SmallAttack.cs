@@ -23,7 +23,7 @@ public class SmallAttack : BaseMonoBehaviour
             return playerController;
         }
     }
-    public DamageTextControler DmgTextController;
+    private DamageTextControler DmgTextController;
 
     private void OnEnable()
     {
