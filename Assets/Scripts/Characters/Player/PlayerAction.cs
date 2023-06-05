@@ -117,7 +117,8 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void Update()
     {
-        if (state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
+        
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
             if (state.CURRENT_STATE != StateMachine.State.Dodging)
             {
