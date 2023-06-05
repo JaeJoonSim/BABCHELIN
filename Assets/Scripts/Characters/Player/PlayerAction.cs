@@ -195,6 +195,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
         {
             DodgeQueued = true;
+            playerController.PreesAttack = false;
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
