@@ -8,23 +8,22 @@ public class BulletScript : BaseMonoBehaviour
     public HealthPlayer player;
 
     [Space]
-    [SerializeField] private float damage;
-    [SerializeField] private float speed;
-    [SerializeField] private float range;
+    public float damage;
+    public float speed;
+    public float range;
 
     private ColliderEvents colliderEvents;
     private Vector3 direction;
     private Vector3 startPosition;
     private float distanceRange;
 
-    [Space]
     public GameObject PlayerEffect;
     public GameObject GroundEffect;
 
     private float gravity = 9.81f;
     private float time;
 
-    private void Start()
+    protected virtual void Start()
     {
         colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
@@ -38,7 +37,7 @@ public class BulletScript : BaseMonoBehaviour
         transform.eulerAngles = currentRotation;
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         distanceRange = Vector3.Distance(startPosition, transform.position);
 
@@ -53,6 +52,13 @@ public class BulletScript : BaseMonoBehaviour
         }
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
+        if(transform.position.z >= 0)
+        {
+            GroundEffect.transform.position = transform.position;
+            GameObject groundEffect = Instantiate(GroundEffect);
+
+            Destroy(gameObject);
+        }
     }
 
     public void SetDirection(Vector2 newDirection)
@@ -72,10 +78,6 @@ public class BulletScript : BaseMonoBehaviour
             Instantiate(playerEffect);
 
             Destroy(gameObject);
-        }
-        else if (collider.tag == "Player")
-        {
-
         }
     }
 }

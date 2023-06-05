@@ -228,6 +228,9 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.HitLeft:
+                    aniCount = 1;
+                    agent.speed = hitSpeed;
+
                     if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
@@ -239,12 +242,12 @@ public class BerryBird : UnitObject
                     {
                         agent.SetDestination(target.position);
                     }
-
-                    aniCount = 1;
-                    agent.speed = hitSpeed;
                     break;
                 case StateMachine.State.HitRight:
-                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    aniCount = 1;
+                    agent.speed = hitSpeed;
+
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
@@ -255,9 +258,6 @@ public class BerryBird : UnitObject
                     {
                         agent.SetDestination(target.position);
                     }
-
-                    aniCount = 1;
-                    agent.speed = hitSpeed;
                     break;
 
                 case StateMachine.State.Attacking:
