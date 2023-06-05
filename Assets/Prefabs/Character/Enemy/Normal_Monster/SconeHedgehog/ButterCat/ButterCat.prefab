@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 3275738440347693765}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
+  - component: {fileID: 5567222155325084628}
+  - component: {fileID: 1495582634425348169}
   m_Layer: 8
   m_Name: ButterCat
   m_TagString: Enemy
@@ -34,7 +36,7 @@ Transform:
   m_GameObject: {fileID: 3275738440347693820}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -4.93, y: 0, z: -0.033331636}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: -1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 572980232343476603}
@@ -248,6 +250,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5567222155325084628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b552237e79e44ae4a8e7483e5148b209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterUICanvas: {fileID: 7046311991233672599}
+--- !u!114 &1495582634425348169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b43c98db64b1b4689d0b723eb4290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgText: {fileID: 7770634992118864270, guid: 7fab5e5fb1997fe438b7f665048f3455, type: 3}
+  monsterUICanvas: {fileID: 7046311991233672595}
+  textPosX: 0
 --- !u!1 &8539183711829654339
 GameObject:
   m_ObjectHideFlags: 0
@@ -421,6 +451,9 @@ MonoBehaviour:
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Dodge: {fileID: 0}
+  NorthDodge: {fileID: 0}
+  SouthDodge: {fileID: 0}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
   Jump: {fileID: 0}
@@ -434,7 +467,6 @@ MonoBehaviour:
   phase2Idle: {fileID: 0}
   FartShield: {fileID: 0}
   ChargeRun: {fileID: 0}
-  Dodge: {fileID: 0}
   Hit: {fileID: 11400000, guid: 72c4824beede32048b0e1e341137138f, type: 2}
   Dead: {fileID: 11400000, guid: 505bb72245d24824c9c795dc13ceb0e6, type: 2}
   Landing: {fileID: 0}
@@ -649,9 +681,21 @@ PrefabInstance:
       objectReference: {fileID: 3275738440347693763}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 98f425fb659341d468a28828ac80e2c6, type: 3}
+--- !u!223 &7046311991233672595 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 711257821363008606, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7500571817661268429}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &7046311991233672598 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 7500571817661268429}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &7046311991233672599 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711257821363008602, guid: 98f425fb659341d468a28828ac80e2c6,
     type: 3}
   m_PrefabInstance: {fileID: 7500571817661268429}
   m_PrefabAsset: {fileID: 0}
