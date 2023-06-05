@@ -363,24 +363,30 @@ public class PlayerController : BaseMonoBehaviour
             return;
         }
 
-        if (Attacker == null)
+
+
+        if (forceDir == 270 || forceDir == 90)
         {
-            state.facingAngle = Utils.GetAngle(base.transform.position, AttackLocation);
+            if (Attacker == null)
+            {
+                state.facingAngle = Utils.GetAngle(base.transform.position, AttackLocation);
+            }
+            else
+            {
+                state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
+            }
         }
-        else
-        {
-            state.facingAngle = Utils.GetAngle(base.transform.position, Attacker.transform.position);
-        }
-        forceDir = state.facingAngle + 180f;
 
         if (90 < state.facingAngle && state.facingAngle < 270)
         {
-            state.facingAngle = 0;
-        }
-        else if (state.facingAngle <= 90 || state.facingAngle >= 270)
-        {
             state.facingAngle = 180;
         }
+        else if (state.facingAngle < 90 || state.facingAngle > 270)
+        {
+            state.facingAngle = 0;
+        }
+
+        forceDir = state.facingAngle + 180f;
 
         muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
         muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
