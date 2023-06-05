@@ -123,6 +123,12 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &63809563 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2335253373043498726, guid: 7a0de173b40518b4cb85c0edeb777bea,
+    type: 3}
+  m_PrefabInstance: {fileID: 1117778512}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &165272388
 GameObject:
   m_ObjectHideFlags: 0
@@ -494,30 +500,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_ActionId
-      value: 7ea6646e-c8c7-420d-b77d-ebcf6fafdef7
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_ActionName
-      value: Action/Ultimate[/Keyboard/x]
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1318243719, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
-      propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 247336170792578375, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -983,6 +965,21 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0.9824962
       objectReference: {fileID: 0}
+    - target: {fileID: 3029212463306202769, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3029212463306202769, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3029212463306202769, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3173335384528903420, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -1303,25 +1300,35 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.75160474
       objectReference: {fileID: 0}
+    - target: {fileID: 6160722343070153728, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.3
+      objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
-      propertyPath: muzzleEnd
-      value: 
-      objectReference: {fileID: 1685257775}
-    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
-        type: 3}
-      propertyPath: BaseStatus.dodgeTime
+      propertyPath: showDodge
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
-      propertyPath: BaseStatus.dodgeSpeed
-      value: 10
+      propertyPath: MuzzleBone
+      value: 
+      objectReference: {fileID: 63809563}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: showMuzzle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: BaseStatus.dodgeTime
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252261, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: BaseStatus.dodgeDistance
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6160722343811252264, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
@@ -1388,24 +1395,6 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 6160722344988669358, guid: 7a0de173b40518b4cb85c0edeb777bea,
-        type: 3}
-      propertyPath: MixMove
-      value: 
-      objectReference: {fileID: 11400000, guid: 4194b92d5c4c3174a9703fda939a1d18,
-        type: 2}
-    - target: {fileID: 6160722344988669358, guid: 7a0de173b40518b4cb85c0edeb777bea,
-        type: 3}
-      propertyPath: NorthMixMove
-      value: 
-      objectReference: {fileID: 11400000, guid: eca123fb3d2504b4fabce709d2ac8265,
-        type: 2}
-    - target: {fileID: 6160722344988669358, guid: 7a0de173b40518b4cb85c0edeb777bea,
-        type: 3}
-      propertyPath: SouthMixMove
-      value: 
-      objectReference: {fileID: 11400000, guid: ad516c9c26804ce408c6707dc13699da,
-        type: 2}
     - target: {fileID: 6389272386970483809, guid: 7a0de173b40518b4cb85c0edeb777bea,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1811,6 +1800,11 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.19537207
       objectReference: {fileID: 0}
+    - target: {fileID: 9019224167203000812, guid: 7a0de173b40518b4cb85c0edeb777bea,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a0de173b40518b4cb85c0edeb777bea, type: 3}
 --- !u!1 &1141163016
@@ -2056,12 +2050,6 @@ MonoBehaviour:
   blendDistance: 0
   weight: 1
   sharedProfile: {fileID: 11400000, guid: a6560a915ef98420e9faacc1c7438823, type: 2}
---- !u!4 &1685257775 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6160722343070153728, guid: 7a0de173b40518b4cb85c0edeb777bea,
-    type: 3}
-  m_PrefabInstance: {fileID: 1117778512}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1894144001
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2365,6 +2353,7 @@ MonoBehaviour:
     m_Center: {x: 0, y: 0, z: 0}
     m_Extent: {x: 0, y: 0, z: 0}
   TargetCamera: {fileID: 0}
+  CurrentPosition: {x: 0, y: 0, z: 0}
   SnappyMovement: 0
   IN_CONVERSATION: 0
   reduceCameraMotion: 0

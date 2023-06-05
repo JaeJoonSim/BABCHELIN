@@ -8169,7 +8169,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6160722343070153735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0, z: -0.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8480,8 +8480,8 @@ MonoBehaviour:
     def: 0
     movSpd: 6
     dodgeCoolDown: 0.5
-    dodgeTime: 0.3
-    dodgeDistance: 3
+    dodgeTime: 0.5
+    dodgeDistance: 5
     absorbAngle: 30
     absorbRange: 5
     absorbRestore: 0
@@ -8698,7 +8698,7 @@ MonoBehaviour:
   speed: 0
   xDir: 0
   yDir: 0
-  showDodge: 0
+  showDodge: 1
   dodgeTime: 0
   dodgeSpeed: 0
   DodgeAngle: 0
@@ -8713,7 +8713,7 @@ MonoBehaviour:
   Skills:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
   - {fileID: 2812988272092322134}
-  showMuzzle: 0
+  showMuzzle: 1
   muzzle: {fileID: 6160722344487673776}
   muzzleEnd: {fileID: 6160722343070153728}
   muzzleBone: {fileID: 2335253373043498726}
@@ -13232,7 +13232,7 @@ PrefabInstance:
     - target: {fileID: 3649855110509168720, guid: c83979c80dd0cd24db857016fdcd4ce7,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3649855110509168720, guid: c83979c80dd0cd24db857016fdcd4ce7,
         type: 3}
@@ -13871,7 +13871,7 @@ PrefabInstance:
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6943675872210233391, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}

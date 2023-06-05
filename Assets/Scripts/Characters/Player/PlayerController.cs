@@ -277,9 +277,25 @@ public class PlayerController : BaseMonoBehaviour
             state.CURRENT_STATE == StateMachine.State.Skill2
             ))
         {
-            muzzleBone.position = Utils.GetMousePosition();
-            state.facingAngle = Utils.GetMouseAngle(transform.position);
 
+            if (PreesAttack)
+            {
+                muzzleBone.position = Utils.GetMousePosition();
+                state.facingAngle = Utils.GetMouseAngle(transform.position);
+            }
+
+            if (45 <= state.facingAngle && state.facingAngle <= 135)
+                DodgeAngle = 90f;
+            else if (225 <= state.facingAngle && state.facingAngle <= 315)
+                DodgeAngle = 270f;
+            else if (135 < state.facingAngle && state.facingAngle < 225)
+            {
+                DodgeAngle = 180f;
+            }
+            else if (state.facingAngle < 45 || state.facingAngle > 315)
+            {
+                DodgeAngle = 0f;
+            }
 
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
             {
@@ -294,7 +310,7 @@ public class PlayerController : BaseMonoBehaviour
         }
         else
         {
-            
+
             if (yDir > 0)
             {
                 if (xDir < 0)
@@ -302,7 +318,7 @@ public class PlayerController : BaseMonoBehaviour
                 else if (xDir > 0)
                     DodgeAngle = 45;
                 else
-                {                   
+                {
                     DodgeAngle = 90f;
                 }
             }
@@ -340,7 +356,7 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
-            if(!PreesAttack && speed != 0)
+            if (!PreesAttack)
                 state.facingAngle = DodgeAngle;
 
             muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
@@ -367,17 +383,17 @@ public class PlayerController : BaseMonoBehaviour
 
         if (90 < state.facingAngle && state.facingAngle < 270)
         {
-            state.facingAngle = 180;
+            state.facingAngle = 0;
         }
         else if (state.facingAngle <= 90 || state.facingAngle >= 270)
         {
-            state.facingAngle = 0;
+            state.facingAngle = 180;
         }
 
         muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
         muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
 
-        
+
         if (type == Health.AttackType.Normal)
         {
             CameraManager.shakeCamera(10f, 0f - state.facingAngle);
@@ -436,7 +452,7 @@ public class PlayerController : BaseMonoBehaviour
 
     private void RestoreBullet()
     {
-        
+
         BulletGauge += TotalStatus.bulletRegen;
 
         if (BulletGauge > TotalStatus.bulletMin)

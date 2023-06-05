@@ -259,11 +259,13 @@ public class PlayerAction : BaseMonoBehaviour
         else if(Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Absorbing))
         {
+            playerController.PreesAttack = true;
             getMouseInfo();
             FindVisibleTargets();
         }
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && !Input.GetMouseButton(1))
         {
+            playerController.PreesAttack = false;
             state.CURRENT_STATE = StateMachine.State.Idle;
             if (targetInRange != null)
             {
@@ -398,7 +400,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (e.Data.Name == "shot")
         {
             Vector3 spawnPos = playerController.muzzleEnd.position;
-            spawnPos.z = -0.1f;
+
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Attacking:
