@@ -2,18 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class MonsterUI : MonoBehaviour
 {
     [SerializeField] Transform monster;
     private Health monsterHealth;
-    private PlayerController playerController;
 
     public Image UIHealthGauge;
     public Image UIHealthBackground;
     private Color HPBarColor;
-    private bool fadeout;
-    private float time;
+
+    private float hpTime;
 
     // Start is called before the first frame update
     void Start()
@@ -28,14 +29,7 @@ public class MonsterUI : MonoBehaviour
         GaugeManagement();
         ShowHPBar();
 
-        if (monster.localScale.x < 0)
-        {
-            UIHealthGauge.gameObject.transform.localScale = new Vector3(-0.004f, 0.004f, 0.004f);
-        }
-        else
-        {
-            UIHealthGauge.gameObject.transform.localScale = new Vector3(0.004f, 0.004f, 0.004f);
-        }
+        UIHealthGauge.gameObject.transform.localScale = new Vector3(0.004f, 0.004f, 0.004f);
 
         if (HPBarColor.a > 0)
         {
@@ -56,16 +50,15 @@ public class MonsterUI : MonoBehaviour
         if (monsterHealth.CurrentHP() != monsterHealth.BackHP())
         {
             HPBarColor.a = 1;
-            time = 0;
-            fadeout = true;
+            hpTime = 0;
         }
     }
 
     private void FadeoutHPBar()
     {
-        time += Time.deltaTime;
+        hpTime += Time.deltaTime;
 
-        if(time >= 2)
+        if(hpTime >= 2)
         {
             HPBarColor.a -= Time.deltaTime * 2;
         }

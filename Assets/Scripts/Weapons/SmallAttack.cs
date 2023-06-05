@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using static Health;
+using TMPro;
 
 public class SmallAttack : BaseMonoBehaviour
 {
     public ParticleSystem HitEffet;
+    public GameObject dmgText;
 
     private float AttackTime;
     private PlayerController playerController;
@@ -21,6 +23,7 @@ public class SmallAttack : BaseMonoBehaviour
             return playerController;
         }
     }
+    public DamageTextControler DmgTextController;
 
     private void OnEnable()
     {
@@ -57,7 +60,9 @@ public class SmallAttack : BaseMonoBehaviour
                 else
                     targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg, Health.AttackType.Normal);
                 PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg);
-                Instantiate(HitEffet, collisionPoint, Quaternion.identity);               
+                Instantiate(HitEffet, collisionPoint, Quaternion.identity);
+                DmgTextController = targetInRange[i].GetComponent<DamageTextControler>();
+                DmgTextController.ShowDamageText(PlayerController.TotalStatus.sk1Dmg);
             }
         }
     }

@@ -229,6 +229,8 @@ GameObject:
   - component: {fileID: -1568053414874996}
   - component: {fileID: 3275738440347693771}
   - component: {fileID: 3275738440347693770}
+  - component: {fileID: 7507135955276508690}
+  - component: {fileID: 5925691316660079888}
   m_Layer: 8
   m_Name: CookieMouse
   m_TagString: Enemy
@@ -249,8 +251,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8270591769108072770}
-  - {fileID: 4620984726399975507}
   - {fileID: 711257820543817434}
+  - {fileID: 4620984726399975507}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -450,6 +452,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7507135955276508690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b43c98db64b1b4689d0b723eb4290d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgText: {fileID: 7770634992118864270, guid: 7fab5e5fb1997fe438b7f665048f3455, type: 3}
+  monsterUICanvas: {fileID: 711257820543817439}
+--- !u!114 &5925691316660079888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3275738440347693820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b552237e79e44ae4a8e7483e5148b209, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MonsterUICanvas: {fileID: 711257820543817435}
 --- !u!1001 &1932845697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -475,7 +504,7 @@ PrefabInstance:
     - target: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
         type: 3}
@@ -506,6 +535,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 711257821363008603, guid: 98f425fb659341d468a28828ac80e2c6,
         type: 3}
@@ -580,6 +614,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 1932845697}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &711257820543817435 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 711257821363008602, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1932845697}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &711257820543817439 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 711257821363008606, guid: 98f425fb659341d468a28828ac80e2c6,
+    type: 3}
+  m_PrefabInstance: {fileID: 1932845697}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &277405602994925070
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -595,7 +641,7 @@ PrefabInstance:
     - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4897809512073047645, guid: 46855c837a7977146ba71504f3edbb9e,
         type: 3}
