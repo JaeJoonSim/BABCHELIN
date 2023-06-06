@@ -373,7 +373,18 @@ public class CookieMouse2 : UnitObject
         {
             moveTime = 0;
             aniCount = 0;
-            state.CURRENT_STATE = StateMachine.State.Idle;
+            if (distanceToPlayer <= detectionAttackRange)
+            {
+                state.CURRENT_STATE = StateMachine.State.Attacking;
+            }
+            else if (distanceToPlayer <= detectionRange)
+            {
+                state.CURRENT_STATE = StateMachine.State.Notice;
+            }
+            else
+            {
+                state.CURRENT_STATE = StateMachine.State.Idle;
+            }
         }
 
         if (transform.position.x <= target.position.x)
