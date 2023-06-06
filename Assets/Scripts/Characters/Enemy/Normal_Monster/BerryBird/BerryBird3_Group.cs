@@ -66,7 +66,6 @@ public class BerryBird3_Group : UnitObject
     public float xDir;
     public float yDir;
 
-    [Space]
     private GameObject[] AttackPoint;
     public GameObject BulletObject;
     public GameObject SplitEffect;

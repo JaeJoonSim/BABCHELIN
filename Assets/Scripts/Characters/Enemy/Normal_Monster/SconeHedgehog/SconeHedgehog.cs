@@ -45,8 +45,7 @@ public class SconeHedgehog : UnitObject
     [SerializeField] float delayTime = 5f;
     [SerializeField] float time = 0;
     [SerializeField] float AttackTimer = 0;
-    private int shotPerDash;
-    private int shotPerJump;
+    private int paternPer;
     [SerializeField] int dashPer;
     [SerializeField] int jumpPer;
     private int dashCount = 0;
@@ -89,6 +88,7 @@ public class SconeHedgehog : UnitObject
     public float yDir;
 
 
+    private GameObject AttackPoint;
     public GameObject jumpPointObject;
     private GameObject jumppointobj;
     public GameObject BulletObject;
@@ -127,6 +127,8 @@ public class SconeHedgehog : UnitObject
         idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
         patrolStartPosition = transform.position;
         patrolTargetPosition = GetRandomPositionInPatrolRange();
+
+        AttackPoint = transform.GetChild(1).gameObject;
 
         DashEffect.SetActive(false);
 
@@ -274,8 +276,8 @@ public class SconeHedgehog : UnitObject
                     if (distanceToPlayer <= detectionAttackRange)
                     {
                         state.LockStateChanges = false;
-                        shotPerDash = UnityEngine.Random.Range(0, 10);
-                        if (shotPerDash < dashPer)
+                        paternPer = UnityEngine.Random.Range(0, 10);
+                        if (paternPer > dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
@@ -295,13 +297,16 @@ public class SconeHedgehog : UnitObject
                     Stop();
                     AttackTimer += Time.deltaTime;
 
-                    if (transform.position.x <= target.position.x)  //보는 방향
+                    if(AttackTimer < 0.5666f)
                     {
-                        this.transform.localScale = new Vector3(1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
                     }
 
                     if (AttackTimer >= 1.4f)
@@ -419,8 +424,8 @@ public class SconeHedgehog : UnitObject
                         dashCount = 0;
                         if (distanceToPlayer <= detectionJumpRange)
                         {
-                            shotPerJump = UnityEngine.Random.Range(0, 10);
-                            if (shotPerJump < jumpPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < jumpPer)
                             {
                                 jumpPoint = target.transform.position;
                                 state.CURRENT_STATE = StateMachine.State.Jump;
@@ -433,8 +438,8 @@ public class SconeHedgehog : UnitObject
                         else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            shotPerDash = UnityEngine.Random.Range(0, 10);
-                            if (shotPerDash > dashPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < dashPer)
                             {
                                 state.CURRENT_STATE = StateMachine.State.Dash;
                             }
@@ -508,8 +513,8 @@ public class SconeHedgehog : UnitObject
 
                         if (distanceToPlayer <= detectionJumpRange)
                         {
-                            shotPerJump = UnityEngine.Random.Range(0, 10);
-                            if (shotPerJump < jumpPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < jumpPer)
                             {
                                 jumpPoint = target.transform.position;
                                 state.CURRENT_STATE = StateMachine.State.Jump;
@@ -522,8 +527,8 @@ public class SconeHedgehog : UnitObject
                         else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            shotPerDash = UnityEngine.Random.Range(0, 10);
-                            if (shotPerDash < dashPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < dashPer)
                             {
                                 state.CURRENT_STATE = StateMachine.State.Dash;
                             }
@@ -606,8 +611,9 @@ public class SconeHedgehog : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
+                Debug.Log(e.Time);
                 GameObject bullet = BulletObject;
-                Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
+                Instantiate(bullet, AttackPoint.transform);
             }
             else if (state.CURRENT_STATE == StateMachine.State.Jump)
             {
