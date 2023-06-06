@@ -59,7 +59,7 @@ public class Cream : MonoBehaviour
 
         if (transform.position.z >= 0f && !hasDamaged)
         {
-            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), indicatorRadius / 2);
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(new Vector2(transform.position.x, transform.position.y), indicatorRadius * 1.3f);
             foreach (var hitCollider in hitColliders)
             {
                 HealthPlayer player = hitCollider.GetComponent<HealthPlayer>();
@@ -108,7 +108,7 @@ public class Cream : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0), indicatorRadius / 2);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(new Vector3(transform.position.x, transform.position.y, 0), indicatorRadius * 1.3f);
     }
 }

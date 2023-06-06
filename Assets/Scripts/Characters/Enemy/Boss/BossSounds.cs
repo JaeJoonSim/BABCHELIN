@@ -92,7 +92,7 @@ public class BossSounds : MonoBehaviour
             case StateMachine.State.Tailing:
                 if (e.Data.Name == "effect_tail_whip")
                 {
-
+                    PlayBossSound(skunk_Spin);
                 }
                 break;
             case StateMachine.State.Throwing:

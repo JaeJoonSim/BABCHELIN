@@ -4990,7 +4990,6 @@ GameObject:
   - component: {fileID: 6948086771242223369}
   - component: {fileID: 6948086771242223368}
   - component: {fileID: 6948086771242223371}
-  - component: {fileID: 6948086772606565664}
   - component: {fileID: 3114604131245855695}
   - component: {fileID: 2587692714857945045}
   m_Layer: 8
@@ -5257,29 +5256,6 @@ MonoBehaviour:
   runDust: {fileID: 6038772054940064110}
   Charge: {fileID: 453857925716979151}
   Dead: {fileID: 2479780516792158524}
---- !u!114 &6948086772606565664
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6948086771242223376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d806b44339121b345a08c61cd8c45165, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  skunk_Land: {fileID: 0}
-  skunk_Spin: {fileID: 0}
-  skunk_Fart: {fileID: 0}
-  skunk_Explosion: {fileID: 0}
-  skunk_1_Hit: {fileID: 0}
-  skunk_Spin_Hit: {fileID: 0}
-  skunk_2_Hit: {fileID: 0}
-  skunk_Shield_Hit: {fileID: 0}
-  skunk_Shield: {fileID: 0}
-  skunk_Charge: {fileID: 0}
-  skunk_Death: {fileID: 0}
 --- !u!82 &3114604131245855695
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5389,17 +5365,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d806b44339121b345a08c61cd8c45165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skunk_Land: {fileID: 0}
-  skunk_Spin: {fileID: 0}
-  skunk_Fart: {fileID: 0}
-  skunk_Explosion: {fileID: 0}
-  skunk_1_Hit: {fileID: 0}
-  skunk_Spin_Hit: {fileID: 0}
-  skunk_2_Hit: {fileID: 0}
-  skunk_Shield_Hit: {fileID: 0}
-  skunk_Shield: {fileID: 0}
-  skunk_Charge: {fileID: 0}
-  skunk_Death: {fileID: 0}
+  skunk_Land: {fileID: 8300000, guid: 43be4da5c34ddee4d91af9b4c17bea40, type: 3}
+  skunk_Spin: {fileID: 8300000, guid: 6804190e83872634f87da9ab2fe27182, type: 3}
+  skunk_Fart: {fileID: 8300000, guid: 1b34d03ce14dfdb4299c3e84cfbdf747, type: 3}
+  skunk_Explosion: {fileID: 8300000, guid: 5073e7a90b2b80149ae055b85c05e2a3, type: 3}
+  skunk_1_Hit: {fileID: 8300000, guid: c56b4a05e5554d44384d85489ad1a350, type: 3}
+  skunk_Spin_Hit: {fileID: 8300000, guid: 55a2362d8f416da4c8b8c8f951634ca5, type: 3}
+  skunk_2_Hit: {fileID: 8300000, guid: 76e2961e40a9e5540b949d3656562018, type: 3}
+  skunk_Shield_Hit: {fileID: 8300000, guid: bb78dc6e03007e340be7723f2db7e197, type: 3}
+  skunk_Shield: {fileID: 8300000, guid: 87fe5c9e1e207314980a870c822ea6a7, type: 3}
+  skunk_Charge: {fileID: 8300000, guid: 7017deaced5aad34282335ce9336e0d3, type: 3}
+  skunk_Death: {fileID: 8300000, guid: 4f0e1e48766c90b49a7632cf4a344841, type: 3}
 --- !u!1 &6948086771670899610
 GameObject:
   m_ObjectHideFlags: 0
@@ -5583,6 +5559,9 @@ MonoBehaviour:
   Loading: {fileID: 0}
   NorthLoading: {fileID: 0}
   SouthLoading: {fileID: 0}
+  Dodge: {fileID: 0}
+  NorthDodge: {fileID: 0}
+  SouthDodge: {fileID: 0}
   Crack: {fileID: 11400000, guid: bd80bb3972d0cf843bf22b3cfcabc6fd, type: 2}
   NonCrack: {fileID: 11400000, guid: 28f1ae4a14584f447854e3611461d07d, type: 2}
   Jump: {fileID: 11400000, guid: d355ff6dffed54742a8c0630580c248b, type: 2}
@@ -5596,10 +5575,10 @@ MonoBehaviour:
   phase2Idle: {fileID: 11400000, guid: ca15f699fe12e1045b48e508c99093be, type: 2}
   FartShield: {fileID: 11400000, guid: fa6a3e3c7dcb33749a2af83110460d60, type: 2}
   ChargeRun: {fileID: 11400000, guid: eadc1e74b5e60d640b973fe0e7bc0c39, type: 2}
-  Dodge: {fileID: 0}
   Hit: {fileID: 0}
   Dead: {fileID: 11400000, guid: 731c1566b9a7d4d44a260a6a0d0560b6, type: 2}
   Landing: {fileID: 0}
+  Ultimate: {fileID: 0}
   MixIdle: {fileID: 0}
   NorthMixIdle: {fileID: 0}
   SouthMixIdle: {fileID: 0}
