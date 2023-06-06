@@ -14,19 +14,19 @@ public class UDRLBullet : MonoBehaviour
 
     public HealthPlayer player;
 
-    public Vector3 startPosition;
-    public float distanceRange;
+    private Vector3 startPosition;
+    private float distanceRange;
 
-    public ColliderEvents colliderEvents;
-    public Vector3 direction;
+    private ColliderEvents colliderEvents;
+    private Vector3 direction;
 
     public float gravity;
-    public float time;
+    private float time;
 
     public GameObject PlayerEffect;
     public GameObject GroundEffect;
 
-    void Start()
+    protected virtual void Start()
     {
         colliderEvents = GetComponent<ColliderEvents>();
         if (player == null)
@@ -38,7 +38,7 @@ public class UDRLBullet : MonoBehaviour
     }
 
     // Update is called once per frame
-    public virtual void Update()
+    protected virtual void Update()
     {
         distanceRange = Vector3.Distance(startPosition, transform.position);
         time += Time.deltaTime;

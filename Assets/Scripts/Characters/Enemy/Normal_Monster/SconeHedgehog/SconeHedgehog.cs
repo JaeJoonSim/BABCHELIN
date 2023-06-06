@@ -471,7 +471,7 @@ public class SconeHedgehog : UnitObject
                     if (isJump && !isLand)
                     {
                         agent.isStopped = false;
-                        agent.speed = 8f;
+                        agent.speed = 10;
                         jumpTime += Time.deltaTime;
                         agent.SetDestination(jumpPoint);
                     }

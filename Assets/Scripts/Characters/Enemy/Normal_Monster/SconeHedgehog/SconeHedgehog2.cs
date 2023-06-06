@@ -88,6 +88,7 @@ public class SconeHedgehog2 : UnitObject
     public float yDir;
 
 
+    private GameObject AttackPoint;
     public GameObject jumpPointObject;
     private GameObject jumppointobj;
     public GameObject BulletObject;
@@ -129,6 +130,8 @@ public class SconeHedgehog2 : UnitObject
         patrolStartPosition = transform.position;
         patrolTargetPosition = GetRandomPositionInPatrolRange();
 
+        AttackPoint = transform.GetChild(1).gameObject;
+
         //DashEffect.SetActive(false);
 
         health.OnHit += OnHit;
@@ -139,6 +142,7 @@ public class SconeHedgehog2 : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
         xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
@@ -174,7 +178,6 @@ public class SconeHedgehog2 : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Notice;
                     }
 
-                    SpineTransform.localPosition = Vector3.zero;
                     break;
 
                 case StateMachine.State.Patrol:
@@ -276,7 +279,7 @@ public class SconeHedgehog2 : UnitObject
                     {
                         state.LockStateChanges = false;
                         shotPerDash = UnityEngine.Random.Range(0, 10);
-                        if (shotPerDash > dashPer)
+                        if (shotPerDash >= dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
@@ -291,18 +294,19 @@ public class SconeHedgehog2 : UnitObject
 
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
-                    //agent.speed = 0f;
-                    //agent.isStopped = true;
                     Stop();
                     AttackTimer += Time.deltaTime;
 
-                    if (transform.position.x <= target.position.x)  //보는 방향
+                    if (AttackTimer < 0.5666f)
                     {
-                        this.transform.localScale = new Vector3(1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
                     }
 
                     if (AttackTimer >= 1.4f)
@@ -312,7 +316,6 @@ public class SconeHedgehog2 : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Dash:
@@ -466,7 +469,7 @@ public class SconeHedgehog2 : UnitObject
                     if (isJump && !isLand)
                     {
                         agent.isStopped = false;
-                        agent.speed = 5f;
+                        agent.speed = 10;
                         agent.SetDestination(jumpPoint);
                     }
 
@@ -605,8 +608,9 @@ public class SconeHedgehog2 : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
+                Debug.Log(e.Time);
                 GameObject bullet = BulletObject;
-                Instantiate(bullet, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f), Quaternion.Euler(0, 0, state.facingAngle));
+                Instantiate(bullet, AttackPoint.transform);
             }
             else if (state.CURRENT_STATE == StateMachine.State.Jump)
             {
