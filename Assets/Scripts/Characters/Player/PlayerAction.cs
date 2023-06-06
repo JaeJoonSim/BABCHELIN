@@ -161,11 +161,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
-            {
-                state.CURRENT_STATE = StateMachine.State.Ultimate;
-                playerController.UltObj.GetComponent<UltimateManager>().UltimateStart();
-            }
+            
         }
         else if (context.canceled)
         {
@@ -213,7 +209,11 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (context.canceled)
         {
-            //Debug.Log("mouse UP");
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                state.CURRENT_STATE = StateMachine.State.Ultimate;
+                playerController.UltObj.GetComponent<UltimateManager>().UltimateStart();
+            }
         }
     }
 
@@ -443,10 +443,13 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        Debug.Log(e.Data.Name);
+        int val1 = Mathf.FloorToInt(e.Time * Spine.skeleton.Data.Fps);
+        int val2 = Mathf.FloorToInt((trackEntry.TrackTime) * Spine.skeleton.Data.Fps);
+        //Debug.Log(val1);
+
         if (e.Data.Name == "shot")
         {
-            if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
+            if (val1 != val2)
                 return;
 
             Vector3 spawnPos = playerController.muzzleEnd.position;

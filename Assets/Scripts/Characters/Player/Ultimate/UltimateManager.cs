@@ -21,7 +21,7 @@ public class UltimateManager : MonoBehaviour
 
     public List<GameObject> skills;
     private bool inArea;
-
+    private bool isStart;
     public float curPos;
     public float min;
     public float max;
@@ -29,10 +29,13 @@ public class UltimateManager : MonoBehaviour
     public Sprite GummyBearWhite;
     public Sprite GummyBearRed;
 
+    public UltimateStatus Bbebbero;
+
     private void OnEnable()
     {
         if (skills[PlayerController.UltIdx] != null)
             skills[PlayerController.UltIdx].SetActive(true);
+        isStart = false;
     }
 
     private void OnDisable()
@@ -42,6 +45,7 @@ public class UltimateManager : MonoBehaviour
             if (go != null)
                 go.SetActive(false);
         }
+        isStart = false;
     }
 
     private void Start()
@@ -57,7 +61,8 @@ public class UltimateManager : MonoBehaviour
 
     private void Update()
     {
-        Get_MouseInput();
+        if (!isStart)
+            Get_MouseInput();
     }
 
     private void Get_MouseInput()
@@ -65,6 +70,7 @@ public class UltimateManager : MonoBehaviour
         switch (playerController.UltIdx)
         {
             case 0:
+                skills[playerController.UltIdx].transform.localScale = Vector3.one * Bbebbero.size;
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, Utils.GetMouseAngle(transform.position)));
                 break;
             case 1:
@@ -90,8 +96,17 @@ public class UltimateManager : MonoBehaviour
 
     public void UltimateShot()
     {
-        Debug.Log("±Ã±Ø±â");
         gameObject.SetActive(false);
+
+        switch (playerController.UltIdx)
+        {
+            case 0:
+
+                GameObject temp = Instantiate(Bbebbero.UltimateObj, skills[playerController.UltIdx].transform.position, transform.localRotation);
+                temp.GetComponent<UltimateBbebbero>().getStatus(Bbebbero);
+                break;
+        }
+
     }
     public void UltimateStart()
     {
@@ -100,6 +115,7 @@ public class UltimateManager : MonoBehaviour
             if (go != null)
                 go.SetActive(false);
         }
+        isStart = true;
     }
 
 
