@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -117,7 +118,7 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void Update()
     {
-        
+
         if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
             if (state.CURRENT_STATE != StateMachine.State.Dodging)
@@ -203,8 +204,8 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = false;
             state.CURRENT_STATE = StateMachine.State.Dodging;
-            DodgeDelay = playerController.TotalStatus.dodgeCoolDown;
-            playerController.dodgeSpeed = playerController.TotalStatus.dodgeDistance / playerController.TotalStatus.dodgeTime;
+            DodgeDelay = playerController.TotalStatus.dodgeCoolDown.value;
+            playerController.dodgeSpeed = playerController.TotalStatus.dodgeDistance.value / playerController.TotalStatus.dodgeTime.value;
             if (playerController.absorbEffet != null)
             {
                 playerController.absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -220,18 +221,16 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButton(0) &&
             (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            playerController.PreesAttack = true;
             if (playerController.BulletGauge < playerController.Attack.GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
             {
                 return false;
             }
-            state.CURRENT_STATE = StateMachine.State.Attacking;
-            ShotDelay = 1 / (playerController.TotalStatus.atkSpd / 100f);
-        }
-        else if (Input.GetMouseButton(0) &&
-            state.CURRENT_STATE == StateMachine.State.Attacking)
-        {
             playerController.PreesAttack = true;
+            state.CURRENT_STATE = StateMachine.State.Attacking;
+            ShotDelay = 1 / (playerController.TotalStatus.atkSpd.value / 100f);
+        }
+        else if (Input.GetMouseButton(0) && state.CURRENT_STATE == StateMachine.State.Attacking)
+        {
             if (ShotDelay <= 0 || simpleSpineAnimator.Track.IsComplete)
             {
                 state.CURRENT_STATE = StateMachine.State.Idle;
@@ -239,13 +238,15 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (!Input.GetMouseButton(0))
         {
-
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
+            {
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
-                    playerController.PreesAttack = false;
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
+            }
+            else if (state.CURRENT_STATE == StateMachine.State.Idle)
+                playerController.PreesAttack = false;
         }
 
         return true;
@@ -262,9 +263,9 @@ public class PlayerAction : BaseMonoBehaviour
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
             }
 
-            
+
         }
-        else if(Input.GetMouseButton(1) &&
+        else if (Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Absorbing))
         {
             getMouseInfo();
@@ -306,21 +307,21 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     return false;
                 }
+                state.facingAngle = Utils.GetMouseAngle(transform.position);
                 state.CURRENT_STATE = StateMachine.State.Skill;
-                playerController.PreesAttack = true;
                 playerController.SkillIndex = 0;
-            }           
+            }
             else if (Input.GetKeyDown(KeyCode.E))
             {
-                if (playerController.BulletGauge < playerController.TotalStatus.sk1Cost || ShotDelay > 0)
+                if (playerController.BulletGauge < playerController.TotalStatus.sk1Cost.value || ShotDelay > 0)
                 {
                     return false;
                 }
                 state.CURRENT_STATE = StateMachine.State.Skill2;
                 playerController.PreesAttack = true;
-                playerController.addBullet(-playerController.TotalStatus.sk1Cost);
+                playerController.addBullet(-playerController.TotalStatus.sk1Cost.value);
                 playerController.SkillIndex = 1;
-                SkillDelay = playerController.TotalStatus.sk1CoolDown;
+                SkillDelay = playerController.TotalStatus.sk1CoolDown.value;
             }
         }
         else
@@ -359,13 +360,13 @@ public class PlayerAction : BaseMonoBehaviour
                 }
             }
         }
-        targetInRange = Physics2D.OverlapCircleAll(playerController.muzzleEnd.position, playerController.TotalStatus.absorbRange, 1 << 20);
+        targetInRange = Physics2D.OverlapCircleAll(playerController.muzzleEnd.position, playerController.TotalStatus.absorbRange.value, 1 << 20);
 
         for (int i = 0; i < targetInRange.Length; i++)
         {
 
             Vector2 dirToTarget = (targetInRange[i].bounds.center - playerController.muzzleEnd.position).normalized;
-            if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.TotalStatus.absorbAngle / 2)
+            if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.TotalStatus.absorbAngle.value / 2)
             {
                 absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
                 if (absorb != null)
@@ -381,13 +382,13 @@ public class PlayerAction : BaseMonoBehaviour
     {
 #if UNITY_EDITOR
 
-        UnityEditor.Handles.DrawWireArc(playerController.muzzleEnd.position, transform.forward, transform.right, 360, playerController.TotalStatus.absorbRange);
+        UnityEditor.Handles.DrawWireArc(playerController.muzzleEnd.position, transform.forward, transform.right, 360, playerController.TotalStatus.absorbRange.value);
 
-        Vector3 viewAngleA = DirFromAngle(-playerController.TotalStatus.absorbAngle / 2, false);
-        Vector3 viewAngleB = DirFromAngle(playerController.TotalStatus.absorbAngle / 2, false);
+        Vector3 viewAngleA = DirFromAngle(-playerController.TotalStatus.absorbAngle.value / 2, false);
+        Vector3 viewAngleB = DirFromAngle(playerController.TotalStatus.absorbAngle.value / 2, false);
 
-        UnityEditor.Handles.DrawLine(playerController.muzzleEnd.position, playerController.muzzleEnd.position + viewAngleA * playerController.TotalStatus.absorbRange);
-        UnityEditor.Handles.DrawLine(playerController.muzzleEnd.position, playerController.muzzleEnd.position + viewAngleB * playerController.TotalStatus.absorbRange);
+        UnityEditor.Handles.DrawLine(playerController.muzzleEnd.position, playerController.muzzleEnd.position + viewAngleA * playerController.TotalStatus.absorbRange.value);
+        UnityEditor.Handles.DrawLine(playerController.muzzleEnd.position, playerController.muzzleEnd.position + viewAngleB * playerController.TotalStatus.absorbRange.value);
 
 #endif
 
@@ -407,41 +408,45 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
-            Vector3 spawnPos = playerController.muzzleEnd.position;
+            if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
+                return;
 
+            Vector3 spawnPos = playerController.muzzleEnd.position;
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Attacking:
-                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
-                        return;
-                   
-                    playerController.addBullet(-playerController.TotalStatus.bulletCost);
-                    Instantiate(playerController.Attack
-                        , spawnPos
-                        , Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
-                        ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+                    playerController.addBullet(-playerController.TotalStatus.bulletCost.value);
 
-
-                    //float anglet = state.facingAngle - 15;
-                    //for (int i = 0; i < 2; i++)
-                    //{
-                    //    anglet += 30 / 2;
-                    //    Instantiate(playerController.Attack, spawnPos, Quaternion.Euler(new Vector3(0, 0, anglet)));
-                    //}
+                    if (playerController.TotalStatus.bulletCount.value <= 1)
+                    {
+                        Instantiate(playerController.Attack
+                       , spawnPos
+                       , Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
+                       ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+                    }
+                    else
+                    {
+                        int bCount = playerController.TotalStatus.bulletCount.value;
+                        float anglet = state.facingAngle - (10 * (bCount - 1)) / 2;
+                        for (int i = 0; i < bCount; i++)
+                        {
+                            Instantiate(playerController.Attack
+                            , spawnPos
+                            , Quaternion.Euler(new Vector3(0, 0, anglet))
+                            ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
+                            anglet += 10;
+                        }
+                    }
                     break;
                 case StateMachine.State.Skill:
-                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
-                        return;
-
-                    playerController.addBullet(-playerController.TotalStatus.sk2Cost);
+                    playerController.addBullet(-playerController.TotalStatus.sk2Cost.value);
 
                     Instantiate(playerController.Skills[playerController.SkillIndex],
                         spawnPos,
                         Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
                         ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
 
-                    rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 4000f);
-                    playerController.PreesAttack = false;
+                    rb.AddForce((rb.position - (Vector2)playerController.muzzleEnd.position).normalized * 4000f);
                     break;
                 case StateMachine.State.ultimate:
                     break;

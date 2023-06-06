@@ -8,13 +8,15 @@ public class LargeAttack : PlayerAttack
     public float splashDmg;
     public override void getStaus(status val)
     {
-        Damage = val.sk2Dmg;
-        speed = val.atkSpd / 10;
-        range = val.sk2Range;
-        Cost = val.sk2Cost;
-        destructionGauge = val.sk2DestroyDmg;
-        splashRange = val.sk2SplashRange;
-        splashDmg = val.sk2SplashDmg;
+        Damage = val.sk2Dmg.value;
+        speed = val.bulletSpd.value;
+        range = val.sk2Range.value;
+        Cost = val.sk2Cost.value;
+        destructionGauge = val.sk2DestroyDmg.value;
+        splashRange = val.sk2SplashRange.value;
+        splashDmg = val.sk2SplashDmg.value;
+        bulletAuto = val.bulletAuto.value;
+        bulletAutoRange = val.bulletAutoRange.value;
     }
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
