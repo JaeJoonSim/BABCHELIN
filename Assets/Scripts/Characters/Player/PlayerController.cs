@@ -1,10 +1,6 @@
-using MessagePack;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -38,8 +34,8 @@ public class PlayerController : BaseMonoBehaviour
     [Header("이동 체크")]
     public float forceDir;
     public float speed;
-    [HideInInspector] public float xDir;
-    [HideInInspector] public float yDir;
+    public float xDir;
+    public float yDir;
 
     [Header("회피")]
     public bool showDodge = false;
@@ -107,7 +103,6 @@ public class PlayerController : BaseMonoBehaviour
     private void Update()
     {
         //getTotalstatus();
-        //Debug.Log((TotalStatus.hpMax.value));
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
@@ -118,8 +113,9 @@ public class PlayerController : BaseMonoBehaviour
         if (state.CURRENT_STATE != StateMachine.State.Dodging)
         {
             speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
+            speed = Mathf.Max(speed, 0f);
         }
-        speed = Mathf.Max(speed, 0f);
+
         unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
         unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
 
@@ -135,11 +131,12 @@ public class PlayerController : BaseMonoBehaviour
             Skills[1].SetActive(false);
         }
 
+
+
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
                 SpineTransform.localPosition = Vector3.zero;
-                speed += (0f - speed) / 3f * GameManager.DeltaTime;
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -147,22 +144,11 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Moving:
-                if (Time.timeScale == 0f)
-                {
-                    break;
-                }
                 if (Mathf.Abs(xDir) < MinInputForMovement && Mathf.Abs(yDir) < MinInputForMovement)
                 {
-                    state.ChangeToIdleState();
+                    state.CURRENT_STATE = StateMachine.State.Idle;
                     break;
                 }
-                forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                if (unitObject.vx != 0f || unitObject.vy != 0f)
-                {
-                    //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(unitObject.vx, unitObject.vy));
-                }
-                state.LookAngle = state.facingAngle;
-                speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
                 break;
 
             case StateMachine.State.Dodging:
@@ -170,9 +156,11 @@ public class PlayerController : BaseMonoBehaviour
 
                 if (dodgeTime < TotalStatus.dodgeTime.value)
                 {
-                    forceDir = DodgeAngle;
                     speed = dodgeSpeed;
                     dodgeTime += Time.deltaTime;
+                    state.facingAngle = forceDir;
+                    muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+                    muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 }
                 else
                 {
@@ -189,73 +177,21 @@ public class PlayerController : BaseMonoBehaviour
                     absorbEffet.Play(true);
                 }
 
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
                 break;
 
             case StateMachine.State.Skill:
-                SpineTransform.localPosition = Vector3.zero;
-                speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                speed = 0;
+                muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+                muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 break;
             case StateMachine.State.Skill2:
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-
                 if (!Skills[1].activeSelf)
                 {
                     Skills[1].SetActive(true);
                 }
-                //Skills[1].transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
-                //Skills[1].transform.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-
                 break;
             case StateMachine.State.Attacking:
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
                 break;
-
-            case StateMachine.State.Loading:
-
-                //이동
-                if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
-                {
-                    forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    state.LookAngle = state.facingAngle;
-                    speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
-                }
-                else
-                {
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-                }
-                break;
-
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
@@ -277,76 +213,43 @@ public class PlayerController : BaseMonoBehaviour
 
     public void facingAngle()
     {
+        if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
+               state.CURRENT_STATE == StateMachine.State.HitRight ||
+               state.CURRENT_STATE == StateMachine.State.Dodging ||
+               state.CURRENT_STATE == StateMachine.State.Skill)
+
+        {
+            return;
+        }
+
+
+        if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
+        {
+            speed += (TotalStatus.movSpd.value - speed) / 3f * GameManager.DeltaTime;
+            forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
+        }
+        else
+        {
+            speed = 0;
+            forceDir = DodgeAngle;
+        }
+
+
+
         if (PreesAttack)
         {
             muzzleBone.position = Utils.GetMousePosition();
             state.facingAngle = Utils.GetMouseAngle(transform.position);
-            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-
-            if (45 <= state.facingAngle && state.facingAngle <= 135)
-                DodgeAngle = 90f;
-            else if (225 <= state.facingAngle && state.facingAngle <= 315)
-                DodgeAngle = 270f;
-            else if (135 < state.facingAngle && state.facingAngle < 225)
-            {
-                DodgeAngle = 180f;
-            }
-            else if (state.facingAngle < 45 || state.facingAngle > 315)
-            {
-                DodgeAngle = 0f;
-            }
-
             if (BulletUI.GetComponent<CanvasGroup>().alpha < 1)
             {
                 fadeTime = 0;
                 BulletUI.GetComponent<CanvasGroup>().alpha = 1;
             }
         }
-        else if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
-            state.CURRENT_STATE == StateMachine.State.HitRight)
-        {
-            return;
-        }
         else
         {
-
-            if (yDir > 0)
-            {
-                if (xDir < 0)
-                    DodgeAngle = 135;
-                else if (xDir > 0)
-                    DodgeAngle = 45;
-                else
-                {
-                    DodgeAngle = 90f;
-                }
-            }
-            else if (yDir < 0)
-            {
-                if (xDir < 0)
-                    DodgeAngle = 225;
-                else if (xDir > 0)
-                    DodgeAngle = 315;
-                else
-                {
-                    DodgeAngle = 270;
-                }
-            }
-            else
-            {
-                if (xDir < 0)
-                {
-                    DodgeAngle = 180;
-                }
-                else if (xDir > 0)
-                {
-                    DodgeAngle = 0;
-                }
-                else
-                {
-                }
-            }
-
+            state.facingAngle = forceDir;
+            muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
             if (BulletUI.activeSelf)
             {
                 fadeTime += Time.deltaTime;
@@ -356,10 +259,22 @@ public class PlayerController : BaseMonoBehaviour
                     BulletUI.GetComponent<CanvasGroup>().alpha -= (Time.deltaTime * 2);
                 }
             }
-            state.facingAngle = DodgeAngle;
-            muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-            muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
         }
+
+        if (45 <= state.facingAngle && state.facingAngle <= 135)
+            DodgeAngle = 90f;
+        else if (225 <= state.facingAngle && state.facingAngle <= 315)
+            DodgeAngle = 270f;
+        else if (135 < state.facingAngle && state.facingAngle < 225)
+        {
+            DodgeAngle = 180f;
+        }
+        else if (state.facingAngle < 45 || state.facingAngle > 315)
+        {
+            DodgeAngle = 0f;
+        }
+
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
@@ -416,7 +331,7 @@ public class PlayerController : BaseMonoBehaviour
                 Type valueType = BaseStatus.variables[total.Key].GetType();
                 if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
                 {
-                    TotalStatus.variables[total.Key].value = 
+                    TotalStatus.variables[total.Key].value =
                         BaseStatus.variables[total.Key].value
                         + ItemStatusAdd.variables[total.Key].value
                         + (BaseStatus.variables[total.Key].value / 100 * ItemStatusPercent.variables[total.Key].value);

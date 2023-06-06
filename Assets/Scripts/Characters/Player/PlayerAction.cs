@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAction : BaseMonoBehaviour
 {
@@ -117,7 +118,7 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void Update()
     {
-        
+
         if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
             if (state.CURRENT_STATE != StateMachine.State.Dodging)
@@ -220,18 +221,16 @@ public class PlayerAction : BaseMonoBehaviour
         if (Input.GetMouseButton(0) &&
             (state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            playerController.PreesAttack = true;
             if (playerController.BulletGauge < playerController.Attack.GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
             {
                 return false;
             }
+            playerController.PreesAttack = true;
             state.CURRENT_STATE = StateMachine.State.Attacking;
             ShotDelay = 1 / (playerController.TotalStatus.atkSpd.value / 100f);
         }
-        else if (Input.GetMouseButton(0) &&
-            state.CURRENT_STATE == StateMachine.State.Attacking)
+        else if (Input.GetMouseButton(0) && state.CURRENT_STATE == StateMachine.State.Attacking)
         {
-            playerController.PreesAttack = true;
             if (ShotDelay <= 0 || simpleSpineAnimator.Track.IsComplete)
             {
                 state.CURRENT_STATE = StateMachine.State.Idle;
@@ -239,13 +238,15 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (!Input.GetMouseButton(0))
         {
-
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
+            {
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
-                    playerController.PreesAttack = false;
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
+            }
+            else if (state.CURRENT_STATE == StateMachine.State.Idle)
+                playerController.PreesAttack = false;
         }
 
         return true;
@@ -262,9 +263,9 @@ public class PlayerAction : BaseMonoBehaviour
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
             }
 
-            
+
         }
-        else if(Input.GetMouseButton(1) &&
+        else if (Input.GetMouseButton(1) &&
             (state.CURRENT_STATE == StateMachine.State.Absorbing))
         {
             getMouseInfo();
@@ -306,10 +307,10 @@ public class PlayerAction : BaseMonoBehaviour
                 {
                     return false;
                 }
+                state.facingAngle = Utils.GetMouseAngle(transform.position);
                 state.CURRENT_STATE = StateMachine.State.Skill;
-                playerController.PreesAttack = true;
                 playerController.SkillIndex = 0;
-            }           
+            }
             else if (Input.GetKeyDown(KeyCode.E))
             {
                 if (playerController.BulletGauge < playerController.TotalStatus.sk1Cost.value || ShotDelay > 0)
@@ -407,16 +408,14 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (e.Data.Name == "shot")
         {
-            Vector3 spawnPos = playerController.muzzleEnd.position;
+            if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
+                return;
 
+            Vector3 spawnPos = playerController.muzzleEnd.position;
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Attacking:
-                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
-                        return;
-                   
                     playerController.addBullet(-playerController.TotalStatus.bulletCost.value);
-
 
                     if (playerController.TotalStatus.bulletCount.value <= 1)
                     {
@@ -440,9 +439,6 @@ public class PlayerAction : BaseMonoBehaviour
                     }
                     break;
                 case StateMachine.State.Skill:
-                    if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
-                        return;
-
                     playerController.addBullet(-playerController.TotalStatus.sk2Cost.value);
 
                     Instantiate(playerController.Skills[playerController.SkillIndex],
@@ -450,8 +446,7 @@ public class PlayerAction : BaseMonoBehaviour
                         Quaternion.Euler(new Vector3(0, 0, state.facingAngle))
                         ).GetComponent<PlayerAttack>().getStaus(playerController.TotalStatus);
 
-                    rb.AddForce(Utils.GetMouseDirectionReverse(rb.position) * 4000f);
-                    playerController.PreesAttack = false;
+                    rb.AddForce((rb.position - (Vector2)playerController.muzzleEnd.position).normalized * 4000f);
                     break;
                 case StateMachine.State.ultimate:
                     break;
