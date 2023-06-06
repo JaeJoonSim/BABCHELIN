@@ -7,9 +7,6 @@ public class BulletScript : BaseMonoBehaviour
 {
     public HealthPlayer player;
 
-    private AudioSource audioSource;
-    public AudioClip popSound;
-
     [Space]
     public float damage;
     public float speed;
@@ -28,8 +25,6 @@ public class BulletScript : BaseMonoBehaviour
 
     protected virtual void Start()
     {
-        audioSource = GetComponent<AudioSource>();
-
         colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
         startPosition = transform.position;
@@ -62,12 +57,6 @@ public class BulletScript : BaseMonoBehaviour
             GroundEffect.transform.position = transform.position;
             GameObject groundEffect = Instantiate(GroundEffect);
 
-            if(popSound != null)
-            {
-                audioSource.clip = popSound;
-                audioSource.PlayOneShot(audioSource.clip);
-            }
-
             Destroy(gameObject);
         }
     }
@@ -87,9 +76,6 @@ public class BulletScript : BaseMonoBehaviour
             GameObject playerEffect = PlayerEffect;
             playerEffect.transform.position = transform.position;
             Instantiate(playerEffect);
-
-            audioSource.clip = popSound;
-            audioSource.PlayOneShot(audioSource.clip);
 
             Destroy(gameObject);
         }
