@@ -804,7 +804,7 @@ PrefabInstance:
     - target: {fileID: 8764668619596331504, guid: c1522ef749dceec46be78cfa5d2c52ff,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8764668619596331504, guid: c1522ef749dceec46be78cfa5d2c52ff,
         type: 3}
@@ -814,7 +814,7 @@ PrefabInstance:
     - target: {fileID: 8764668619596331504, guid: c1522ef749dceec46be78cfa5d2c52ff,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.24
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8764668619596331504, guid: c1522ef749dceec46be78cfa5d2c52ff,
         type: 3}
@@ -957,6 +957,12 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6948086771242223372, guid: e8b38672aa0f8fb4b8ccf75422398037,
     type: 3}
   m_PrefabInstance: {fileID: 132293220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &624878374 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3847585980839888013, guid: 4c3406f7d6237a042933f60a8149a963,
+    type: 3}
+  m_PrefabInstance: {fileID: 1142834293}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &629191981 stripped
 GameObject:
@@ -2985,13 +2991,31 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
-  SpineTransform: {fileID: 0}
+  SpineTransform: {fileID: 624878374}
   AnimationTrack: 0
   Idle: {fileID: 0}
   _promt: 
+  spawnRange: 0
+  buffObject:
+  - {fileID: 3275738440347693820, guid: bdbe96d2fc5e1fe46bc15a710a4676ce, type: 3}
+  - {fileID: 3275738440347693820, guid: c607d0e110f1deb4ebcd91123f55e76b, type: 3}
+  spawnEffect: {fileID: 6021391250367714932, guid: a0c11300f5f0d0c479c9794f328a5dc6,
+    type: 3}
   onInteraction:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1141293203}
+        m_TargetAssemblyTypeName: TreasureChest, Assembly-CSharp
+        m_MethodName: DropItems
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   offInteraction:
     m_PersistentCalls:
       m_Calls: []
@@ -3017,7 +3041,12 @@ PrefabInstance:
     - target: {fileID: 4265093594819362709, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265093594819362728, guid: 4c3406f7d6237a042933f60a8149a963,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4265093594819362730, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
@@ -3027,7 +3056,7 @@ PrefabInstance:
     - target: {fileID: 4265093594819362730, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -2.399
       objectReference: {fileID: 0}
     - target: {fileID: 4265093594819362730, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
@@ -3072,6 +3101,16 @@ PrefabInstance:
     - target: {fileID: 4265093594819362730, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265093594819362734, guid: 4c3406f7d6237a042933f60a8149a963,
+        type: 3}
+      propertyPath: m_Radius
+      value: 1.0197688
+      objectReference: {fileID: 0}
+    - target: {fileID: 4265093594819362734, guid: 4c3406f7d6237a042933f60a8149a963,
+        type: 3}
+      propertyPath: m_Offset.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents:
@@ -4357,7 +4396,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3524098966121532011, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}

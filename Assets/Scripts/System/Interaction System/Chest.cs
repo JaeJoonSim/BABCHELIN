@@ -20,12 +20,8 @@ public class Chest : MonoBehaviour, Interactable
 
     public bool OnInteract(Interactor interactor)
     {
-        if (!UIManagerScript.OnUI)
-        {
-            onInteraction.Invoke();
-            Debug.Log($"{gameObject.name} : OnInteracted with Chest");
-            UIManagerScript.OnUI = true;
-        }
+        onInteraction.Invoke();
+        Debug.Log($"{gameObject.name} : OnInteracted with Chest");
         return true;
     }
 
@@ -35,7 +31,6 @@ public class Chest : MonoBehaviour, Interactable
         {
             offInteraction.Invoke();
             Debug.Log("Close Chest");
-            UIManagerScript.OnUI = false;
         }
     }
 }

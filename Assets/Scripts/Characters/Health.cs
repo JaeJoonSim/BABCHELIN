@@ -50,7 +50,10 @@ public class Health : BaseMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateMachine>();
-        dtc = GetComponent<DamageTextControler>();
+        if(isMonster)
+        {
+            dtc = GetComponent<DamageTextControler>();
+        }
         currentHealth = maxHealth;
         backHealth = currentHealth;
         meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -70,7 +73,10 @@ public class Health : BaseMonoBehaviour
     {
         if (IsInvincible())
         {
-            dtc.ShowDamageText(0);
+            if (isMonster)
+            {
+                dtc.ShowDamageText(0);
+            }
             return;
         }
         //if (Attacker == base.gameObject) return;

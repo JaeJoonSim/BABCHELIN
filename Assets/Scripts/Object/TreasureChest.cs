@@ -22,10 +22,16 @@ public class TreasureChest : UnitObject, Interactable
         }
     }
     public AnimationReferenceAsset Idle;
+    private float aniCount = 0;
 
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
+
+    [SerializeField] float spawnRange;
+    [SerializeField] GameObject[] buffObject;
+
+    public GameObject spawnEffect;
 
     #region Unity Events
     [Space]
@@ -62,6 +68,14 @@ public class TreasureChest : UnitObject, Interactable
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
+                    if (Idle != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: false);
+                            aniCount++;
+                        }
+                    }
                     break;
 
                 case StateMachine.State.Patrol:
@@ -77,11 +91,10 @@ public class TreasureChest : UnitObject, Interactable
 
     public bool OnInteract(Interactor interactor)
     {
-        if (!UIManagerScript.OnUI)
-        {
-            onInteraction.Invoke();
-            Debug.Log($"{gameObject.name} : OnInteracted with Chest");
-        }
+        onInteraction.Invoke();
+        state.CURRENT_STATE = StateMachine.State.Patrol;
+        aniCount = 0;
+        Debug.Log($"{gameObject.name} : Open the Treasure Chest");
         return true;
     }
 
@@ -102,5 +115,16 @@ public class TreasureChest : UnitObject, Interactable
         }
 
         Destroy(gameObject);
+    }
+
+    public void SpawnObject()
+    {
+        Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
+        Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
+
+        spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
+        Instantiate(spawnEffect);
+        GameObject spawnMonster = Instantiate(buffObject[Random.Range(0, buffObject.Length)], dropPosition, Quaternion.identity);
+        spawnMonster.transform.SetParent(transform.parent);
     }
 }
