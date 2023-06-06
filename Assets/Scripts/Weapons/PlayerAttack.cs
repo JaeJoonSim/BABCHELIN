@@ -70,7 +70,6 @@ public class PlayerAttack : BaseMonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            Debug.Log("Hit Test");
             Skunk skunk = collision.GetComponent<Skunk>();
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             if (skunk != null)

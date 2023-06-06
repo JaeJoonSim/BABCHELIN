@@ -8513,7 +8513,7 @@ MonoBehaviour:
     atk:
       value: 5
     atkDestroyDmg:
-      value: 0
+      value: 1
     atkSpd:
       value: 100
     bulletCount:
@@ -8547,7 +8547,7 @@ MonoBehaviour:
     sk1Spd:
       value: 0.2
     sk1DestroyDmg:
-      value: 0
+      value: 1
     sk1Range:
       value: 5
     sk1Angle:
@@ -9154,6 +9154,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7ea6646e-c8c7-420d-b77d-ebcf6fafdef7
     m_ActionName: Action/Ultimate[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: Ultimate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5e43c9ed-384c-4bb5-ba33-1e6851beaf5f
+    m_ActionName: Action/Ultimate[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: mouseRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9660b42f-6587-497a-a815-f00318af660a
+    m_ActionName: Action/Cancel[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Action
@@ -9833,7 +9865,7 @@ MonoBehaviour:
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
   Landing: {fileID: 11400000, guid: bc5b4faf503a83a41b8fa14df2440a78, type: 2}
-  Ultimate: {fileID: 0}
+  Ultimate: {fileID: 11400000, guid: 903f960b1caf14b499765e962278a327, type: 2}
   MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
   NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
   SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
