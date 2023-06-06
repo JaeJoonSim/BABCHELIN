@@ -66,8 +66,11 @@ MonoBehaviour:
   speed: 10
   range: 9
   Cost: 10
+  bulletAuto: 0
+  bulletAutoRange: 0
   destructionGauge: 1
   HitEffet: {fileID: 396349728389228701, guid: 06fe1104ccefa9b4aafeadaf743794bc, type: 3}
+  endEffet: {fileID: 396349728389228701, guid: 06fe1104ccefa9b4aafeadaf743794bc, type: 3}
 --- !u!1001 &4523226012186475608
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79,21 +82,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 81100840910407530, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 81100840910407530, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 81100840910407530, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 81100840910407530, guid: e25c517a243f8d948ba93fc079edf1eb,
         type: 3}
@@ -145,195 +133,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 237504606883736777, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 237504606883736777, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1296573617666428895, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1889756848692660568, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2889837444692903696, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3204966435658007848, guid: e25c517a243f8d948ba93fc079edf1eb,
         type: 3}
       propertyPath: m_Name
       value: Pc Stance2 Attack Effect
-      objectReference: {fileID: 0}
-    - target: {fileID: 3876026824537589368, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3876026824537589368, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0576
-      objectReference: {fileID: 0}
-    - target: {fileID: 4121137054244090131, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4517977086482746834, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879126713670597049, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879126713670597049, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5286782291317695169, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5286782291317695169, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287035194438, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287035194440, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287035194441, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287035194441, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287134318258, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287134318260, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287134318261, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5525921287134318261, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6904248690910190776, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7101063471333683546, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084576, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084576, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084577, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084578, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084578, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084578, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0576
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273994452084591, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273995635806208, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.0576
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273995635806221, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273995635806222, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273995635806222, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8029273995635806223, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: m_UseCustomVertexStreams
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305171044372997055, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: scalingMode
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8305171044372997055, guid: e25c517a243f8d948ba93fc079edf1eb,
-        type: 3}
-      propertyPath: moveWithTransform
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e25c517a243f8d948ba93fc079edf1eb, type: 3}

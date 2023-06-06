@@ -114,6 +114,7 @@ public class CookieMouse2 : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
@@ -154,10 +155,7 @@ public class CookieMouse2 : UnitObject
                     {
                         state.CURRENT_STATE = StateMachine.State.Notice;
                     }
-
-                    SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
-
+                    //speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Patrol:

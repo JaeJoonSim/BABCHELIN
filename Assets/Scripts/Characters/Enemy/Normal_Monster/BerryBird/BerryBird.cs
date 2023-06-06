@@ -94,6 +94,7 @@ public class BerryBird : UnitObject
         flowerPot = transform.parent.GetChild(0).transform;
         playerHealth = target.GetComponent<Health>();
         agent = GetComponent<NavMeshAgent>();
+        col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
         otherBirdState = new StateMachine[transform.parent.childCount - 1];         //다른 베뱁새 상태 가져오기
@@ -116,6 +117,7 @@ public class BerryBird : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
@@ -162,7 +164,6 @@ public class BerryBird : UnitObject
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Patrol:
@@ -228,42 +229,54 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.HitLeft:
+                    aniCount = 1;
+                    agent.speed = hitSpeed;
+
                     if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
-                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            if (otherBirdState[a].gameObject != gameObject)
+                            {
+                                otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                            else
+                            {
+                                otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            }
                         }
                     }
                     else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
                     {
                         agent.SetDestination(target.position);
                     }
-
-                    aniCount = 1;
-                    agent.speed = hitSpeed;
                     break;
                 case StateMachine.State.HitRight:
-                    if(state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    aniCount = 1;
+                    agent.speed = hitSpeed;
+
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
-                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            if (otherBirdState[a].gameObject != gameObject)
+                            {
+                                otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                            else
+                            {
+                                otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            }
                         }
                     }
                     else if(state.PREVIOUS_STATE == StateMachine.State.Moving)
                     {
                         agent.SetDestination(target.position);
                     }
-
-                    aniCount = 1;
-                    agent.speed = hitSpeed;
                     break;
 
                 case StateMachine.State.Attacking:
-                    SpineTransform.localPosition = Vector3.zero;
                     state.LockStateChanges = true;
-                    forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
                     Stop();
 
@@ -286,6 +299,7 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.Delay:
+                    Stop();
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {
@@ -299,8 +313,6 @@ public class BerryBird : UnitObject
                             state.CURRENT_STATE = StateMachine.State.Moving;
                         }
                     }
-
-                    agent.isStopped = true;
                     break;
             }
         }

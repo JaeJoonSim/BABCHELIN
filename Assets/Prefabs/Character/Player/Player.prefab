@@ -8399,6 +8399,7 @@ Transform:
   - {fileID: 2389896514948917051}
   - {fileID: 6160722344672093754}
   - {fileID: 6160722343175086443}
+  - {fileID: 108413430}
   - {fileID: 6160722344487673776}
   - {fileID: 654470699739038734}
   - {fileID: 251425330}
@@ -8475,225 +8476,470 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpineTransform: {fileID: 6160722344988669357}
   BaseStatus:
-    hpMax: 100
-    hpRegen: 30
-    def: 0
-    movSpd: 6
-    dodgeCoolDown: 0.5
-    dodgeTime: 0.5
-    dodgeDistance: 5
-    absorbAngle: 30
-    absorbRange: 5
-    absorbRestore: 0
-    absorbSpdSmall: 0.1
-    absorbSpdMedium: 0.5
-    absorbSpdLarge: 1
-    absorbChargeSmall: 20
-    absorbChargeMedium: 50
-    absorbChargeLarge: 100
-    atk: 5
-    atkSpd: 100
-    bulletCount: 1
-    bulletRange: 10
-    bulletCost: 10
-    bulletMax: 1000
-    bulletMin: 300
-    bulletRegen: 10
-    bulletRegenTime: 1
-    sk1Dmg: 2
-    sk1Cost: 10
-    sk1CoolDown: 3
-    sk1ResistTime: 3
-    sk1Spd: 0.2
-    sk1DestroyDmg: 0
-    sk1Range: 5
-    sk1Angle: 30
-    sk2Dmg: 10
-    sk2Cost: 20
-    sk2CoolDown: 3
-    sk2Range: 10
-    sk2DestroyDmg: 1
-    sk2SplashRange: 3
-    sk2SplashDmg: 5
-    sk2Count: 0
-    ultRestore: 0
-    UltMax: 100
+    hpMax:
+      value: 100
+    hpRegen:
+      value: 30
+    def:
+      value: 0
+    movSpd:
+      value: 6
+    dodgeCoolDown:
+      value: 0.5
+    dodgeTime:
+      value: 0.5
+    dodgeDistance:
+      value: 5
+    absorbAngle:
+      value: 30
+    absorbRange:
+      value: 5
+    absorbRestore:
+      value: 0
+    absorbSpdSmall:
+      value: 0.1
+    absorbSpdMedium:
+      value: 0.5
+    absorbSpdLarge:
+      value: 1
+    absorbChargeSmall:
+      value: 20
+    absorbChargeMedium:
+      value: 50
+    absorbChargeLarge:
+      value: 100
+    atk:
+      value: 5
+    atkSpd:
+      value: 100
+    bulletCount:
+      value: 1
+    bulletSpd:
+      value: 10
+    bulletRange:
+      value: 10
+    bulletCost:
+      value: 10
+    bulletMax:
+      value: 1000
+    bulletMin:
+      value: 300
+    bulletRegen:
+      value: 10
+    bulletRegenTime:
+      value: 1
+    bulletAuto:
+      value: 0
+    bulletAutoRange:
+      value: 5
+    sk1Dmg:
+      value: 2
+    sk1Cost:
+      value: 10
+    sk1CoolDown:
+      value: 3
+    sk1ResistTime:
+      value: 3
+    sk1Spd:
+      value: 0.2
+    sk1DestroyDmg:
+      value: 0
+    sk1Range:
+      value: 5
+    sk1Angle:
+      value: 30
+    sk2Dmg:
+      value: 10
+    sk2Cost:
+      value: 20
+    sk2CoolDown:
+      value: 3
+    sk2Range:
+      value: 10
+    sk2DestroyDmg:
+      value: 1
+    sk2SplashRange:
+      value: 3
+    sk2SplashDmg:
+      value: 5
+    sk2Count:
+      value: 0
+    ultRestore:
+      value: 0
+    UltMax:
+      value: 100
   ItemStatusAdd:
-    hpMax: 0
-    hpRegen: 0
-    def: 0
-    movSpd: 0
-    dodgeCoolDown: 0
-    dodgeTime: 0
-    dodgeDistance: 0
-    absorbAngle: 0
-    absorbRange: 0
-    absorbRestore: 0
-    absorbSpdSmall: 0
-    absorbSpdMedium: 0
-    absorbSpdLarge: 0
-    absorbChargeSmall: 0
-    absorbChargeMedium: 0
-    absorbChargeLarge: 0
-    atk: 0
-    atkSpd: 0
-    bulletCount: 0
-    bulletRange: 0
-    bulletCost: 0
-    bulletMax: 0
-    bulletMin: 0
-    bulletRegen: 0
-    bulletRegenTime: 0
-    sk1Dmg: 0
-    sk1Cost: 0
-    sk1CoolDown: 0
-    sk1ResistTime: 0
-    sk1Spd: 0
-    sk1DestroyDmg: 0
-    sk1Range: 0
-    sk1Angle: 0
-    sk2Dmg: 0
-    sk2Cost: 0
-    sk2CoolDown: 0
-    sk2Range: 0
-    sk2DestroyDmg: 0
-    sk2SplashRange: 0
-    sk2SplashDmg: 0
-    sk2Count: 0
-    ultRestore: 0
-    UltMax: 0
+    hpMax:
+      value: 0
+    hpRegen:
+      value: 0
+    def:
+      value: 0
+    movSpd:
+      value: 0
+    dodgeCoolDown:
+      value: 0
+    dodgeTime:
+      value: 0
+    dodgeDistance:
+      value: 0
+    absorbAngle:
+      value: 0
+    absorbRange:
+      value: 0
+    absorbRestore:
+      value: 0
+    absorbSpdSmall:
+      value: 0
+    absorbSpdMedium:
+      value: 0
+    absorbSpdLarge:
+      value: 0
+    absorbChargeSmall:
+      value: 0
+    absorbChargeMedium:
+      value: 0
+    absorbChargeLarge:
+      value: 0
+    atk:
+      value: 0
+    atkSpd:
+      value: 0
+    bulletCount:
+      value: 0
+    bulletSpd:
+      value: 0
+    bulletRange:
+      value: 0
+    bulletCost:
+      value: 0
+    bulletMax:
+      value: 0
+    bulletMin:
+      value: 0
+    bulletRegen:
+      value: 0
+    bulletRegenTime:
+      value: 0
+    bulletAuto:
+      value: 0
+    bulletAutoRange:
+      value: 0
+    sk1Dmg:
+      value: 0
+    sk1Cost:
+      value: 0
+    sk1CoolDown:
+      value: 0
+    sk1ResistTime:
+      value: 0
+    sk1Spd:
+      value: 0
+    sk1DestroyDmg:
+      value: 0
+    sk1Range:
+      value: 0
+    sk1Angle:
+      value: 0
+    sk2Dmg:
+      value: 0
+    sk2Cost:
+      value: 0
+    sk2CoolDown:
+      value: 0
+    sk2Range:
+      value: 0
+    sk2DestroyDmg:
+      value: 0
+    sk2SplashRange:
+      value: 0
+    sk2SplashDmg:
+      value: 0
+    sk2Count:
+      value: 0
+    ultRestore:
+      value: 0
+    UltMax:
+      value: 0
   ItemStatusPercent:
-    hpMax: 0
-    hpRegen: 0
-    def: 0
-    movSpd: 0
-    dodgeCoolDown: 0
-    dodgeTime: 0
-    dodgeDistance: 0
-    absorbAngle: 0
-    absorbRange: 0
-    absorbRestore: 0
-    absorbSpdSmall: 0
-    absorbSpdMedium: 0
-    absorbSpdLarge: 0
-    absorbChargeSmall: 0
-    absorbChargeMedium: 0
-    absorbChargeLarge: 0
-    atk: 0
-    atkSpd: 0
-    bulletCount: 0
-    bulletRange: 0
-    bulletCost: 0
-    bulletMax: 0
-    bulletMin: 0
-    bulletRegen: 0
-    bulletRegenTime: 0
-    sk1Dmg: 0
-    sk1Cost: 0
-    sk1CoolDown: 0
-    sk1ResistTime: 0
-    sk1Spd: 0
-    sk1DestroyDmg: 0
-    sk1Range: 0
-    sk1Angle: 0
-    sk2Dmg: 0
-    sk2Cost: 0
-    sk2CoolDown: 0
-    sk2Range: 0
-    sk2DestroyDmg: 0
-    sk2SplashRange: 0
-    sk2SplashDmg: 0
-    sk2Count: 0
-    ultRestore: 0
-    UltMax: 0
+    hpMax:
+      value: 0
+    hpRegen:
+      value: 0
+    def:
+      value: 0
+    movSpd:
+      value: 0
+    dodgeCoolDown:
+      value: 0
+    dodgeTime:
+      value: 0
+    dodgeDistance:
+      value: 0
+    absorbAngle:
+      value: 0
+    absorbRange:
+      value: 0
+    absorbRestore:
+      value: 0
+    absorbSpdSmall:
+      value: 0
+    absorbSpdMedium:
+      value: 0
+    absorbSpdLarge:
+      value: 0
+    absorbChargeSmall:
+      value: 0
+    absorbChargeMedium:
+      value: 0
+    absorbChargeLarge:
+      value: 0
+    atk:
+      value: 0
+    atkSpd:
+      value: 0
+    bulletCount:
+      value: 0
+    bulletSpd:
+      value: 0
+    bulletRange:
+      value: 0
+    bulletCost:
+      value: 0
+    bulletMax:
+      value: 0
+    bulletMin:
+      value: 0
+    bulletRegen:
+      value: 0
+    bulletRegenTime:
+      value: 0
+    bulletAuto:
+      value: 0
+    bulletAutoRange:
+      value: 0
+    sk1Dmg:
+      value: 0
+    sk1Cost:
+      value: 0
+    sk1CoolDown:
+      value: 0
+    sk1ResistTime:
+      value: 0
+    sk1Spd:
+      value: 0
+    sk1DestroyDmg:
+      value: 0
+    sk1Range:
+      value: 0
+    sk1Angle:
+      value: 0
+    sk2Dmg:
+      value: 0
+    sk2Cost:
+      value: 0
+    sk2CoolDown:
+      value: 0
+    sk2Range:
+      value: 0
+    sk2DestroyDmg:
+      value: 0
+    sk2SplashRange:
+      value: 0
+    sk2SplashDmg:
+      value: 0
+    sk2Count:
+      value: 0
+    ultRestore:
+      value: 0
+    UltMax:
+      value: 0
   BuffStatus:
-    hpMax: 0
-    hpRegen: 0
-    def: 0
-    movSpd: 0
-    dodgeCoolDown: 0
-    dodgeTime: 0
-    dodgeDistance: 0
-    absorbAngle: 0
-    absorbRange: 0
-    absorbRestore: 0
-    absorbSpdSmall: 0
-    absorbSpdMedium: 0
-    absorbSpdLarge: 0
-    absorbChargeSmall: 0
-    absorbChargeMedium: 0
-    absorbChargeLarge: 0
-    atk: 0
-    atkSpd: 0
-    bulletCount: 0
-    bulletRange: 0
-    bulletCost: 0
-    bulletMax: 0
-    bulletMin: 0
-    bulletRegen: 0
-    bulletRegenTime: 0
-    sk1Dmg: 0
-    sk1Cost: 0
-    sk1CoolDown: 0
-    sk1ResistTime: 0
-    sk1Spd: 0
-    sk1DestroyDmg: 0
-    sk1Range: 0
-    sk1Angle: 0
-    sk2Dmg: 0
-    sk2Cost: 0
-    sk2CoolDown: 0
-    sk2Range: 0
-    sk2DestroyDmg: 0
-    sk2SplashRange: 0
-    sk2SplashDmg: 0
-    sk2Count: 0
-    ultRestore: 0
-    UltMax: 0
+    hpMax:
+      value: 0
+    hpRegen:
+      value: 0
+    def:
+      value: 0
+    movSpd:
+      value: 0
+    dodgeCoolDown:
+      value: 0
+    dodgeTime:
+      value: 0
+    dodgeDistance:
+      value: 0
+    absorbAngle:
+      value: 0
+    absorbRange:
+      value: 0
+    absorbRestore:
+      value: 0
+    absorbSpdSmall:
+      value: 0
+    absorbSpdMedium:
+      value: 0
+    absorbSpdLarge:
+      value: 0
+    absorbChargeSmall:
+      value: 0
+    absorbChargeMedium:
+      value: 0
+    absorbChargeLarge:
+      value: 0
+    atk:
+      value: 0
+    atkSpd:
+      value: 0
+    bulletCount:
+      value: 0
+    bulletSpd:
+      value: 0
+    bulletRange:
+      value: 0
+    bulletCost:
+      value: 0
+    bulletMax:
+      value: 0
+    bulletMin:
+      value: 0
+    bulletRegen:
+      value: 0
+    bulletRegenTime:
+      value: 0
+    bulletAuto:
+      value: 0
+    bulletAutoRange:
+      value: 0
+    sk1Dmg:
+      value: 0
+    sk1Cost:
+      value: 0
+    sk1CoolDown:
+      value: 0
+    sk1ResistTime:
+      value: 0
+    sk1Spd:
+      value: 0
+    sk1DestroyDmg:
+      value: 0
+    sk1Range:
+      value: 0
+    sk1Angle:
+      value: 0
+    sk2Dmg:
+      value: 0
+    sk2Cost:
+      value: 0
+    sk2CoolDown:
+      value: 0
+    sk2Range:
+      value: 0
+    sk2DestroyDmg:
+      value: 0
+    sk2SplashRange:
+      value: 0
+    sk2SplashDmg:
+      value: 0
+    sk2Count:
+      value: 0
+    ultRestore:
+      value: 0
+    UltMax:
+      value: 0
   TotalStatus:
-    hpMax: 0
-    hpRegen: 0
-    def: 0
-    movSpd: 0
-    dodgeCoolDown: 0
-    dodgeTime: 0
-    dodgeDistance: 0
-    absorbAngle: 0
-    absorbRange: 0
-    absorbRestore: 0
-    absorbSpdSmall: 0
-    absorbSpdMedium: 0
-    absorbSpdLarge: 0
-    absorbChargeSmall: 0
-    absorbChargeMedium: 0
-    absorbChargeLarge: 0
-    atk: 0
-    atkSpd: 0
-    bulletCount: 0
-    bulletRange: 0
-    bulletCost: 0
-    bulletMax: 0
-    bulletMin: 0
-    bulletRegen: 0
-    bulletRegenTime: 0
-    sk1Dmg: 0
-    sk1Cost: 0
-    sk1CoolDown: 0
-    sk1ResistTime: 0
-    sk1Spd: 0
-    sk1DestroyDmg: 0
-    sk1Range: 0
-    sk1Angle: 0
-    sk2Dmg: 0
-    sk2Cost: 0
-    sk2CoolDown: 0
-    sk2Range: 0
-    sk2DestroyDmg: 0
-    sk2SplashRange: 0
-    sk2SplashDmg: 0
-    sk2Count: 0
-    ultRestore: 0
-    UltMax: 0
+    hpMax:
+      value: 0
+    hpRegen:
+      value: 0
+    def:
+      value: 0
+    movSpd:
+      value: 0
+    dodgeCoolDown:
+      value: 0
+    dodgeTime:
+      value: 0
+    dodgeDistance:
+      value: 0
+    absorbAngle:
+      value: 0
+    absorbRange:
+      value: 0
+    absorbRestore:
+      value: 0
+    absorbSpdSmall:
+      value: 0
+    absorbSpdMedium:
+      value: 0
+    absorbSpdLarge:
+      value: 0
+    absorbChargeSmall:
+      value: 0
+    absorbChargeMedium:
+      value: 0
+    absorbChargeLarge:
+      value: 0
+    atk:
+      value: 0
+    atkSpd:
+      value: 0
+    bulletCount:
+      value: 0
+    bulletSpd:
+      value: 0
+    bulletRange:
+      value: 0
+    bulletCost:
+      value: 0
+    bulletMax:
+      value: 0
+    bulletMin:
+      value: 0
+    bulletRegen:
+      value: 0
+    bulletRegenTime:
+      value: 0
+    bulletAuto:
+      value: 0
+    bulletAutoRange:
+      value: 0
+    sk1Dmg:
+      value: 0
+    sk1Cost:
+      value: 0
+    sk1CoolDown:
+      value: 0
+    sk1ResistTime:
+      value: 0
+    sk1Spd:
+      value: 0
+    sk1DestroyDmg:
+      value: 0
+    sk1Range:
+      value: 0
+    sk1Angle:
+      value: 0
+    sk2Dmg:
+      value: 0
+    sk2Cost:
+      value: 0
+    sk2CoolDown:
+      value: 0
+    sk2Range:
+      value: 0
+    sk2DestroyDmg:
+      value: 0
+    sk2SplashRange:
+      value: 0
+    sk2SplashDmg:
+      value: 0
+    sk2Count:
+      value: 0
+    ultRestore:
+      value: 0
+    UltMax:
+      value: 0
   forceDir: 0
   speed: 0
   xDir: 0
@@ -8705,11 +8951,11 @@ MonoBehaviour:
   DodgeDuration: 0.5
   showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
-  showAttack: 0
+  showAttack: 1
   BulletGauge: 1000
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
-  SkillIndex: 0
+  SkillIndex: 1
   Skills:
   - {fileID: 1645418372607955195, guid: bfbcad93c9c03a94d8f80fa07cfcd236, type: 3}
   - {fileID: 2812988272092322134}
@@ -8719,7 +8965,7 @@ MonoBehaviour:
   muzzleBone: {fileID: 2335253373043498726}
   GrinderControl: {fileID: 1145007708243931575}
   showUltimate: 1
-  UltObj: {fileID: 0}
+  UltObj: {fileID: 108413429}
   UltIdx: 0
   BulletUI: {fileID: 276941507017972697}
 --- !u!114 &6160722343811252257
@@ -8885,7 +9131,7 @@ MonoBehaviour:
       - m_Target: {fileID: 6160722343811252257}
         m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
         m_MethodName: UltimateIdx
-        m_Mode: 1
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -9098,7 +9344,7 @@ Transform:
   - {fileID: 6160722343070153728}
   - {fileID: 3649855111917117966}
   m_Father: {fileID: 6160722343811252267}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &6160722344512130515
 GameObject:
@@ -14052,6 +14298,97 @@ ParticleSystem:
     type: 3}
   m_PrefabInstance: {fileID: 5352945341604740859}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &5878904369808215490
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 6160722343811252267}
+    m_Modifications:
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718517, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: PlayerController
+      value: 
+      objectReference: {fileID: 6160722343811252261}
+    - target: {fileID: 5878904369702718519, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_Name
+      value: UltimateManager
+      objectReference: {fileID: 0}
+    - target: {fileID: 5878904369702718519, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 3c9cc35484c76e24ba7366905fdc7d00, type: 3}
+--- !u!1 &108413429 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5878904369702718519, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+    type: 3}
+  m_PrefabInstance: {fileID: 5878904369808215490}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &108413430 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5878904369702718516, guid: 3c9cc35484c76e24ba7366905fdc7d00,
+    type: 3}
+  m_PrefabInstance: {fileID: 5878904369808215490}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6160722343308411391
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14080,6 +14417,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 2906493895841222675, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6105192660880100245, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
@@ -14129,7 +14471,7 @@ PrefabInstance:
     - target: {fileID: 6659255905930774001, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6659255905930774001, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
@@ -14230,6 +14572,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.a
       value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80bb4748aa26ef408d581d4ab837d54, type: 3}
@@ -14420,7 +14777,7 @@ PrefabInstance:
     - target: {fileID: 6856393914700376206, guid: 839f8616b026d64468c35941fadfa960,
         type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6856393914700376206, guid: 839f8616b026d64468c35941fadfa960,
         type: 3}
