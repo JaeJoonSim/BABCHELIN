@@ -236,7 +236,14 @@ public class BerryBird : UnitObject
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
-                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            if (otherBirdState[a].gameObject != gameObject)
+                            {
+                                otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                            else
+                            {
+                                otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            }
                         }
                     }
                     else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
@@ -252,7 +259,14 @@ public class BerryBird : UnitObject
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
-                            otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            if (otherBirdState[a].gameObject != gameObject)
+                            {
+                                otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                            else
+                            {
+                                otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                            }
                         }
                     }
                     else if(state.PREVIOUS_STATE == StateMachine.State.Moving)

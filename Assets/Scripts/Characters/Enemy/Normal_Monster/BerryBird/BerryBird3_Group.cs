@@ -48,8 +48,6 @@ public class BerryBird3_Group : UnitObject
     private Health playerHealth;
     private NavMeshAgent agent;
     private float distanceToPlayer;
-    Vector3 movePoint;
-    Vector3 directionToPoint;
     private StateMachine[] otherBirdState;
 
     [Space]
@@ -60,8 +58,6 @@ public class BerryBird3_Group : UnitObject
     private float idleToPatrolTime = 0f;
     [SerializeField] float idleMinTime;
     [SerializeField] float idleMaxTime;
-    private float idleTimer;
-    private float patrolTimer;
     private Vector3 patrolStartPosition;
     private Vector3 patrolTargetPosition;
 
@@ -136,6 +132,21 @@ public class BerryBird3_Group : UnitObject
         if (health.CurrentHP() <= 0)
         {
             state.LockStateChanges = false;
+        }
+
+        if (health.isInvincible)
+        {
+            for (int a = 0; a < otherBirdState.Length; a++)
+            {
+                if (otherBirdState[a].gameObject != gameObject)
+                {
+                    otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                }
+                else
+                {
+                    otherBirdState[a].PREVIOUS_STATE = StateMachine.State.Moving;
+                }
+            }
         }
 
         speed = Mathf.Max(speed, 0f);
