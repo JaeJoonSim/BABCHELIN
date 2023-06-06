@@ -100,12 +100,12 @@ public class MainMenuIllust : MonoBehaviour
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         Debug.Log(e.Data.Name);
-        if (e.Data.Name == "title_ui")
+        if (e.Data.Name == "Title_UI")
         {
             logoOn = true;
             //LogoImage.SetActive(true);
         }
-        else if (e.Data.Name == "rest_of_ui")
+        else if (e.Data.Name == "Rest of UI")
         {
             uiOn = true;
         }
