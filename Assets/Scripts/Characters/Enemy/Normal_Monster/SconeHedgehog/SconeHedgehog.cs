@@ -62,7 +62,6 @@ public class SconeHedgehog : UnitObject
 
     [Space]
     private Health playerHealth;
-    private Health thisHealth;
     private NavMeshAgent agent;
     private Collider2D col;
     private float distanceToPlayer;
@@ -111,7 +110,6 @@ public class SconeHedgehog : UnitObject
         moveTarget = transform;
         state.CURRENT_STATE = StateMachine.State.Idle;
 
-        thisHealth = transform.GetComponent<Health>();
         if (target == null)
         {
             target = GameObject.FindGameObjectWithTag("Player").transform;
@@ -328,7 +326,7 @@ public class SconeHedgehog : UnitObject
                             aniCount++;
                         }
                     }
-                    thisHealth.isInvincible = true;
+                    health.isInvincible = true;
                     state.LockStateChanges = true;
                     agent.isStopped = false;
                     time += Time.deltaTime;
@@ -347,7 +345,7 @@ public class SconeHedgehog : UnitObject
                     }
                     else
                     {
-                        thisHealth.isInvincible = false;
+                        health.isInvincible = false;
                         state.LockStateChanges = false;
                         DashEffect.SetActive(false);
                         time = 0;

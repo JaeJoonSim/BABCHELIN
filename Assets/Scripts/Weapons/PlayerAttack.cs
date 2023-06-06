@@ -14,7 +14,6 @@ public class PlayerAttack : BaseMonoBehaviour
     Vector2 spownPos;
     public ParticleSystem HitEffet;
     public ParticleSystem endEffet;
-    private DamageTextControler DmgTextController;
 
     private Transform target;
 
@@ -80,15 +79,6 @@ public class PlayerAttack : BaseMonoBehaviour
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
 
             PartDestructionGauge(collision, destructionGauge);
-            DmgTextController = collision.gameObject.GetComponent<DamageTextControler>();
-            if(DmgTextController != null)
-            {
-                DmgTextController.ShowDamageText(Damage);
-            }
-            else
-            {
-
-            }
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
         }
