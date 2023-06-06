@@ -53,7 +53,7 @@ public class PlayerAttack : BaseMonoBehaviour
         speed = val.bulletSpd.value;
         range = val.bulletRange.value;
         Cost = val.bulletCost.value;
-        destructionGauge = 0;
+        destructionGauge = val.atkDestroyDmg.value;
         bulletAuto = val.bulletAuto.value;    
         bulletAutoRange = val.bulletAutoRange.value;
     }

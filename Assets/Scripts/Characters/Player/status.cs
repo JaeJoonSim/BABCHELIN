@@ -66,6 +66,8 @@ public struct status
 
     [Tooltip("기본 공격력")]
     public Stat<float> atk;
+    [Tooltip("기본 공격 파괴 데미지")]
+    public Stat<float> atkDestroyDmg;
     [Tooltip("공격속도")]
     public Stat<float> atkSpd;
     [Tooltip("기본 공격 발사 갯수")]
