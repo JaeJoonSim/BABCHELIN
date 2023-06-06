@@ -13,6 +13,8 @@ public class ObjectMovement : MonoBehaviour
     public float fadeInDelay;       // Fade In 시작까지의 대기 시간
     public float fadeOutDelay;      // Fade Out 시작까지의 대기 시간
 
+    public GameObject[] moveObject;
+
     [Header("Panel UI")]
     public Transform tutorialTopLetter;
     public Transform tutorialBottomLetter;
@@ -56,11 +58,14 @@ public class ObjectMovement : MonoBehaviour
             cam.targetDistance = Mathf.MoveTowards(cam.targetDistance, 40f, maxDistanceDelta);
 
             float moveSpeed = (targetZ) / moveDuration;
-            float currentZ = transform.position.z + moveSpeed * Time.deltaTime;
 
-            transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
+            foreach (GameObject obj in moveObject)
+            {
+                float currentZ = obj.transform.position.z + moveSpeed * Time.deltaTime;
+                obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, currentZ);
+            }
 
-            if (Mathf.Abs(transform.position.z - targetZ) <= 1)
+            if (moveObject[0].transform.position.z >= 0) // assuming all moveObject elements move together
             {
                 isMoving = false;
                 playerInput.enabled = true;
@@ -69,6 +74,7 @@ public class ObjectMovement : MonoBehaviour
             }
         }
     }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && !isMoving)
@@ -143,7 +149,7 @@ public class ObjectMovement : MonoBehaviour
         Quaternion startRotation = mainCam.transform.rotation;
         Quaternion targetRotation = Quaternion.Euler(-45f, mainCam.transform.eulerAngles.y, mainCam.transform.eulerAngles.z);
 
-        
+
         cam.targetDistance = 17f;
 
         float t = 0f;

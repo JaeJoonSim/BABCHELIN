@@ -1,6 +1,7 @@
 using Spine;
 using Spine.Unity;
 using System;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEditor.PlayerSettings;
@@ -443,10 +444,13 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        Debug.Log(e.Data.Name);
+        int val1 = Mathf.FloorToInt(e.Time * Spine.skeleton.Data.Fps);
+        int val2 = Mathf.FloorToInt((trackEntry.TrackTime ) * Spine.skeleton.Data.Fps);
+        //Debug.Log(val1);
+
         if (e.Data.Name == "shot")
         {
-            if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
+            if (val1 != val2)
                 return;
 
             Vector3 spawnPos = playerController.muzzleEnd.position;
@@ -492,8 +496,6 @@ public class PlayerAction : BaseMonoBehaviour
                 default:
                     break;
             }
-
-
 
         }
     }

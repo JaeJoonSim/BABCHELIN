@@ -8375,6 +8375,7 @@ GameObject:
   - component: {fileID: 1318243719}
   - component: {fileID: 2096934568}
   - component: {fileID: 4231791748201544419}
+  - component: {fileID: 629191996}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -8475,6 +8476,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SpineTransform: {fileID: 6160722344988669357}
+  simpleSpineAnimator: {fileID: 0}
   BaseStatus:
     hpMax:
       value: 100
@@ -8510,6 +8512,8 @@ MonoBehaviour:
       value: 100
     atk:
       value: 5
+    atkDestroyDmg:
+      value: 1
     atkSpd:
       value: 100
     bulletCount:
@@ -8543,7 +8547,7 @@ MonoBehaviour:
     sk1Spd:
       value: 0.2
     sk1DestroyDmg:
-      value: 0
+      value: 1
     sk1Range:
       value: 5
     sk1Angle:
@@ -8602,6 +8606,8 @@ MonoBehaviour:
     absorbChargeLarge:
       value: 0
     atk:
+      value: 0
+    atkDestroyDmg:
       value: 0
     atkSpd:
       value: 0
@@ -8696,6 +8702,8 @@ MonoBehaviour:
       value: 0
     atk:
       value: 0
+    atkDestroyDmg:
+      value: 0
     atkSpd:
       value: 0
     bulletCount:
@@ -8789,6 +8797,8 @@ MonoBehaviour:
       value: 0
     atk:
       value: 0
+    atkDestroyDmg:
+      value: 0
     atkSpd:
       value: 0
     bulletCount:
@@ -8881,6 +8891,8 @@ MonoBehaviour:
     absorbChargeLarge:
       value: 0
     atk:
+      value: 0
+    atkDestroyDmg:
       value: 0
     atkSpd:
       value: 0
@@ -9142,6 +9154,38 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 7ea6646e-c8c7-420d-b77d-ebcf6fafdef7
     m_ActionName: Action/Ultimate[/Keyboard/x]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: Ultimate
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 5e43c9ed-384c-4bb5-ba33-1e6851beaf5f
+    m_ActionName: Action/Ultimate[/Keyboard/z]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: mouseRight
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9660b42f-6587-497a-a815-f00318af660a
+    m_ActionName: Action/Cancel[/Mouse/rightButton]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Action
@@ -9179,6 +9223,25 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &629191996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160722343811252264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbe209d8d6331cd4f9f50186fd37f6b6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  intPoint: {fileID: 2389896513556962104}
+  intRange: 2
+  intMask:
+    serializedVersion: 2
+    m_Bits: 64
+  numFound: 0
+  intUI: {fileID: 2389896514948917047}
 --- !u!1 &6160722343933064625
 GameObject:
   m_ObjectHideFlags: 0
@@ -9802,6 +9865,7 @@ MonoBehaviour:
   Hit: {fileID: 11400000, guid: 5444e731b9af8fe46a3b21773ad7e0e9, type: 2}
   Dead: {fileID: 11400000, guid: f1810b93de997ff4389858800c1f27ed, type: 2}
   Landing: {fileID: 11400000, guid: bc5b4faf503a83a41b8fa14df2440a78, type: 2}
+  Ultimate: {fileID: 11400000, guid: 903f960b1caf14b499765e962278a327, type: 2}
   MixIdle: {fileID: 11400000, guid: 5943a779571368d4993ff41ebafe10cb, type: 2}
   NorthMixIdle: {fileID: 11400000, guid: 3ae3ae6444e80774197893af5bfffb26, type: 2}
   SouthMixIdle: {fileID: 11400000, guid: 098ae7218a23bca428239a83104a5f24, type: 2}
@@ -14567,6 +14631,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: PlayerUICanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 6659255906406495021, guid: d80bb4748aa26ef408d581d4ab837d54,
+        type: 3}
+      propertyPath: m_FillAmount
+      value: 0.93
       objectReference: {fileID: 0}
     - target: {fileID: 6739624958924594261, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
