@@ -8,7 +8,6 @@ using TMPro;
 public class SmallAttack : BaseMonoBehaviour
 {
     public ParticleSystem HitEffet;
-    public GameObject dmgText;
 
     private float AttackTime;
     private PlayerController playerController;

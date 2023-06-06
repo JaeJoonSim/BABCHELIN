@@ -1,8 +1,28 @@
 using UnityEngine;
 using UnityEngine.Events;
+using Spine;
+using Spine.Unity;
+using System.Collections;
 
-public class TreasureChest : MonoBehaviour, Interactable
+public class TreasureChest : UnitObject, Interactable
 {
+    public Transform SpineTransform;
+    private SkeletonAnimation spineAnimation;
+    public int AnimationTrack = 0;
+    private SkeletonAnimation _anim;
+    private SkeletonAnimation anim
+    {
+        get
+        {
+            if (_anim == null)
+            {
+                _anim = this.transform.GetChild(0).GetComponent<SkeletonAnimation>();
+            }
+            return _anim;
+        }
+    }
+    public AnimationReferenceAsset Idle;
+
     [SerializeField]
     private string _promt;
     public string InteractionPrompt => _promt;
@@ -16,10 +36,44 @@ public class TreasureChest : MonoBehaviour, Interactable
     [SerializeField] float dropRange;
     [SerializeField] GameObject[] itemsToDrop;
 
-    private void Update()
+    public override void Awake()
     {
+        base.Awake();
+    }
+
+    private void Start()
+    {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+
+        state.CURRENT_STATE = StateMachine.State.Idle;
+        spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
     }
+
+    public override void Update()
+    {
+        base.Update();
+
+        speed = Mathf.Max(speed, 0f);
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            SpineTransform.localPosition = Vector3.zero;
+
+            switch (state.CURRENT_STATE)
+            {
+                case StateMachine.State.Idle:
+                    break;
+
+                case StateMachine.State.Patrol:
+                    break;
+
+                case StateMachine.State.Attacking:
+                    break;
+
+            }
+        }
+    }
+
 
     public bool OnInteract(Interactor interactor)
     {
