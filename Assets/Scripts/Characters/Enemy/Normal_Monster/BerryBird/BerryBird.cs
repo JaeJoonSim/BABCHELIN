@@ -117,6 +117,7 @@ public class BerryBird : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
@@ -163,7 +164,6 @@ public class BerryBird : UnitObject
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Patrol:
@@ -262,9 +262,7 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.Attacking:
-                    SpineTransform.localPosition = Vector3.zero;
                     state.LockStateChanges = true;
-                    forceDir = state.facingAngle;
                     AttackTimer += Time.deltaTime;
                     Stop();
 
@@ -287,6 +285,7 @@ public class BerryBird : UnitObject
                     break;
 
                 case StateMachine.State.Delay:
+                    Stop();
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {
@@ -300,8 +299,6 @@ public class BerryBird : UnitObject
                             state.CURRENT_STATE = StateMachine.State.Moving;
                         }
                     }
-
-                    agent.isStopped = true;
                     break;
             }
         }

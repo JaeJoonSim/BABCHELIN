@@ -163,7 +163,7 @@ public class BerryBird3_Group : UnitObject
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                    //speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Patrol:
@@ -257,13 +257,16 @@ public class BerryBird3_Group : UnitObject
                     Stop();
                     AttackTimer += Time.deltaTime;
 
-                    if (transform.position.x <= target.position.x)  //보는 방향
+                    if(AttackTimer < 0.3666f)
                     {
-                        this.transform.localScale = new Vector3(1f, 1f, 1f);
-                    }
-                    else
-                    {
-                        this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        if (transform.position.x <= target.position.x)  //보는 방향
+                        {
+                            this.transform.localScale = new Vector3(1f, 1f, 1f);
+                        }
+                        else
+                        {
+                            this.transform.localScale = new Vector3(-1f, 1f, 1f);
+                        }
                     }
 
                     if (AttackTimer >= 0.7667f)
@@ -272,16 +275,26 @@ public class BerryBird3_Group : UnitObject
                         AttackTimer = 0f;
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
-
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Delay:
+                    Stop();
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {
                         time = 0f;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        if(distanceToPlayer <= detectionAttackRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Attacking;
+                        }
+                        else if (distanceToPlayer <= detectionRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
+                        }
                     }
 
                     agent.isStopped = true;
@@ -358,11 +371,11 @@ public class BerryBird3_Group : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
+                Debug.Log(e.Time);
                 for (int a = 0; a < 3; a++)
                 {
-                    BulletObject.transform.position = AttackPoint[a].transform.localPosition;
-                    Debug.Log(BulletObject.transform.position);
-                    GameObject bullet = Instantiate(BulletObject);
+                    GameObject bullet = BulletObject;
+                    Instantiate(bullet, AttackPoint[a].transform);
                 }
             }
         }

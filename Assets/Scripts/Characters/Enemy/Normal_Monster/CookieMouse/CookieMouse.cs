@@ -155,7 +155,7 @@ public class CookieMouse : UnitObject
                     }
 
                     SpineTransform.localPosition = Vector3.zero;
-                    speed += (0f - speed) / 3f * GameManager.DeltaTime;
+                    //speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
                 case StateMachine.State.Patrol:
@@ -239,9 +239,8 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Attacking:
-                    SpineTransform.localPosition = Vector3.zero;
                     state.LockStateChanges = true;
-                    forceDir = state.facingAngle;
+                    Stop();
                     AttackTimer += Time.deltaTime;
                     agent.isStopped = true;
 
@@ -253,14 +252,10 @@ public class CookieMouse : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Delay;
                     }
 
-                    //forceDir = Utils.GetAngle(Vector3.zero, new Vector3(xDir, yDir));
-                    //state.facingAngle = Utils.GetAngle(base.transform.position, base.transform.position + new Vector3(vx, vy));
-                    //state.LookAngle = state.facingAngle;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
-
                     break;
 
                 case StateMachine.State.Delay:
+                    Stop();
                     time += Time.deltaTime;
 
                     if (time >= attackDelay)
@@ -268,8 +263,6 @@ public class CookieMouse : UnitObject
                         time = 0;
                         state.CURRENT_STATE = StateMachine.State.Idle;
                     }
-
-                    agent.isStopped = true;
                     break;
 
             }
