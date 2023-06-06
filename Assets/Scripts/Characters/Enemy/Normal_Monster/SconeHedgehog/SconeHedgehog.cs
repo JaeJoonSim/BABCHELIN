@@ -277,7 +277,7 @@ public class SconeHedgehog : UnitObject
                     {
                         state.LockStateChanges = false;
                         paternPer = UnityEngine.Random.Range(0, 10);
-                        if (paternPer > dashPer)
+                        if (paternPer >= dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
