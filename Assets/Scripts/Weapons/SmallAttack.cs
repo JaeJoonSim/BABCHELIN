@@ -17,7 +17,7 @@ public class SmallAttack : BaseMonoBehaviour
         {
             if (playerController == null)
             {
-                playerController = transform.root.gameObject.GetComponent<PlayerController>();
+                playerController = gameObject.GetComponentInParent<PlayerController>();
             }
             return playerController;
         }

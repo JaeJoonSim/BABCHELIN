@@ -2,6 +2,7 @@ using Microsoft.Cci;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class UltimateManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class UltimateManager : MonoBehaviour
         {
             if (PlayerController == null)
             {
-                PlayerController = transform.root.gameObject.GetComponent<PlayerController>();
+                PlayerController = gameObject.GetComponentInParent<PlayerController>();
             }
             return PlayerController;
         }
@@ -43,6 +44,17 @@ public class UltimateManager : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+        foreach (GameObject go in skills)
+        {
+            if (go != null)
+                go.SetActive(false);
+        }
+        if (skills[PlayerController.UltIdx] != null)
+            skills[PlayerController.UltIdx].SetActive(true);
+    }
+
     private void Update()
     {
         Get_MouseInput();
@@ -62,26 +74,33 @@ public class UltimateManager : MonoBehaviour
                 curPos = Vector3.Distance(transform.position, skills[playerController.UltIdx].transform.position);
 
                 if (min < curPos && curPos < max)
-                { 
-                        skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearWhite;
+                {
+                    skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearWhite;
                 }
                 else
                 {
-                        skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearRed;
+                    skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearRed;
                 }
                 break;
             default:
                 break;
         }
 
-
-        //Debug.Log(pos);
-
     }
 
-    //public static float GetAngle(Vector2 start, Vector2 end)
-    //{
-    //    return Quaternion.FromToRotation(Vector3.left, start - end).eulerAngles.z;
-    //}
+    public void UltimateShot()
+    {
+        Debug.Log("±Ã±Ø±â");
+        gameObject.SetActive(false);
+    }
+    public void UltimateStart()
+    {
+        foreach (GameObject go in skills)
+        {
+            if (go != null)
+                go.SetActive(false);
+        }
+    }
+
 
 }

@@ -24,9 +24,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Ultimate",
+                    "name": "UltimateIdx",
                     "type": "Button",
                     "id": "7ea6646e-c8c7-420d-b77d-ebcf6fafdef7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ultimate",
+                    "type": "Button",
+                    "id": "5e43c9ed-384c-4bb5-ba33-1e6851beaf5f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "9660b42f-6587-497a-a815-f00318af660a",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -107,7 +125,29 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Player",
+                    "action": "UltimateIdx",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "86c2f59d-a0ff-428f-a3bf-99dc69c09ee3",
+                    "path": "<Keyboard>/z",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player",
                     "action": "Ultimate",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "17a50a49-f4b9-4a2d-869c-ba41cc71400d",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Player",
+                    "action": "Cancel",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

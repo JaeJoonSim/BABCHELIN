@@ -42,7 +42,7 @@ public class StateMachine : MonoBehaviour
         StopMoving = 34,
         Skill = 35,
         Skill2 = 36,
-        ultimate = 37,
+        Ultimate = 37,
         Dash = 38,
         DashDelay = 39,
         DefendDelay = 40,

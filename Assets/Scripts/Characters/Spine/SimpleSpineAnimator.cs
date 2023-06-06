@@ -130,6 +130,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     public AnimationReferenceAsset Hit;
     public AnimationReferenceAsset Dead;
     public AnimationReferenceAsset Landing;
+    public AnimationReferenceAsset Ultimate;
 
     [Space, Header("MixIdle")]
     [DrawIf("LeftRight", true)] public AnimationReferenceAsset MixIdle;
@@ -945,6 +946,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     if (Hit != null && Track.Animation != Hit.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Hit, loop: false);
+                    }
+                    break;
+                case StateMachine.State.Ultimate:
+                    if (Ultimate != null && Track.Animation != Ultimate.Animation)
+                    {
+                        Track = anim.AnimationState.SetAnimation(AnimationTrack, Ultimate, loop: false);
                     }
                     break;
                 case StateMachine.State.Dead:

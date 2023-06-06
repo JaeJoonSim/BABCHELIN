@@ -17,6 +17,7 @@ public class PlayerController : BaseMonoBehaviour
     private Health health;
 
     public Transform SpineTransform;
+    public SimpleSpineAnimator simpleSpineAnimator;
 
     [Header("BaseStatus")]
     public status BaseStatus;
@@ -87,6 +88,7 @@ public class PlayerController : BaseMonoBehaviour
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
+        simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
     }
 
 
@@ -102,7 +104,7 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
-        //getTotalstatus();
+        getTotalstatus();
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
@@ -192,6 +194,19 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Attacking:
                 break;
+
+            case StateMachine.State.Ultimate:
+                speed = 0;
+                state.facingAngle = 270f;
+                muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
+                muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
+
+                if (simpleSpineAnimator.Track.IsComplete)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+                
+                break;
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
@@ -216,7 +231,8 @@ public class PlayerController : BaseMonoBehaviour
         if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
                state.CURRENT_STATE == StateMachine.State.HitRight ||
                state.CURRENT_STATE == StateMachine.State.Dodging ||
-               state.CURRENT_STATE == StateMachine.State.Skill)
+               state.CURRENT_STATE == StateMachine.State.Skill ||
+               state.CURRENT_STATE == StateMachine.State.Ultimate)
 
         {
             return;

@@ -135,9 +135,13 @@ public class PlayerAction : BaseMonoBehaviour
             ShotDelay -= Time.deltaTime;
 
             DodgeRoll();
-            Shot();
-            Absorb();
-            Skill();
+
+            if (!playerController.UltObj.activeSelf)
+            {
+                Shot();
+                Absorb();
+                Skill();
+            }
         }
 
         PreviousPosition = base.transform.position;
@@ -157,7 +161,25 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            //Debug.Log("mouse down");
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                state.CURRENT_STATE = StateMachine.State.Ultimate;
+                playerController.UltObj.GetComponent<UltimateManager>().UltimateStart();
+            }
+        }
+        else if (context.canceled)
+        {
+            //Debug.Log("mouse UP");
+        }
+    }
+    public void mouseRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                playerController.UltObj.SetActive(false);
+            }
         }
         else if (context.canceled)
         {
@@ -170,9 +192,24 @@ public class PlayerAction : BaseMonoBehaviour
         if (context.performed)
         {
             //Debug.Log("mouse down");
+            if (!playerController.UltObj.activeSelf)
+            {
+                playerController.addUltIdx();
+            }
 
-            playerController.addUltIdx();
 
+        }
+        else if (context.canceled)
+        {
+            //Debug.Log("mouse UP");
+        }
+    }
+
+    public void Ultimate(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            playerController.UltObj.SetActive(true);
         }
         else if (context.canceled)
         {
@@ -406,6 +443,7 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+        Debug.Log(e.Data.Name);
         if (e.Data.Name == "shot")
         {
             if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
@@ -448,7 +486,8 @@ public class PlayerAction : BaseMonoBehaviour
 
                     rb.AddForce((rb.position - (Vector2)playerController.muzzleEnd.position).normalized * 4000f);
                     break;
-                case StateMachine.State.ultimate:
+                case StateMachine.State.Ultimate:
+                    playerController.UltObj.GetComponent<UltimateManager>().UltimateShot();
                     break;
                 default:
                     break;
