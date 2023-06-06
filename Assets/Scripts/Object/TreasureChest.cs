@@ -4,7 +4,7 @@ using Spine;
 using Spine.Unity;
 using System.Collections;
 
-public class TreasureChest : BaseMonoBehaviour, Interactable
+public class TreasureChest : UnitObject, Interactable
 {
     public Transform SpineTransform;
     private SkeletonAnimation spineAnimation;
@@ -22,7 +22,6 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
         }
     }
     public AnimationReferenceAsset Idle;
-    public AnimationReferenceAsset Open;
     private float aniCount = 0;
 
     [SerializeField]
@@ -40,22 +39,61 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
     public UnityEvent offInteraction;
     #endregion
 
+    [SerializeField] float dropRange;
+    [SerializeField] GameObject[] itemsToDrop;
+
+    public override void Awake()
+    {
+        base.Awake();
+    }
+
     private void Start()
     {
+        UnityEngine.Random.InitState((int)System.DateTime.Now.Ticks);
+
+        state.CURRENT_STATE = StateMachine.State.Idle;
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
-        spineAnimation.AnimationState.Event += OnSpineEvent;
 
-        if (Idle != null)
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        speed = Mathf.Max(speed, 0f);
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
-        }
+            SpineTransform.localPosition = Vector3.zero;
 
+            switch (state.CURRENT_STATE)
+            {
+                case StateMachine.State.Idle:
+                    if (Idle != null)
+                    {
+                        while (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: false);
+                            aniCount++;
+                        }
+                    }
+                    break;
+
+                case StateMachine.State.Patrol:
+                    break;
+
+                case StateMachine.State.Attacking:
+                    break;
+
+            }
+        }
     }
 
 
     public bool OnInteract(Interactor interactor)
     {
         onInteraction.Invoke();
+        state.CURRENT_STATE = StateMachine.State.Patrol;
+        aniCount = 0;
         Debug.Log($"{gameObject.name} : Open the Treasure Chest");
         return true;
     }
@@ -64,31 +102,29 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
     {
     }
 
-    public void SpawnObject()
+    public void DropItems()
     {
-        if (Open != null)
+        int numDrops = Random.Range(1, 3);
+        for (int i = 0; i < numDrops; i++)
         {
-            while (aniCount < 1)
-            {
-                anim.AnimationState.SetAnimation(AnimationTrack, Open, loop: false);
-                aniCount++;
-            }
-        }
-
-        Destroy(gameObject, 5f);
-    }
-
-    private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
-    {
-        if (e.Data.Name == "open")
-        {
-            Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
+            Vector2 randomPoint = Random.insideUnitCircle * dropRange;
             Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
 
-            spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
-            Instantiate(spawnEffect);
-            GameObject spawnMonster = Instantiate(buffObject[Random.Range(0, buffObject.Length)], dropPosition, Quaternion.identity);
-            spawnMonster.transform.SetParent(transform.parent);
+            GameObject item = itemsToDrop[Random.Range(0, itemsToDrop.Length)];
+            Instantiate(item, dropPosition, Quaternion.identity);
         }
+
+        Destroy(gameObject);
+    }
+
+    public void SpawnObject()
+    {
+        Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
+        Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
+
+        spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
+        Instantiate(spawnEffect);
+        GameObject spawnMonster = Instantiate(buffObject[Random.Range(0, buffObject.Length)], dropPosition, Quaternion.identity);
+        spawnMonster.transform.SetParent(transform.parent);
     }
 }

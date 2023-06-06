@@ -416,7 +416,7 @@ public class Skunk : UnitObject
             Vector2 direction = new Vector2(Mathf.Cos(angleInRadians), Mathf.Sin(angleInRadians));
             direction.Normalize();
 
-            GameObject bulletInstance = Instantiate(bulletPrefab, new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.3f), Quaternion.identity);
+            GameObject bulletInstance = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
             bulletInstance.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
 
             currentAngle += angleIncrement;
