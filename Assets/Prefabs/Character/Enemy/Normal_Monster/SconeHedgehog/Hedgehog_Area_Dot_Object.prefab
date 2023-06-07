@@ -9812,9 +9812,11 @@ GameObject:
   - component: {fileID: 6847049218098435918}
   - component: {fileID: 7556619479312497243}
   - component: {fileID: 4942230254205492736}
-  - component: {fileID: 2233389909422346670}
+  - component: {fileID: 2071433630485443054}
+  - component: {fileID: -36622862708489760}
+  - component: {fileID: 889950920638770207}
   m_Layer: 0
-  m_Name: 'UCKBackground Water Effect  '
+  m_Name: Hedgehog_Area_Dot_Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9828,7 +9830,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5913114305346125765}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 7.1901646, y: -1.2939342, z: -0.033331484}
+  m_LocalPosition: {x: 4.4206853, y: -1.6002576, z: -0.033331446}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -14722,7 +14724,7 @@ PlayableDirector:
   m_ExposedReferences:
     m_References:
     - 21f70a4093471484882e2e1fb7bc2ae0: {fileID: 5913114305346125765}
---- !u!114 &2233389909422346670
+--- !u!114 &2071433630485443054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14731,7 +14733,40 @@ MonoBehaviour:
   m_GameObject: {fileID: 5913114305346125765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e334feff158004abc91fe4a9a620b2, type: 3}
+  m_Script: {fileID: 11500000, guid: 8f4da96b73a2e7b4590e22c30e92836d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyTime: 2.7
+  debug: 0
+  Performance: 0
+  DestroyOnComplete: 0
+--- !u!114 &-36622862708489760
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913114305346125765}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b9635f6469e9ac4098f5ad24faaad3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 2
+  destroyTime: 5
+  player: {fileID: 0}
+--- !u!58 &889950920638770207
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5913114305346125765}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.32653725, y: 1087338}
+  serializedVersion: 2
+  m_Radius: 1.5741569

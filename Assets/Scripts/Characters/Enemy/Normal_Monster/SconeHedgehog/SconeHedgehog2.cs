@@ -98,6 +98,7 @@ public class SconeHedgehog2 : UnitObject
     public GameObject DashEffect_L;
     public GameObject DashEffect_R;
     public GameObject LandEffect;
+    public GameObject LandEffect2;
     public GameObject DefaulDeathEffect;
     public GameObject BreakEffect;
     public GameObject WaterEffect;
@@ -153,7 +154,7 @@ public class SconeHedgehog2 : UnitObject
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
 
-        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        if (state.CURRENT_STATE != StateMachine.State.Dead || state.CURRENT_STATE != StateMachine.State.Jump)
         {
             BodyHit();
         }
@@ -630,7 +631,10 @@ public class SconeHedgehog2 : UnitObject
     private void BodyHit()
     {
         if (distanceToPlayer < hitDistance)
-            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+        {
+            if (state.CURRENT_STATE != StateMachine.State.Jump)
+                playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+        }
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
@@ -665,7 +669,10 @@ public class SconeHedgehog2 : UnitObject
                 Destroy(jumppointobj);
                 GameObject landeffect = LandEffect;
                 landeffect.transform.position = transform.position;
+                GameObject landeffect2 = LandEffect2;
+                landeffect2.transform.position = transform.position;
                 Instantiate(landeffect);
+                Instantiate(landeffect2);
             }
 
             if (distanceToPlayer < jumpDamageRange)
