@@ -11,9 +11,15 @@ public class TotemObj : MonoBehaviour
 
     public TextMeshProUGUI text;
 
+    public GameObject[] otherTotem;
+
     void Start()
     {
-        Invoke("getItem", 3f);
+#if UNITY_EDITOR
+        Invoke("getItem", 3.0f);
+#else
+        getItem();
+#endif
     }
 
     void getItem()
@@ -21,13 +27,19 @@ public class TotemObj : MonoBehaviour
         item = TotemManager.Instance.getTotem();
         name = item.Name;
 
-        text.text = item.Name + item.Description;
+        text.text = item.Name +"\n\n"+ item.Description;
     }
 
     public void setItmeToPlayer()
     {
         TotemManager.Instance.isAdd[item.Type]= item;
         absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
-        
+
+        for (int i = 0; i < otherTotem.Length; i++)
+        {
+            if (otherTotem[i] != null)
+                Destroy(otherTotem[i]);
+        }
     }
+
 }
