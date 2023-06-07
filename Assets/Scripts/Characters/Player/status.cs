@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Unity.VisualScripting;
 using UnityEngine;
 
 [System.Serializable]
@@ -164,7 +165,7 @@ public struct status
     public void SaveFieldsToVariables()
     {
         variables = new Dictionary<string, dynamic>();
-
+        variables.Clear();
         // 현재 구조체 타입
         Type structType = typeof(status);
 
@@ -178,6 +179,34 @@ public struct status
 
             if (!variables.ContainsKey(fieldName))
                 variables.Add(fieldName, field.GetValue(this));
+        }
+    }
+
+    public void ReSaveFieldsToVariables()
+    {
+        // 현재 구조체 타입
+        Type structType = typeof(status);
+
+        // 모든 필드 가져오기
+        FieldInfo[] fields = structType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (FieldInfo field in fields)
+        {
+            // 필드 이름 가져오기
+            Type fieldType = field.FieldType;
+            
+            if(fieldType == typeof(Stat<int>))
+            {
+                field.SetValue(this, new Stat<int>(0));
+            }
+            else if (fieldType == typeof(Stat<float>))
+            {
+                field.SetValue(this, new Stat<float>(0));
+            }
+            else if (fieldType == typeof(Stat<bool>))
+            {
+                field.SetValue(this, new Stat<bool>(false));
+            }
         }
     }
 

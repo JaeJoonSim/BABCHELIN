@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 using static UnityEngine.Rendering.DebugUI;
 
 
@@ -396,33 +397,56 @@ public class PlayerController : BaseMonoBehaviour
 
     public void addItem()
     {
-
-        ItemStatusAdd = new status();
-        ItemStatusPercent = new status();
-        ItemStatusAdd.SaveFieldsToVariables();
-        ItemStatusPercent.SaveFieldsToVariables();
-
+        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        ItemStatusAdd.ReSaveFieldsToVariables();
+        ItemStatusPercent.ReSaveFieldsToVariables();
+        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
-            Debug.Log(item.Stat1);
-            Debug.Log(ItemStatusPercent.variables["sk2Range"].value);
-            //if (item.Val1 < 0)
-            //{
-            //    ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
-            //}
-            //else
-            //{
-            //    ItemStatusAdd.variables[item.Stat1].value += item.Val1;
-            //}
-
-            //if (item.Val2 < 0)
-            //{
-            //    ItemStatusPercent.variables[item.Stat2].value += item.Val2 * 100;
-            //}
-            //else
-            //{
-            //    ItemStatusAdd.variables[item.Stat2].value += item.Val2;
-            //}
+            if (item.Stat1 != "")
+            {
+                Type valueType = BaseStatus.variables[item.Stat1].GetType();
+                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                {
+                    if (item.Val1 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat1].value += item.Val1;
+                    }
+                }
+                else if (valueType == typeof(Stat<bool>))
+                {
+                    if (item.Val1 > 0)
+                        ItemStatusAdd.variables[item.Stat1].value = true;
+                    else
+                        ItemStatusAdd.variables[item.Stat1].value = false;
+                }
+            }
+            if (item.Stat2 != "")
+            {
+                Type valueType = BaseStatus.variables[item.Stat2].GetType();
+                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                {
+                    if (item.Val2 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat2].value += item.Val2 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat2].value += item.Val2;
+                    }
+                }
+                else if (valueType == typeof(Stat<bool>))
+                {
+                    if (item.Val2 > 0)
+                        ItemStatusAdd.variables[item.Stat1].value = true;
+                    else
+                        ItemStatusAdd.variables[item.Stat1].value = false;
+                }
+            }
         }
     }
 
