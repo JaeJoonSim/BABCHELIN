@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class BossUI : MonoBehaviour
 {
     [SerializeField] Transform boss;
     private Health bossHealth;
     private Skunk skunk;
+
+    public TMP_Text bossName;
     public Image UIHealthGauge;
     public Slider UIHealthCutline;
     public Image UIDestroyGauge;
@@ -21,6 +24,7 @@ public class BossUI : MonoBehaviour
         {
             boss = GameObject.FindGameObjectWithTag("boss").transform;
         }
+        bossName.text = boss.name;
         bossHealth = boss.GetComponent<Health>();
         skunk = boss.GetComponent<Skunk>();
 
