@@ -447,7 +447,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_OverrideArea: 0
+  m_OverrideArea: 1
   m_Area: 0
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
@@ -458,15 +458,15 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 145800005}
-  m_Enabled: 0
+  m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 3.3019998
+  m_Radius: 3.302
 --- !u!1 &165272388
 GameObject:
   m_ObjectHideFlags: 0
@@ -856,10 +856,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TreasureChest
       objectReference: {fileID: 0}
-    - target: {fileID: 8764668619596331505, guid: c1522ef749dceec46be78cfa5d2c52ff,
+    - target: {fileID: 8973820132211722051, guid: c1522ef749dceec46be78cfa5d2c52ff,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c1522ef749dceec46be78cfa5d2c52ff, type: 3}
@@ -949,6 +949,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupground (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc73d606ceb58184d9c9d0fb2966848b,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc73d606ceb58184d9c9d0fb2966848b, type: 3}
@@ -2982,18 +2987,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68f590f5ca3324042baab7cedb3dd71b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rb: {fileID: 0}
-  state: {fileID: 0}
-  health: {fileID: 0}
-  vx: 0
-  vy: 0
-  moveVX: 0
-  moveVY: 0
-  speed: 0
-  maxSpeed: 0.05
   SpineTransform: {fileID: 624878374}
   AnimationTrack: 0
   Idle: {fileID: 0}
+  Open: {fileID: 0}
+  destroyTime: 0
   _promt: 
   spawnRange: 0
   buffObject:
@@ -3006,7 +3004,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1141293203}
         m_TargetAssemblyTypeName: TreasureChest, Assembly-CSharp
-        m_MethodName: DropItems
+        m_MethodName: SpawnObject
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3019,8 +3017,6 @@ MonoBehaviour:
   offInteraction:
     m_PersistentCalls:
       m_Calls: []
-  dropRange: 0
-  itemsToDrop: []
 --- !u!1001 &1142834293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3041,7 +3037,7 @@ PrefabInstance:
     - target: {fileID: 4265093594819362709, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4265093594819362728, guid: 4c3406f7d6237a042933f60a8149a963,
         type: 3}
@@ -4134,6 +4130,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: cupground (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc73d606ceb58184d9c9d0fb2966848b,
+        type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc73d606ceb58184d9c9d0fb2966848b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Ground
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc73d606ceb58184d9c9d0fb2966848b, type: 3}
