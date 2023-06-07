@@ -64,7 +64,7 @@ public class BulletScript : BaseMonoBehaviour
         }
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
-        if(transform.position.z >= 0)
+        if(transform.position.z >= -0.03333164f)
         {
             GroundEffect.transform.position = transform.position;
             GameObject groundEffect = Instantiate(GroundEffect);

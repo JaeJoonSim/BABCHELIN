@@ -18,7 +18,7 @@ public class BerrybirdBulletScript : BulletScript
     {
         base.Update();
 
-        if(transform.position.z >= 0)
+        if(transform.position.z >= -0.03333164f)
         {
             AreaDotObject.transform.position = transform.position;
             GameObject areadotobject = Instantiate(AreaDotObject);

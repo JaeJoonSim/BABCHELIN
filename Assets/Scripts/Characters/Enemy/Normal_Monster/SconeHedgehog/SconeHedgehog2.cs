@@ -94,7 +94,8 @@ public class SconeHedgehog2 : UnitObject
     public GameObject BulletObject;
     public GameObject DotAreaObject;
 
-    public GameObject DashEffect;
+    public GameObject DashEffect_L;
+    public GameObject DashEffect_R;
     public GameObject LandEffect;
     public GameObject DefaulDeathEffect;
     public GameObject BreakEffect;
@@ -122,6 +123,9 @@ public class SconeHedgehog2 : UnitObject
         agent = GetComponent<NavMeshAgent>();
         col = GetComponent<Collider2D>();
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
+
+        DashEffect_L.SetActive(false);
+        DashEffect_R.SetActive(false);
 
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -170,6 +174,9 @@ public class SconeHedgehog2 : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         time = 0f;
                     }
+
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
 
                     if (distanceToPlayer <= detectionRange)
                     {
@@ -296,6 +303,8 @@ public class SconeHedgehog2 : UnitObject
                     state.LockStateChanges = true;
                     Stop();
                     AttackTimer += Time.deltaTime;
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
 
                     if (AttackTimer < 0.5666f)
                     {
@@ -336,6 +345,15 @@ public class SconeHedgehog2 : UnitObject
 
                     agent.SetDestination(transform.position + directionToPoint);
 
+                    if (transform.localScale.x > 0)
+                    {
+                        DashEffect_R.SetActive(true);
+                    }
+                    else
+                    {
+                        DashEffect_L.SetActive(true);
+                    }
+
                     if (time <= dashTime)
                     {
                         if (distanceToPlayer <= attackDistance)
@@ -347,7 +365,6 @@ public class SconeHedgehog2 : UnitObject
                     {
                         thisHealth.isInvincible = false;
                         state.LockStateChanges = false;
-                        DashEffect.SetActive(false);
                         time = 0;
                         aniCount = 0;
                         dashCount++;
@@ -374,6 +391,8 @@ public class SconeHedgehog2 : UnitObject
                             aniCount++;
                         }
                     }
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
 
                     if (time >= 1f)
                     {
@@ -616,10 +635,6 @@ public class SconeHedgehog2 : UnitObject
             {
                 //점프 이펙트 들어갈듯
             }
-        }
-        else if (e.Data.Name == "rolling")
-        {
-            DashEffect.SetActive(true);
         }
         else if (e.Data.Name == "jump" || e.Data.Name == "Jump")
         {
