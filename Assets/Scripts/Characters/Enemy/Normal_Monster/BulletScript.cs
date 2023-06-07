@@ -41,6 +41,7 @@ public class BulletScript : BaseMonoBehaviour
 
         transform.rotation = Quaternion.Euler(0, angle, 0);
 
+
         colliderEvents.OnTriggerEnterEvent += OnHit;
 
         Vector3 currentRotation = transform.eulerAngles;

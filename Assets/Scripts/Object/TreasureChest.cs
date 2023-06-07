@@ -32,6 +32,7 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
     [SerializeField] float spawnRange;
     [SerializeField] GameObject[] buffObject;
 
+    public GameObject openEffect;
     public GameObject spawnEffect;
 
     #region Unity Events
@@ -82,6 +83,9 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
     {
         if (e.Data.Name == "open")
         {
+            openEffect.transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
+            GameObject openeffect = Instantiate(openEffect);
+
             Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
             Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
 
