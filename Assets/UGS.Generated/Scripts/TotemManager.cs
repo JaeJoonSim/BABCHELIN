@@ -47,7 +47,6 @@ public class TotemManager : BaseMonoBehaviour
 
         if (!isAdd.ContainsKey(totemSet[idx].Type))
         {
-            isAdd.Add(totemSet[idx].Type, totemSet[idx]);
             return totemSet[idx];
         }
         else
@@ -56,7 +55,6 @@ public class TotemManager : BaseMonoBehaviour
             {
                 if (isAdd[totemSet[idx].Type].Item < totemSet[idx].Item)
                 {
-                    isAdd[totemSet[idx].Type] = totemSet[idx];
                     return totemSet[idx];
                 }
             }

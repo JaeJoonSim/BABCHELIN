@@ -5,16 +5,23 @@ using UnityEngine;
 public class TotemObj : MonoBehaviour
 {
     private Totem item;
-    public string name; 
+    public string name;
+
     void Start()
     {
-        Invoke("aa", 5f);
+        Invoke("getItem", 3f);
     }
 
-    void aa()
+    void getItem()
     {
         item = TotemManager.Instance.getTotem();
         name = item.Name;
     }
 
+    public void setItmeToPlayer()
+    {
+        TotemManager.Instance.isAdd[item.Type]= item;
+        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
+        
+    }
 }

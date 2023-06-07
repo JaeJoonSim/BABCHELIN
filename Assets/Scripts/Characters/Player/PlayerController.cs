@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 public class PlayerController : BaseMonoBehaviour
@@ -21,6 +22,7 @@ public class PlayerController : BaseMonoBehaviour
 
     [Header("BaseStatus")]
     public status BaseStatus;
+
     [Header("ItemStatus")]
     public status ItemStatusAdd;
     public status ItemStatusPercent;
@@ -90,8 +92,6 @@ public class PlayerController : BaseMonoBehaviour
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
     }
-
-
 
     private void OnEnable()
     {
@@ -339,7 +339,6 @@ public class PlayerController : BaseMonoBehaviour
             GameManager.GetInstance().HitStop();
         }
     }
-
     private void getTotalstatus()
     {
         foreach (KeyValuePair<string, dynamic> total in BaseStatus.variables)
@@ -364,7 +363,6 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
     }
-
     public void addBullet(int add)
     {
         BulletGauge += add;
@@ -379,7 +377,6 @@ public class PlayerController : BaseMonoBehaviour
         }
 
     }
-
     private void RestoreBullet()
     {
 
@@ -391,11 +388,42 @@ public class PlayerController : BaseMonoBehaviour
             CancelInvoke("RestoreBullet");
         }
     }
-
     public void addUltIdx()
     {
         UltIdx++;
         UltIdx = UltIdx % 2;
+    }
+
+    public void addItem()
+    {
+
+        ItemStatusAdd = new status();
+        ItemStatusPercent = new status();
+        ItemStatusAdd.SaveFieldsToVariables();
+        ItemStatusPercent.SaveFieldsToVariables();
+
+        foreach (var item in TotemManager.Instance.isAdd.Values)
+        {
+            Debug.Log(item.Stat1);
+            Debug.Log(ItemStatusPercent.variables[item.Stat1].value);
+            //if (item.Val1 < 0)
+            //{
+            //    ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
+            //}
+            //else
+            //{
+            //    ItemStatusAdd.variables[item.Stat1].value += item.Val1;
+            //}
+
+            //if (item.Val2 < 0)
+            //{
+            //    ItemStatusPercent.variables[item.Stat2].value += item.Val2 * 100;
+            //}
+            //else
+            //{
+            //    ItemStatusAdd.variables[item.Stat2].value += item.Val2;
+            //}
+        }
     }
 
     private IEnumerator Delay(float delay, Action callback)
