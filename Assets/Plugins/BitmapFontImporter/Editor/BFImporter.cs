@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using System.Text;
 
-namespace litefeel
+namespace litefeel.BFImporter.Editor
 {
     public class BFImporter : AssetPostprocessor
     {
@@ -59,7 +59,8 @@ namespace litefeel
             if (material == null)
             {
                 material = new Material(Shader.Find("UI/Default"));
-                material.name = "Font Material";
+                material.name = fntName;
+
                 AssetDatabase.AddObjectToAsset(material, fontPath);
                 // unity 5.4+ cannot refresh it immediately, must import it
                 AssetDatabase.ImportAsset(fontPath);
@@ -88,7 +89,9 @@ namespace litefeel
             
             AssetDatabase.SaveAssets();
 
-#if UNITY_5_5_OR_NEWER
+#if UNITY_2018_4_OR_NEWER
+            // No-op
+#elif UNITY_5_5_OR_NEWER
             // unity 5.5 can not load custom font
             ReloadFont(fontPath);
 #endif
@@ -108,12 +111,21 @@ namespace litefeel
                 if (texture == null)
                 {
                     Debug.LogErrorFormat(fnt, "{0}: not found '{1}'.", typeof(BFImporter), texPath);
-                    return textures;
+                    continue;
                 }
 
                 TextureImporter texImporter = AssetImporter.GetAtPath(texPath) as TextureImporter;
-                texImporter.textureType = TextureImporterType.GUI;
+                texImporter.textureType = Settings.TextureImporterType;
                 texImporter.mipmapEnabled = false;
+                texImporter.wrapMode = TextureWrapMode.Clamp;
+                texImporter.alphaIsTransparency = true;
+                texImporter.alphaSource = TextureImporterAlphaSource.FromInput;
+
+                texImporter.streamingMipmaps = false;
+
+                // Sprite
+                texImporter.spriteImportMode = SpriteImportMode.Single;
+                
                 texImporter.SaveAndReimport();
                 textures[i] = texture;
             }

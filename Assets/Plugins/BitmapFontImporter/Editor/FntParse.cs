@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace litefeel
+namespace litefeel.BFImporter.Editor
 {
     public struct Kerning
     {
@@ -48,11 +48,12 @@ namespace litefeel
         {
             XmlDocument xml = new XmlDocument();
             xml.LoadXml(content);
+            XmlElement rootNode = xml.DocumentElement;
 
-            XmlNode info = xml.GetElementsByTagName("info")[0];
-            XmlNode common = xml.GetElementsByTagName("common")[0];
-            XmlNodeList pages = xml.GetElementsByTagName("pages")[0].ChildNodes;
-            XmlNodeList chars = xml.GetElementsByTagName("chars")[0].ChildNodes;
+            XmlNode info = rootNode.SelectSingleNode("info");
+            XmlNode common = rootNode.SelectSingleNode("common");
+            XmlNodeList pages = rootNode.SelectNodes("pages/page");
+            XmlNodeList chars = rootNode.SelectNodes("chars/char");
 
 
             fontName = info.Attributes.GetNamedItem("face").InnerText;
@@ -89,10 +90,9 @@ namespace litefeel
             }
 
             // kernings
-            XmlNode kerningsNode = xml.GetElementsByTagName("kernings")[0];
-            if (kerningsNode != null && kerningsNode.HasChildNodes)
+            XmlNodeList kerns = rootNode.SelectNodes("kernings/kerning");
+            if (kerns != null && kerns.Count > 0)
             {
-                XmlNodeList kerns = kerningsNode.ChildNodes;
                 kernings = new Kerning[kerns.Count];
                 for (int i = 0; i < kerns.Count; i++)
                 {
@@ -116,12 +116,13 @@ namespace litefeel
         private Regex pattern;
         public void DoTextParse(ref string content)
         {
-            // letter=" "       // \S+=".+?"
-            // letter="x"       // \S+=".+?"
-            // letter="""       // \S+=".+?"
+            // letter=\" \"     // \S+=\\?".+?\\?"
+            // letter=" "       // \S+=\\?".+?\\?"
+            // letter="x"       // \S+=\\?".+?\\?"
+            // letter="""       // \S+=\\?".+?\\?"
             // letter=""        // \S+
             // char             // \S+
-            pattern = new Regex(@"\S+="".+?""|\S+");
+            pattern = new Regex(@"\S+=\\?"".+?\\?""|\S+");
             string[] lines = content.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
             ReadTextInfo(ref lines[0]);
             ReadTextCommon(ref lines[1]);
@@ -242,7 +243,8 @@ namespace litefeel
             string[] keys;
             string[] values;
             SplitParts(line, out keys, out values);
-            int id = 0, x = 0, y = 0, w = 0, h = 0, xo = 0, yo = 0, xadvance = 0;
+            int id = 0, x = 0, y = 0, w = 0, h = 0;
+            int xo = 0, yo = 0, xadvance = 0, page = 0;
             for (int i = keys.Length - 1; i >= 0; i--)
             {
                 switch (keys[i])
@@ -255,9 +257,10 @@ namespace litefeel
                     case "xoffset": xo = int.Parse(values[i]); break;
                     case "yoffset": yo = int.Parse(values[i]); break;
                     case "xadvance": xadvance = int.Parse(values[i]); break;
+                    case "page": page = int.Parse(values[i]); break;
                 }
             }
-            list.Add(CreateCharInfo(id, x, y, w, h, xo, yo, xadvance));
+            list.Add(CreateCharInfo(id, x, y, w, h, xo, yo, xadvance, page));
             return true;
         }
 
@@ -299,7 +302,7 @@ namespace litefeel
 
         #endregion
 
-        private CharacterInfo CreateCharInfo(int id, int x, int y, int w, int h, int xo, int yo, int xadvance, int page = 0)
+        private CharacterInfo CreateCharInfo(int id, int x, int y, int w, int h, int xo, int yo, int xadvance, int page)
         {
             Rect uv = new Rect();
             uv.x = (float)x / textureWidth + page;
