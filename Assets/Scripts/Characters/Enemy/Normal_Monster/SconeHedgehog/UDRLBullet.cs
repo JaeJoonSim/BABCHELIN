@@ -7,6 +7,9 @@ public class UDRLBullet : MonoBehaviour
     // Start is called before the first frame update
     public int num;
 
+    private AudioSource audioSource;
+    public AudioClip popSound;
+
     [Space]
     public float damage;
     public float speed;
@@ -31,6 +34,8 @@ public class UDRLBullet : MonoBehaviour
         colliderEvents = GetComponent<ColliderEvents>();
         if (player == null)
             player = GameObject.FindObjectOfType<HealthPlayer>();
+
+        audioSource = GetComponent<AudioSource>();
 
         startPosition = transform.position;
 
@@ -142,6 +147,13 @@ public class UDRLBullet : MonoBehaviour
             GameObject groundEffect = GroundEffect;
             groundEffect.transform.position = transform.position;
             Instantiate(groundEffect);
+
+            if (popSound != null)
+            {
+                audioSource.clip = popSound;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+
             Destroy(gameObject);
         }
     }
@@ -156,6 +168,12 @@ public class UDRLBullet : MonoBehaviour
             GameObject playerEffect = PlayerEffect;
             playerEffect.transform.position = transform.position;
             Instantiate(playerEffect);
+
+            if (popSound != null)
+            {
+                audioSource.clip = popSound;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
 
             Destroy(gameObject);
         }
