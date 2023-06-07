@@ -60,6 +60,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805405594311771168}
+  - component: {fileID: 362018745905558368}
   m_Layer: 0
   m_Name: Orao
   m_TagString: Untagged
@@ -85,6 +86,44 @@ Transform:
   m_Father: {fileID: 432370823657369414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &362018745905558368
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399478186688859852}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -51.254154, y: 17.333723}
+  - {x: -47.382492, y: 17.175915}
+  - {x: -43.771366, y: 15.341624}
+  - {x: -39.853413, y: 12.157257}
+  - {x: -35.924416, y: 6.7634406}
+  - {x: -35.40668, y: 0.6629257}
+  - {x: -36.606205, y: -5.3480353}
+  - {x: -40.51305, y: -10.061016}
+  - {x: -44.919994, y: -13.265621}
+  - {x: -50.98912, y: -14.687436}
+  - {x: -57.348415, y: -13.501621}
+  - {x: -62.135014, y: -10.102523}
+  - {x: -66.04811, y: -5.1190476}
+  - {x: -67.73003, y: 1.6643013}
+  - {x: -65.24063, y: 9.103458}
+  - {x: -61.85314, y: 13.16031}
+  - {x: -57.51787, y: 16.432602}
+  - {x: -51.53857, y: 17.632364}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &2544819226741524122
 GameObject:
   m_ObjectHideFlags: 0
@@ -742,28 +781,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1371848329357215638}
   m_PrefabAsset: {fileID: 0}
---- !u!68 &298786029856159657
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2290257536596703943}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: -0.5990274, y: 0.11341788}
-  - {x: 0.61694455, y: 0.11341788}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!58 &9215829838835871863
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -777,7 +794,7 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.008958565, y: 0.113417886}
+  m_Offset: {x: 0.008958565, y: 0.11341788}
   serializedVersion: 2
   m_Radius: 0.607986
 --- !u!114 &254304892289890192

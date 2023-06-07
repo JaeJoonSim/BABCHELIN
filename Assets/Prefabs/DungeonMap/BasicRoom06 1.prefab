@@ -409,6 +409,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5320159995289909646}
+  - component: {fileID: 7536440961182663770}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -433,6 +434,45 @@ Transform:
   m_Father: {fileID: 432370823657369414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &7536440961182663770
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4758059534322685609}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -0.7682066, y: 18.256931}
+  - {x: -5.779779, y: 17.405409}
+  - {x: -10.823029, y: 14.535445}
+  - {x: -14.532878, y: 9.565916}
+  - {x: -16.123653, y: 3.1461382}
+  - {x: -15.082281, y: -1.8946483}
+  - {x: -12.500971, y: -6.5920825}
+  - {x: -7.9867673, y: -10.563774}
+  - {x: -4.5018263, y: -11.8957615}
+  - {x: -0.21225834, y: -12.394291}
+  - {x: 5.7015004, y: -11.062133}
+  - {x: 9.874831, y: -8.353708}
+  - {x: 13.694829, y: -3.494046}
+  - {x: 14.948733, y: 1.6688762}
+  - {x: 14.519497, y: 7.2623606}
+  - {x: 11.649246, y: 12.426605}
+  - {x: 7.10115, y: 16.40456}
+  - {x: 3.1766438, y: 17.88034}
+  - {x: -0.27798522, y: 18.389751}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &5729104649858312813
 GameObject:
   m_ObjectHideFlags: 0
@@ -4918,43 +4958,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 5743046042271279983}
   m_PrefabAsset: {fileID: 0}
---- !u!68 &4877838376356391972
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4859960294132667966}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 3.3583345, y: -0.07265842}
-  - {x: 2.948349, y: -1.4285195}
-  - {x: 2.1157176, y: -2.3855453}
-  - {x: 1.083859, y: -3.08215}
-  - {x: -0.063085124, y: -3.253179}
-  - {x: -1.4252433, y: -2.9463773}
-  - {x: -2.3672447, y: -2.1705275}
-  - {x: -3.112002, y: -1.1551563}
-  - {x: -3.3184316, y: -0.06540607}
-  - {x: -3.1397974, y: 1.0789422}
-  - {x: -2.4702058, y: 2.192336}
-  - {x: -1.4525833, y: 2.929893}
-  - {x: -0.01649054, y: 3.2938378}
-  - {x: 1.1294174, y: 3.1062896}
-  - {x: 2.1979265, y: 2.369774}
-  - {x: 2.9614139, y: 1.4333097}
-  - {x: 3.3262198, y: 0.024219632}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
 --- !u!58 &8914202244725401959
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -4968,9 +4971,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0000004954636, y: 0.00000019115396}
+  m_Offset: {x: 0.008958489, y: 0.11341788}
   serializedVersion: 2
-  m_Radius: 3.3019998
+  m_Radius: 0.607986
 --- !u!114 &263179120951202008
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -268,6 +268,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7056942709010218379}
+  - component: {fileID: 6340258703450880002}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -292,6 +293,43 @@ Transform:
   m_Father: {fileID: 13644864073941962}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &6340258703450880002
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4904925742670165361}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -15.420769, y: 3.4169698}
+  - {x: -14.159994, y: 8.964955}
+  - {x: -10.402241, y: 14.130705}
+  - {x: -6.2913213, y: 17.05291}
+  - {x: 0.14865875, y: 18.356201}
+  - {x: 6.5370755, y: 17.047558}
+  - {x: 10.593014, y: 13.571195}
+  - {x: 13.752876, y: 8.462623}
+  - {x: 15.188583, y: 3.2457967}
+  - {x: 14.451667, y: -2.8271265}
+  - {x: 10.539267, y: -7.9558816}
+  - {x: 5.23985, y: -11.378711}
+  - {x: -0.42861652, y: -12.487799}
+  - {x: -7.2972336, y: -10.955894}
+  - {x: -11.814289, y: -7.1274343}
+  - {x: -14.583255, y: -2.4706335}
+  - {x: -15.434607, y: 2.5401745}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &4918894544270449204
 GameObject:
   m_ObjectHideFlags: 0
@@ -4678,46 +4716,9 @@ CircleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.0000004954636, y: 0.00000019115396}
+  m_Offset: {x: 0.008958489, y: 0.11341788}
   serializedVersion: 2
-  m_Radius: 3.3019998
---- !u!68 &8555097992044712736
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5624285119728678274}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 3.3583345, y: -0.07265842}
-  - {x: 2.948349, y: -1.4285195}
-  - {x: 2.1157176, y: -2.3855453}
-  - {x: 1.083859, y: -3.08215}
-  - {x: -0.063085124, y: -3.253179}
-  - {x: -1.4252433, y: -2.9463773}
-  - {x: -2.3672447, y: -2.1705275}
-  - {x: -3.112002, y: -1.1551563}
-  - {x: -3.3184316, y: -0.06540607}
-  - {x: -3.1397974, y: 1.0789422}
-  - {x: -2.4702058, y: 2.192336}
-  - {x: -1.4525833, y: 2.929893}
-  - {x: -0.01649054, y: 3.2938378}
-  - {x: 1.1294174, y: 3.1062896}
-  - {x: 2.1979265, y: 2.369774}
-  - {x: 2.9614139, y: 1.4333097}
-  - {x: 3.3262198, y: 0.024219632}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+  m_Radius: 0.607986
 --- !u!114 &7149579100133528987
 MonoBehaviour:
   m_ObjectHideFlags: 0
