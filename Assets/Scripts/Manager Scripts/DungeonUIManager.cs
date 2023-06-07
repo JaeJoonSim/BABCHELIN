@@ -8,21 +8,8 @@ public class DungeonUIManager : BaseMonoBehaviour
     private static DungeonUIManager _instance;
     public static DungeonUIManager Instance
     {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<DungeonUIManager>();
-
-                if (_instance == null)
-                {
-                    GameObject singleton = new GameObject();
-                    _instance = singleton.AddComponent<DungeonUIManager>();
-                    singleton.name = typeof(DungeonUIManager).ToString() + " (Singleton)";
-                }
-            }
-            return _instance;
-        }
+        get { return _instance; }
+        set { _instance = value; }
     }
 
     private int tabNum;
