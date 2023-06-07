@@ -5,13 +5,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class ObjectMovement : MonoBehaviour
+public class ObjectMovement : BaseMonoBehaviour
 {
     public float targetZ;           // 이동할 목표 z 값
     public float moveDuration;      // 이동에 걸리는 시간
     public float fadeDuration;      // Fade In/Out에 걸리는 시간
     public float fadeInDelay;       // Fade In 시작까지의 대기 시간
     public float fadeOutDelay;      // Fade Out 시작까지의 대기 시간
+    public GameObject[] moveObject;
+    public GameObject Stage;
 
     [Header("Panel UI")]
     public Transform tutorialTopLetter;
@@ -56,11 +58,14 @@ public class ObjectMovement : MonoBehaviour
             cam.targetDistance = Mathf.MoveTowards(cam.targetDistance, 40f, maxDistanceDelta);
 
             float moveSpeed = (targetZ) / moveDuration;
-            float currentZ = transform.position.z + moveSpeed * Time.deltaTime;
 
-            transform.position = new Vector3(transform.position.x, transform.position.y, currentZ);
+            foreach (GameObject obj in moveObject)
+            {
+                float currentZ = obj.transform.position.z + moveSpeed * Time.deltaTime;
+                obj.transform.position = new Vector3(obj.transform.position.x, obj.transform.position.y, currentZ);
+            }
 
-            if (Mathf.Abs(transform.position.z - targetZ) <= 1)
+            if (moveObject[0].transform.position.z >= 0)
             {
                 isMoving = false;
                 playerInput.enabled = true;
@@ -160,6 +165,8 @@ public class ObjectMovement : MonoBehaviour
     private void CameraChangeRotationCompleted()
     {
         //TODO...
+        Stage.SetActive(true);
         dialogue.SetActive(true);
+        
     }
 }
