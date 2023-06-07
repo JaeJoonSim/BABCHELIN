@@ -167,7 +167,6 @@ public class Health : BaseMonoBehaviour
         if (type == AttackType.Normal)
         {
             StartCoroutine(InvincibilityAndBlink(recoveryTime));
-            if(state.LockStateChanges)
             if (!damageDecrease && !doNotChange)
                 state.ChangeToHitState(attackLocation);
         }

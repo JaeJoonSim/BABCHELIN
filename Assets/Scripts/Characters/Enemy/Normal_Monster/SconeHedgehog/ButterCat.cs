@@ -422,6 +422,7 @@ public class ButterCat : UnitObject
             Debug.Log("Shield");
             GameObject shieldeffect = Instantiate(ShieldEffect, transform);
             shieldeffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            shieldeffect.GetComponent<ParticleSystem>().Play();
             Destroy(shieldeffect, defendTime);
         }
     }
