@@ -39,6 +39,7 @@ public class SconeHedgehog2 : UnitObject
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
     [SerializeField] float detectionJumpRange;
+    [SerializeField] float hitDistance;
     [SerializeField] float jumpDamageRange;
     [SerializeField] float attackDistance = 0f;
     [SerializeField] float dashTime = 0f;
@@ -151,6 +152,11 @@ public class SconeHedgehog2 : UnitObject
         xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
+
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            BodyHit();
+        }
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
@@ -619,6 +625,12 @@ public class SconeHedgehog2 : UnitObject
     {
         agent.isStopped = true;
         speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
