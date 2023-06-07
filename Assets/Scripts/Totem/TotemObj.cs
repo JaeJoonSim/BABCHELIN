@@ -15,11 +15,7 @@ public class TotemObj : MonoBehaviour
 
     void Start()
     {
-#if UNITY_EDITOR
-        Invoke("getItem", 3.0f);
-#else
         getItem();
-#endif
     }
 
     void getItem()
