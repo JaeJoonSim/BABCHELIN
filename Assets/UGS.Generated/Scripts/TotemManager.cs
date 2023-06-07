@@ -22,7 +22,7 @@ public class TotemManager : BaseMonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
 
         UnityGoogleSheet.LoadFromGoogle<int, DefaultTable.Data>((list, map) =>

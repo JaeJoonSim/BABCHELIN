@@ -43,7 +43,7 @@ public class absorb : BaseMonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
     }
 
