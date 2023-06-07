@@ -7,7 +7,6 @@ Shader "HAN/Dash_Shader"
 		[HideInInspector] _AlphaCutoff("Alpha Cutoff ", Range(0, 1)) = 0.5
 		[HideInInspector] _EmissionColor("Emission Color", Color) = (1,1,1,1)
 		[ASEBegin]_Main_Tex("Main_Tex", 2D) = "white" {}
-		_Pan_Speed("Pan_Speed", Vector) = (0.3,0,0,0)
 		[HDR]_Color("Color", Color) = (1,1,1,0)
 		_Alpha_Tex("Alpha_Tex", 2D) = "white" {}
 		[ASEEnd]_Inten("Inten", Range( 0 , 5)) = 0
@@ -208,6 +207,7 @@ Shader "HAN/Dash_Shader"
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -232,7 +232,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -258,9 +257,7 @@ Shader "HAN/Dash_Shader"
 
 				o.ase_color = v.ase_color;
 				o.ase_texcoord3.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord3.zw = 0;
+				o.ase_texcoord3.zw = v.ase_texcoord1.xy;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -308,6 +305,7 @@ Shader "HAN/Dash_Shader"
 				float3 ase_normal : NORMAL;
 				float4 ase_color : COLOR;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -327,6 +325,7 @@ Shader "HAN/Dash_Shader"
 				o.ase_normal = v.ase_normal;
 				o.ase_color = v.ase_color;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -367,6 +366,7 @@ Shader "HAN/Dash_Shader"
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_color = patch[0].ase_color * bary.x + patch[1].ase_color * bary.y + patch[2].ase_color * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -406,7 +406,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord3.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord3.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				
 				float2 uv_Alpha_Tex = IN.ase_texcoord3.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
@@ -481,6 +481,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -501,7 +502,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -529,9 +529,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO( o );
 
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord2.zw = v.ase_texcoord1.xy;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -589,6 +587,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -607,6 +606,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -646,6 +646,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -685,7 +686,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord2.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord2.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord2.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -743,6 +744,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -763,7 +765,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -788,9 +789,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord2.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord2.zw = 0;
+				o.ase_texcoord2.zw = v.ase_texcoord1.xy;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -831,6 +830,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -849,6 +849,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -888,6 +889,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -927,7 +929,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord2.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord2.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord2.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -985,6 +987,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -999,7 +1002,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1035,9 +1037,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
+				o.ase_texcoord.zw = v.ase_texcoord1.xy;
 
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
@@ -1067,6 +1067,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1085,6 +1086,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1124,6 +1126,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1148,7 +1151,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -1206,6 +1209,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1220,7 +1224,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1256,9 +1259,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord.zw = 0;
+				o.ase_texcoord.zw = v.ase_texcoord1.xy;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1283,6 +1284,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1301,6 +1303,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1340,6 +1343,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1364,7 +1368,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -1431,6 +1435,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1446,7 +1451,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1479,9 +1483,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord1.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord1.zw = 0;
+				o.ase_texcoord1.zw = v.ase_texcoord1.xy;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1513,6 +1515,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1531,6 +1534,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1570,6 +1574,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1594,7 +1599,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord1.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord1.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord1.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -1662,6 +1667,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : POSITION;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
 
@@ -1677,7 +1683,6 @@ Shader "HAN/Dash_Shader"
 			CBUFFER_START(UnityPerMaterial)
 			float4 _Color;
 			float4 _Alpha_Tex_ST;
-			float2 _Pan_Speed;
 			float _Inten;
 			#ifdef ASE_TESSELLATION
 				float _TessPhongStrength;
@@ -1709,9 +1714,7 @@ Shader "HAN/Dash_Shader"
 				UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(o);
 
 				o.ase_texcoord1.xy = v.ase_texcoord.xy;
-				
-				//setting value to unused interpolator channels and avoid initialization warnings
-				o.ase_texcoord1.zw = 0;
+				o.ase_texcoord1.zw = v.ase_texcoord1.xy;
 				#ifdef ASE_ABSOLUTE_VERTEX_POS
 					float3 defaultVertexValue = v.vertex.xyz;
 				#else
@@ -1743,6 +1746,7 @@ Shader "HAN/Dash_Shader"
 				float4 vertex : INTERNALTESSPOS;
 				float3 ase_normal : NORMAL;
 				float4 ase_texcoord : TEXCOORD0;
+				float4 ase_texcoord1 : TEXCOORD1;
 
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 			};
@@ -1761,6 +1765,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = v.vertex;
 				o.ase_normal = v.ase_normal;
 				o.ase_texcoord = v.ase_texcoord;
+				o.ase_texcoord1 = v.ase_texcoord1;
 				return o;
 			}
 
@@ -1800,6 +1805,7 @@ Shader "HAN/Dash_Shader"
 				o.vertex = patch[0].vertex * bary.x + patch[1].vertex * bary.y + patch[2].vertex * bary.z;
 				o.ase_normal = patch[0].ase_normal * bary.x + patch[1].ase_normal * bary.y + patch[2].ase_normal * bary.z;
 				o.ase_texcoord = patch[0].ase_texcoord * bary.x + patch[1].ase_texcoord * bary.y + patch[2].ase_texcoord * bary.z;
+				o.ase_texcoord1 = patch[0].ase_texcoord1 * bary.x + patch[1].ase_texcoord1 * bary.y + patch[2].ase_texcoord1 * bary.z;
 				#if defined(ASE_PHONG_TESSELLATION)
 				float3 pp[3];
 				for (int i = 0; i < 3; ++i)
@@ -1824,7 +1830,7 @@ Shader "HAN/Dash_Shader"
 				float2 CenteredUV15_g1 = ( IN.ase_texcoord1.xy - float2( 0.5,0.5 ) );
 				float2 break17_g1 = CenteredUV15_g1;
 				float2 appendResult23_g1 = (float2(( length( CenteredUV15_g1 ) * 1.0 * 2.0 ) , ( atan2( break17_g1.x , break17_g1.y ) * ( 1.0 / TWO_PI ) * 1.0 )));
-				float2 panner12 = ( 1.0 * _Time.y * _Pan_Speed + float2( 0,0 ));
+				float2 panner12 = ( 1.0 * _Time.y * IN.ase_texcoord1.zw + float2( 0,0 ));
 				float4 tex2DNode10 = tex2D( _Main_Tex, ( appendResult23_g1 + panner12 ) );
 				float2 uv_Alpha_Tex = IN.ase_texcoord1.xy * _Alpha_Tex_ST.xy + _Alpha_Tex_ST.zw;
 				
@@ -1859,14 +1865,13 @@ Shader "HAN/Dash_Shader"
 Version=19105
 Node;AmplifyShaderEditor.SimpleAddOpNode;15;-1113.547,67.66017;Inherit;False;2;2;0;FLOAT2;0,0;False;1;FLOAT2;0,0;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.PannerNode;12;-1309.545,132.6602;Inherit;False;3;0;FLOAT2;0,0;False;2;FLOAT2;0,0;False;1;FLOAT;1;False;1;FLOAT2;0
-Node;AmplifyShaderEditor.Vector2Node;16;-1478.545,194.6604;Inherit;False;Property;_Pan_Speed;Pan_Speed;1;0;Create;True;0;0;0;False;0;False;0.3,0;-0.5,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
 Node;AmplifyShaderEditor.VertexColorNode;21;-836.6951,-172.6752;Inherit;False;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;20;-644.0106,-68.52127;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;22;-429.193,-167.4675;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;COLOR;0,0,0,0;False;1;COLOR;0
-Node;AmplifyShaderEditor.SamplerNode;26;-954.2239,296.4313;Inherit;True;Property;_Alpha_Tex;Alpha_Tex;3;0;Create;True;0;0;0;False;0;False;-1;None;b40012fab02fed8438e6cbde27b4640d;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;26;-954.2239,296.4313;Inherit;True;Property;_Alpha_Tex;Alpha_Tex;2;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;28;-611.5599,209.8032;Inherit;True;2;2;0;FLOAT;0;False;1;FLOAT;0;False;1;FLOAT;0
 Node;AmplifyShaderEditor.SimpleMultiplyOpNode;29;-203.4441,-38.53168;Inherit;False;2;2;0;COLOR;0,0,0,0;False;1;FLOAT;0;False;1;COLOR;0
-Node;AmplifyShaderEditor.RangedFloatNode;30;-511.4565,34.62123;Inherit;False;Property;_Inten;Inten;4;0;Create;True;0;0;0;False;0;False;0;1.29;0;5;0;1;FLOAT;0
+Node;AmplifyShaderEditor.RangedFloatNode;30;-511.4565,34.62123;Inherit;False;Property;_Inten;Inten;3;0;Create;True;0;0;0;False;0;False;0;1.29;0;5;0;1;FLOAT;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;32;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ExtraPrePass;0;0;ExtraPrePass;5;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;1;False;;0;False;;0;1;False;;0;False;;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;1;False;;True;3;False;;True;True;0;False;;0;False;;True;0;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;33;0,0;Float;False;True;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;13;HAN/Dash_Shader;2992e84f91cbeb14eab234972e07ea9d;True;Forward;0;1;Forward;8;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Transparent=RenderType;Queue=Transparent=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;True;1;5;False;;10;False;;1;1;False;;10;False;;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;True;True;True;True;0;False;;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;True;2;False;;True;3;False;;True;True;0;False;;0;False;;True;1;LightMode=UniversalForwardOnly;False;False;0;;0;0;Standard;23;Surface;1;638212264777041167;  Blend;0;0;Two Sided;1;0;Forward Only;0;0;Cast Shadows;1;0;  Use Shadow Threshold;0;0;Receive Shadows;1;0;GPU Instancing;1;0;LOD CrossFade;0;0;Built-in Fog;0;0;DOTS Instancing;0;0;Meta Pass;0;0;Extra Pre Pass;0;0;Tessellation;0;0;  Phong;0;0;  Strength;0.5,False,;0;  Type;0;0;  Tess;16,False,;0;  Min;10,False,;0;  Max;25,False,;0;  Edge Length;16,False,;0;  Max Displacement;25,False,;0;Vertex Position,InvertActionOnDeselection;1;0;0;10;False;True;True;True;False;False;True;True;True;True;False;;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;34;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ShadowCaster;0;2;ShadowCaster;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;False;False;True;False;False;False;False;0;False;;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=ShadowCaster;False;False;0;;0;0;Standard;0;False;0
@@ -1877,13 +1882,15 @@ Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;38;0,0;Float;False;False;-1
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;39;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;ScenePickingPass;0;7;ScenePickingPass;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;LightMode=Picking;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;40;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormals;0;8;DepthNormals;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;False;0;;0;0;Standard;0;False;0
 Node;AmplifyShaderEditor.TemplateMultiPassMasterNode;41;0,0;Float;False;False;-1;2;UnityEditor.ShaderGraphUnlitGUI;0;1;New Amplify Shader;2992e84f91cbeb14eab234972e07ea9d;True;DepthNormalsOnly;0;9;DepthNormalsOnly;0;False;False;False;False;False;False;False;False;False;False;False;False;True;0;False;;False;True;0;False;;False;False;False;False;False;False;False;False;False;True;False;0;False;;255;False;;255;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;0;False;;False;False;False;False;True;4;RenderPipeline=UniversalPipeline;RenderType=Opaque=RenderType;Queue=Geometry=Queue=0;UniversalMaterialType=Unlit;True;3;True;12;all;0;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;False;True;1;False;;True;3;False;;False;True;1;LightMode=DepthNormalsOnly;False;True;9;d3d11;metal;vulkan;xboxone;xboxseries;playstation;ps4;ps5;switch;0;;0;0;Standard;0;False;0
-Node;AmplifyShaderEditor.SamplerNode;10;-964.5447,14.66016;Inherit;True;Property;_Main_Tex;Main_Tex;0;0;Create;True;0;0;0;False;0;False;-1;None;b1f5bbaa0c8b80949ac357b0ec2bc03b;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
-Node;AmplifyShaderEditor.ColorNode;23;-677.861,-302.868;Inherit;False;Property;_Color;Color;2;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,0;6.498019,6.498019,6.498019,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.SamplerNode;10;-964.5447,14.66016;Inherit;True;Property;_Main_Tex;Main_Tex;0;0;Create;True;0;0;0;False;0;False;-1;None;None;True;0;False;white;Auto;False;Object;-1;Auto;Texture2D;8;0;SAMPLER2D;;False;1;FLOAT2;0,0;False;2;FLOAT;0;False;3;FLOAT2;0,0;False;4;FLOAT2;0,0;False;5;FLOAT;1;False;6;FLOAT;0;False;7;SAMPLERSTATE;;False;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
+Node;AmplifyShaderEditor.ColorNode;23;-677.861,-302.868;Inherit;False;Property;_Color;Color;1;1;[HDR];Create;True;0;0;0;False;0;False;1,1,1,0;6.498019,6.498019,6.498019,1;True;0;5;COLOR;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 Node;AmplifyShaderEditor.FunctionNode;42;-1392.334,-47.40399;Inherit;False;Polar Coordinates;-1;;1;7dab8e02884cf104ebefaa2e788e4162;0;4;1;FLOAT2;0,0;False;2;FLOAT2;0.5,0.5;False;3;FLOAT;1;False;4;FLOAT;1;False;1;FLOAT2;0
 Node;AmplifyShaderEditor.Vector2Node;44;-1595.944,-90.63053;Inherit;False;Constant;_Center;Center;5;0;Create;True;0;0;0;False;0;False;0.5,0.5;0,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.Vector2Node;49;-1703.256,293.1691;Inherit;False;Property;_Pan_Speed;Pan_Speed;4;0;Create;True;0;0;0;False;0;False;-2,0;-2,0;0;3;FLOAT2;0;FLOAT;1;FLOAT;2
+Node;AmplifyShaderEditor.TexCoordVertexDataNode;45;-1626.233,110.9712;Inherit;False;1;2;0;5;FLOAT2;0;FLOAT;1;FLOAT;2;FLOAT;3;FLOAT;4
 WireConnection;15;0;42;0
 WireConnection;15;1;12;0
-WireConnection;12;2;16;0
+WireConnection;12;2;45;0
 WireConnection;20;0;21;0
 WireConnection;20;1;10;1
 WireConnection;22;0;23;0
@@ -1897,4 +1904,4 @@ WireConnection;33;3;28;0
 WireConnection;10;1;15;0
 WireConnection;42;2;44;0
 ASEEND*/
-//CHKSM=64D92805BE6C1A570AE3CF7F594A51996FFFC511
+//CHKSM=387B0E2DE8DF260EA5C447396C6CECDA5EED1D4D
