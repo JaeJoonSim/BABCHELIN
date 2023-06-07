@@ -34,6 +34,7 @@ public class TotemManager : BaseMonoBehaviour
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
