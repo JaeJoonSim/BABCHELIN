@@ -92,45 +92,45 @@ public class UDRLBullet : MonoBehaviour
             case 4: //ºÏ¼­
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(-1, 1, 0);
+                    direction = new Vector3(-0.6f, 0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(-1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(-0.6f, 0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 5: //ºÏµ¿
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(1, 1, 0);
+                    direction = new Vector3(0.6f, 0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(0.6f, 0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 6: //³²¼­
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(-1, -1, 0);
+                    direction = new Vector3(-0.6f, -0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(-1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(-0.6f, -0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 7: //³²µ¿
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(1, -1, 0);
+                    direction = new Vector3(0.6f, -0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(0.6f, -0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
         }
