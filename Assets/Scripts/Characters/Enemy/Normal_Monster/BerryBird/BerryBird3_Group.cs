@@ -139,7 +139,7 @@ public class BerryBird3_Group : UnitObject
             {
                 if (otherBirdState[a].gameObject != gameObject)
                 {
-                    otherBirdState[a].CURRENT_STATE = StateMachine.State.Moving;
+                    otherBirdState[a].CURRENT_STATE = StateMachine.State.Notice;
                 }
                 else
                 {
