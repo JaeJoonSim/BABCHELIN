@@ -154,6 +154,8 @@ public class PlayerController : BaseMonoBehaviour
                 break;
 
             case StateMachine.State.Dodging:
+                if (UltObj.activeSelf)
+                    UltObj.SetActive(false);
                 SpineTransform.localPosition = Vector3.zero;
 
                 if (dodgeTime < TotalStatus.dodgeTime.value)

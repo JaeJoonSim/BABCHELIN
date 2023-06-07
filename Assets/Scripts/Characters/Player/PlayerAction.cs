@@ -161,7 +161,13 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
+                    state.CURRENT_STATE = StateMachine.State.Ultimate;
+                else
+                    playerController.UltObj.SetActive(false);
+            }
         }
         else if (context.canceled)
         {
@@ -211,8 +217,10 @@ public class PlayerAction : BaseMonoBehaviour
         {
             if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
             {
-                state.CURRENT_STATE = StateMachine.State.Ultimate;
-                playerController.UltObj.GetComponent<UltimateManager>().UltimateStart();
+                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
+                    state.CURRENT_STATE = StateMachine.State.Ultimate;
+                else
+                    playerController.UltObj.SetActive(false);
             }
         }
     }
@@ -235,6 +243,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = true;
             playerController.PreesAttack = false;
+            playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))

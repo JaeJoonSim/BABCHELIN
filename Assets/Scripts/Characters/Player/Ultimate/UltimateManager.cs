@@ -30,6 +30,7 @@ public class UltimateManager : MonoBehaviour
     public Sprite GummyBearRed;
 
     public UltimateStatus Bbebbero;
+    public UltimateStatus GummyBear;
 
     private void OnEnable()
     {
@@ -72,19 +73,23 @@ public class UltimateManager : MonoBehaviour
             case 0:
                 skills[playerController.UltIdx].transform.localScale = Vector3.one * Bbebbero.size;
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, Utils.GetMouseAngle(transform.position)));
+                inArea = true;
                 break;
             case 1:
                 skills[playerController.UltIdx].transform.position = Utils.GetMousePosition();
+                skills[playerController.UltIdx].transform.localScale = Vector3.one * GummyBear.size;
                 transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
 
                 curPos = Vector3.Distance(transform.position, skills[playerController.UltIdx].transform.position);
 
-                if (min < curPos && curPos < max)
+                if (GummyBear.size < curPos && curPos < max + GummyBear.size)
                 {
+                    inArea = true;
                     skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearWhite;
                 }
                 else
                 {
+                    inArea = false;
                     skills[playerController.UltIdx].GetComponent<SpriteRenderer>().sprite = GummyBearRed;
                 }
                 break;
@@ -97,18 +102,21 @@ public class UltimateManager : MonoBehaviour
     public void UltimateShot()
     {
         gameObject.SetActive(false);
-
+        GameObject temp;
         switch (playerController.UltIdx)
         {
             case 0:
-
-                GameObject temp = Instantiate(Bbebbero.UltimateObj, skills[playerController.UltIdx].transform.position, transform.localRotation);
+                temp = Instantiate(Bbebbero.UltimateObj, skills[playerController.UltIdx].transform.position, transform.localRotation);
                 temp.GetComponent<UltimateBbebbero>().getStatus(Bbebbero);
                 break;
+            case 1:
+                temp = Instantiate(GummyBear.UltimateObj, skills[playerController.UltIdx].transform.position, Quaternion.Euler(-60,0,0));
+                temp.transform.localScale = Vector3.one * GummyBear.size;
+                break;  
         }
 
     }
-    public void UltimateStart()
+    public bool UltimateStart()
     {
         foreach (GameObject go in skills)
         {
@@ -116,6 +124,8 @@ public class UltimateManager : MonoBehaviour
                 go.SetActive(false);
         }
         isStart = true;
+
+        return inArea;
     }
 
 
