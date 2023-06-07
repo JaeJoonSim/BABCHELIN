@@ -11,36 +11,14 @@ public class BombBullet : UDRLBullet
     [SerializeField] Transform target;
     private float distanceToPlayer;
 
-    void Start()
+    protected override void Start()
     {
-        colliderEvents = GetComponent<ColliderEvents>();
-        if (target == null)
-        {
-            target = GameObject.FindGameObjectWithTag("Player").transform;
-        }
-
-        player = target.GetComponent<HealthPlayer>();
-
-        colliderEvents.OnTriggerEnterEvent += OnHit;
+        base.Start();
     }
 
     // Update is called once per frame
-    public override void Update()
+    protected override void Update()
     {
         base.Update();
-
-        transform.Translate(direction * speed * Time.deltaTime, Space.World);
-
-        if (transform.position.z >= 0)
-        {
-            if(distanceToPlayer <= blastRange)
-                player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
-
-
-            GameObject groundEffect = GroundEffect;
-            groundEffect.transform.position = transform.position;
-            Instantiate(groundEffect);
-            Destroy(gameObject);
-        }
     }
 }

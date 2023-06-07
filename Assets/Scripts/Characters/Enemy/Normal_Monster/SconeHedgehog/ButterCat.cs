@@ -154,7 +154,6 @@ public class ButterCat : UnitObject
                         aniCount = 0;
                         state.LockStateChanges = false;
                         runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
-                        Debug.Log("111111111111111111111111");
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
 
@@ -200,7 +199,6 @@ public class ButterCat : UnitObject
 
                     if (distanceToPlayer <= detectionAttackRange)
                     {
-                        Debug.Log("222222222222222222222222222");
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
 
@@ -285,7 +283,6 @@ public class ButterCat : UnitObject
                         time = 0;
                         aniCount = 0;
                         health.isInvincible = false;
-                        Debug.Log("3.33333333333333333333333");
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
                     break;
@@ -381,7 +378,6 @@ public class ButterCat : UnitObject
                 {
                     this.transform.localScale = new Vector3(-1f, 1f, 1f);
                 }
-                Debug.Log("444444444444444444444444");
                 state.CURRENT_STATE = StateMachine.State.Attacking;
             }
             else

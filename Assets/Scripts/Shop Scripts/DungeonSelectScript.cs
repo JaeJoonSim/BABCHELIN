@@ -53,7 +53,7 @@ public class DungeonSelectScript : MonoBehaviour
     {
         //들어가는 던전의 번호 저장 작업 필요
         SceneManager.LoadScene("DungeonGenerator");
-        UIManagerScript.OnUI = !UIManagerScript.OnUI;
+        //UIManagerScript.OnUI = !UIManagerScript.OnUI;
     }
 
     public void InputNoBtn()

@@ -47,22 +47,6 @@ public class RadialMenuUI : MonoBehaviour
                 mapController.selectedMapIndex = selected;
                 mapController.SelectMap();
             }
-            //if (selected >= 0 && inventory.Items.Items[selected].Item.ID > 0)
-            //{
-            //    if (inventory.Items.Items[selected].ItemObject.Type != ItemType.Equipment)
-            //    {
-            //        Debug.Log($"Selected : {inventory.Items.Items[selected].Item.Name} »ç¿ë");
-            //        inventory.Items.Items[selected].Amount--;
-            //        if (inventory.Items.Items[selected].Amount <= 0)
-            //        {
-            //            inventory.Items.Items[selected].RemoveItem();
-            //        }
-            //    }
-            //    else
-            //    {
-            //        equipItemUI.sprite = inventory.Items.Items[selected].ItemObject.UiDisplay;
-            //    }
-            //}
         }
     }
 }

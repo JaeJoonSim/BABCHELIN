@@ -8,7 +8,6 @@ using TMPro;
 public class SmallAttack : BaseMonoBehaviour
 {
     public ParticleSystem HitEffet;
-    public GameObject dmgText;
 
     private float AttackTime;
     private PlayerController playerController;
@@ -18,12 +17,11 @@ public class SmallAttack : BaseMonoBehaviour
         {
             if (playerController == null)
             {
-                playerController = transform.root.gameObject.GetComponent<PlayerController>();
+                playerController = gameObject.GetComponentInParent<PlayerController>();
             }
             return playerController;
         }
     }
-    private DamageTextControler DmgTextController;
 
     private void OnEnable()
     {
@@ -61,8 +59,6 @@ public class SmallAttack : BaseMonoBehaviour
                     targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg.value, Health.AttackType.Normal);
                 PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg.value);
                 Instantiate(HitEffet, collisionPoint, Quaternion.identity);
-                DmgTextController = targetInRange[i].GetComponent<DamageTextControler>();
-                DmgTextController.ShowDamageText(PlayerController.TotalStatus.sk1Dmg.value);
             }
         }
     }

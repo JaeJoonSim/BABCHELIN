@@ -25,7 +25,7 @@ public class DamageTextControler : MonoBehaviour
     public void ShowDamageText(float dmg)
     {
         dmgText.text = dmg.ToString();
-        textPosX = UnityEngine.Random.Range(-0.2f, 0.2f);
+        textPosX = Random.Range(-0.2f, 0.2f);
         dmgText.transform.position = new Vector3(dmgText.transform.position.x + textPosX, dmgText.transform.position.y, dmgText.transform.position.z);
         Instantiate(dmgText, monsterUICanvas.transform);
     }

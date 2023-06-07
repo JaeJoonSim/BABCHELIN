@@ -14,8 +14,8 @@ public class PlayerAttack : BaseMonoBehaviour
     Vector2 spownPos;
     public ParticleSystem HitEffet;
     public ParticleSystem endEffet;
-    private DamageTextControler DmgTextController;
 
+    [SerializeField]
     private Transform target;
 
     private void Start()
@@ -31,11 +31,31 @@ public class PlayerAttack : BaseMonoBehaviour
                 target = SearchTarget();
             else
             {
-                float auto = transform.eulerAngles.z;
+                Vector3 targetdir = (target.position - transform.position).normalized;
+                // 내적(dot)을 통해 각도를 구함. (Acos로 나온 각도는 방향을 알 수가 없음)
+                float dot = Vector3.Dot(transform.right, targetdir);
 
-                auto = Mathf.Lerp(auto, Utils.GetAngle(base.transform.position, target.transform.position), speed / 3 * Time.deltaTime);
+                if (dot < 1.0f)
+                {
+                    float angle = Mathf.Acos(dot) * Mathf.Rad2Deg;
 
-                transform.rotation = Quaternion.Euler(0, 0, auto);
+                    //외적을 통해 각도의 방향을 판별.
+                   Vector3 cross = Vector3.Cross(transform.right, targetdir);
+                    //외적 결과 값에 따라 각도 반영
+                    if (cross.z < 0)
+                    {
+                        angle = transform.rotation.eulerAngles.z - Mathf.Min(10, angle);
+                    }
+                    else
+                    {
+                        angle = transform.rotation.eulerAngles.z + Mathf.Min(10, angle);
+                    }
+                    angle = Mathf.Lerp(transform.eulerAngles.z, angle, speed * 2  * Time.deltaTime);
+                    transform.rotation = Quaternion.Euler(0, 0, angle);
+                    //angle이 윗 방향과 target의 각도.
+                      // do someting.
+                    //Debug.Log(angle);
+                }
 
             }
         }
@@ -53,7 +73,7 @@ public class PlayerAttack : BaseMonoBehaviour
         speed = val.bulletSpd.value;
         range = val.bulletRange.value;
         Cost = val.bulletCost.value;
-        destructionGauge = 0;
+        destructionGauge = val.atkDestroyDmg.value;
         bulletAuto = val.bulletAuto.value;    
         bulletAutoRange = val.bulletAutoRange.value;
     }
@@ -80,15 +100,6 @@ public class PlayerAttack : BaseMonoBehaviour
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
 
             PartDestructionGauge(collision, destructionGauge);
-            DmgTextController = collision.gameObject.GetComponent<DamageTextControler>();
-            if(DmgTextController != null)
-            {
-                DmgTextController.ShowDamageText(Damage);
-            }
-            else
-            {
-
-            }
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             Destroy(gameObject);
         }

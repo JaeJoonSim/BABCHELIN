@@ -26,6 +26,7 @@ public class Health : BaseMonoBehaviour
 
     protected StateMachine state;
     protected Rigidbody2D rb;
+    protected DamageTextControler dtc;
 
     [SerializeField] protected float recoveryTime = 2.0f;
 
@@ -49,6 +50,10 @@ public class Health : BaseMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateMachine>();
+        if(isMonster)
+        {
+            dtc = GetComponent<DamageTextControler>();
+        }
         currentHealth = maxHealth;
         backHealth = currentHealth;
         meshRenderer = GetComponentInChildren<MeshRenderer>();
@@ -66,7 +71,14 @@ public class Health : BaseMonoBehaviour
 
     public void Damaged(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type, int destructionCount = 0)
     {
-        if (IsInvincible()) return;
+        if (IsInvincible())
+        {
+            if (isMonster)
+            {
+                dtc.ShowDamageText(0);
+            }
+            return;
+        }
         //if (Attacker == base.gameObject) return;
 
         if (destructionCount > 0)
@@ -81,6 +93,11 @@ public class Health : BaseMonoBehaviour
 
         currentHealth -= damage;
         Invoke("DecreaseBackHP", 0.3f);
+
+        if(isMonster)
+        {
+            dtc.ShowDamageText(damage);
+        }
 
         if (OnDamaged != null)
         {

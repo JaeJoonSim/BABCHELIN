@@ -135,9 +135,13 @@ public class PlayerAction : BaseMonoBehaviour
             ShotDelay -= Time.deltaTime;
 
             DodgeRoll();
-            Shot();
-            Absorb();
-            Skill();
+
+            if (!playerController.UltObj.activeSelf)
+            {
+                Shot();
+                Absorb();
+                Skill();
+            }
         }
 
         PreviousPosition = base.transform.position;
@@ -157,7 +161,27 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            //Debug.Log("mouse down");
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
+                    state.CURRENT_STATE = StateMachine.State.Ultimate;
+                else
+                    playerController.UltObj.SetActive(false);
+            }
+        }
+        else if (context.canceled)
+        {
+            //Debug.Log("mouse UP");
+        }
+    }
+    public void mouseRight(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                playerController.UltObj.SetActive(false);
+            }
         }
         else if (context.canceled)
         {
@@ -170,13 +194,34 @@ public class PlayerAction : BaseMonoBehaviour
         if (context.performed)
         {
             //Debug.Log("mouse down");
+            if (!playerController.UltObj.activeSelf)
+            {
+                playerController.addUltIdx();
+            }
 
-            playerController.addUltIdx();
 
         }
         else if (context.canceled)
         {
             //Debug.Log("mouse UP");
+        }
+    }
+
+    public void Ultimate(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            playerController.UltObj.SetActive(true);
+        }
+        else if (context.canceled)
+        {
+            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            {
+                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
+                    state.CURRENT_STATE = StateMachine.State.Ultimate;
+                else
+                    playerController.UltObj.SetActive(false);
+            }
         }
     }
 
@@ -198,6 +243,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = true;
             playerController.PreesAttack = false;
+            playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
@@ -406,9 +452,13 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+        int val1 = Mathf.FloorToInt(e.Time * Spine.skeleton.Data.Fps);
+        int val2 = Mathf.FloorToInt((trackEntry.TrackTime) * Spine.skeleton.Data.Fps);
+        //Debug.Log(val1);
+
         if (e.Data.Name == "shot")
         {
-            if (e.Time * Spine.skeleton.Data.Fps != (int)(trackEntry.TrackTime * Spine.skeleton.Data.Fps))
+            if (val1 != val2)
                 return;
 
             Vector3 spawnPos = playerController.muzzleEnd.position;
@@ -448,7 +498,8 @@ public class PlayerAction : BaseMonoBehaviour
 
                     rb.AddForce((rb.position - (Vector2)playerController.muzzleEnd.position).normalized * 4000f);
                     break;
-                case StateMachine.State.ultimate:
+                case StateMachine.State.Ultimate:
+                    playerController.UltObj.GetComponent<UltimateManager>().UltimateShot();
                     break;
                 default:
                     break;

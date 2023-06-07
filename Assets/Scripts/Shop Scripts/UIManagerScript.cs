@@ -5,12 +5,12 @@ using UnityEngine;
 public class UIManagerScript : MonoBehaviour
 {
     public GameObject PlayerPrefab;
-    public static bool OnUI;
+    //public static bool OnUI;
 
     // Start is called before the first frame update
     void Start()
     {
-        OnUI = false;
+        //OnUI = false;
     }
 
     private void Update()
@@ -20,14 +20,14 @@ public class UIManagerScript : MonoBehaviour
 
     void PlayerInteraction()
     {
-        if(OnUI)
-        {
-            //PlayerPrefab.GetComponent<PlayerMovement>().enabled = false;
-        }
-        else
-        {
-            //PlayerPrefab.GetComponent<PlayerMovement>().enabled = true;
-        }
+        //if(OnUI)
+        //{
+        //    //PlayerPrefab.GetComponent<PlayerMovement>().enabled = false;
+        //}
+        //else
+        //{
+        //    //PlayerPrefab.GetComponent<PlayerMovement>().enabled = true;
+        //}
     }
 
 }
