@@ -48,7 +48,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4244,7 +4244,7 @@ ParticleSystem:
   CustomDataModule:
     enabled: 1
     mode0: 1
-    vectorComponentCount0: 4
+    vectorComponentCount0: 1
     color0:
       serializedVersion: 2
       minMaxState: 0
@@ -4312,7 +4312,7 @@ ParticleSystem:
     vector0_0:
       serializedVersion: 2
       minMaxState: 1
-      scalar: 1
+      scalar: 2
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -4327,7 +4327,7 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 1
+          time: 0.96603775
           value: -1
           inSlope: 0
           outSlope: 0
@@ -4362,10 +4362,10 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    vectorLabel0_0: Dissolve
+    vectorLabel0_0: Pan
     vector0_1:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       scalar: -0.86
       minScalar: 0
       maxCurve:
@@ -4382,7 +4382,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -4416,10 +4416,10 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    vectorLabel0_1: Dissolve Sharpness
+    vectorLabel0_1: y
     vector0_2:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       scalar: 0
       minScalar: 0
       maxCurve:
@@ -4427,48 +4427,21 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 1
-          inSlope: Infinity
-          outSlope: Infinity
-          tangentMode: 103
+          value: -0.0022468567
+          inSlope: -0.99775314
+          outSlope: -0.99775314
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0
           outWeight: 0.33333334
         - serializedVersion: 3
-          time: 0.2
-          value: 0
-          inSlope: Infinity
-          outSlope: Infinity
-          tangentMode: 103
+          time: 1
+          value: -1
+          inSlope: -0.99775314
+          outSlope: -0.99775314
+          tangentMode: 34
           weightedMode: 0
           inWeight: 0.33333334
-          outWeight: 0.33333334
-        - serializedVersion: 3
-          time: 0.4
-          value: 1
-          inSlope: Infinity
-          outSlope: Infinity
-          tangentMode: 103
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.6
-          value: 0
-          inSlope: Infinity
-          outSlope: Infinity
-          tangentMode: 103
-          weightedMode: 0
-          inWeight: 0
-          outWeight: 0
-        - serializedVersion: 3
-          time: 0.8
-          value: 1
-          inSlope: Infinity
-          outSlope: Infinity
-          tangentMode: 103
-          weightedMode: 0
-          inWeight: 0
           outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
@@ -4896,7 +4869,7 @@ ParticleSystemRenderer:
   m_AllowRoll: 1
   m_FreeformStretching: 0
   m_RotateWithStretchDirection: 1
-  m_VertexStreams: 00010304052226
+  m_VertexStreams: 000103040520
   m_Mesh: {fileID: 973877516759717424, guid: 37b47b58b37bc0c418a21a083b43f296, type: 3}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
@@ -4918,7 +4891,7 @@ GameObject:
   - component: {fileID: 4043299369878286627}
   - component: {fileID: 4043299369878286624}
   m_Layer: 0
-  m_Name: Scon1 Dash Effect
+  m_Name: Scon1 Dash Effect L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4931,7 +4904,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4043299369878286625}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4943,7 +4916,7 @@ Transform:
   - {fileID: 991246073666553335}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &4043299369878286627
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9771,7 +9744,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -10391,7 +10364,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: -21.85, y: 90, z: 0}
+    m_Rotation: {x: -21.85, y: 110, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -14592,7 +14565,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -15212,7 +15185,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 65, z: 0}
+    m_Rotation: {x: 0, y: 110, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -19498,7 +19471,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -20118,7 +20091,7 @@ ParticleSystem:
     radiusThickness: 1
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 0, y: 65, z: 0}
+    m_Rotation: {x: 0, y: 110, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -24381,7 +24354,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7604109349859649596}
-  m_LocalRotation: {x: 0.30772465, y: -0.6366362, z: -0.30772465, w: 0.636636}
+  m_LocalRotation: {x: 0.30772707, y: -0.636635, z: -0.30772707, w: 0.636635}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -24404,7 +24377,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
