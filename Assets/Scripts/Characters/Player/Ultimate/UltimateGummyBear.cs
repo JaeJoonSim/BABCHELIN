@@ -7,7 +7,7 @@ public class UltimateGummyBear : MonoBehaviour
 
     private void Start()
     {
-        Destroy(gameObject, 5f);
+        Destroy(gameObject, 6f);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
