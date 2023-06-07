@@ -13,6 +13,8 @@ public class UDRLBulletSpawn : MonoBehaviour
         Instantiate(Bullet[1], transform.position + Vector3.right, Quaternion.identity);
         Instantiate(Bullet[2], transform.position + Vector3.down, Quaternion.identity);
         Instantiate(Bullet[3], transform.position + Vector3.left, Quaternion.identity);
+        Instantiate(Bullet[4], transform.position + Vector3.down, Quaternion.identity);
+        Instantiate(Bullet[5], transform.position + Vector3.left, Quaternion.identity);
     }
 
     private void Update()

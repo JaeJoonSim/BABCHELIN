@@ -45,7 +45,7 @@ public class UDRLBullet : MonoBehaviour
 
         switch (num)
         {
-            case 0:
+            case 0: //À§
                 if (distanceRange <= range)
                 {
                     direction = new Vector3(0, 1, 0);
@@ -56,7 +56,7 @@ public class UDRLBullet : MonoBehaviour
                     direction = new Vector3(0, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
-            case 1:
+            case 1: //¿À¸¥ÂÊ
                 if (distanceRange <= range)
                 {
                     direction = new Vector3(1, 0, 0);
@@ -67,7 +67,7 @@ public class UDRLBullet : MonoBehaviour
                     direction = new Vector3(1, 0, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
-            case 2:
+            case 2: //¾Æ·¡
                 if (distanceRange <= range)
                 {
                     direction = new Vector3(0, -1, 0);
@@ -78,7 +78,7 @@ public class UDRLBullet : MonoBehaviour
                     direction = new Vector3(0, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
-            case 3:
+            case 3: //¿ÞÂÊ
                 if (distanceRange <= range)
                 {
                     direction = new Vector3(-1, 0, 0);
@@ -87,6 +87,50 @@ public class UDRLBullet : MonoBehaviour
                 {
                     time += Time.deltaTime;
                     direction = new Vector3(-1, 0, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                }
+                break;
+            case 4: //ºÏ¼­
+                if (distanceRange <= range)
+                {
+                    direction = new Vector3(-1, 1, 0);
+                }
+                else
+                {
+                    time += Time.deltaTime;
+                    direction = new Vector3(-1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                }
+                break;
+            case 5: //ºÏµ¿
+                if (distanceRange <= range)
+                {
+                    direction = new Vector3(1, 1, 0);
+                }
+                else
+                {
+                    time += Time.deltaTime;
+                    direction = new Vector3(1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                }
+                break;
+            case 6: //³²¼­
+                if (distanceRange <= range)
+                {
+                    direction = new Vector3(-1, -1, 0);
+                }
+                else
+                {
+                    time += Time.deltaTime;
+                    direction = new Vector3(-1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                }
+                break;
+            case 7: //³²µ¿
+                if (distanceRange <= range)
+                {
+                    direction = new Vector3(1, -1, 0);
+                }
+                else
+                {
+                    time += Time.deltaTime;
+                    direction = new Vector3(1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
         }

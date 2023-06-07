@@ -97,9 +97,9 @@ GameObject:
   - component: {fileID: 371823184825627162}
   - component: {fileID: 2862424241139748285}
   - component: {fileID: 6779158364017665650}
-  - component: {fileID: 4997575340277115995}
+  - component: {fileID: 8758917037606282105}
   m_Layer: 10
-  m_Name: Buttercat_Bullet_Down
+  m_Name: Buttercat_Bullet_UPRight
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.53333163}
   m_LocalScale: {x: 0.5, y: 0.5, z: 5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -123,7 +123,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 6.7058797, y: 0.599999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!58 &2862424241139748282
@@ -186,7 +186,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_CullTransparentMesh: 1
---- !u!114 &4997575340277115995
+--- !u!114 &8758917037606282105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -198,15 +198,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc3cccc1b30e554cb355d724c792ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  num: 2
-  damage: 1
-  speed: 10
+  num: 5
+  damage: 2
+  speed: 7
   range: 5
   player: {fileID: 0}
-  colliderEvents: {fileID: 0}
-  direction: {x: 0, y: 0, z: 0}
-  gravity: 9.81
-  time: 0
+  gravity: 0
   PlayerEffect: {fileID: 9018248885948532350, guid: 7f49b6e7fb248704ba1fe139a60d4b4e,
     type: 3}
   GroundEffect: {fileID: 6421687102599445675, guid: 3d760de9e4a28ae4abe5ce22442545ea,
