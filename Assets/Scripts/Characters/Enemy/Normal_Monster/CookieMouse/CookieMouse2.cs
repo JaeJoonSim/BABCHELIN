@@ -403,7 +403,7 @@ public class CookieMouse2 : UnitObject
     {
         if (e.Data.Name == "slide" || e.Data.Name == "Slide")
         {
-            if (transform.position.x <= target.position.x)
+            if (transform.localScale.x > 0)
             {
                 SlideEffect_R.SetActive(true);
             }
