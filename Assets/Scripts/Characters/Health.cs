@@ -94,7 +94,7 @@ public class Health : BaseMonoBehaviour
         currentHealth -= damage;
         Invoke("DecreaseBackHP", 0.3f);
 
-        if(isMonster)
+        if (isMonster)
         {
             dtc.ShowDamageText(damage);
         }
@@ -167,6 +167,7 @@ public class Health : BaseMonoBehaviour
         if (type == AttackType.Normal)
         {
             StartCoroutine(InvincibilityAndBlink(recoveryTime));
+            if(state.LockStateChanges)
             if (!damageDecrease && !doNotChange)
                 state.ChangeToHitState(attackLocation);
         }
