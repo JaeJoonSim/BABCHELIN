@@ -405,7 +405,7 @@ public class PlayerController : BaseMonoBehaviour
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
             Debug.Log(item.Stat1);
-            Debug.Log(ItemStatusPercent.variables[item.Stat1].value);
+            Debug.Log(ItemStatusPercent.variables["sk2Range"].value);
             //if (item.Val1 < 0)
             //{
             //    ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
