@@ -15,6 +15,16 @@ public class TotemManager : BaseMonoBehaviour
 
     void Awake()
     {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
         UnityGoogleSheet.LoadFromGoogle<int, DefaultTable.Data>((list, map) =>
         {
             list.ForEach(x =>
@@ -27,19 +37,6 @@ public class TotemManager : BaseMonoBehaviour
 
             });
         }, true);
-    }
-
-    private void Start()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     public Totem getTotem()
