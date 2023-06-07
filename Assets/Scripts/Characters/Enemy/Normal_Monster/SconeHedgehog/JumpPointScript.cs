@@ -15,5 +15,10 @@ public class JumpPointScript : MonoBehaviour
     {
         time += Time.deltaTime / 1.0334f;
         transform.GetChild(0).localScale = new Vector3(time, time, time);
+
+        if(transform.GetChild(0).localScale.x >= 1)
+        {
+            Destroy(gameObject);
+        }
     }
 }

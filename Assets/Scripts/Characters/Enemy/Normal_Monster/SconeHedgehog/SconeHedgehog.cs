@@ -39,6 +39,7 @@ public class SconeHedgehog : UnitObject
     [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
     [SerializeField] float detectionJumpRange;
+    [SerializeField] float hitDistance;
     [SerializeField] float jumpDamageRange;
     [SerializeField] float attackDistance = 0f;
     [SerializeField] float dashTime = 0f;
@@ -93,7 +94,8 @@ public class SconeHedgehog : UnitObject
     public GameObject BulletObject;
     public GameObject DeathBulletObject;
 
-    public GameObject DashEffect;
+    public GameObject DashEffect_L;
+    public GameObject DashEffect_R;
     public GameObject LandEffect;
     public GameObject DefaulDeathEffect;
     public GameObject WaterEffect;
@@ -128,7 +130,8 @@ public class SconeHedgehog : UnitObject
 
         AttackPoint = transform.GetChild(1).gameObject;
 
-        DashEffect.SetActive(false);
+        DashEffect_L.SetActive(false);
+        DashEffect_R.SetActive(false);
 
         health.OnHit += OnHit;
         health.OnDie += OnDie;
@@ -142,6 +145,11 @@ public class SconeHedgehog : UnitObject
         xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
 
+
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            BodyHit();
+        }
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
@@ -165,6 +173,8 @@ public class SconeHedgehog : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Patrol;
                         time = 0f;
                     }
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
 
                     if (distanceToPlayer <= detectionRange)
                     {
@@ -290,8 +300,8 @@ public class SconeHedgehog : UnitObject
 
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
-                    //agent.speed = 0f;
-                    //agent.isStopped = true;
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
                     Stop();
                     AttackTimer += Time.deltaTime;
 
@@ -335,9 +345,17 @@ public class SconeHedgehog : UnitObject
 
                     agent.SetDestination(transform.position + directionToPoint);
 
+                    if (transform.localScale.x > 0)
+                    {
+                        DashEffect_R.SetActive(true);
+                    }
+                    else
+                    {
+                        DashEffect_L.SetActive(true);
+                    }
+
                     if (time <= dashTime)
                     {
-                        DashEffect.SetActive(true);
                         if (distanceToPlayer <= attackDistance)
                         {
                             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
@@ -347,7 +365,6 @@ public class SconeHedgehog : UnitObject
                     {
                         health.isInvincible = false;
                         state.LockStateChanges = false;
-                        DashEffect.SetActive(false);
                         time = 0;
                         aniCount = 0;
                         dashCount++;
@@ -374,6 +391,8 @@ public class SconeHedgehog : UnitObject
                             aniCount++;
                         }
                     }
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
 
                     if (time >= 1f)
                     {
@@ -603,8 +622,15 @@ public class SconeHedgehog : UnitObject
         speed = 0;
     }
 
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+        Debug.Log(e.Data.Name);
         if (e.Data.Name == "attack" || e.Data.Name == "Attack")
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
@@ -612,10 +638,6 @@ public class SconeHedgehog : UnitObject
                 Debug.Log(e.Time);
                 GameObject bullet = BulletObject;
                 Instantiate(bullet, AttackPoint.transform);
-            }
-            else if (state.CURRENT_STATE == StateMachine.State.Jump)
-            {
-                //점프 이펙트 들어갈듯
             }
         }
         else if (e.Data.Name == "jump" || e.Data.Name == "Jump")
@@ -643,10 +665,6 @@ public class SconeHedgehog : UnitObject
                 playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
             }
         }
-        else if(e.Data.Name == "dash_middle")
-        {
-            DashEffect.SetActive(true);
-        }
         else if(e.Data.Name == "death")
         {
             GameObject daethbullet = DeathBulletObject;
@@ -661,6 +679,8 @@ public class SconeHedgehog : UnitObject
         agent.isStopped = true;
         agent.enabled = false;
         col.enabled = false;
+        DashEffect_L.SetActive(false);
+        DashEffect_R.SetActive(false);
         Invoke("DeathEffect", 1.9667f);
         Destroy(gameObject, 1.9667f);
     }

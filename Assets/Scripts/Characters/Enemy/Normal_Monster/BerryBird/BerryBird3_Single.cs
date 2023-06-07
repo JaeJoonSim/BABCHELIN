@@ -135,6 +135,7 @@ public class BerryBird3_Single : UnitObject
                     break;
 
                 case StateMachine.State.HitLeft:
+                    break;
                 case StateMachine.State.HitRight:
                 case StateMachine.State.Attacking:
                     state.LockStateChanges = true;
@@ -198,8 +199,8 @@ public class BerryBird3_Single : UnitObject
         agent.isStopped = true;
         speed = 0f;
         nav.enabled = false;
-        Invoke("DeathEffect", 3.2333f);
-        Destroy(gameObject, 3.2333f);
+        Invoke("DeathEffect", 1f);
+        Destroy(gameObject, 1f);
     }
     private void DeathEffect()
     {

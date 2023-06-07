@@ -43,6 +43,7 @@ public class ButterCat : UnitObject
     [Space]
     [SerializeField] Transform target;
     [SerializeField] float detectionAttackRange;
+    [SerializeField] float hitDistance;
     [SerializeField] float time = 0;
 
     [Space]
@@ -120,9 +121,9 @@ public class ButterCat : UnitObject
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Attacking)
+        if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            state.LockStateChanges = false;
+            BodyHit();
         }
         if (health.CurrentHP() <= 0)
         {
@@ -391,6 +392,12 @@ public class ButterCat : UnitObject
     {
         agent.isStopped = true;
         speed = 0;
+    }
+
+    private void BodyHit()
+    {
+        if (distanceToPlayer < hitDistance)
+            playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)

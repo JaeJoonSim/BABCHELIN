@@ -30,6 +30,18 @@ public class BulletScript : BaseMonoBehaviour
         startPosition = transform.position;
         direction = (player.transform.position - transform.position).normalized;
 
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        if (player.transform.position.x < transform.position.x)
+        {
+            angle += 180;
+        }
+
+        if (angle < 0) angle += 360;
+
+        transform.rotation = Quaternion.Euler(0, angle, 0);
+
+
         colliderEvents.OnTriggerEnterEvent += OnHit;
 
         Vector3 currentRotation = transform.eulerAngles;
@@ -52,7 +64,7 @@ public class BulletScript : BaseMonoBehaviour
         }
         transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
-        if(transform.position.z >= 0)
+        if(transform.position.z >= -0.03333164f)
         {
             GroundEffect.transform.position = transform.position;
             GameObject groundEffect = Instantiate(GroundEffect);

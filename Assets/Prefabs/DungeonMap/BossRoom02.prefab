@@ -243,6 +243,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7805405594311771168}
+  - component: {fileID: 1104638409032617626}
   m_Layer: 0
   m_Name: Orao
   m_TagString: Untagged
@@ -269,6 +270,44 @@ Transform:
   m_Father: {fileID: 432370823657369414}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!68 &1104638409032617626
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1399478186688859852}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0
+  m_Points:
+  - {x: -41.534607, y: 11.100922}
+  - {x: -62.13197, y: 10.889018}
+  - {x: -66.332954, y: 5.358423}
+  - {x: -67.61259, y: 1.4432688}
+  - {x: -67.87254, y: -2.5256023}
+  - {x: -66.65659, y: -7.0631824}
+  - {x: -64.97644, y: -10.817068}
+  - {x: -62.974724, y: -12.543416}
+  - {x: -58.41412, y: -16.520859}
+  - {x: -51.28389, y: -17.770838}
+  - {x: -45.753498, y: -16.93888}
+  - {x: -41.723385, y: -14.409828}
+  - {x: -38.39611, y: -11.366579}
+  - {x: -36.344204, y: -6.8585505}
+  - {x: -35.09357, y: -2.0752811}
+  - {x: -35.67767, y: 2.66609}
+  - {x: -38.014534, y: 7.3220606}
+  - {x: -41.45843, y: 11.132917}
+  m_AdjacentStartPoint: {x: 0, y: 0}
+  m_AdjacentEndPoint: {x: 0, y: 0}
+  m_UseAdjacentStartPoint: 0
+  m_UseAdjacentEndPoint: 0
 --- !u!1 &1458376146055039192
 GameObject:
   m_ObjectHideFlags: 0
@@ -956,61 +995,12 @@ CircleCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.008958565, y: 0.113417886}
-  serializedVersion: 2
-  m_Radius: 0.607986
---- !u!68 &7828332974319096848
-EdgeCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2290257536596703943}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_EdgeRadius: 0
-  m_Points:
-  - {x: 3.3073132, y: 0.013224173}
-  - {x: 3.1885326, y: -0.7405243}
-  - {x: 2.9444387, y: -1.4241053}
-  - {x: 2.5648568, y: -2.028854}
-  - {x: 2.0357108, y: -2.567344}
-  - {x: 1.4353553, y: -2.9458258}
-  - {x: 0.7374276, y: -3.1858249}
-  - {x: 0.0072813295, y: -3.2670581}
-  - {x: -0.6792003, y: -3.1975062}
-  - {x: -1.4428508, y: -2.9400964}
-  - {x: -2.029805, y: -2.5693717}
-  - {x: -2.548153, y: -2.048059}
-  - {x: -2.944622, y: -1.4269525}
-  - {x: -3.1879776, y: -0.7313879}
-  - {x: -3.268604, y: -0.007980555}
-  - {x: -3.197229, y: 0.71763676}
-  - {x: -2.9467711, y: 1.4190987}
-  - {x: -2.560485, y: 2.0369704}
-  - {x: -2.0366237, y: 2.5474966}
-  - {x: -1.4143698, y: 2.955071}
-  - {x: -0.7316244, y: 3.1936882}
-  - {x: -0.00034619123, y: 3.2721357}
-  - {x: 0.7324039, y: 3.1916337}
-  - {x: 1.4070143, y: 2.9575386}
-  - {x: 2.0039697, y: 2.5964537}
-  - {x: 2.5641544, y: 2.038405}
-  - {x: 2.9594157, y: 1.4170936}
-  - {x: 3.2068436, y: 0.71156377}
-  - {x: 3.302, y: 0}
-  m_AdjacentStartPoint: {x: 0, y: 0}
-  m_AdjacentEndPoint: {x: 0, y: 0}
-  m_UseAdjacentStartPoint: 0
-  m_UseAdjacentEndPoint: 0
+  m_Offset: {x: 0.008958565, y: 0.11341789}
+  serializedVersion: 2
+  m_Radius: 0.607986
 --- !u!114 &7285722729179577332
 MonoBehaviour:
   m_ObjectHideFlags: 0
