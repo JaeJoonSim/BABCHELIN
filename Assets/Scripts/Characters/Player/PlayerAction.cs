@@ -3,6 +3,7 @@ using Spine.Unity;
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerAction : BaseMonoBehaviour
 {
