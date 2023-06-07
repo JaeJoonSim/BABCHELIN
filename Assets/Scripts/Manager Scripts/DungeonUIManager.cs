@@ -38,6 +38,9 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public int enemyCount;
 
+    [Space]
+    public string SceneName;
+
     private void Awake()
     {
         if (_instance == null)
@@ -86,7 +89,8 @@ public class DungeonUIManager : BaseMonoBehaviour
     public void LoadScene(string sceneName)
     {
         Time.timeScale = 1;
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        PlayerPrefs.SetString("SceneToLoad", sceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("LoadingScene");
     }
 
     public void QuitGame()
