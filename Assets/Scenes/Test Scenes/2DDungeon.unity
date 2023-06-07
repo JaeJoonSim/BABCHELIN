@@ -1167,6 +1167,7 @@ GameObject:
   - component: {fileID: 361320893}
   - component: {fileID: 361320892}
   - component: {fileID: 361320891}
+  - component: {fileID: 361320894}
   m_Layer: 0
   m_Name: NavMesh2D
   m_TagString: Untagged
@@ -1235,6 +1236,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &361320894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 361320890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 334034d6a5dd92c4cbb8f66e960afccd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Surface2D: {fileID: 0}
 --- !u!1001 &377701853
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6383,10 +6397,25 @@ PrefabInstance:
       propertyPath: mapObject
       value: 
       objectReference: {fileID: 1795738964}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: showThrowPattern
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223374, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: showTailigPattern
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6948086771242223376, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}
       propertyPath: m_Name
       value: Skunk
+      objectReference: {fileID: 0}
+    - target: {fileID: 6948086771242223376, guid: e8b38672aa0f8fb4b8ccf75422398037,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6948086771670899601, guid: e8b38672aa0f8fb4b8ccf75422398037,
         type: 3}

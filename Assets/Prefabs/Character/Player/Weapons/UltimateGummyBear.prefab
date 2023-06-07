@@ -53690,8 +53690,7 @@ GameObject:
   - component: {fileID: 9128508927951689245}
   - component: {fileID: 9128508927951689250}
   - component: {fileID: 142903872}
-  - component: {fileID: 3894925328311674577}
-  - component: {fileID: 240436924}
+  - component: {fileID: 3006094088278706937}
   m_Layer: 0
   m_Name: UltimateGummyBear
   m_TagString: Wall
@@ -53856,7 +53855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91c979fc6c6316c4db925724503c3539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3894925328311674577
+--- !u!114 &3006094088278706937
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -53865,22 +53864,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 9128508927951689255}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e39f6090724e4a4a8aadeb042afa2bc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!208 &240436924
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9128508927951689255}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 0
-  m_Extents: {x: 0.5, y: 1, z: 0.5}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: 0, y: 0, z: 0}
-  m_TimeToStationary: 0.5
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

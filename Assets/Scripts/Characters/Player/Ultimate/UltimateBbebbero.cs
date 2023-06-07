@@ -43,7 +43,13 @@ public class UltimateBbebbero : MonoBehaviour
             Skunk skunk = collision.GetComponent<Skunk>();
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             if (skunk != null)
+            {
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal, skunk.destructionCount);
+                if (skunk.state.CURRENT_STATE == StateMachine.State.PhaseChange)
+                {
+                    skunk.isPhaseChanged = true;
+                }
+            }
             else
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
 
