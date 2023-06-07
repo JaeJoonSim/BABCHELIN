@@ -40,6 +40,7 @@ public class TotemObj : MonoBehaviour
             if (otherTotem[i] != null)
                 Destroy(otherTotem[i]);
         }
+        Destroy(gameObject);
     }
 
 }
