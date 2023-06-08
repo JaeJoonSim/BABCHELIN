@@ -222,13 +222,7 @@ public class PlayerAction : BaseMonoBehaviour
         }
         else if (context.canceled)
         {
-            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
-            {
-                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
-                    state.CURRENT_STATE = StateMachine.State.Ultimate;
-                else
-                    playerController.UltObj.SetActive(false);
-            }
+            
         }
     }
 
