@@ -108,25 +108,6 @@ public class PlayerController : BaseMonoBehaviour
 
     private void Update()
     {
-        getTotalstatus();
-        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
-        {
-            SpineTransform.localPosition = Vector3.zero;
-            speed += (0f - speed) / 3f * GameManager.DeltaTime;
-            return;
-        }
-
-        if (state.CURRENT_STATE != StateMachine.State.Dodging)
-        {
-            speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
-            speed = Mathf.Max(speed, 0f);
-        }
-
-        unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
-        unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
-
-        facingAngle();
-
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
@@ -137,7 +118,23 @@ public class PlayerController : BaseMonoBehaviour
             Skills[1].SetActive(false);
         }
 
+        getTotalstatus();
+        if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
+        {
+            SpineTransform.localPosition = Vector3.zero;
+            speed += (0f - speed) / 3f * GameManager.DeltaTime;
+            return;
+        }
+        if (state.CURRENT_STATE != StateMachine.State.Dodging)
+        {
+            speed *= Mathf.Clamp01(new Vector2(xDir, yDir).magnitude);
+            speed = Mathf.Max(speed, 0f);
+        }
 
+        unitObject.vx = speed * Mathf.Cos(forceDir * ((float)Math.PI / 180f));
+        unitObject.vy = speed * Mathf.Sin(forceDir * ((float)Math.PI / 180f));
+
+        facingAngle();
 
         switch (state.CURRENT_STATE)
         {
@@ -162,7 +159,7 @@ public class PlayerController : BaseMonoBehaviour
                     UltObj.SetActive(false);
                 SpineTransform.localPosition = Vector3.zero;
 
-                if (dodgeTime < TotalStatus.dodgeTime.value)
+                if (dodgeTime <= TotalStatus.dodgeTime.value)
                 {
                     speed = dodgeSpeed;
                     dodgeTime += Time.deltaTime;
@@ -234,6 +231,7 @@ public class PlayerController : BaseMonoBehaviour
 
     public void facingAngle()
     {
+
         if (state.CURRENT_STATE == StateMachine.State.HitLeft ||
                state.CURRENT_STATE == StateMachine.State.HitRight ||
                state.CURRENT_STATE == StateMachine.State.Dodging ||
