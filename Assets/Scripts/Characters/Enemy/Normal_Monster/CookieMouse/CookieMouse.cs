@@ -261,7 +261,18 @@ public class CookieMouse : UnitObject
                     if (time >= attackDelay)
                     {
                         time = 0;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        if (distanceToPlayer <= AttackDistance)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Attacking;
+                        }
+                        else if (distanceToPlayer <= detectionRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
+                        }
                     }
                     break;
 

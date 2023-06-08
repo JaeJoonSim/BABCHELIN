@@ -287,7 +287,18 @@ public class CookieMouse2 : UnitObject
                         }
                         else
                         {
-                            state.CURRENT_STATE = StateMachine.State.Idle;
+                            if (distanceToPlayer <= detectionAttackRange)
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Attacking;
+                            }
+                            else if (distanceToPlayer <= detectionRange)
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Moving;
+                            }
+                            else
+                            {
+                                state.CURRENT_STATE = StateMachine.State.Idle;
+                            }
                         }
                     }
 
