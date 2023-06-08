@@ -8485,7 +8485,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &6160722343175086443
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10014,7 +10014,7 @@ MeshRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &6160722344988669330
 MonoBehaviour:
@@ -14157,6 +14157,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6160722343070153728}
     m_Modifications:
+    - target: {fileID: 1965469295, guid: e03765e2b8d665f449a369ef1329f79d, type: 3}
+      propertyPath: m_PlayableAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f2bab7e63be3ab4199981eb07b8f8a4,
+        type: 2}
     - target: {fileID: 417212771453791766, guid: e03765e2b8d665f449a369ef1329f79d,
         type: 3}
       propertyPath: playOnAwake
@@ -14754,7 +14759,7 @@ PrefabInstance:
     - target: {fileID: 2906493895841222675, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6105192660880100245, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
@@ -14784,7 +14789,7 @@ PrefabInstance:
     - target: {fileID: 6659255904649272495, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6659255905257698177, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
@@ -14909,17 +14914,17 @@ PrefabInstance:
     - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_AnchorMax.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9184709888150380398, guid: d80bb4748aa26ef408d581d4ab837d54,
         type: 3}
       propertyPath: m_AnchorMin.x
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d80bb4748aa26ef408d581d4ab837d54, type: 3}
@@ -15177,6 +15182,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6856393914700376207, guid: 839f8616b026d64468c35941fadfa960,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 72372d8c6b7d87247a37325d4825ce7a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 839f8616b026d64468c35941fadfa960, type: 3}
 --- !u!4 &251425330 stripped
