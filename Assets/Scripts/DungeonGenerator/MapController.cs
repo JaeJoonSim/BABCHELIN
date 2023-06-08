@@ -1,12 +1,9 @@
-using FMOD;
 using Spine;
 using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
 using UnityEngine.UI;
 
 public class MapController : BaseMonoBehaviour
@@ -28,6 +25,7 @@ public class MapController : BaseMonoBehaviour
     private new CameraFollowTarget camera;
     private Skunk skunk;
     private float PrevPlayerPos;
+    private GameObject PrevCameraPos;
 
     public Transform readySpoon;
     public Transform spoon;
@@ -46,13 +44,35 @@ public class MapController : BaseMonoBehaviour
         anim.AnimationState.Event += OnSpineEvent;
     }
 
+    private IEnumerator MoveDurationCamera()
+    {
+        yield return new WaitForSeconds(2.5f);
+
+        camera.RemoveTarget(camera.targets[0].gameObject);
+        camera.AddTarget(PrevCameraPos, 1f);
+        camera.targetDistance = 17f;
+        camera.distance = 17f;
+
+        yield return null;
+    }
+
     private void Update()
     {
         if (DungeonUIManager.Instance.enemyCount <= 1 && !canMove)
         {
             anim.gameObject.SetActive(true);
             if (anim.gameObject.activeSelf)
+            {
+                PrevCameraPos = camera.targets[0].gameObject;
+                camera.RemoveTarget(camera.targets[0].gameObject);
+                camera.AddTarget(anim.gameObject, 1f);
+                camera.targetDistance = 11f;
+                camera.distance = 11f;
+
+                StartCoroutine(MoveDurationCamera());
+
                 anim.AnimationState.SetAnimation(0, apperance, loop: false);
+            }
             canMove = true;
         }
 

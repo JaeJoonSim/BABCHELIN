@@ -115,6 +115,7 @@ public class CameraFollowTarget : BaseMonoBehaviour
         if (!Contains(g))
         {
             targets.Add(new Target(g, Weight));
+            Debug.Log("123");
         }
     }
 
