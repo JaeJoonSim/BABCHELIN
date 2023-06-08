@@ -156,78 +156,95 @@ public class PlayerAction : BaseMonoBehaviour
 
     public void move(InputAction.CallbackContext context)
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        if (input != null)
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
-            playerController.xDir = input.x;
-            playerController.yDir = input.y;
+            Vector2 input = context.ReadValue<Vector2>();
+            if (input != null)
+            {
+                playerController.xDir = input.x;
+                playerController.yDir = input.y;
+            }
         }
     }
 
     public void mouse(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
-            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            if (context.performed)
             {
-                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
-                    state.CURRENT_STATE = StateMachine.State.Ultimate;
-                else
-                    playerController.UltObj.SetActive(false);
+                if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+                {
+                    if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
+                    {
+                        playerController.UltGauge -= 100;
+                        state.CURRENT_STATE = StateMachine.State.Ultimate;
+                    }
+                        
+                    else
+                        playerController.UltObj.SetActive(false);
+                }
             }
-        }
-        else if (context.canceled)
-        {
-            //Debug.Log("mouse UP");
+            else if (context.canceled)
+            {
+                //Debug.Log("mouse UP");
+            }
         }
     }
     public void mouseRight(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
-            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            if (context.performed)
             {
-                playerController.UltObj.SetActive(false);
+                if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+                {
+                    playerController.UltObj.SetActive(false);
+                }
             }
-        }
-        else if (context.canceled)
-        {
-            //Debug.Log("mouse UP");
+            else if (context.canceled)
+            {
+                //Debug.Log("mouse UP");
+            }
         }
     }
 
     public void UltimateIdx(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
-            //Debug.Log("mouse down");
-            if (!playerController.UltObj.activeSelf)
+            if (context.performed)
             {
-                playerController.addUltIdx();
+                //Debug.Log("mouse down");
+                if (!playerController.UltObj.activeSelf)
+                {
+                    playerController.addUltIdx();
+                }
+
+
             }
-
-
-        }
-        else if (context.canceled)
-        {
-            //Debug.Log("mouse UP");
+            else if (context.canceled)
+            {
+                //Debug.Log("mouse UP");
+            }
         }
     }
 
     public void Ultimate(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (Time.timeScale > 0f && state.CURRENT_STATE != StateMachine.State.Dead && state.CURRENT_STATE != StateMachine.State.Pause)
         {
-            playerController.UltObj.SetActive(true);
-        }
-        else if (context.canceled)
-        {
-            if (playerController.UltObj.activeSelf && state.CURRENT_STATE != StateMachine.State.Ultimate)
+            if (context.performed)
             {
-                if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
-                    state.CURRENT_STATE = StateMachine.State.Ultimate;
-                else
-                    playerController.UltObj.SetActive(false);
+                if (playerController.UltGauge >= 100)
+                {
+                    playerController.UltObj.SetActive(true);
+                }
+                
+            }
+            else if (context.canceled)
+            {
+
             }
         }
     }
@@ -250,7 +267,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = true;
             playerController.PreesAttack = false;
-            playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
+            //playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))

@@ -118,6 +118,8 @@ public class PlayerAttack : BaseMonoBehaviour
         if (boss != null)
         {
             boss.DestructionGauge -= gauge;
+            Debug.Log("123");
         }
+        
     }
 }

@@ -182,6 +182,11 @@ public class Health : BaseMonoBehaviour
         return this.currentHealth;
     }
 
+    public float SetHP(float hp)
+    {
+        return this.currentHealth = hp;
+    }
+
     private void DecreaseBackHP()
     {
         backHealth = currentHealth;

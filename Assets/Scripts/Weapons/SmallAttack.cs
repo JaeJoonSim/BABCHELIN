@@ -57,7 +57,10 @@ public class SmallAttack : BaseMonoBehaviour
                     targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg.value, Health.AttackType.Normal, boss.destructionCount);
                 else
                     targetInRange[i].GetComponent<Health>().Damaged(gameObject, collisionPoint, PlayerController.TotalStatus.sk1Dmg.value, Health.AttackType.Normal);
-                PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg.value);
+
+                if (boss.health.isInvincible && boss != null)
+                    PartDestructionGauge(targetInRange[i], PlayerController.TotalStatus.sk1DestroyDmg.value);
+                
                 Instantiate(HitEffet, collisionPoint, Quaternion.identity);
             }
         }
