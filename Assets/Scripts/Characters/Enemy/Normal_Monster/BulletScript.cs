@@ -23,30 +23,39 @@ public class BulletScript : BaseMonoBehaviour
     private float gravity = 9.81f;
     private float time;
 
+    private SpriteRenderer bulletSprite;
+    public Sprite back;
+
     protected virtual void Start()
     {
         colliderEvents = GetComponent<ColliderEvents>();
         player = GameObject.FindObjectOfType<HealthPlayer>();
         startPosition = transform.position;
         direction = (player.transform.position - transform.position).normalized;
+        bulletSprite = transform.GetChild(0).GetComponent<SpriteRenderer>();
 
+        //여기부터
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         if (player.transform.position.x < transform.position.x)
         {
             angle += 180;
+
+            if (back != null)   //총알 뒤집어지는거 수정
+                bulletSprite.sprite = back;
         }
 
         if (angle < 0) angle += 360;
 
         transform.rotation = Quaternion.Euler(0, angle, 0);
-
+        Debug.Log(angle);
+        //여기까지?
 
         colliderEvents.OnTriggerEnterEvent += OnHit;
 
-        Vector3 currentRotation = transform.eulerAngles;
-        currentRotation.z = 0;
-        transform.eulerAngles = currentRotation;
+        //Vector3 currentRotation = transform.eulerAngles;
+        //currentRotation.z = 0;
+        //transform.eulerAngles = currentRotation;
     }
 
     protected virtual void Update()

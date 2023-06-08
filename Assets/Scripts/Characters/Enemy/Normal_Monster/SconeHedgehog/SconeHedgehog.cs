@@ -640,7 +640,6 @@ public class SconeHedgehog : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                Debug.Log(e.Time);
                 GameObject bullet = BulletObject;
                 Instantiate(bullet, AttackPoint.transform);
             }
