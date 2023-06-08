@@ -114,7 +114,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 55
+  maxHealth: 180
   currentHealth: 0
   backHealth: 0
   multipleHealthLine: 0
@@ -154,21 +154,21 @@ MonoBehaviour:
   Runaway: {fileID: 11400000, guid: 8a16a322c0da6e9428165ec2b525fb5d, type: 2}
   Damaged: 1
   target: {fileID: 0}
-  detectionRange: 7
-  detectionAttackRange: 5
+  detectionRange: 10
+  detectionAttackRange: 7
   hitDistance: 0.5
   patrolSpeed: 1
   runawaySpeed: 3
   chaseSpeed: 3
   hitSpeed: 1
-  AttackDelay: 2
+  AttackDelay: 1
   AttackDuration: 0.3
   AttackTimer: 0
   delayTime: 1
   time: 0
-  patrolRange: 5
-  patrolMinTime: 2
-  patrolMaxTime: 2
+  patrolRange: 6
+  patrolMinTime: 1
+  patrolMaxTime: 1
   idleMinTime: 1
   idleMaxTime: 1
   forceDir: 0
@@ -269,10 +269,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6468674e1307242a3e79d2c3d8c1f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawn: {fileID: 0}
   attack: {fileID: 0}
   dash: {fileID: 0}
+  jump: {fileID: 0}
+  land: {fileID: 0}
   notice: {fileID: 8300000, guid: 34b384e580905ca49b3de3a9dc00daef, type: 3}
   hit: {fileID: 8300000, guid: 2bc78b1d03d73d843b1eca897c2a3603, type: 3}
+  defend: {fileID: 0}
   death: {fileID: 0}
 --- !u!82 &8347490497262530234
 AudioSource:

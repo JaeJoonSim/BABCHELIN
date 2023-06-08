@@ -5047,7 +5047,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 200
+  maxHealth: 1200
   currentHealth: 1
   backHealth: 0
   multipleHealthLine: 5
@@ -5113,7 +5113,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a34e3092e4c8eef4da7aa37574001d31, type: 2}
   SpineTransform: {fileID: 6948086771670899605}
   Damaged: 2
-  DestructionGauge: 5
+  DestructionGauge: 100
   DestructionHP: 2
   DestructionTime: 5
   destructionStun: 0
@@ -5121,14 +5121,14 @@ MonoBehaviour:
   destructionCount: 3
   InstantKillTimelimit: 300
   checkMultipleHealthLine: 3
-  phaseChangeTimeLimit: 30
+  phaseChangeTimeLimit: 60
   currentPhase: 1
   isPhaseChanged: 0
   phaseChangeAttackAngle: 180
   poisonGasPrefab: {fileID: 6910134399272781297, guid: 78616355a537d0946aa475c27f5c9427,
     type: 3}
   poisonGasRadius: 10
-  poisonGasDamage: 10
+  poisonGasDamage: 5
   poisonGasDuration: 5
   target: {fileID: 0}
   detectionRange: 10
@@ -5155,16 +5155,16 @@ MonoBehaviour:
   dropDelay: 1
   zOffset: -10
   bombPrefabs:
-  - {fileID: 5709324960040911722, guid: 22e1611e78945f148afa6b30c5efd148, type: 3}
-  - {fileID: 5709324960040911722, guid: b68e4d07d92d5a844aa2cf63f2125098, type: 3}
-  - {fileID: 5709324960040911722, guid: c23e11752f329ac419ac1cf36b7b56cf, type: 3}
-  - {fileID: 5709324960040911722, guid: 256b48be58118344f8221cf5cc7201c6, type: 3}
+  - {fileID: 3275738440347693820, guid: c607d0e110f1deb4ebcd91123f55e76b, type: 3}
+  - {fileID: 6904909218191583146, guid: 33e9fd7706bd8f34a88bcd0058355c5a, type: 3}
+  - {fileID: 6904909218191583146, guid: dafeeb023847f83429d9342581214071, type: 3}
+  - {fileID: 6904909218191583146, guid: 33de18129a0e8e542b94acc7007f30d5, type: 3}
   showJumpPattern: 0
   shockwavePrefab: {fileID: 8694230099179371521, guid: 4119cd01e13dda64db90786aae0eb0c2,
     type: 3}
   shockwaveRange: 15
   shockwaveDuration: 1.5
-  runawaySpeed: 10
+  runawaySpeed: 12
   bombDropInterval: 0.5
   waitAfterReachingDestination: 1
   bombPrefab: {fileID: 4745528697331135154, guid: b0d1a371d3faad34f9c67cd8771f75f6,

@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fb88166a613c745b4a59326b9b9a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shieldDamage: 2
+  shieldDamage: 10
   touchPlayerCount: 3
 --- !u!114 &2004267044961894295
 MonoBehaviour:
@@ -101,8 +101,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 80
   currentHealth: 0
+  backHealth: 0
   multipleHealthLine: 0
   HpLineAmount: 0
   isPoisoned: 0
@@ -110,6 +111,7 @@ MonoBehaviour:
   isInvincible: 0
   untouchable: 0
   damageDecrease: 0
+  doNotChange: 0
   isMonster: 0
 --- !u!114 &2004267044961894289
 MonoBehaviour:

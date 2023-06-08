@@ -8497,6 +8497,8 @@ MonoBehaviour:
       value: 5
     absorbRestore:
       value: 0
+    absorbSpd:
+      value: 0
     absorbSpdSmall:
       value: 0.1
     absorbSpdMedium:
@@ -8510,25 +8512,25 @@ MonoBehaviour:
     absorbChargeLarge:
       value: 100
     atk:
-      value: 5
+      value: 20
     atkDestroyDmg:
       value: 1
     atkSpd:
-      value: 100
+      value: 90
     bulletCount:
       value: 1
     bulletSpd:
-      value: 10
+      value: 15
     bulletRange:
       value: 10
     bulletCost:
-      value: 10
+      value: 20
     bulletMax:
-      value: 1000
+      value: 500
     bulletMin:
-      value: 300
+      value: 50
     bulletRegen:
-      value: 10
+      value: 50
     bulletRegenTime:
       value: 1
     bulletAuto:
@@ -8536,41 +8538,53 @@ MonoBehaviour:
     bulletAutoRange:
       value: 5
     sk1Dmg:
-      value: 2
+      value: 5
     sk1Cost:
-      value: 10
+      value: 25
     sk1CoolDown:
-      value: 3
+      value: 5
     sk1ResistTime:
       value: 3
     sk1Spd:
       value: 0.2
     sk1DestroyDmg:
-      value: 1
+      value: 7
     sk1Range:
       value: 5
     sk1Angle:
       value: 30
     sk2Dmg:
-      value: 10
+      value: 50
     sk2Cost:
-      value: 20
+      value: 50
     sk2CoolDown:
-      value: 3
+      value: 8
     sk2Range:
-      value: 10
+      value: 15
     sk2DestroyDmg:
-      value: 1
+      value: 10
     sk2SplashRange:
-      value: 3
+      value: 4
     sk2SplashDmg:
-      value: 5
+      value: 20
     sk2Count:
+      value: 0
+    sk2Auto:
+      value: 0
+    sk2AutoRange:
       value: 0
     ultRestore:
       value: 0
+    ultTwice:
+      value: 0
     UltMax:
       value: 100
+    Revive:
+      value: 0
+    ReviveHp:
+      value: 0
+    hpAbsorb:
+      value: 0
   ItemStatusAdd:
     hpMax:
       value: 0
@@ -8592,6 +8606,8 @@ MonoBehaviour:
       value: 0
     absorbRestore:
       value: 0
+    absorbSpd:
+      value: 0
     absorbSpdSmall:
       value: 0
     absorbSpdMedium:
@@ -8662,9 +8678,21 @@ MonoBehaviour:
       value: 0
     sk2Count:
       value: 0
+    sk2Auto:
+      value: 0
+    sk2AutoRange:
+      value: 0
     ultRestore:
       value: 0
+    ultTwice:
+      value: 0
     UltMax:
+      value: 0
+    Revive:
+      value: 0
+    ReviveHp:
+      value: 0
+    hpAbsorb:
       value: 0
   ItemStatusPercent:
     hpMax:
@@ -8687,6 +8715,8 @@ MonoBehaviour:
       value: 0
     absorbRestore:
       value: 0
+    absorbSpd:
+      value: 0
     absorbSpdSmall:
       value: 0
     absorbSpdMedium:
@@ -8757,9 +8787,21 @@ MonoBehaviour:
       value: 0
     sk2Count:
       value: 0
+    sk2Auto:
+      value: 0
+    sk2AutoRange:
+      value: 0
     ultRestore:
       value: 0
+    ultTwice:
+      value: 0
     UltMax:
+      value: 0
+    Revive:
+      value: 0
+    ReviveHp:
+      value: 0
+    hpAbsorb:
       value: 0
   BuffStatus:
     hpMax:
@@ -8782,6 +8824,8 @@ MonoBehaviour:
       value: 0
     absorbRestore:
       value: 0
+    absorbSpd:
+      value: 0
     absorbSpdSmall:
       value: 0
     absorbSpdMedium:
@@ -8852,9 +8896,21 @@ MonoBehaviour:
       value: 0
     sk2Count:
       value: 0
+    sk2Auto:
+      value: 0
+    sk2AutoRange:
+      value: 0
     ultRestore:
       value: 0
+    ultTwice:
+      value: 0
     UltMax:
+      value: 0
+    Revive:
+      value: 0
+    ReviveHp:
+      value: 0
+    hpAbsorb:
       value: 0
   TotalStatus:
     hpMax:
@@ -8877,6 +8933,8 @@ MonoBehaviour:
       value: 0
     absorbRestore:
       value: 0
+    absorbSpd:
+      value: 0
     absorbSpdSmall:
       value: 0
     absorbSpdMedium:
@@ -8947,9 +9005,21 @@ MonoBehaviour:
       value: 0
     sk2Count:
       value: 0
+    sk2Auto:
+      value: 0
+    sk2AutoRange:
+      value: 0
     ultRestore:
       value: 0
+    ultTwice:
+      value: 0
     UltMax:
+      value: 0
+    Revive:
+      value: 0
+    ReviveHp:
+      value: 0
+    hpAbsorb:
       value: 0
   forceDir: 0
   speed: 0
@@ -8963,7 +9033,7 @@ MonoBehaviour:
   showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
   showAttack: 1
-  BulletGauge: 1000
+  BulletGauge: 500
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
   SkillIndex: 1
