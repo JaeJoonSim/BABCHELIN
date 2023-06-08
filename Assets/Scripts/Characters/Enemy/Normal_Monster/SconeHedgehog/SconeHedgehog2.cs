@@ -647,9 +647,19 @@ public class SconeHedgehog2 : UnitObject
         {
             if (state.CURRENT_STATE == StateMachine.State.Attacking)
             {
-                Debug.Log(e.Time);
-                GameObject bullet = BulletObject;
-                Instantiate(bullet, AttackPoint.transform);
+                if (state.CURRENT_STATE == StateMachine.State.Attacking)
+                {
+                    GameObject bullet = Instantiate(BulletObject);
+                    if (transform.localScale.x < 0)
+                    {
+                        bullet.transform.position = new Vector3(transform.position.x - 0.638f, transform.position.y + 0.372f, transform.position.z - 0.526f);
+                    }
+                    else
+                    {
+                        bullet.transform.position = new Vector3(transform.position.x + 0.638f, transform.position.y + 0.372f, transform.position.z - 0.526f);
+                    }
+                    //Instantiate(bullet, AttackPoint.transform);
+                }
             }
             else if (state.CURRENT_STATE == StateMachine.State.Jump)
             {

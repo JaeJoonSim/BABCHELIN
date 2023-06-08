@@ -41,6 +41,7 @@ public class BulletScript : BaseMonoBehaviour
         {
             angle += 180;
 
+            
             if (back != null)   //총알 뒤집어지는거 수정
                 bulletSprite.sprite = back;
         }
