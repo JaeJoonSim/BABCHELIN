@@ -27,6 +27,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private int tabNum;
 
+    public GameObject escBackPanel;
     public GameObject escPanel;
     public GameObject settingPanel;
     public GameObject PlayerUI;
@@ -49,6 +50,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private void Start()
     {
+        escBackPanel.SetActive(false);
         escPanel.SetActive(false);
         settingPanel.SetActive(false);
     }
@@ -62,6 +64,7 @@ public class DungeonUIManager : BaseMonoBehaviour
             else
                 Time.timeScale = 0;
 
+            escBackPanel.SetActive(!escBackPanel.activeSelf);
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
             PlayerUI.SetActive(!PlayerUI.activeSelf);
@@ -106,6 +109,7 @@ public class DungeonUIManager : BaseMonoBehaviour
     {
         if (Time.timeScale != 1)
             Time.timeScale = 1;
+        escBackPanel.SetActive(!escBackPanel.activeSelf);
         escPanel.SetActive(!escPanel.activeSelf);
         settingPanel.SetActive(false);
         PlayerUI.SetActive(!PlayerUI.activeSelf);

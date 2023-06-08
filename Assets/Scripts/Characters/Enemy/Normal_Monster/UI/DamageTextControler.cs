@@ -26,7 +26,7 @@ public class DamageTextControler : MonoBehaviour
     {
         dmgText.text = dmg.ToString();
         textPosX = Random.Range(-0.2f, 0.2f);
-        dmgText.transform.position = new Vector3(dmgText.transform.position.x + textPosX, dmgText.transform.position.y, dmgText.transform.position.z);
+        dmgText.transform.position = new Vector3(textPosX, dmgText.transform.position.y, dmgText.transform.position.z);
         Instantiate(dmgText, monsterUICanvas.transform);
     }
 

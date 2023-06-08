@@ -5,20 +5,21 @@ using UnityEngine;
 public class ButterBulletSpawn : MonoBehaviour
 {
     public GameObject[] Bullet;
+    private Vector3 spawnPoint;
 
     // Start is called before the first frame update
     void Start()
     {
         Instantiate(Bullet[0], transform.position + Vector3.right, Quaternion.identity);
         Instantiate(Bullet[1], transform.position + Vector3.left, Quaternion.identity);
-        Bullet[2].transform.position = new Vector3(transform.position.x - 0.6f, transform.position.y + 0.6f, transform.position.z);
-        Instantiate(Bullet[2]);
-        Bullet[3].transform.position = new Vector3(transform.position.x + 0.6f, transform.position.y + 0.6f, transform.position.z);
-        Instantiate(Bullet[3]);
-        Bullet[4].transform.position = new Vector3(transform.position.x - 0.6f, transform.position.y - 0.6f, transform.position.z);
-        Instantiate(Bullet[4]);
-        Bullet[5].transform.position = new Vector3(transform.position.x + 0.6f, transform.position.y - 0.6f, transform.position.z);
-        Instantiate(Bullet[5]);
+        spawnPoint = new Vector3(transform.position.x - 0.6f, transform.position.y + 0.6f, transform.position.z);
+        Instantiate(Bullet[2], spawnPoint, Quaternion.identity);
+        spawnPoint = new Vector3(transform.position.x + 0.6f, transform.position.y + 0.6f, transform.position.z);
+        Instantiate(Bullet[3], spawnPoint, Quaternion.identity);
+        spawnPoint = new Vector3(transform.position.x - 0.6f, transform.position.y - 0.6f, transform.position.z);
+        Instantiate(Bullet[4], spawnPoint, Quaternion.identity);
+        spawnPoint = new Vector3(transform.position.x + 0.6f, transform.position.y - 0.6f, transform.position.z);
+        Instantiate(Bullet[5], spawnPoint, Quaternion.identity);
     }
 
     private void Update()

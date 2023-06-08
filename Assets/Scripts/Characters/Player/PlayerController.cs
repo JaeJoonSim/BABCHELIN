@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class PlayerController : BaseMonoBehaviour
 {
     [HideInInspector] UnitObject unitObject;
@@ -21,6 +20,7 @@ public class PlayerController : BaseMonoBehaviour
 
     [Header("BaseStatus")]
     public status BaseStatus;
+
     [Header("ItemStatus")]
     public status ItemStatusAdd;
     public status ItemStatusPercent;
@@ -90,8 +90,6 @@ public class PlayerController : BaseMonoBehaviour
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
     }
-
-
 
     private void OnEnable()
     {
@@ -339,7 +337,6 @@ public class PlayerController : BaseMonoBehaviour
             GameManager.GetInstance().HitStop();
         }
     }
-
     private void getTotalstatus()
     {
         foreach (KeyValuePair<string, dynamic> total in BaseStatus.variables)
@@ -364,7 +361,6 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
     }
-
     public void addBullet(int add)
     {
         BulletGauge += add;
@@ -379,7 +375,6 @@ public class PlayerController : BaseMonoBehaviour
         }
 
     }
-
     private void RestoreBullet()
     {
 
@@ -391,11 +386,65 @@ public class PlayerController : BaseMonoBehaviour
             CancelInvoke("RestoreBullet");
         }
     }
-
     public void addUltIdx()
     {
         UltIdx++;
         UltIdx = UltIdx % 2;
+    }
+
+    public void addItem()
+    {
+        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        ItemStatusAdd.ReSaveFieldsToVariables();
+        ItemStatusPercent.ReSaveFieldsToVariables();
+        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        foreach (var item in TotemManager.Instance.isAdd.Values)
+        {
+            if (item.Stat1 != "")
+            {
+                Type valueType = BaseStatus.variables[item.Stat1].GetType();
+                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                {
+                    if (item.Val1 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat1].value += item.Val1;
+                    }
+                }
+                else if (valueType == typeof(Stat<bool>))
+                {
+                    if (item.Val1 > 0)
+                        ItemStatusAdd.variables[item.Stat1].value = true;
+                    else
+                        ItemStatusAdd.variables[item.Stat1].value = false;
+                }
+            }
+            if (item.Stat2 != "")
+            {
+                Type valueType = BaseStatus.variables[item.Stat2].GetType();
+                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                {
+                    if (item.Val2 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat2].value += item.Val2 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat2].value += item.Val2;
+                    }
+                }
+                else if (valueType == typeof(Stat<bool>))
+                {
+                    if (item.Val2 > 0)
+                        ItemStatusAdd.variables[item.Stat1].value = true;
+                    else
+                        ItemStatusAdd.variables[item.Stat1].value = false;
+                }
+            }
+        }
     }
 
     private IEnumerator Delay(float delay, Action callback)

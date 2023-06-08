@@ -94,7 +94,7 @@ public class Health : BaseMonoBehaviour
         currentHealth -= damage;
         Invoke("DecreaseBackHP", 0.3f);
 
-        if(isMonster)
+        if (isMonster)
         {
             dtc.ShowDamageText(damage);
         }

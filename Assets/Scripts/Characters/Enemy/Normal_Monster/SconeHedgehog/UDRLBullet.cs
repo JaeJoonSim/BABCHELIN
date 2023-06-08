@@ -7,6 +7,9 @@ public class UDRLBullet : MonoBehaviour
     // Start is called before the first frame update
     public int num;
 
+    private AudioSource audioSource;
+    public AudioClip popSound;
+
     [Space]
     public float damage;
     public float speed;
@@ -31,6 +34,8 @@ public class UDRLBullet : MonoBehaviour
         colliderEvents = GetComponent<ColliderEvents>();
         if (player == null)
             player = GameObject.FindObjectOfType<HealthPlayer>();
+
+        audioSource = GetComponent<AudioSource>();
 
         startPosition = transform.position;
 
@@ -92,45 +97,45 @@ public class UDRLBullet : MonoBehaviour
             case 4: //ºÏ¼­
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(-1, 1, 0);
+                    direction = new Vector3(-0.6f, 0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(-1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(-0.6f, 0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 5: //ºÏµ¿
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(1, 1, 0);
+                    direction = new Vector3(0.6f, 0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(1, 1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(0.6f, 0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 6: //³²¼­
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(-1, -1, 0);
+                    direction = new Vector3(-0.6f, -0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(-1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(-0.6f, -0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
             case 7: //³²µ¿
                 if (distanceRange <= range)
                 {
-                    direction = new Vector3(1, -1, 0);
+                    direction = new Vector3(0.6f, -0.6f, 0);
                 }
                 else
                 {
                     time += Time.deltaTime;
-                    direction = new Vector3(1, -1, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
+                    direction = new Vector3(0.6f, -0.6f, (Mathf.Sin(90f * Mathf.Deg2Rad) + gravity) * time / 5);
                 }
                 break;
         }
@@ -142,6 +147,13 @@ public class UDRLBullet : MonoBehaviour
             GameObject groundEffect = GroundEffect;
             groundEffect.transform.position = transform.position;
             Instantiate(groundEffect);
+
+            if (popSound != null)
+            {
+                audioSource.clip = popSound;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+
             Destroy(gameObject);
         }
     }
@@ -156,6 +168,12 @@ public class UDRLBullet : MonoBehaviour
             GameObject playerEffect = PlayerEffect;
             playerEffect.transform.position = transform.position;
             Instantiate(playerEffect);
+
+            if (popSound != null)
+            {
+                audioSource.clip = popSound;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
 
             Destroy(gameObject);
         }

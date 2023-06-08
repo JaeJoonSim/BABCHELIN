@@ -34,9 +34,7 @@ public class absorb : BaseMonoBehaviour
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
 
-
-
-    private void Start()
+    private void Awake()
     {
         if (instance == null)
         {
@@ -45,8 +43,13 @@ public class absorb : BaseMonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            //Destroy(gameObject);
         }
+    }
+
+    private void Start()
+    {
+       
 
         if (Player == null)
         {

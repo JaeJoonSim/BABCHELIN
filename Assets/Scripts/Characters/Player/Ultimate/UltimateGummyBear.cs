@@ -4,11 +4,17 @@ using UnityEngine;
 
 public class UltimateGummyBear : MonoBehaviour
 {
-    public float speed = .0f;
+    public ParticleSystem endEffet;
 
     private void Start()
     {
-        Destroy(gameObject, speed);
+        Invoke("Destroyobj", 6f);
+    }
+
+    private void Destroyobj()
+    {
+        Instantiate(endEffet, transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
