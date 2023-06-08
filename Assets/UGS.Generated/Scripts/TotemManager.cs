@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml;
 using UGS;
-
+using UnityEngine;
 
 
 public class TotemManager : BaseMonoBehaviour
@@ -18,25 +18,26 @@ public class TotemManager : BaseMonoBehaviour
         if (instance == null)
         {
             instance = this;
+            UnityGoogleSheet.Load<DefaultTable.Data>();
             DontDestroyOnLoad(gameObject);
         }
         else
         {
             //Destroy(gameObject);
         }
+    }
 
-        UnityGoogleSheet.LoadFromGoogle<int, DefaultTable.Data>((list, map) =>
+    private void Start()
+    {
+        foreach (var x in DefaultTable.Data.DataList)
         {
-            list.ForEach(x =>
+            if (x.type != 99)
             {
-                if (x.type != 99)
-                {
-                    Totem tmp = new Totem(x.item, x.type, x.name, x.description, x.stat1, x.val1, x.stat2, x.val2);
-                    totemSet.Add(tmp);
-                }
-
-            });
-        }, true);
+                Debug.Log(x.name);
+                Totem tmp = new Totem(x.item, x.type, x.name, x.description, x.stat1, x.val1, x.stat2, x.val2);
+                totemSet.Add(tmp);
+            }
+        }
     }
 
     public Totem getTotem()
