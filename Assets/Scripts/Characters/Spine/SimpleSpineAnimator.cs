@@ -1398,11 +1398,6 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             return;
         }
 
-        if (playerController != null)
-        {
-            playerController.facingAngle();
-        }
-
         if (AutomaticallySetFacing)
         {
             if (45 <= state.facingAngle && state.facingAngle <= 135)

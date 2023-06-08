@@ -250,7 +250,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = true;
             playerController.PreesAttack = false;
-            playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
+            //playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
