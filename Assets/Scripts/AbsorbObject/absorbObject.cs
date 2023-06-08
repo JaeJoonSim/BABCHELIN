@@ -23,15 +23,18 @@ public class absorbObject : MonoBehaviour
 
     [Header("흔들림 변수")]
     public float speed = 1f;         // 흔들리는 속도
-    public float maxSpeed = 10f;     // 최대 속도
-    public float acceleration = 1f;  // 가속도
+    public float maxSpeed = 20f;     // 최대 속도
+    public float acceleration = 5f;  // 가속도
 
     private Quaternion initialRotation;  // 초기 회전값
     private float startTime;
     private float currentSpeed;
 
+    float zpos;
+
     void Start()
     {
+        zpos = transform.position.z;
         switch (size)
         {
             case absorb.objectSize.small:

@@ -346,7 +346,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8537802050865956345}
   - component: {fileID: 4599100044565938279}
-  m_Layer: 0
+  - component: {fileID: 6578990335237275871}
+  m_Layer: 20
   m_Name: Herb_L2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -382,7 +383,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.13324565, y: -0.3078444}
@@ -398,3 +399,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.115203, y: 3.7108703}
   m_EdgeRadius: 0
+--- !u!114 &6578990335237275871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8537802050865956346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5
