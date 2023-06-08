@@ -770,6 +770,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                                 if (Track.Animation != Moving.Animation)
                                 {
                                     Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                                    
                                 }
                             }
                             else
@@ -846,21 +847,21 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         if (Track.Animation != NorthSkill2.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthSkill2, loop: false);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthSkill2, loop: true);
                         }
                     }
                     else if (DirectionState == direction3.down && SouthSkill2 != null)
                     {
                         if (Track.Animation != SouthSkill2.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthSkill2, loop: false);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthSkill2, loop: true);
                         }
                     }
                     else
                     {
                         if (Track.Animation != Skill2.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Skill2, loop: false);
+                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Skill2, loop: true);
                         }
                     }
                     break;
@@ -978,6 +979,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     if (Landing != null && Track.Animation != Landing.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Landing, loop: false);
+                        Track.TimeScale = 2f;
+                        Track.End += OnAnimationEnd;
                     }
                     break;
 

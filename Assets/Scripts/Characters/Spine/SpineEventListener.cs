@@ -5,12 +5,16 @@ using UnityEngine;
 public class SpineEventListener : MonoBehaviour
 {
     private SimpleSpineEventListener spineEventListener;
+    private StateMachine state;
 
     [Header("Particle")]
     public ParticleSystem Moving;
+    public ParticleSystem Landing;
 
     private void Start()
     {
+        state = GetComponentInParent<StateMachine>();
+
         if (spineEventListener == null)
         {
             spineEventListener = base.GetComponent<SimpleSpineEventListener>();
@@ -30,5 +34,13 @@ public class SpineEventListener : MonoBehaviour
                     Moving.Play();
                 break;
         }
+        switch (state.CURRENT_STATE)
+        {
+            case StateMachine.State.Landing:
+                if (Landing != null)
+                    Landing.Play();
+                break;
+        }
+
     }
 }

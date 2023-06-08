@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6554067204531914222}
   - component: {fileID: 4658375075105541053}
-  m_Layer: 0
+  - component: {fileID: 1890178774605306341}
+  m_Layer: 20
   m_Name: ChocoRock_MA_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -43,7 +44,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.0006516278, y: 0.21366984}
@@ -59,6 +60,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.8389595, y: 0.43896556}
   m_EdgeRadius: 0
+--- !u!114 &1890178774605306341
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1486162249971859221}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5
 --- !u!1 &7751228300778904633
 GameObject:
   m_ObjectHideFlags: 0
