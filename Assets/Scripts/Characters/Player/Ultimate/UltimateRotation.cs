@@ -1,47 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class UltimateRotation : MonoBehaviour
 {
-    Quaternion startRotation;
-    Quaternion endRotation;
-    float timer;
-    bool start;
-    float duration = 0.5f; // 전체 시간
+    public float duration = 3f;
+    public AnimationCurve accelerationCurve;
 
+    private float currentTime = 0f;
+
+    [HideInInspector]
+    public bool start;
     void Start()
     {
-        startRotation = transform.localRotation;
-        endRotation = Quaternion.Euler(0f, -90f, -90f);
-        timer = 0f;
         start = false;
-
+        currentTime = 0f;
     }
 
-    // Update is called once per frame
-    public bool RotateObj()
+
+    private void Update()
     {
-        timer += Time.deltaTime;
-        if (!start)
+        currentTime += Time.deltaTime;
+
+        if (1.5f < currentTime && currentTime < duration + 1.5f)
         {
-            if (timer > 2f)
-            {
-                start = true;
-                timer = 0f;
-            }
+            float t = (currentTime - 1.5f) / duration;
+            Debug.Log(t);
+            float acceleration = accelerationCurve.Evaluate(t);
+            float currentAngle = Mathf.Lerp(0, -90, t) * acceleration;
+            transform.localRotation = Quaternion.Euler(0f, currentAngle, -90f);
         }
-        else
+        else if (currentTime > duration + 1.5f)
         {
-            if (timer <= duration)
-            {
-                float t = Mathf.SmoothStep(0f, 1f, timer / duration);
-                transform.localRotation = Quaternion.Lerp(startRotation, endRotation, t);
-            }
-            else
-                return true;
+            start = true;
         }
 
-        return false;
     }
 }
