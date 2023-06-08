@@ -328,7 +328,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 793a5c6d9e2ff064c80880670ddee85d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 120
+  maxHealth: 60
   currentHealth: 0
   backHealth: 0
   multipleHealthLine: 0
@@ -380,16 +380,16 @@ MonoBehaviour:
   AnimationTrack: 0
   Walk: {fileID: 11400000, guid: e17be10a8f2571549b76e8bc8103c088, type: 2}
   Notice: {fileID: 11400000, guid: 174aafcfddaa6ab4682def54387b05fa, type: 2}
-  Damaged: 10
+  Damaged: 15
   target: {fileID: 0}
   detectionRange: 15
-  AttackDistance: 3
-  hitDistance: 0
+  AttackDistance: 1.5
+  hitDistance: 0.5
   patrolSpeed: 3
   chaseSpeed: 5
   hitSpeed: 1
-  attackDelayMinTime: 1
-  attackDelayMaxTime: 2
+  attackDelayMinTime: 0
+  attackDelayMaxTime: 1
   time: 0
   patrolRange: 6
   patrolMinTime: 2
