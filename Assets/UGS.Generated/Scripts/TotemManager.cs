@@ -33,7 +33,6 @@ public class TotemManager : BaseMonoBehaviour
         {
             if (x.type != 99)
             {
-                Debug.Log(x.name);
                 Totem tmp = new Totem(x.item, x.type, x.name, x.description, x.stat1, x.val1, x.stat2, x.val2);
                 totemSet.Add(tmp);
             }

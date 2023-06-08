@@ -24,9 +24,8 @@ public class UltimateRotation : MonoBehaviour
         currentTime += Time.deltaTime;
 
         if (1.5f < currentTime && currentTime < duration + 1.5f)
-        {
+        {   
             float t = (currentTime - 1.5f) / duration;
-            Debug.Log(t);
             float acceleration = accelerationCurve.Evaluate(t);
             float currentAngle = Mathf.Lerp(0, -90, t) * acceleration;
             transform.localRotation = Quaternion.Euler(0f, currentAngle, -90f);
