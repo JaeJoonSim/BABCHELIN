@@ -193,8 +193,11 @@ public class CookieMouse : UnitObject
                     break;
 
                 case StateMachine.State.Moving:
-                    agent.isStopped = false;
-                    agent.speed = chaseSpeed;
+                    if (agent.enabled)
+                    {
+                        agent.isStopped = false;
+                        agent.speed = chaseSpeed;
+                    }
                     AttackTimer = 0f;
 
                     if (Time.timeScale == 0f)

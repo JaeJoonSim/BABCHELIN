@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class DungeonUIManager : BaseMonoBehaviour
 {
@@ -42,6 +43,8 @@ public class DungeonUIManager : BaseMonoBehaviour
     [Space]
     public string SceneName;
 
+    private Canvas canvas;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -50,9 +53,13 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private void Start()
     {
+        canvas = GetComponentInChildren<Canvas>();
+
         escBackPanel.SetActive(false);
         escPanel.SetActive(false);
         settingPanel.SetActive(false);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void Update()
@@ -60,10 +67,16 @@ public class DungeonUIManager : BaseMonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (escPanel.activeSelf)
+            {
                 Time.timeScale = 1;
+                canvas.sortingOrder = 0;
+            }
             else
+            {
                 Time.timeScale = 0;
-
+                canvas.sortingOrder = 3;
+            }
+            
             escBackPanel.SetActive(!escBackPanel.activeSelf);
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
@@ -89,6 +102,11 @@ public class DungeonUIManager : BaseMonoBehaviour
         }
     }
 
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
     public void LoadScene(string sceneName)
     {
         escBackPanel.SetActive(!escBackPanel.activeSelf);
@@ -96,6 +114,14 @@ public class DungeonUIManager : BaseMonoBehaviour
         Time.timeScale = 1;
         PlayerPrefs.SetString("SceneToLoad", sceneName);
         UnityEngine.SceneManagement.SceneManager.LoadScene("LoadingScene");
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name != "DungeonScene") // 여기서 DungeonScene은 이 오브젝트가 유지되어야 하는 씬의 이름입니다.
+        {
+            Destroy(this.gameObject);
+        }
     }
 
     public void QuitGame()

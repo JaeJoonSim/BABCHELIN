@@ -3,9 +3,8 @@ using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Timeline;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MapController : BaseMonoBehaviour
@@ -15,17 +14,24 @@ public class MapController : BaseMonoBehaviour
     public GameObject currentMap;
     public Image image;
     public float playerMoveSpeed = 1.0f;
+    public float playerDownSpeed = 9.81f;
+    public float waitSpoonTime = 3.0f;
     public GameObject Radial;
     public SkeletonAnimation anim;
     public bool canMove;
     private bool isLaunch;
     private bool isReady;
+    private bool isExecuting;
 
     [HideInInspector] public int selectedMapIndex;
 
     private PlayerController player;
+    private PlayerInput playerInput;
+    private UnitObject playerUnit;
     private new CameraFollowTarget camera;
+    private Skunk skunk;
     private float PrevPlayerPos;
+    private GameObject PrevCameraPos;
 
     public Transform readySpoon;
     public Transform spoon;
@@ -36,6 +42,8 @@ public class MapController : BaseMonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        playerInput = player.GetComponent<PlayerInput>();
+        playerUnit = player.GetComponent<UnitObject>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
 
         Radial.SetActive(false);
@@ -44,14 +52,13 @@ public class MapController : BaseMonoBehaviour
         anim.AnimationState.Event += OnSpineEvent;
     }
 
+    
+
     private void Update()
     {
-        if (DungeonUIManager.Instance.enemyCount <= 1 && !canMove)
+        if (DungeonUIManager.Instance.enemyCount <= 1 && !canMove && !isExecuting)
         {
-            anim.gameObject.SetActive(true);
-            if (anim.gameObject.activeSelf)
-                anim.AnimationState.SetAnimation(0, apperance, loop: false);
-            canMove = true;
+            StartCoroutine(WaitAndExecute());
         }
 
         if (DungeonUIManager.Instance.enemyCount > 1)
@@ -65,7 +72,7 @@ public class MapController : BaseMonoBehaviour
             anim.gameObject.SetActive(false);
         }
 
-        if(isLaunch)
+        if (isLaunch)
         {
             StartCoroutine(MapTransition(selectedMapIndex));
             isLaunch = false;
@@ -128,10 +135,12 @@ public class MapController : BaseMonoBehaviour
 
         StartCoroutine(FadeOut(() => isFadeOutComplete = true));
         StartCoroutine(MovePlayerUp(() => isMoveUpComplete = true));
-
         yield return new WaitUntil(() => isFadeOutComplete && isMoveUpComplete);
+        
         canMove = false;
+        isExecuting = false;
         anim.gameObject.SetActive(false);
+        
         player.enabled = true;
 
         if (mapPool.Count <= 3)
@@ -174,6 +183,51 @@ public class MapController : BaseMonoBehaviour
 
         yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
+        if (skunk != null)
+            skunk.patternManager.enabled = true;
+    }
+
+    private IEnumerator WaitAndExecute()
+    {
+        isExecuting = true;
+
+        yield return new WaitForSeconds(3.0f);
+
+        anim.gameObject.SetActive(true);
+        if (anim.gameObject.activeSelf)
+        {
+            PrevCameraPos = camera.targets[0].gameObject;
+            camera.RemoveTarget(camera.targets[0].gameObject);
+            camera.AddTarget(anim.gameObject, 1f);
+            camera.targetDistance = 11f;
+            camera.distance = 11f;
+
+            player.State.CURRENT_STATE = StateMachine.State.Idle;
+            player.enabled = false;
+            playerInput.enabled = false;
+            playerUnit.enabled = false;
+
+            StartCoroutine(MoveDurationCamera());
+
+            anim.AnimationState.SetAnimation(0, apperance, loop: false);
+        }
+        canMove = true;
+    }
+
+    private IEnumerator MoveDurationCamera()
+    {
+        yield return new WaitForSeconds(2.5f);
+
+        camera.RemoveTarget(camera.targets[0].gameObject);
+        camera.AddTarget(PrevCameraPos, 1f);
+        camera.targetDistance = 17f;
+        camera.distance = 17f;
+
+        player.enabled = true;
+        playerInput.enabled = true;
+        playerUnit.enabled = true;
+
+        yield return null;
     }
 
     public void SpawnBossRoom()
@@ -181,6 +235,10 @@ public class MapController : BaseMonoBehaviour
         if (currentMap != null) Destroy(currentMap);
 
         currentMap = Instantiate(bossRoom);
+
+        skunk = FindObjectOfType<Skunk>();
+
+        skunk.patternManager.enabled = false;
     }
 
     private IEnumerator FadeOut(Action onComplete)
@@ -224,7 +282,7 @@ public class MapController : BaseMonoBehaviour
     {
         while (player.transform.position.z < 0f)
         {
-            player.transform.position += new Vector3(0, 0, playerMoveSpeed * Time.deltaTime);
+            player.transform.position += new Vector3(0, 0, playerDownSpeed * Time.deltaTime);
             yield return null;
         }
 
