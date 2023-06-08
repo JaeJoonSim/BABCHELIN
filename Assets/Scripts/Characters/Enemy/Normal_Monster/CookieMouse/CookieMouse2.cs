@@ -306,6 +306,7 @@ public class CookieMouse2 : UnitObject
                             aniCount++;
                         }
                     }
+                    state.PREVIOUS_STATE = StateMachine.State.Runaway;
                     RunAway();
                     break;
             }

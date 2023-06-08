@@ -249,7 +249,7 @@ public class BerryBird : UnitObject
                     aniCount = 0;
                     agent.speed = hitSpeed;
 
-                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    if (state.PREVIOUS_STATE == StateMachine.State.Runaway || state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol || state.PREVIOUS_STATE == StateMachine.State.Notice)
                     {
                         for (int a = 0; a < otherBirdState.Length; a++)
                         {
@@ -318,6 +318,7 @@ public class BerryBird : UnitObject
                 case StateMachine.State.Delay:
                     Stop();
                     time += Time.deltaTime;
+                    state.PREVIOUS_STATE = StateMachine.State.Delay;
                     if (time >= delayTime)
                     {
                         time = 0;

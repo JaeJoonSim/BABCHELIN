@@ -257,7 +257,7 @@ public class CookieMouse : UnitObject
                 case StateMachine.State.Delay:
                     Stop();
                     time += Time.deltaTime;
-
+                    state.PREVIOUS_STATE = StateMachine.State.Delay;
                     if (time >= attackDelay)
                     {
                         time = 0;

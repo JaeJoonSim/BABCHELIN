@@ -289,6 +289,7 @@ public class BerryBird3_Group : UnitObject
 
                 case StateMachine.State.Delay:
                     Stop();
+                    state.PREVIOUS_STATE = StateMachine.State.Delay;
                     time += Time.deltaTime;
                     if (time >= delayTime)
                     {

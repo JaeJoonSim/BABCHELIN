@@ -400,7 +400,7 @@ public class SconeHedgehog2 : UnitObject
                     }
                     DashEffect_L.SetActive(false);
                     DashEffect_R.SetActive(false);
-
+                    state.PREVIOUS_STATE = StateMachine.State.DashDelay;
                     if (time >= 1f)
                     {
                         time = 0f;
@@ -431,6 +431,8 @@ public class SconeHedgehog2 : UnitObject
                             aniCount++;
                         }
                     }
+
+                    state.PREVIOUS_STATE = StateMachine.State.Delay;
 
                     if (time >= 1f)
                     {
@@ -519,6 +521,8 @@ public class SconeHedgehog2 : UnitObject
                 case StateMachine.State.JumpDelay:
                     Stop();
                     time += Time.deltaTime;
+
+                    state.PREVIOUS_STATE = StateMachine.State.JumpDelay;
 
                     if (time >= 1f)
                     {

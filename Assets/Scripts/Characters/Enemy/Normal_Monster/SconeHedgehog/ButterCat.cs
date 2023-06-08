@@ -215,7 +215,7 @@ public class ButterCat : UnitObject
                             aniCount++;
                         }
                     }
-
+                    state.PREVIOUS_STATE = StateMachine.State.Runaway;
                     if (transform.position.x >= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);

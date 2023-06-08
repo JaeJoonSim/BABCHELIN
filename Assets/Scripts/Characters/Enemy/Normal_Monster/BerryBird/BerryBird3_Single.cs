@@ -111,6 +111,7 @@ public class BerryBird3_Single : UnitObject
                     agent.isStopped = false;
                     agent.speed = 3f;
                     AttackTimer = 0f;
+                    state.PREVIOUS_STATE = StateMachine.State.Moving;
                     if (Time.timeScale == 0f)
                     {
                         break;
