@@ -50,6 +50,7 @@ public class StateMachine : MonoBehaviour
         Notice = 42,
         StartMoving = 43,
         Spawn = 44,
+        StartDash = 45,
     }
 
     public delegate void StateChange(State NewState, State PrevState);

@@ -26,9 +26,13 @@ public class SconeHedgehog2 : UnitObject
     public AnimationReferenceAsset Walk;
     public AnimationReferenceAsset Notice;
     public AnimationReferenceAsset StartMoving;
+    public AnimationReferenceAsset MovingToDash;
+    public AnimationReferenceAsset StartDash;
     public AnimationReferenceAsset Dash;
     public AnimationReferenceAsset StopDash;
     public AnimationReferenceAsset Jump;
+    public AnimationReferenceAsset NormalHit;
+    public AnimationReferenceAsset ChaseHit;
     private float aniCount = 0;
 
     public float Damaged = 1f;
@@ -46,8 +50,7 @@ public class SconeHedgehog2 : UnitObject
     [SerializeField] float delayTime = 5f;
     [SerializeField] float time = 0;
     [SerializeField] float AttackTimer = 0;
-    private int shotPerDash;
-    private int shotPerJump;
+    private int paternPer;
     [SerializeField] int dashPer;
     [SerializeField] int jumpPer;
     private int dashCount = 0;
@@ -252,27 +255,19 @@ public class SconeHedgehog2 : UnitObject
                         this.transform.localScale = new Vector3(-1f, 1f, 1f);
                     }
 
-                    if (time >= 1.6f)
+                    if (time >= 1.3667f)
                     {
                         time = 0;
                         aniCount = 0;
                         state.LockStateChanges = false;
-                        if (state.PREVIOUS_STATE == StateMachine.State.DashDelay)
-                        {
-                            directionToPoint = (target.position - transform.position).normalized;
-                            state.CURRENT_STATE = StateMachine.State.Dash;
-                        }
-                        else if (state.PREVIOUS_STATE == StateMachine.State.Notice)
-                        {
-                            state.CURRENT_STATE = StateMachine.State.Moving;
-                        }
+                        state.CURRENT_STATE = StateMachine.State.Moving;
                     }
                     break;
+
 
                 case StateMachine.State.Moving:
                     agent.isStopped = false;
                     agent.speed = chaseSpeed;
-                    state.LockStateChanges = true;
                     speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
                     if (Time.timeScale == 0f)
                     {
@@ -291,16 +286,15 @@ public class SconeHedgehog2 : UnitObject
                     agent.SetDestination(target.position);
                     if (distanceToPlayer <= detectionAttackRange)
                     {
-                        state.LockStateChanges = false;
-                        shotPerDash = UnityEngine.Random.Range(0, 10);
-                        if (shotPerDash >= dashPer)
+                        paternPer = UnityEngine.Random.Range(0, 10);
+                        if (paternPer >= dashPer)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
                         else
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            state.CURRENT_STATE = StateMachine.State.Dash;
+                            state.CURRENT_STATE = StateMachine.State.StartDash;
                         }
                     }
                     aniCount = 0;
@@ -334,6 +328,53 @@ public class SconeHedgehog2 : UnitObject
 
                     break;
 
+                case StateMachine.State.StartDash:
+                    time += Time.deltaTime;
+                    state.LockStateChanges = true;
+                    if (state.PREVIOUS_STATE == StateMachine.State.Delay || state.PREVIOUS_STATE == StateMachine.State.JumpDelay || state.PREVIOUS_STATE == StateMachine.State.DashDelay)
+                    {
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, StartDash, loop: false);
+                            aniCount++;
+                        }
+                        agent.SetDestination(transform.position + directionToPoint);
+                        agent.speed = 5;
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        Stop();
+                        if (aniCount < 1)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, MovingToDash, loop: false);
+                            aniCount++;
+                        }
+                    }
+
+                    if (state.PREVIOUS_STATE == StateMachine.State.Delay || state.PREVIOUS_STATE == StateMachine.State.JumpDelay || state.PREVIOUS_STATE == StateMachine.State.DashDelay)
+                    {
+                        if (time >= 1.6f)
+                        {
+                            state.LockStateChanges = false;
+                            time = 0;
+                            aniCount = 0;
+                            state.CURRENT_STATE = StateMachine.State.Dash;
+                        }
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        if (time >= 0.5333f)
+                        {
+                            state.LockStateChanges = false;
+                            time = 0;
+                            aniCount = 0;
+                            state.CURRENT_STATE = StateMachine.State.Dash;
+                        }
+                    }
+
+
+                    break;
+
                 case StateMachine.State.Dash:
                     if (Dash != null)
                     {
@@ -343,12 +384,12 @@ public class SconeHedgehog2 : UnitObject
                             aniCount++;
                         }
                     }
-                    thisHealth.isInvincible = true;
+                    health.isInvincible = true;
                     state.LockStateChanges = true;
                     agent.isStopped = false;
                     time += Time.deltaTime;
                     agent.speed = dashSpeed;
-                    speed += (agent.speed - speed) / 3f * GameManager.DeltaTime;
+                    state.PREVIOUS_STATE = StateMachine.State.Dash;
 
                     agent.SetDestination(transform.position + directionToPoint);
 
@@ -370,7 +411,7 @@ public class SconeHedgehog2 : UnitObject
                     }
                     else
                     {
-                        thisHealth.isInvincible = false;
+                        health.isInvincible = false;
                         state.LockStateChanges = false;
                         time = 0;
                         aniCount = 0;
@@ -401,6 +442,7 @@ public class SconeHedgehog2 : UnitObject
                     DashEffect_L.SetActive(false);
                     DashEffect_R.SetActive(false);
                     state.PREVIOUS_STATE = StateMachine.State.DashDelay;
+
                     if (time >= 1f)
                     {
                         time = 0f;
@@ -414,13 +456,16 @@ public class SconeHedgehog2 : UnitObject
                         {
                             this.transform.localScale = new Vector3(-1f, 1f, 1f);
                         }
-                        state.CURRENT_STATE = StateMachine.State.StartMoving;
+                        state.CURRENT_STATE = StateMachine.State.StartDash;
                     }
 
                     break;
 
+
                 case StateMachine.State.Delay:
                     Stop();
+                    DashEffect_L.SetActive(false);
+                    DashEffect_R.SetActive(false);
                     time += Time.deltaTime;
                     if (StopDash != null && state.PREVIOUS_STATE == StateMachine.State.Dash)
                     {
@@ -431,9 +476,7 @@ public class SconeHedgehog2 : UnitObject
                             aniCount++;
                         }
                     }
-
                     state.PREVIOUS_STATE = StateMachine.State.Delay;
-
                     if (time >= 1f)
                     {
                         time = 0f;
@@ -450,8 +493,8 @@ public class SconeHedgehog2 : UnitObject
                         dashCount = 0;
                         if (distanceToPlayer <= detectionJumpRange)
                         {
-                            shotPerJump = UnityEngine.Random.Range(0, 10);
-                            if (shotPerJump < jumpPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < jumpPer)
                             {
                                 jumpPoint = target.transform.position;
                                 state.CURRENT_STATE = StateMachine.State.Jump;
@@ -464,10 +507,10 @@ public class SconeHedgehog2 : UnitObject
                         else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            shotPerDash = UnityEngine.Random.Range(0, 10);
-                            if (shotPerDash < dashPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < dashPer)
                             {
-                                state.CURRENT_STATE = StateMachine.State.Dash;
+                                state.CURRENT_STATE = StateMachine.State.StartDash;
                             }
                             else
                             {
@@ -521,9 +564,7 @@ public class SconeHedgehog2 : UnitObject
                 case StateMachine.State.JumpDelay:
                     Stop();
                     time += Time.deltaTime;
-
                     state.PREVIOUS_STATE = StateMachine.State.JumpDelay;
-
                     if (time >= 1f)
                     {
                         time = 0f;
@@ -540,8 +581,8 @@ public class SconeHedgehog2 : UnitObject
 
                         if (distanceToPlayer <= detectionJumpRange)
                         {
-                            shotPerJump = UnityEngine.Random.Range(0, 10);
-                            if (shotPerJump < jumpPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < jumpPer)
                             {
                                 jumpPoint = target.transform.position;
                                 state.CURRENT_STATE = StateMachine.State.Jump;
@@ -554,10 +595,10 @@ public class SconeHedgehog2 : UnitObject
                         else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
-                            shotPerDash = UnityEngine.Random.Range(0, 10);
-                            if (shotPerDash < dashPer)
+                            paternPer = UnityEngine.Random.Range(0, 10);
+                            if (paternPer < dashPer)
                             {
-                                state.CURRENT_STATE = StateMachine.State.Dash;
+                                state.CURRENT_STATE = StateMachine.State.StartDash;
                             }
                             else
                             {
@@ -572,7 +613,36 @@ public class SconeHedgehog2 : UnitObject
                     break;
 
                 case StateMachine.State.HitLeft:
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        if (aniCount < 2)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, ChaseHit, loop: false);
+                            aniCount++;
+                        }
+                        agent.SetDestination(target.position);
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        aniCount = 0;
+                    }
+                    agent.speed = 1;
+                    break;
                 case StateMachine.State.HitRight:
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    {
+                        if (aniCount < 2)
+                        {
+                            anim.AnimationState.SetAnimation(AnimationTrack, ChaseHit, loop: false);
+                            aniCount++;
+                        }
+                        agent.SetDestination(target.position);
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        aniCount = 0;
+                    }
+                    agent.speed = 1;
                     break;
             }
         }
