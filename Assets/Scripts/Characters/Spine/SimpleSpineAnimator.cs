@@ -770,6 +770,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                                 if (Track.Animation != Moving.Animation)
                                 {
                                     Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
+                                    
                                 }
                             }
                             else
@@ -978,6 +979,8 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     if (Landing != null && Track.Animation != Landing.Animation)
                     {
                         Track = anim.AnimationState.SetAnimation(AnimationTrack, Landing, loop: false);
+                        Track.TimeScale = 2f;
+                        Track.End += OnAnimationEnd;
                     }
                     break;
 
