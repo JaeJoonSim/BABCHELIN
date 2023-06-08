@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class MapController : BaseMonoBehaviour
@@ -25,6 +26,8 @@ public class MapController : BaseMonoBehaviour
     [HideInInspector] public int selectedMapIndex;
 
     private PlayerController player;
+    private PlayerInput playerInput;
+    private UnitObject playerUnit;
     private new CameraFollowTarget camera;
     private Skunk skunk;
     private float PrevPlayerPos;
@@ -39,6 +42,8 @@ public class MapController : BaseMonoBehaviour
     private void Start()
     {
         player = FindObjectOfType<PlayerController>();
+        playerInput = player.GetComponent<PlayerInput>();
+        playerUnit = player.GetComponent<UnitObject>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
 
         Radial.SetActive(false);
@@ -131,9 +136,11 @@ public class MapController : BaseMonoBehaviour
         StartCoroutine(FadeOut(() => isFadeOutComplete = true));
         StartCoroutine(MovePlayerUp(() => isMoveUpComplete = true));
         yield return new WaitUntil(() => isFadeOutComplete && isMoveUpComplete);
+        
         canMove = false;
         isExecuting = false;
         anim.gameObject.SetActive(false);
+        
         player.enabled = true;
 
         if (mapPool.Count <= 3)
@@ -195,6 +202,11 @@ public class MapController : BaseMonoBehaviour
             camera.targetDistance = 11f;
             camera.distance = 11f;
 
+            player.State.CURRENT_STATE = StateMachine.State.Idle;
+            player.enabled = false;
+            playerInput.enabled = false;
+            playerUnit.enabled = false;
+
             StartCoroutine(MoveDurationCamera());
 
             anim.AnimationState.SetAnimation(0, apperance, loop: false);
@@ -210,6 +222,10 @@ public class MapController : BaseMonoBehaviour
         camera.AddTarget(PrevCameraPos, 1f);
         camera.targetDistance = 17f;
         camera.distance = 17f;
+
+        player.enabled = true;
+        playerInput.enabled = true;
+        playerUnit.enabled = true;
 
         yield return null;
     }
