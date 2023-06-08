@@ -144,7 +144,13 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeToHitState(Vector3 attackLocation)
     {
+        if (CURRENT_STATE == State.Skill ||
+           CURRENT_STATE == State.Skill2 ||
+           CURRENT_STATE == State.Ultimate)
+            return;
+
         PREVIOUS_STATE = CURRENT_STATE;
+
         if (transform.position.x > attackLocation.x)
         {
             CURRENT_STATE = State.HitLeft;
@@ -157,6 +163,11 @@ public class StateMachine : MonoBehaviour
 
     public void ChangeToIdleState()
     {
+        if (CURRENT_STATE == State.Skill ||
+            CURRENT_STATE == State.Skill2 ||
+            CURRENT_STATE == State.Ultimate)
+            return;
+
         CURRENT_STATE = State.Idle;
     }
 
