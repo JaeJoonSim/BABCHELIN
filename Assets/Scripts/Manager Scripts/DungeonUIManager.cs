@@ -91,6 +91,8 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public void LoadScene(string sceneName)
     {
+        escBackPanel.SetActive(!escBackPanel.activeSelf);
+        escPanel.SetActive(!escPanel.activeSelf);
         Time.timeScale = 1;
         PlayerPrefs.SetString("SceneToLoad", sceneName);
         UnityEngine.SceneManagement.SceneManager.LoadScene("LoadingScene");
