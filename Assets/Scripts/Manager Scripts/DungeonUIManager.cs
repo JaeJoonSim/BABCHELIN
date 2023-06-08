@@ -43,6 +43,8 @@ public class DungeonUIManager : BaseMonoBehaviour
     [Space]
     public string SceneName;
 
+    private Canvas canvas;
+    
     private void Awake()
     {
         if (_instance == null)
@@ -51,6 +53,8 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private void Start()
     {
+        canvas = GetComponentInChildren<Canvas>();
+
         escBackPanel.SetActive(false);
         escPanel.SetActive(false);
         settingPanel.SetActive(false);
@@ -63,10 +67,16 @@ public class DungeonUIManager : BaseMonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             if (escPanel.activeSelf)
+            {
                 Time.timeScale = 1;
+                canvas.sortingOrder = 0;
+            }
             else
+            {
                 Time.timeScale = 0;
-
+                canvas.sortingOrder = 3;
+            }
+            
             escBackPanel.SetActive(!escBackPanel.activeSelf);
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
