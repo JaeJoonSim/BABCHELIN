@@ -61,7 +61,9 @@ public class PlayerUI : MonoBehaviour
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
 
 
-        //SkillIcon_1.fillAmount =  / playerController.BaseStatus.sk1CoolDown.value;
-        UIUltimateGauge.fillAmount += Time.deltaTime / 10f;
+        SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.BaseStatus.sk1CoolDown.value;
+        SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.BaseStatus.sk2CoolDown.value;
+
+        UIUltimateGauge.fillAmount = 0.1f + (playerController.UltGauge / playerController.BaseStatus.UltMax.value) / 0.8f;
     }
 }
