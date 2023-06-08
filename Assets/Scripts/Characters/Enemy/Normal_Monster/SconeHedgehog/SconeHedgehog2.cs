@@ -712,7 +712,7 @@ public class SconeHedgehog2 : UnitObject
         watereffect.transform.position = transform.position;
         Instantiate(watereffect);
 
-        GameObject buttercat = Buttercat;
+        GameObject buttercat = Instantiate(Buttercat);
         buttercat.transform.position = transform.position;
         if (transform.localScale.x < 0)
         {
@@ -722,7 +722,7 @@ public class SconeHedgehog2 : UnitObject
         {
             buttercat.transform.localScale = new Vector3(1, 1, 1);
         }
-        Instantiate(buttercat);
+        //Instantiate(buttercat);
     }
 
 
