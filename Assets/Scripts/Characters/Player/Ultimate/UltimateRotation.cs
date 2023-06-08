@@ -8,7 +8,7 @@ public class UltimateRotation : MonoBehaviour
     Quaternion endRotation;
     float timer;
     bool start;
-    float duration = 1f; // 전체 시간
+    float duration = 0.5f; // 전체 시간
 
     void Start()
     {

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public struct UltimateStatus
 {
-    public int size;
+    public float size;
 
     public float Damage;
     public float destructionGauge;
