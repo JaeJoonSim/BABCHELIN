@@ -149,11 +149,13 @@ public class ButterCat : UnitObject
 
                     time += Time.deltaTime;
                     state.LockStateChanges = true;
+                    health.isInvincible = true;
                     if (time >= 1.234f)  //스폰 애니메이션 시간
                     {
                         time = 0;
                         aniCount = 0;
                         state.LockStateChanges = false;
+                        health.isInvincible = false;
                         runawayTime = UnityEngine.Random.Range(runMinTime, runMaxTime);
                         state.CURRENT_STATE = StateMachine.State.Attacking;
                     }
@@ -215,7 +217,7 @@ public class ButterCat : UnitObject
                             aniCount++;
                         }
                     }
-
+                    state.PREVIOUS_STATE = StateMachine.State.Runaway;
                     if (transform.position.x >= target.position.x)  //보는 방향
                     {
                         this.transform.localScale = new Vector3(1f, 1f, 1f);

@@ -67,7 +67,14 @@ public class BerryBird3_Single : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+        if(transform.rotation.x != 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
             //FollowTarget();
@@ -111,6 +118,7 @@ public class BerryBird3_Single : UnitObject
                     agent.isStopped = false;
                     agent.speed = 3f;
                     AttackTimer = 0f;
+                    state.PREVIOUS_STATE = StateMachine.State.Moving;
                     if (Time.timeScale == 0f)
                     {
                         break;

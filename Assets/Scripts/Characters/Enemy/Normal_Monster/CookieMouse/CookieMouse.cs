@@ -257,11 +257,22 @@ public class CookieMouse : UnitObject
                 case StateMachine.State.Delay:
                     Stop();
                     time += Time.deltaTime;
-
+                    state.PREVIOUS_STATE = StateMachine.State.Delay;
                     if (time >= attackDelay)
                     {
                         time = 0;
-                        state.CURRENT_STATE = StateMachine.State.Idle;
+                        if (distanceToPlayer <= AttackDistance)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Attacking;
+                        }
+                        else if (distanceToPlayer <= detectionRange)
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
+                        }
                     }
                     break;
 

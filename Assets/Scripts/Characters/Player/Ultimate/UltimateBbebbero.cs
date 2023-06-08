@@ -19,7 +19,7 @@ public class UltimateBbebbero : MonoBehaviour
 
     void Update()
     {
-        if (ultimateRotation.RotateObj() && !isDamaged)
+        if (ultimateRotation.start && !isDamaged)
         {
             GetComponent<BoxCollider2D>().enabled = true;
             HitEffet.Play();

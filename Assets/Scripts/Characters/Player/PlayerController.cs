@@ -60,6 +60,11 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAttack", true)] public int SkillIndex;
     public GameObject[] Skills;
 
+    [Header("½ºÅ³")]
+    public bool showSkill = false;
+    [DrawIf("showSkill", true)] public float skill1CurCooltime;
+    [DrawIf("showSkill", true)] public float skill2CurCooltime;
+
 
     [Header("muzzle")]
     public bool showMuzzle = false;
@@ -73,6 +78,7 @@ public class PlayerController : BaseMonoBehaviour
     public bool showUltimate = false;
     [DrawIf("showUltimate", true)] public GameObject UltObj;
     [DrawIf("showUltimate", true)] public int UltIdx;
+    [DrawIf("showUltimate", true)] public float UltGauge;
 
     public GameObject BulletUI;
     private float fadeTime = 0;

@@ -20,9 +20,13 @@ public class PlayerUI : MonoBehaviour
     public Slider UIHealthCutline;
     public Image UIBulletGauge;
     public Slider UIBulletCutline;
-    public Image UIUltimateGauge;
+
     public Transform BulletCanvas;
     private Image PlayerBulletGauge;
+
+    public Image SkillIcon_1;
+    public Image SkillIcon_2;
+    public Image UIUltimateGauge;
 
     // Start is called before the first frame update
     void Start()
@@ -54,8 +58,12 @@ public class PlayerUI : MonoBehaviour
         UIHealthCutline.value = playerHealth.CurrentHP() / playerHealth.MaxHP();
         UIBulletGauge.fillAmount = playerController.BulletGauge / 1000f;
         UIBulletCutline.value = playerController.BulletGauge / 1000f;
-        UIUltimateGauge.fillAmount += Time.deltaTime / 10f;
-
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
+
+
+        SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.BaseStatus.sk1CoolDown.value;
+        SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.BaseStatus.sk2CoolDown.value;
+
+        UIUltimateGauge.fillAmount = 0.1f + (playerController.UltGauge / playerController.BaseStatus.UltMax.value) / 0.8f;
     }
 }
