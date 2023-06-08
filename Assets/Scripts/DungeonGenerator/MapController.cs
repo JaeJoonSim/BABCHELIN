@@ -1,3 +1,4 @@
+using FMOD;
 using Spine;
 using Spine.Unity;
 using System;
@@ -25,6 +26,7 @@ public class MapController : BaseMonoBehaviour
 
     private PlayerController player;
     private new CameraFollowTarget camera;
+    private Skunk skunk;
     private float PrevPlayerPos;
 
     public Transform readySpoon;
@@ -174,11 +176,7 @@ public class MapController : BaseMonoBehaviour
 
         yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
-
-        if (currentMap == bossRoom)
-        {
-            Destroy(gameObject);
-        }
+        skunk.patternManager.enabled = true;
     }
 
     public void SpawnBossRoom()
@@ -186,6 +184,10 @@ public class MapController : BaseMonoBehaviour
         if (currentMap != null) Destroy(currentMap);
 
         currentMap = Instantiate(bossRoom);
+
+        skunk = FindObjectOfType<Skunk>();
+
+        skunk.patternManager.enabled = false;
     }
 
     private IEnumerator FadeOut(Action onComplete)

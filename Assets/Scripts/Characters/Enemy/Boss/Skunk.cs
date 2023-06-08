@@ -7,7 +7,7 @@ using UnityEngine.AI;
 
 public class Skunk : UnitObject
 {
-    [SerializeField] private PatternManager patternManager;
+    [SerializeField] public PatternManager patternManager;
 
     [SerializeField] private List<BasicPatternScriptableObject> phase1BasicPatterns;
     [SerializeField] private List<BasicPatternScriptableObject> phase2BasicPatterns;
