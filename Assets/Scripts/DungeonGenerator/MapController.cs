@@ -174,6 +174,11 @@ public class MapController : BaseMonoBehaviour
 
         yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
+
+        if (currentMap == bossRoom)
+        {
+            Destroy(gameObject);
+        }
     }
 
     public void SpawnBossRoom()

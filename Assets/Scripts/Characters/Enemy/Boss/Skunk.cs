@@ -185,6 +185,9 @@ public class Skunk : UnitObject
         if (spineAnimation == null)
             spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
         spineAnimation.AnimationState.Event += OnSpineEvent;
+
+        destructionCoroutine = StartDestructTime();
+        originGauge = DestructionGauge;
     }
 
     public override void OnDisable()
@@ -223,6 +226,16 @@ public class Skunk : UnitObject
             health.damageDecrease = true;
 
             state.CURRENT_STATE = StateMachine.State.PhaseChange;
+        }
+
+        if (currentPhase == 1 && health.CurrentHP() < health.MaxHP() / 2)
+        {
+            health.untouchable = true;
+            health.SetHP(health.MaxHP() / 2f);
+        }
+        else if (currentPhase > 1 && state.CURRENT_STATE != StateMachine.State.Dead)
+        {
+            health.untouchable = false;
         }
 
         if (currentPhase == 2 && lastHealthLine - health.multipleHealthLine >= healthLineThreshold)

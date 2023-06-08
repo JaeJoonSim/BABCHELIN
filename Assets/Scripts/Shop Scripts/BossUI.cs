@@ -17,6 +17,9 @@ public class BossUI : MonoBehaviour
     public Slider UIDestroyGaugeCutline;
     //public Image UIHealthBackGauge;
 
+    private float destroyGauge;
+    private float destroyGaugeCutline;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +30,9 @@ public class BossUI : MonoBehaviour
         bossName.text = boss.name;
         bossHealth = boss.GetComponent<Health>();
         skunk = boss.GetComponent<Skunk>();
+
+        destroyGauge = skunk.destructionGauge();
+        destroyGaugeCutline = skunk.destructionGauge();
 
         //DefaultUltIcon = PlayerUIBackground.GetChild(4).GetComponent<Image>();
         //ActiveUltIcon = PlayerUIBackground.GetChild(5).GetComponent<Image>();
@@ -43,8 +49,8 @@ public class BossUI : MonoBehaviour
     {
         UIHealthGauge.fillAmount = bossHealth.CurrentHP() / bossHealth.MaxHP();
         UIHealthCutline.value = bossHealth.CurrentHP() / bossHealth.MaxHP();
-        UIDestroyGauge.fillAmount = skunk.destructionGauge() / 5;
-        UIDestroyGaugeCutline.value = skunk.destructionGauge() / 5;
+        UIDestroyGauge.fillAmount = skunk.destructionGauge() / destroyGauge;
+        UIDestroyGaugeCutline.value = skunk.destructionGauge() / destroyGaugeCutline;
         //UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
     }
 }
