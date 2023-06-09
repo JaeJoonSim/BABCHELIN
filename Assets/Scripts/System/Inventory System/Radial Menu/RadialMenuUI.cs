@@ -29,9 +29,17 @@ public class RadialMenuUI : MonoBehaviour
 
     private void Update()
     {
-        for (int i = 0; i < mapController.mapPool.Count; i++)
+        if (mapController.mapPool.Count > 3)
         {
-            sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+            for (int i = 0; i < mapController.mapPool.Count; i++)
+            {
+                sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < mapController.mapPool.Count; i++)
+                sprites[i] = mapController.bossRoom.GetComponent<MapInfo>().sprite;
         }
 
         if (sprites != null)
