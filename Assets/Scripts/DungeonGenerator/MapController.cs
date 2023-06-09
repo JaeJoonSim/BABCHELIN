@@ -130,8 +130,6 @@ public class MapController : BaseMonoBehaviour
         camera.SnappyMovement = true;
         camera.enabled = false;
 
-        DungeonUIManager.Instance.isStage = true;
-
         player.GetComponent<Health>().isInvincible = true;
 
         player.State.CURRENT_STATE = StateMachine.State.Jump;
@@ -186,8 +184,6 @@ public class MapController : BaseMonoBehaviour
 
 
         yield return new WaitUntil(() => isFadeInComplete && isMoveDownComplete);
-
-        DungeonUIManager.Instance.isStage = false;
 
         camera.SnappyMovement = false;
         
