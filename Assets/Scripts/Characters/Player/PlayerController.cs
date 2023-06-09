@@ -20,6 +20,8 @@ public class PlayerController : BaseMonoBehaviour
     public Transform SpineTransform;
     public SimpleSpineAnimator simpleSpineAnimator;
 
+    private new CameraFollowTarget camera;
+
     [Header("BaseStatus")]
     public status BaseStatus;
 
@@ -85,12 +87,14 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showUltimate", true)] public GameObject UltObj;
     [DrawIf("showUltimate", true)] public int UltIdx;
     [DrawIf("showUltimate", true)] public float UltGauge;
+    [DrawIf("showUltimate", true)] public ParticleSystem UltEffet;
 
     public GameObject BulletUI;
     private float fadeTime = 0;
 
     [Header("스파인 체크용")]
     public bool inSpineEvent = false;
+    public bool inCameraWork = false;
 
 
     private void Start()
@@ -105,6 +109,7 @@ public class PlayerController : BaseMonoBehaviour
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
+        camera = Camera.main.GetComponent<CameraFollowTarget>();
     }
 
     private void OnEnable()
@@ -157,6 +162,7 @@ public class PlayerController : BaseMonoBehaviour
                 inSpineEvent = false;
                 SpineTransform.localPosition = Vector3.zero;
                 curHitDelay = 0;
+
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -219,13 +225,15 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Ultimate:
                 speed = 0;
-                state.facingAngle = 270f;
+                DodgeAngle = state.facingAngle = 270f;
                 muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 health.untouchable = true;
-                Invoke("endUntouchable", 3f);
+                if(!IsInvoking("endUntouchable"))
+                    Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
+                    Camerawork();
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
@@ -459,6 +467,30 @@ public class PlayerController : BaseMonoBehaviour
     private void endUntouchable()
     {
         health.untouchable = false;
+    }
+
+    public void Camerawork()
+    {
+        if (camera.targets.Count <= 1)
+        {
+ 
+            camera.SnappyMovement = true;
+            camera.AddTarget(gameObject, 1f);
+            camera.targetDistance = 5f;
+            camera.distance = 5f;
+        }
+        else
+        {
+            camera.SnappyMovement = true;
+            camera.targets.Clear();
+            camera.targetDistance = 17f;
+            camera.distance = 17f;
+            Invoke("EnableCameraWork", 2f);
+        }
+    }
+    private void EnableCameraWork()
+    {
+        camera.SnappyMovement = false;
     }
     public void addItem()
     {

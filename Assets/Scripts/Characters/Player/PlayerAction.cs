@@ -190,7 +190,9 @@ public class PlayerAction : BaseMonoBehaviour
                     {
                         playerController.UltGauge -= 100;
                         playerController.inSpineEvent = true;
+                        playerController.Camerawork();
                         state.CURRENT_STATE = StateMachine.State.Ultimate;
+                        playerController.UltEffet.Play(true);
                     }
                         
                     else
@@ -268,7 +270,7 @@ public class PlayerAction : BaseMonoBehaviour
 
     public bool DodgeRoll()
     {
-        if (!AllowDodging)
+        if (!AllowDodging || state.CURRENT_STATE == StateMachine.State.Ultimate)
         {
             return false;
         }
@@ -499,7 +501,6 @@ public class PlayerAction : BaseMonoBehaviour
         //float val1 = Mathf.Round((e.Time * Spine.skeleton.Data.Fps));
         //Debug.Log(1 < Mathf.Abs(val1 - val2));
         //Debug.Log(val2);
-        //Debug.Log(val1);
 
         //Debug.Log("----------------------------");
         if (e.Data.Name == "shot")
@@ -551,6 +552,7 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case StateMachine.State.Ultimate:
                     playerController.UltObj.GetComponent<UltimateManager>().UltimateShot();
+                    //playerController.Camerawork();
                     break;
                 default:
                     break;
