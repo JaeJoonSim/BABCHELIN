@@ -32,7 +32,6 @@ public class MapController : BaseMonoBehaviour
     private Skunk skunk;
     private float PrevPlayerPos;
     private GameObject PrevCameraPos;
-    private AudioSource audioSource;
 
     public Transform readySpoon;
     public Transform spoon;
@@ -46,7 +45,6 @@ public class MapController : BaseMonoBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         playerUnit = player.GetComponent<UnitObject>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
-        audioSource = Camera.main.GetComponent<AudioSource>();
 
         Radial.SetActive(false);
         anim.gameObject.SetActive(false);
@@ -176,8 +174,6 @@ public class MapController : BaseMonoBehaviour
 
         bool isFadeInComplete = false;
         bool isMoveDownComplete = false;
-
-        audioSource.Play();
 
         StartCoroutine(FadeIn(() => isFadeInComplete = true));
         StartCoroutine(MovePlayerDown(() => isMoveDownComplete = true));
