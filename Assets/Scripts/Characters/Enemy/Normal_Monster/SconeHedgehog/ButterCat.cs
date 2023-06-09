@@ -115,6 +115,10 @@ public class ButterCat : UnitObject
     {
         base.Update();
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+        if (playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
 
         SetRotation();
 

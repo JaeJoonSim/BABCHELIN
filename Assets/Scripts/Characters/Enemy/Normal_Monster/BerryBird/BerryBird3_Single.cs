@@ -69,6 +69,10 @@ public class BerryBird3_Single : UnitObject
         base.Update();
         SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+        if (playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
 
         SetRotation();
 

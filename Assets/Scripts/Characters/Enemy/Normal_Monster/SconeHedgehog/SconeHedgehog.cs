@@ -149,6 +149,10 @@ public class SconeHedgehog : UnitObject
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
         xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
+        if (playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
 
 
         if (state.CURRENT_STATE != StateMachine.State.Dead || state.CURRENT_STATE != StateMachine.State.Jump)
