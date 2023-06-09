@@ -20,6 +20,8 @@ public class PlayerController : BaseMonoBehaviour
     public Transform SpineTransform;
     public SimpleSpineAnimator simpleSpineAnimator;
 
+    private new CameraFollowTarget camera;
+
     [Header("BaseStatus")]
     public status BaseStatus;
 
@@ -105,6 +107,7 @@ public class PlayerController : BaseMonoBehaviour
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
+        camera = Camera.main.GetComponent<CameraFollowTarget>();
     }
 
     private void OnEnable()
@@ -157,6 +160,9 @@ public class PlayerController : BaseMonoBehaviour
                 inSpineEvent = false;
                 SpineTransform.localPosition = Vector3.zero;
                 curHitDelay = 0;
+
+                if(camera.targets.Count > 1)
+                    Camerawork();
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -219,10 +225,11 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Ultimate:
                 speed = 0;
-                state.facingAngle = 270f;
+                DodgeAngle = state.facingAngle = 270f;
                 muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 health.untouchable = true;
+                if(!IsInvoking("endUntouchable"))
                 Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
@@ -460,6 +467,23 @@ public class PlayerController : BaseMonoBehaviour
     {
         health.untouchable = false;
     }
+
+    public void Camerawork()
+    {
+        if (camera.targets.Count <= 1)
+        {
+            camera.AddTarget(gameObject, 1f);
+            camera.targetDistance = 5f;
+            camera.distance = 5f;
+        }
+        else
+        {
+            camera.targets.Clear();
+            camera.targetDistance = 17f;
+            camera.distance = 17f;
+        }
+    }
+
     public void addItem()
     {
         playerSound.PlayPlayerSound(playerSound.pcTotemGet);

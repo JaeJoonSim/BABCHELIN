@@ -203,6 +203,18 @@ public class CameraFollowTarget : BaseMonoBehaviour
             }
             init = true;
         }
+        if (init && targets.Count <= 0)
+        {
+            GameObject gameObject = GameObject.FindGameObjectWithTag("Player Camera Bone");
+            if (gameObject != null)
+            {
+                AddTarget(gameObject, 1f);
+            }
+            if (targets.Count <= 0)
+            {
+                return;
+            }
+        }
         else if (targets != null && targets.Count > 0)
         {
             for (int i = 0; i < targets.Count; i++)

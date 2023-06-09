@@ -190,6 +190,7 @@ public class PlayerAction : BaseMonoBehaviour
                     {
                         playerController.UltGauge -= 100;
                         playerController.inSpineEvent = true;
+                        playerController.Camerawork();
                         state.CURRENT_STATE = StateMachine.State.Ultimate;
                     }
                         
@@ -551,6 +552,7 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case StateMachine.State.Ultimate:
                     playerController.UltObj.GetComponent<UltimateManager>().UltimateShot();
+                    playerController.Camerawork();
                     break;
                 default:
                     break;

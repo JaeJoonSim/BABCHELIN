@@ -228,8 +228,7 @@ public class MapController : BaseMonoBehaviour
     {
         yield return new WaitForSeconds(2.5f);
 
-        camera.RemoveTarget(camera.targets[0].gameObject);
-        camera.AddTarget(PrevCameraPos, 1f);
+        camera.targets.Clear();
         camera.targetDistance = 17f;
         camera.distance = 17f;
 
