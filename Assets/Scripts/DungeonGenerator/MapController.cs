@@ -128,6 +128,10 @@ public class MapController : BaseMonoBehaviour
         camera.SnappyMovement = true;
         camera.enabled = false;
 
+        DungeonUIManager.Instance.isStage = true;
+
+        player.GetComponent<Health>().isInvincible = true;
+
         player.State.CURRENT_STATE = StateMachine.State.Jump;
 
         bool isFadeOutComplete = false;
@@ -178,11 +182,17 @@ public class MapController : BaseMonoBehaviour
 
 
         yield return new WaitUntil(() => isFadeInComplete && isMoveDownComplete);
+
+        DungeonUIManager.Instance.isStage = false;
+
         camera.SnappyMovement = false;
+        
         player.State.CURRENT_STATE = StateMachine.State.Landing;
 
         yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
+
+        player.GetComponent<Health>().isInvincible = false;
         if (skunk != null)
             skunk.patternManager.enabled = true;
     }
