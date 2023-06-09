@@ -278,12 +278,19 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 //    anim.AnimationState.AddAnimation(AnimationTrack, Moving, loop: true, 0f);
                 //}
                 _Dir = value;
-                if (playerController != null)
+                if (crosshair != null)
                 {
-                    if (_Dir < 0)
-                        playerController.muzzleBone.position = transform.position + new Vector3(1, 0, 0);
-                    else if (_Dir > 0)
-                        playerController.muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
+                    crosshair.mode = SkeletonUtilityBone.Mode.Follow;
+                    if (IsInvoking("ReStartFacing"))
+                        CancelInvoke("ReStartFacing");
+                    Invoke("ReStartFacing", 0.2f);
+                    //if (playerController != null)
+                    //{
+                    //    if (_Dir < 0)
+                    //        playerController.muzzleBone.position = transform.position + new Vector3(1, 0, 0);
+                    //    else if (_Dir > 0)
+                    //        playerController.muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
+                    //}
                 }
 
                 anim.skeleton.ScaleX = Dir;
@@ -1411,10 +1418,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
-        if (crosshair != null)
-        {
-            crosshair.mode = SkeletonUtilityBone.Mode.Follow;
-        }
+
         if (AutomaticallySetFacing)
         {
             if (45 <= state.facingAngle && state.facingAngle <= 135)
@@ -1437,7 +1441,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (playerController != null)
         {
-            crosshair.mode = SkeletonUtilityBone.Mode.Override;
+
             UpdateAnimFromFacing();
         }
     }
@@ -1445,5 +1449,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         Track.TimeScale = 1f;
         Track.End -= OnAnimationEnd;
+    }
+    void ReStartFacing()
+    {
+        if (crosshair != null)
+        {
+            crosshair.mode = SkeletonUtilityBone.Mode.Override;
+        }
     }
 }
