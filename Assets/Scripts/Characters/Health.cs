@@ -33,6 +33,7 @@ public class Health : BaseMonoBehaviour
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
     public bool untouchable = false;
+    public bool cheatMode = false;
     [HideInInspector] public bool damageDecrease = false;
     [HideInInspector] public bool doNotChange = false;
 

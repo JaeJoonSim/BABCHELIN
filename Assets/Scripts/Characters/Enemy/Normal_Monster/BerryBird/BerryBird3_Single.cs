@@ -69,11 +69,12 @@ public class BerryBird3_Single : UnitObject
         base.Update();
         SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
-        if(transform.rotation.x != 0)
+        if (playerHealth.CurrentHP() <= 0)
         {
-            transform.rotation = Quaternion.Euler(0, 0, 0);
+            state.CURRENT_STATE = StateMachine.State.Idle;
         }
+
+        SetRotation();
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
@@ -187,6 +188,14 @@ public class BerryBird3_Single : UnitObject
     {
         if (distanceToPlayer < hitDistance)
             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+    }
+
+    private void SetRotation()
+    {
+        if (transform.rotation.x != 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
 

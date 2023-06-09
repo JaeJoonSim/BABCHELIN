@@ -32,6 +32,7 @@ public class MapController : BaseMonoBehaviour
     private Skunk skunk;
     private float PrevPlayerPos;
     private GameObject PrevCameraPos;
+    private AudioSource audioSource;
 
     public Transform readySpoon;
     public Transform spoon;
@@ -45,6 +46,7 @@ public class MapController : BaseMonoBehaviour
         playerInput = player.GetComponent<PlayerInput>();
         playerUnit = player.GetComponent<UnitObject>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
+        audioSource = Camera.main.GetComponent<AudioSource>();
 
         Radial.SetActive(false);
         anim.gameObject.SetActive(false);
@@ -128,6 +130,8 @@ public class MapController : BaseMonoBehaviour
         camera.SnappyMovement = true;
         camera.enabled = false;
 
+        player.GetComponent<Health>().isInvincible = true;
+
         player.State.CURRENT_STATE = StateMachine.State.Jump;
 
         bool isFadeOutComplete = false;
@@ -171,6 +175,8 @@ public class MapController : BaseMonoBehaviour
         bool isFadeInComplete = false;
         bool isMoveDownComplete = false;
 
+        audioSource.Play();
+
         StartCoroutine(FadeIn(() => isFadeInComplete = true));
         StartCoroutine(MovePlayerDown(() => isMoveDownComplete = true));
 
@@ -178,11 +184,15 @@ public class MapController : BaseMonoBehaviour
 
 
         yield return new WaitUntil(() => isFadeInComplete && isMoveDownComplete);
+
         camera.SnappyMovement = false;
+        
         player.State.CURRENT_STATE = StateMachine.State.Landing;
 
         yield return new WaitForSeconds(0.9f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
+
+        player.GetComponent<Health>().isInvincible = false;
         if (skunk != null)
             skunk.patternManager.enabled = true;
     }

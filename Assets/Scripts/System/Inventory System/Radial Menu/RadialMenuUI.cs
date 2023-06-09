@@ -13,6 +13,8 @@ public class RadialMenuUI : MonoBehaviour
 
     public MapController mapController;
 
+    public AudioSource audioSource;
+
     private void Start()
     {
         sprites = new Sprite[mapController.mapPool.Count];
@@ -21,13 +23,23 @@ public class RadialMenuUI : MonoBehaviour
         {
             sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
         }
+
+        audioSource = Camera.main.GetComponent<AudioSource>();
     }
 
     private void Update()
     {
-        for (int i = 0; i < mapController.mapPool.Count; i++)
+        if (mapController.mapPool.Count > 3)
         {
-            sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+            for (int i = 0; i < mapController.mapPool.Count; i++)
+            {
+                sprites[i] = mapController.mapPool[i].GetComponent<MapInfo>().sprite;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < mapController.mapPool.Count; i++)
+                sprites[i] = mapController.bossRoom.GetComponent<MapInfo>().sprite;
         }
 
         if (sprites != null)
@@ -44,6 +56,7 @@ public class RadialMenuUI : MonoBehaviour
 
             if (selected >= 0)
             {
+                audioSource.clip = mapController.mapPool[selected].GetComponent<MapInfo>().BGM;
                 mapController.selectedMapIndex = selected;
                 mapController.SelectMap();
             }

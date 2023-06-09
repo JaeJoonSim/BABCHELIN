@@ -118,6 +118,10 @@ public class BerryBird : UnitObject
     {
         base.Update();
         SpineTransform.localPosition = Vector3.zero;
+        if (playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {

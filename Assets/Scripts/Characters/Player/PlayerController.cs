@@ -13,7 +13,9 @@ public class PlayerController : BaseMonoBehaviour
         set { state = value; }
     }
     private CircleCollider2D circleCollider2D;
-    private Health health;
+    public Health health;
+
+    public PlayerSound playerSound;
 
     public Transform SpineTransform;
     public SimpleSpineAnimator simpleSpineAnimator;
@@ -64,6 +66,10 @@ public class PlayerController : BaseMonoBehaviour
     public bool showSkill = false;
     [DrawIf("showSkill", true)] public float skill1CurCooltime;
     [DrawIf("showSkill", true)] public float skill2CurCooltime;
+
+    [Header("ÇÇ°Ý")]
+    public float hitDelay;
+    private float curHitDelay;
 
 
     [Header("muzzle")]
@@ -150,6 +156,7 @@ public class PlayerController : BaseMonoBehaviour
             case StateMachine.State.Idle:
                 inSpineEvent = false;
                 SpineTransform.localPosition = Vector3.zero;
+                curHitDelay = 0;
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -184,14 +191,15 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Absorbing:
-
+                if (!IsInvoking("SoundDelay"))
+                    Invoke("SoundDelay", 0.5f);
                 if (absorbEffet != null)
                 {
                     //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
                     //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-
+                
                 break;
 
             case StateMachine.State.Skill:
@@ -200,6 +208,8 @@ public class PlayerController : BaseMonoBehaviour
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 break;
             case StateMachine.State.Skill2:
+                if (!IsInvoking("SoundDelay"))
+                    Invoke("SoundDelay", 0.2f);
                 if (!Skills[1].activeSelf)
                 {
                     Skills[1].SetActive(true);
@@ -207,7 +217,6 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Attacking:
                 break;
-
             case StateMachine.State.Ultimate:
                 speed = 0;
                 state.facingAngle = 270f;
@@ -219,8 +228,17 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
-                
                 break;
+            case StateMachine.State.HitLeft:
+            case StateMachine.State.HitRight:
+                curHitDelay += Time.deltaTime;
+
+                if (hitDelay < curHitDelay) 
+                {
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+                break;
+
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
@@ -238,6 +256,18 @@ public class PlayerController : BaseMonoBehaviour
         if (BulletGauge < TotalStatus.bulletMin.value && !IsInvoking("RestoreBullet"))
             InvokeRepeating("RestoreBullet", 0f, TotalStatus.bulletRegenTime.value);
 
+    }
+
+    private void SoundDelay()
+    {
+        if (state.CURRENT_STATE == StateMachine.State.Absorbing)
+        {
+            playerSound.PlayPlayerSound(playerSound.pcAbsorb);
+        }
+        else if(state.CURRENT_STATE == StateMachine.State.Skill2)
+        {
+            playerSound.PlayPlayerSound(playerSound.pcSmallSkill);
+        }
     }
 
     public void facingAngle()
@@ -432,10 +462,11 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addItem()
     {
-        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        playerSound.PlayPlayerSound(playerSound.pcTotemGet);
+        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         ItemStatusAdd.ReSaveFieldsToVariables();
         ItemStatusPercent.ReSaveFieldsToVariables();
-        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
             if (item.Stat1 != "")

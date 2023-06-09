@@ -115,6 +115,12 @@ public class ButterCat : UnitObject
     {
         base.Update();
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+        if (playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+
+        SetRotation();
 
         if (state.CURRENT_STATE == StateMachine.State.Moving)
         {
@@ -400,6 +406,14 @@ public class ButterCat : UnitObject
     {
         if (distanceToPlayer < hitDistance)
             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
+    }
+
+    private void SetRotation()
+    {
+        if (transform.rotation.x != 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)

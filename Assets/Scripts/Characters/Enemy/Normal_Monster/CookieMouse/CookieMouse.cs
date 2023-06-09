@@ -111,6 +111,11 @@ public class CookieMouse : UnitObject
         if (creamParent != null && !agent.enabled && transform.position.z >= 0)
             agent.enabled = true;
 
+        if(playerHealth.CurrentHP() <= 0)
+        {
+            state.CURRENT_STATE = StateMachine.State.Idle;
+        }
+
         if (state.CURRENT_STATE == StateMachine.State.Moving || state.CURRENT_STATE == StateMachine.State.Patrol)
         {
             speed *= Mathf.Clamp(new Vector2(xDir, yDir).magnitude, 0f, 3f);

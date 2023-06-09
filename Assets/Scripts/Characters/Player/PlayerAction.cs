@@ -125,7 +125,7 @@ public class PlayerAction : BaseMonoBehaviour
                 DodgeDelay -= Time.deltaTime;
             }
 
-            
+
             playerController.skill2CurCooltime -= Time.deltaTime;
 
 
@@ -152,6 +152,17 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         PreviousPosition = base.transform.position;
+    }
+
+    public void cheatMode(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            playerController.health.cheatMode = !playerController.health.cheatMode;
+        }
+        else if (context.canceled)
+        {
+        }
     }
 
     public void move(InputAction.CallbackContext context)
@@ -275,6 +286,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             DodgeQueued = false;
             state.CURRENT_STATE = StateMachine.State.Dodging;
+            playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcRolling);
             DodgeDelay = playerController.TotalStatus.dodgeCoolDown.value;
             playerController.dodgeSpeed = playerController.TotalStatus.dodgeDistance.value / playerController.TotalStatus.dodgeTime.value;
             if (playerController.absorbEffet != null)
@@ -381,6 +393,7 @@ public class PlayerAction : BaseMonoBehaviour
                 }
                 state.facingAngle = Utils.GetMouseAngle(transform.position);
                 playerController.inSpineEvent = true;
+
                 state.CURRENT_STATE = StateMachine.State.Skill;
                 playerController.SkillIndex = 0;
                 playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
@@ -504,7 +517,7 @@ public class PlayerAction : BaseMonoBehaviour
             {
                 case StateMachine.State.Attacking:
                     playerController.addBullet(-playerController.TotalStatus.bulletCost.value);
-
+                    playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcShoot);
                     if (playerController.TotalStatus.bulletCount.value <= 1)
                     {
                         Instantiate(playerController.Attack
@@ -528,7 +541,7 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case StateMachine.State.Skill:
                     playerController.addBullet(-playerController.TotalStatus.sk2Cost.value);
-
+                    playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcLargeSkill);
                     Instantiate(playerController.Skills[playerController.SkillIndex],
                         spawnPos,
                         Quaternion.Euler(new Vector3(0, 0, state.facingAngle))

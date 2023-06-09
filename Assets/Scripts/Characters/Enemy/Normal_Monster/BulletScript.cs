@@ -109,5 +109,13 @@ public class BulletScript : BaseMonoBehaviour
 
             Destroy(gameObject);
         }
+        else if (collider.tag == "DestroyableObject ")
+        {
+            Debug.Log("Bullet hit " + collider.name);
+            GroundEffect.transform.position = transform.position;
+            GameObject groundEffect = Instantiate(GroundEffect);
+
+            Destroy(gameObject);
+        }
     }
 }

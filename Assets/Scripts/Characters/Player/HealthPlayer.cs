@@ -61,12 +61,14 @@ public class HealthPlayer : Health
         knockbackDirection.Normalize();
         controller.speed = KnockbackForce;
 
+        CameraManager.instance.ShakeCameraForDuration(AcessSetting.cameraShakeMin, AcessSetting.cameraShakeMax, 0.3f, StackShakes: false);
+
         yield return new WaitForSeconds(knockbackDuration / 2);
     }
 
     protected override bool IsInvincible()
     {
-        return untouchable || isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging;
+        return untouchable || isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging || cheatMode;
     }
 
     protected override void Die()

@@ -6146,11 +6146,11 @@ GameObject:
   - component: {fileID: 1117778514}
   m_Layer: 13
   m_Name: PlayerCollider
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2424448770442304662
 Transform:
   m_ObjectHideFlags: 0
@@ -9124,7 +9124,7 @@ Canvas:
   m_SortingBucketNormalizedSize: 0
   m_AdditionalShaderChannelsFlag: 25
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!114 &6160722343175086441
 MonoBehaviour:
@@ -9185,6 +9185,8 @@ GameObject:
   - component: {fileID: 6160722343811252258}
   - component: {fileID: 1318243719}
   - component: {fileID: 83695431}
+  - component: {fileID: 1068402843}
+  - component: {fileID: 1068402842}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -9285,6 +9287,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3877b2dd243ca7b41b51c4c0e79876b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 0}
+  playerSound: {fileID: 1068402842}
   SpineTransform: {fileID: 6160722344988669357}
   simpleSpineAnimator: {fileID: 0}
   BaseStatus:
@@ -9844,7 +9848,7 @@ MonoBehaviour:
   showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
   showAttack: 1
-  BulletGauge: 500
+  BulletGauge: 1000
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
   SkillIndex: 1
@@ -9854,6 +9858,7 @@ MonoBehaviour:
   showSkill: 1
   skill1CurCooltime: 0
   skill2CurCooltime: 0
+  hitDelay: 0.5
   showMuzzle: 1
   muzzle: {fileID: 6160722344487673776}
   muzzleEnd: {fileID: 6160722343070153728}
@@ -9949,9 +9954,10 @@ MonoBehaviour:
   multipleHealthLine: 0
   HpLineAmount: 20
   isPoisoned: 0
-  recoveryTime: 0.5
+  recoveryTime: 2
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 0
@@ -10071,6 +10077,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9660b42f-6587-497a-a815-f00318af660a
     m_ActionName: Action/Cancel[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: cheatMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bb463ba3-65e5-4cba-b665-7477f35bfb2c
+    m_ActionName: Action/cheatMode[/Keyboard/f2]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Action
@@ -10095,6 +10117,126 @@ MonoBehaviour:
     m_Bits: 64
   numFound: 0
   intUI: {fileID: 2389896514948917047}
+--- !u!82 &1068402843
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160722343811252264}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 3179540010606928331, guid: 52727d7fc538c89448e35145b16cc712,
+    type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &1068402842
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6160722343811252264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c5a2ae58a29e4644b85780e14a92e22, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pcWalkCookie: {fileID: 8300000, guid: cd26c03cddd62e54b88a97b1abf75a49, type: 3}
+  pcRolling: {fileID: 8300000, guid: 92eae9cc6eeeb2e4ea1ab23b3eb754b8, type: 3}
+  pcAbsorb: {fileID: 8300000, guid: 4b030ff4f75e4784187324a51baba603, type: 3}
+  pcBuffGet: {fileID: 8300000, guid: 362dfa12e6a377c4dae9deb57d1b8ef4, type: 3}
+  pcHit: {fileID: 8300000, guid: 9f72b7906225b234bb0a4ffea78796d6, type: 3}
+  pdLand: {fileID: 8300000, guid: c1ab9c9d00c09c34d96a0a4527198ff6, type: 3}
+  pcDeath: {fileID: 0}
+  pcShoot: {fileID: 8300000, guid: 62def2a549ecd914cbe7d3e2c71bab27, type: 3}
+  pcSmallSkill: {fileID: 8300000, guid: e34e8ab1b3766554fbf46a5f5d03857b, type: 3}
+  pcLargeSkill: {fileID: 8300000, guid: b4b565df9952dd0448996dad1dd46e3e, type: 3}
+  pcTotemGet: {fileID: 8300000, guid: 24de1f9abb2c6fc43b943d3cea3b9385, type: 3}
 --- !u!1 &6160722343933064625
 GameObject:
   m_ObjectHideFlags: 0

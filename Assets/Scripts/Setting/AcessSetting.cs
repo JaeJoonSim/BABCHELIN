@@ -6,6 +6,9 @@ using TMPro;
 
 public class AcessSetting : MonoBehaviour
 {
+    public static float cameraShakeMin;
+    public static float cameraShakeMax;
+    public Slider CameraShakeSlider;
     [SerializeField] private int textSize;
     public TMP_Text textSizeText;
     [SerializeField] private int textSpeed;
@@ -19,8 +22,15 @@ public class AcessSetting : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        cameraShakeSetting();
         textSizeSetting();
         textSpeedSetting();
+    }
+
+    private void cameraShakeSetting()
+    {
+        cameraShakeMin = CameraShakeSlider.value * 0.6f;
+        cameraShakeMax = CameraShakeSlider.value * 0.8f;
     }
 
     private void textSizeSetting()

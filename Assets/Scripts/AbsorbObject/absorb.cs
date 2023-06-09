@@ -55,7 +55,16 @@ public class absorb : BaseMonoBehaviour
     {
         if (Player == null)
         {
-            Player = GameObject.FindWithTag("Player").transform;
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            foreach (GameObject player in players)
+            {
+                if (player.layer == LayerMask.NameToLayer("Player"))
+                {
+                    Player = player.transform;
+                    break;
+                }
+            }
         }
     }
 }
