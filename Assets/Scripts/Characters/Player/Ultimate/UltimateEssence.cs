@@ -5,6 +5,10 @@ using UnityEngine;
 
 public class UltimateEssence : MonoBehaviour
 {
+    private void Start()
+    {
+        transform.position = new Vector3(transform.position.x, transform.position.y , -0.3f);
+    }
     private void Update()
     {
         Vector3 direction = absorb.Instance.Player.position - transform.position;

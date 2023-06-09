@@ -283,7 +283,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     crosshair.mode = SkeletonUtilityBone.Mode.Follow;
                     if (IsInvoking("ReStartFacing"))
                         CancelInvoke("ReStartFacing");
-                    Invoke("ReStartFacing", 0.2f);
+                    Invoke("ReStartFacing", 0.1f);
                     //if (playerController != null)
                     //{
                     //    if (_Dir < 0)
@@ -1403,10 +1403,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void Update()
     {
-        if (Time.timeScale < 0f || state.CURRENT_STATE == StateMachine.State.Dead || state.CURRENT_STATE == StateMachine.State.Pause)
-        {
-            return;
-        }
+
 
             if (!(state != null))
         {

@@ -6150,7 +6150,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2424448770442304662
 Transform:
   m_ObjectHideFlags: 0
@@ -9864,6 +9864,7 @@ MonoBehaviour:
   UltIdx: 0
   UltGauge: 100
   BulletUI: {fileID: 276941507017972697}
+  inSpineEvent: 0
 --- !u!114 &6160722343811252257
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10720,7 +10721,7 @@ MonoBehaviour:
   SouthDodge: {fileID: 11400000, guid: c10b802495ce5b940900f6818d1b6e5e, type: 2}
   Crack: {fileID: 0}
   NonCrack: {fileID: 0}
-  Jump: {fileID: 11400000, guid: af311b42085d82949a1584c210563332, type: 2}
+  Jump: {fileID: 11400000, guid: 2979a14830ecfd64d8e4539188fa2181, type: 2}
   TailWhip: {fileID: 0}
   CreamThrow: {fileID: 0}
   fart: {fileID: 0}
@@ -10773,7 +10774,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Moving: {fileID: 3837126672061354432}
-  Landing: {fileID: 0}
+  Landing: {fileID: 8910272844716722541}
 --- !u!1 &6228868552659127737
 GameObject:
   m_ObjectHideFlags: 0
@@ -14754,12 +14755,6 @@ PrefabInstance:
       propertyPath: PlayerController
       value: 
       objectReference: {fileID: 6160722343811252261}
-    - target: {fileID: 5878904369702718517, guid: 3c9cc35484c76e24ba7366905fdc7d00,
-        type: 3}
-      propertyPath: GummyBear.UltimateObj
-      value: 
-      objectReference: {fileID: 4791834563380550433, guid: e03d9e5be2aeb8343b58f7445da9445f,
-        type: 3}
     - target: {fileID: 5878904369702718519, guid: 3c9cc35484c76e24ba7366905fdc7d00,
         type: 3}
       propertyPath: m_Name
@@ -15089,11 +15084,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: PCLandingExplosion Effect
       objectReference: {fileID: 0}
+    - target: {fileID: 1747498776357904696, guid: cebcab966d6501f4e9e857d3a2611fb4,
+        type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cebcab966d6501f4e9e857d3a2611fb4, type: 3}
 --- !u!4 &6981839546020051779 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 217161251931083542, guid: cebcab966d6501f4e9e857d3a2611fb4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7198996382715766869}
+  m_PrefabAsset: {fileID: 0}
+--- !u!198 &8910272844716722541 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 1747498776357904696, guid: cebcab966d6501f4e9e857d3a2611fb4,
     type: 3}
   m_PrefabInstance: {fileID: 7198996382715766869}
   m_PrefabAsset: {fileID: 0}
