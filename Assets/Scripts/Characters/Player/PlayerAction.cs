@@ -552,7 +552,7 @@ public class PlayerAction : BaseMonoBehaviour
                     break;
                 case StateMachine.State.Ultimate:
                     playerController.UltObj.GetComponent<UltimateManager>().UltimateShot();
-                    playerController.Camerawork();
+                    //playerController.Camerawork();
                     break;
                 default:
                     break;

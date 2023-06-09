@@ -233,6 +233,7 @@ public class PlayerController : BaseMonoBehaviour
                 Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
+                    Camerawork();
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
