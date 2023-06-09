@@ -87,12 +87,14 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showUltimate", true)] public GameObject UltObj;
     [DrawIf("showUltimate", true)] public int UltIdx;
     [DrawIf("showUltimate", true)] public float UltGauge;
+    [DrawIf("showUltimate", true)] public ParticleSystem UltEffet;
 
     public GameObject BulletUI;
     private float fadeTime = 0;
 
     [Header("스파인 체크용")]
     public bool inSpineEvent = false;
+    public bool inCameraWork = false;
 
 
     private void Start()
@@ -161,8 +163,6 @@ public class PlayerController : BaseMonoBehaviour
                 SpineTransform.localPosition = Vector3.zero;
                 curHitDelay = 0;
 
-                if(camera.targets.Count > 1)
-                    Camerawork();
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -230,7 +230,7 @@ public class PlayerController : BaseMonoBehaviour
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 health.untouchable = true;
                 if(!IsInvoking("endUntouchable"))
-                Invoke("endUntouchable", 3f);
+                    Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
                     Camerawork();
@@ -473,18 +473,25 @@ public class PlayerController : BaseMonoBehaviour
     {
         if (camera.targets.Count <= 1)
         {
+ 
+            camera.SnappyMovement = true;
             camera.AddTarget(gameObject, 1f);
             camera.targetDistance = 5f;
             camera.distance = 5f;
         }
         else
         {
+            camera.SnappyMovement = true;
             camera.targets.Clear();
             camera.targetDistance = 17f;
             camera.distance = 17f;
+            Invoke("EnableCameraWork", 2f);
         }
     }
-
+    private void EnableCameraWork()
+    {
+        camera.SnappyMovement = false;
+    }
     public void addItem()
     {
         playerSound.PlayPlayerSound(playerSound.pcTotemGet);
