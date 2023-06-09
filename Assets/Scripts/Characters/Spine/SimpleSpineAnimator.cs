@@ -77,7 +77,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     [DrawIf("South", true)] public AnimationReferenceAsset SouthMovingBack;
     [Space]
     public AnimationReferenceAsset StartMoving;
-    public AnimationReferenceAsset StopMoving;
+    [Header("StopMoving")]
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset StopMoving;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthStopMoving;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthStopMoving;
 
     [Space, Header("Attack")]
     [DrawIf("LeftRight", true)] public AnimationReferenceAsset Attack;
@@ -707,21 +710,39 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         if (Track.Animation != NorthIdle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthStopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, NorthIdle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
                         }
                     }
                     else if (DirectionState == direction3.down && SouthIdle != null)
                     {
                         if (Track.Animation != SouthIdle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthStopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, SouthIdle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
                         }
                     }
                     else
                     {
                         if (Track.Animation != Idle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                         }
                     }
 
