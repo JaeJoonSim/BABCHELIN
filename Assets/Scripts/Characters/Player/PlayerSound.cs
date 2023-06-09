@@ -40,15 +40,15 @@ public class PlayerSound : MonoBehaviour
 
     private void Die()
     {
-        PlaySound(pcDeath);
+        PlayPlayerSound(pcDeath);
     }
 
     private void OnDamaged(GameObject attacker, Vector3 attackLocation, float damage, Health.AttackType type)
     {
-        PlaySound(pcHit);
+        PlayPlayerSound(pcHit);
     }
 
-    public void PlaySound(AudioClip ac)
+    public void PlayPlayerSound(AudioClip ac)
     {
         if (ac != null)
         {
@@ -64,7 +64,7 @@ public class PlayerSound : MonoBehaviour
             case StateMachine.State.Moving:
                 if (e.Data.Name == "land")
                 {
-                    //laySound(defend);
+                    PlayPlayerSound(pcWalkCookie);
                 }
                 break;
 

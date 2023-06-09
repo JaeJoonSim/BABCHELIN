@@ -15,6 +15,8 @@ public class PlayerController : BaseMonoBehaviour
     private CircleCollider2D circleCollider2D;
     private Health health;
 
+    public PlayerSound playerSound;
+
     public Transform SpineTransform;
     public SimpleSpineAnimator simpleSpineAnimator;
 
