@@ -36,6 +36,8 @@ public class MainMenuIllust : MonoBehaviour
     private bool logoOn = false;
     private bool uiOn = false;
 
+    public GameObject startButtonEffect;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -95,6 +97,12 @@ public class MainMenuIllust : MonoBehaviour
                 uiColor.a += Time.deltaTime;
             }
         }
+    }
+
+    public void StartButtonClick()
+    {
+        GameObject startBtnEffect = Instantiate(startButtonEffect);
+        startBtnEffect.transform.position = startButton.transform.position;
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
