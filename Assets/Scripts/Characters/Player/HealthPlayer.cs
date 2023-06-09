@@ -68,7 +68,7 @@ public class HealthPlayer : Health
 
     protected override bool IsInvincible()
     {
-        return untouchable || isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging;
+        return untouchable || isInvincible || state.CURRENT_STATE == StateMachine.State.Dodging || cheatMode;
     }
 
     protected override void Die()

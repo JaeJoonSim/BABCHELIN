@@ -118,7 +118,7 @@ public class Health : BaseMonoBehaviour
 
     protected virtual bool IsInvincible()
     {
-        return untouchable || isInvincible || cheatMode;
+        return untouchable || isInvincible;
     }
 
     protected virtual void Die()

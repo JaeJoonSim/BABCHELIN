@@ -158,7 +158,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if (context.performed)
         {
-            playerController.health.cheatMode = true;
+            playerController.health.cheatMode = !playerController.health.cheatMode;
         }
         else if (context.canceled)
         {
