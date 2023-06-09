@@ -65,6 +65,10 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showSkill", true)] public float skill1CurCooltime;
     [DrawIf("showSkill", true)] public float skill2CurCooltime;
 
+    [Header("ÇÇ°Ý")]
+    public float hitDelay;
+    private float curHitDelay;
+
 
     [Header("muzzle")]
     public bool showMuzzle = false;
@@ -150,6 +154,7 @@ public class PlayerController : BaseMonoBehaviour
             case StateMachine.State.Idle:
                 inSpineEvent = false;
                 SpineTransform.localPosition = Vector3.zero;
+                curHitDelay = 0;
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
                     state.CURRENT_STATE = StateMachine.State.Moving;
@@ -207,7 +212,6 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Attacking:
                 break;
-
             case StateMachine.State.Ultimate:
                 speed = 0;
                 state.facingAngle = 270f;
@@ -219,8 +223,17 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
-                
                 break;
+            case StateMachine.State.HitLeft:
+            case StateMachine.State.HitRight:
+                curHitDelay += Time.deltaTime;
+
+                if (hitDelay < curHitDelay) 
+                {
+                    state.CURRENT_STATE = StateMachine.State.Idle;
+                }
+                break;
+
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
