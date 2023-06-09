@@ -61,7 +61,7 @@ public struct status
     public Stat<float> absorbChargeSmall;
     [Tooltip("오브젝트 흡수량(중)")]
     public Stat<float> absorbChargeMedium;
-    [Tooltip("오브젝트 흡수 속도(대)")]
+    [Tooltip("오브젝트 흡수 량(대)")]
     public Stat<float> absorbChargeLarge;
 
     //공격관련

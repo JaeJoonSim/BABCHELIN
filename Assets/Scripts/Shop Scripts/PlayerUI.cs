@@ -27,7 +27,9 @@ public class PlayerUI : MonoBehaviour
     public Image SkillIcon_1;
     public Image SkillIcon_2;
     public Image UIUltimateGauge;
+    public Image UIUltimateIcon;
 
+    public Sprite[] UltIcons;
     // Start is called before the first frame update
     void Start()
     {
@@ -65,5 +67,7 @@ public class PlayerUI : MonoBehaviour
         SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.BaseStatus.sk2CoolDown.value;
 
         UIUltimateGauge.fillAmount = 0.1f + (playerController.UltGauge / playerController.BaseStatus.UltMax.value) / 0.8f;
+        UIUltimateIcon.sprite = UltIcons[playerController.UltIdx];
+
     }
 }

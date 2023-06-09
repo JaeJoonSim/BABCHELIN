@@ -367,8 +367,9 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addBullet(int add)
     {
-        BulletGauge += add;
-
+        int Gauge = add + (add * (TotalStatus.absorbRestore.value / 100));
+        BulletGauge += Gauge;
+        //Debug.Log("Bullet È¸º¹ = " + Gauge);
         if (BulletGauge > TotalStatus.bulletMax.value)
         {
             BulletGauge = TotalStatus.bulletMax.value;
@@ -379,6 +380,23 @@ public class PlayerController : BaseMonoBehaviour
         }
 
     }
+
+    public void addUltGauge(int add)
+    {
+        float Gauge = add + (add * (TotalStatus.ultRestore.value / 100));
+        UltGauge += Gauge;
+        //Debug.Log("±Ã±Ø±â È¸º¹ = " + Gauge);
+        if (UltGauge > TotalStatus.UltMax.value)
+        {
+            UltGauge = 100;
+        }
+        if (UltGauge <= 0)
+        {
+            UltGauge = 0;
+        }
+
+    }
+
     private void RestoreBullet()
     {
 

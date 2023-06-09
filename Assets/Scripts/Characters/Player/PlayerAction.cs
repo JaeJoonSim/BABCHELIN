@@ -481,15 +481,14 @@ public class PlayerAction : BaseMonoBehaviour
         
         float val2 = Mathf.Round((trackEntry.AnimationTime) * Spine.skeleton.Data.Fps);
         float val1 = Mathf.Round((e.Time * Spine.skeleton.Data.Fps));
-        //Debug.Log(Mathf.Approximately(val1, val2));
+        //Debug.Log(1 < Mathf.Abs(val1 - val2));
         //Debug.Log(val2);
         //Debug.Log(val1);
 
         //Debug.Log("----------------------------");
-        //Debug.Log(e.Time);
         if (e.Data.Name == "shot")
         {
-            if (val1 != val2)
+            if (1 < Mathf.Abs(val1 - val2))
                 return;
 
             Vector3 spawnPos = playerController.muzzleEnd.position;

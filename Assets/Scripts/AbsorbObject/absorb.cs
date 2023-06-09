@@ -30,9 +30,13 @@ public class absorb : BaseMonoBehaviour
 
     [Header("Èí¼ö À§Ä¡")]
     private Transform player;
+
+    public GameObject BulletEssence;
+    public GameObject UltimateEssence;
     public Transform Player { get { return player; } set { player = value; } }
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
+
 
     private void Awake()
     {
@@ -49,8 +53,6 @@ public class absorb : BaseMonoBehaviour
 
     private void Start()
     {
-       
-
         if (Player == null)
         {
             Player = GameObject.FindWithTag("Player").transform;

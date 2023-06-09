@@ -30,11 +30,9 @@ public class absorbObject : MonoBehaviour
     private float startTime;
     private float currentSpeed;
 
-    float zpos;
 
     void Start()
     {
-        zpos = transform.position.z;
         switch (size)
         {
             case absorb.objectSize.small:
@@ -99,12 +97,12 @@ public class absorbObject : MonoBehaviour
             }
         }
         else
-            Absorb();
+        {
+            Instantiate(absorb.Instance.BulletEssence, transform.position, Quaternion.identity).GetComponent<BulletEssence>().setAddValue(addBullet);
+            Destroy(gameObject);
+        }
     }
-    void Absorb()
-    {
-        transform.position = transform.position + (absorb.Instance.Player.position - transform.position).normalized * absorb.Instance.speed * Time.deltaTime;
-    }
+
     void shake()
     {
         currentSpeed = Mathf.Clamp(currentSpeed + acceleration * Time.deltaTime, 0, maxSpeed);
@@ -112,18 +110,5 @@ public class absorbObject : MonoBehaviour
         transform.rotation = initialRotation * Quaternion.Euler(0, yRotation, 0);
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (isAbsorb && collision.tag == "Player")
-        {
-            collision.GetComponent<PlayerController>().addBullet(addBullet);
-            Destroy(gameObject);
-
-            Cream parent = gameObject.GetComponentInParent<Cream>();
-            if (parent != null)
-                Destroy(parent);
-        }
-
-    }
 
 }
