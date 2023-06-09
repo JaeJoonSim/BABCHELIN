@@ -10,6 +10,7 @@ public class BerryBird3_Single : UnitObject
     public Transform SpineTransform;
 
     [SerializeField] Transform target;
+    [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
     [SerializeField] float hitDistance;
     //[SerializeField] float moveTime = 0f;
@@ -23,6 +24,8 @@ public class BerryBird3_Single : UnitObject
     private Health playerHealth;
     private NavMeshAgent agent;
     private float distanceToPlayer;
+
+    public LayerMask obstacleMask;
 
     [Space]
     public float forceDir;
@@ -69,6 +72,8 @@ public class BerryBird3_Single : UnitObject
         base.Update();
         SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -177,6 +182,21 @@ public class BerryBird3_Single : UnitObject
         }
     }
 
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     private void Stop()
     {

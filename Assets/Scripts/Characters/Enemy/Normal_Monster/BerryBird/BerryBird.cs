@@ -25,6 +25,8 @@ public class BerryBird : UnitObject
     public AnimationReferenceAsset Runaway;
     private float aniCount = 0;
 
+    public LayerMask obstacleMask;
+
     public float Damaged = 1f;
 
     [Space]
@@ -118,6 +120,8 @@ public class BerryBird : UnitObject
     {
         base.Update();
         SpineTransform.localPosition = Vector3.zero;
+
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -157,7 +161,7 @@ public class BerryBird : UnitObject
                         idleTimer = 0f;
                     }
 
-                    if (distanceToPlayer <= detectionRange)
+                    if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                     {
                         state.CURRENT_STATE = StateMachine.State.Notice;
                     }
@@ -326,13 +330,17 @@ public class BerryBird : UnitObject
                     if (time >= delayTime)
                     {
                         time = 0;
-                        if (distanceToPlayer <= detectionAttackRange)
+                        if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
-                        else
+                        else if(distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
                         }
                     }
                     break;
@@ -362,7 +370,7 @@ public class BerryBird : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
         {
             aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
@@ -386,6 +394,21 @@ public class BerryBird : UnitObject
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
+    }
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void RunAway()

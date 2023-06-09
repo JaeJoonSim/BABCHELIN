@@ -24,6 +24,8 @@ public class CookieMouse3 : UnitObject
     public AnimationReferenceAsset Notice;
     private float aniCount = 0;
 
+    public LayerMask obstacleMask;
+
     public float Damaged = 1f;
 
     [Space]
@@ -106,6 +108,7 @@ public class CookieMouse3 : UnitObject
         SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -144,7 +147,7 @@ public class CookieMouse3 : UnitObject
                         time = 0f;
                     }
 
-                    if (distanceToPlayer <= detectionRange)
+                    if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                     {
                         time = 0;
                         state.CURRENT_STATE = StateMachine.State.Notice;
@@ -251,11 +254,11 @@ public class CookieMouse3 : UnitObject
                     if (time >= delayTime)
                     {
                         time = 0f;
-                        if (distanceToPlayer <= detectionAttackRange)
+                        if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Attacking;
                         }
-                        else if (distanceToPlayer <= detectionRange)
+                        else if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Moving;
                         }
@@ -291,7 +294,7 @@ public class CookieMouse3 : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
         {
             aniCount = 0;
             time = 0;
@@ -316,6 +319,22 @@ public class CookieMouse3 : UnitObject
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
+    }
+
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void Stop()

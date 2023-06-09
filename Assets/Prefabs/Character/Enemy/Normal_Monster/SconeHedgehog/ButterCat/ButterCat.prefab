@@ -123,6 +123,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 1
@@ -155,12 +156,16 @@ MonoBehaviour:
   StartDefend: {fileID: 11400000, guid: 50eb2c61c1362df4fb4b610c139a0c39, type: 2}
   Defend: {fileID: 11400000, guid: 711caba4ee0c6af45849ecdc3f5ec159, type: 2}
   StopDefend: {fileID: 11400000, guid: f06911cc78a13924d8631f03e5de7dee, type: 2}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2048
   patrolSpeed: 3
   runawaySpeed: 7
   chaseSpeed: 7
   hitSpeed: 1
   Damaged: 15
   target: {fileID: 0}
+  detectionRange: 0
   detectionAttackRange: 5
   hitDistance: 0.5
   time: 0
@@ -515,6 +520,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  crosshair: {fileID: 0}
   curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 0
@@ -535,6 +541,8 @@ MonoBehaviour:
   SouthMovingBack: {fileID: 0}
   StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
+  NorthStopMoving: {fileID: 0}
+  SouthStopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: 5f7e3eac93cf09e4295867d9d8d416bb, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}

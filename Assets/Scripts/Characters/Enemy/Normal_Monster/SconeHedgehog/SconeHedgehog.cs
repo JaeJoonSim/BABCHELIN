@@ -35,6 +35,8 @@ public class SconeHedgehog : UnitObject
     public AnimationReferenceAsset ChaseHit;
     private float aniCount = 0;
 
+    public LayerMask obstacleMask;
+
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
 
@@ -149,6 +151,8 @@ public class SconeHedgehog : UnitObject
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
         xDir = Mathf.Clamp(directionToTarget.x, -1f, 1f);
         yDir = Mathf.Clamp(directionToTarget.y, -1f, 1f);
+
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -185,7 +189,7 @@ public class SconeHedgehog : UnitObject
                     DashEffect_L.SetActive(false);
                     DashEffect_R.SetActive(false);
 
-                    if (distanceToPlayer <= detectionRange)
+                    if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                     {
                         time = 0f;
                         aniCount = 0;
@@ -204,7 +208,6 @@ public class SconeHedgehog : UnitObject
                             aniCount++;
                         }
                     }
-                    agent.isStopped = false;
                     Patrol();
                     speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
@@ -472,6 +475,7 @@ public class SconeHedgehog : UnitObject
                         }
                     }
                     state.PREVIOUS_STATE = StateMachine.State.Delay;
+
                     if (time >= 1f)
                     {
                         time = 0f;
@@ -486,7 +490,7 @@ public class SconeHedgehog : UnitObject
                         }
 
                         dashCount = 0;
-                        if (distanceToPlayer <= detectionJumpRange)
+                        if (distanceToPlayer <= detectionJumpRange && FindVisibleTargets() == true)
                         {
                             paternPer = UnityEngine.Random.Range(0, 10);
                             if (paternPer < jumpPer)
@@ -499,7 +503,7 @@ public class SconeHedgehog : UnitObject
                                 state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
-                        else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
+                        else if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
                             paternPer = UnityEngine.Random.Range(0, 10);
@@ -512,9 +516,13 @@ public class SconeHedgehog : UnitObject
                                 state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
-                        else
+                        else if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
                         }
                     }
                     break;
@@ -575,7 +583,7 @@ public class SconeHedgehog : UnitObject
                             this.transform.localScale = new Vector3(-1f, 1f, 1f);
                         }
 
-                        if (distanceToPlayer <= detectionJumpRange)
+                        if (distanceToPlayer <= detectionJumpRange && FindVisibleTargets() == true)
                         {
                             paternPer = UnityEngine.Random.Range(0, 10);
                             if (paternPer < jumpPer)
@@ -588,7 +596,7 @@ public class SconeHedgehog : UnitObject
                                 state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
-                        else if (detectionJumpRange < distanceToPlayer && distanceToPlayer <= detectionAttackRange)
+                        else if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                         {
                             directionToPoint = (target.position - transform.position).normalized;
                             paternPer = UnityEngine.Random.Range(0, 10);
@@ -601,9 +609,13 @@ public class SconeHedgehog : UnitObject
                                 state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
                         }
-                        else
+                        else if(distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Moving;
+                        }
+                        else
+                        {
+                            state.CURRENT_STATE = StateMachine.State.Idle;
                         }
                     }
                     break;
@@ -665,6 +677,7 @@ public class SconeHedgehog : UnitObject
         if (time < patrolToIdleDelay)
         {
             agent.SetDestination(patrolTargetPosition);
+            agent.isStopped = false;
             agent.speed = patrolSpeed;
         }
         else
@@ -675,7 +688,7 @@ public class SconeHedgehog : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
         {
             time = 0;
             aniCount = 0;
@@ -690,6 +703,21 @@ public class SconeHedgehog : UnitObject
         NavMeshHit hit;
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
+    }
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void Stop()

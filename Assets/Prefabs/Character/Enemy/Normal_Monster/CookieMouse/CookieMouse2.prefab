@@ -125,6 +125,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 1
@@ -171,6 +172,9 @@ MonoBehaviour:
   Runaway: {fileID: 11400000, guid: 8c14f737d3d0d444c840f7522ef4f24a, type: 2}
   StartSliding: {fileID: 11400000, guid: 6490cc3628e05524aa5196a20166cdcb, type: 2}
   Sliding: {fileID: 11400000, guid: a442b0a9a2771574bb044fe144b1ad92, type: 2}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2048
   Damaged: 10
   target: {fileID: 0}
   detectionRange: 12
@@ -544,6 +548,8 @@ MonoBehaviour:
   SouthMovingBack: {fileID: 0}
   StartMoving: {fileID: 0}
   StopMoving: {fileID: 0}
+  NorthStopMoving: {fileID: 0}
+  SouthStopMoving: {fileID: 0}
   Attack: {fileID: 11400000, guid: a442b0a9a2771574bb044fe144b1ad92, type: 2}
   NorthAttack: {fileID: 0}
   SouthAttack: {fileID: 0}
