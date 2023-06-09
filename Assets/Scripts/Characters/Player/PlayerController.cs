@@ -191,14 +191,15 @@ public class PlayerController : BaseMonoBehaviour
                 }
                 break;
             case StateMachine.State.Absorbing:
-
+                if (!IsInvoking("SoundDelay"))
+                    Invoke("SoundDelay", 0.5f);
                 if (absorbEffet != null)
                 {
                     //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
                     //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-                playerSound.PlayPlayerSound(playerSound.pcAbsorb);
+                
                 break;
 
             case StateMachine.State.Skill:
@@ -207,7 +208,8 @@ public class PlayerController : BaseMonoBehaviour
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 break;
             case StateMachine.State.Skill2:
-                playerSound.PlayPlayerSound(playerSound.pcSmallSkill);
+                if (!IsInvoking("SoundDelay"))
+                    Invoke("SoundDelay", 0.2f);
                 if (!Skills[1].activeSelf)
                 {
                     Skills[1].SetActive(true);
@@ -254,6 +256,18 @@ public class PlayerController : BaseMonoBehaviour
         if (BulletGauge < TotalStatus.bulletMin.value && !IsInvoking("RestoreBullet"))
             InvokeRepeating("RestoreBullet", 0f, TotalStatus.bulletRegenTime.value);
 
+    }
+
+    private void SoundDelay()
+    {
+        if (state.CURRENT_STATE == StateMachine.State.Absorbing)
+        {
+            playerSound.PlayPlayerSound(playerSound.pcAbsorb);
+        }
+        else if(state.CURRENT_STATE == StateMachine.State.Skill2)
+        {
+            playerSound.PlayPlayerSound(playerSound.pcSmallSkill);
+        }
     }
 
     public void facingAngle()

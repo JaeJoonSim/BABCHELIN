@@ -26,6 +26,8 @@ public class PlayerSound : MonoBehaviour
     public AudioClip pcLargeSkill;
     public AudioClip pcTotemGet;
 
+    private float delay;
+
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
