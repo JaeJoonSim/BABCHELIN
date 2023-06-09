@@ -6146,7 +6146,7 @@ GameObject:
   - component: {fileID: 1117778514}
   m_Layer: 13
   m_Name: PlayerCollider
-  m_TagString: Player
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9287,6 +9287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3877b2dd243ca7b41b51c4c0e79876b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: {fileID: 0}
   playerSound: {fileID: 1068402842}
   SpineTransform: {fileID: 6160722344988669357}
   simpleSpineAnimator: {fileID: 0}
@@ -9956,6 +9957,7 @@ MonoBehaviour:
   recoveryTime: 2
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 0
@@ -10075,6 +10077,22 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 9660b42f-6587-497a-a815-f00318af660a
     m_ActionName: Action/Cancel[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6160722343811252257}
+        m_TargetAssemblyTypeName: PlayerAction, Assembly-CSharp
+        m_MethodName: cheatMode
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: bb463ba3-65e5-4cba-b665-7477f35bfb2c
+    m_ActionName: Action/cheatMode[/Keyboard/f2]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Player
   m_DefaultActionMap: Action

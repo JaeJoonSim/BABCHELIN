@@ -13,7 +13,7 @@ public class PlayerController : BaseMonoBehaviour
         set { state = value; }
     }
     private CircleCollider2D circleCollider2D;
-    private Health health;
+    public Health health;
 
     public PlayerSound playerSound;
 

@@ -125,7 +125,7 @@ public class PlayerAction : BaseMonoBehaviour
                 DodgeDelay -= Time.deltaTime;
             }
 
-            
+
             playerController.skill2CurCooltime -= Time.deltaTime;
 
 
@@ -152,6 +152,17 @@ public class PlayerAction : BaseMonoBehaviour
         }
 
         PreviousPosition = base.transform.position;
+    }
+
+    public void cheatMode(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            playerController.health.cheatMode = true;
+        }
+        else if (context.canceled)
+        {
+        }
     }
 
     public void move(InputAction.CallbackContext context)
@@ -333,7 +344,6 @@ public class PlayerAction : BaseMonoBehaviour
             if (state.CURRENT_STATE != StateMachine.State.Absorbing)
             {
                 playerController.PreesAttack = true;
-                playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcAbsorb);
                 state.CURRENT_STATE = StateMachine.State.Absorbing;
             }
 
