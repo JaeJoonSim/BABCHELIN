@@ -15,7 +15,7 @@ public class TotemObj : MonoBehaviour
 
     void Start()
     {
-        getItem();
+        Invoke("getItem", 0.3f);
     }
 
     void getItem()
