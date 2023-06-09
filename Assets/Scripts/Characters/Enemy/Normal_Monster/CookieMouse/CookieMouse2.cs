@@ -28,6 +28,8 @@ public class CookieMouse2 : UnitObject
     public AnimationReferenceAsset Sliding;
     private int aniCount = 0;
 
+    public LayerMask obstacleMask;
+
     public float Damaged = 1f;
     bool hasAppliedDamage = false;
 
@@ -117,6 +119,7 @@ public class CookieMouse2 : UnitObject
         SpineTransform.localPosition = Vector3.zero;
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -156,7 +159,7 @@ public class CookieMouse2 : UnitObject
                         idleTimer = 0f;
                     }
 
-                    if (distanceToPlayer <= detectionRange)
+                    if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                     {
                         state.CURRENT_STATE = StateMachine.State.Notice;
                     }
@@ -286,17 +289,17 @@ public class CookieMouse2 : UnitObject
                         state.LockStateChanges = false;
                         moveTime = 0;
                         aniCount = 0;
-                        if (distanceToPlayer <= detectionAttackRange)
+                        if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                         {
                             state.CURRENT_STATE = StateMachine.State.Runaway;
                         }
                         else
                         {
-                            if (distanceToPlayer <= detectionAttackRange)
+                            if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
                             {
                                 state.CURRENT_STATE = StateMachine.State.Attacking;
                             }
-                            else if (distanceToPlayer <= detectionRange)
+                            else if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
                             {
                                 state.CURRENT_STATE = StateMachine.State.Moving;
                             }
@@ -352,7 +355,7 @@ public class CookieMouse2 : UnitObject
             state.CURRENT_STATE = StateMachine.State.Idle;
         }
 
-        if (distanceToPlayer <= detectionRange)
+        if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
         {
             aniCount = 0;
             idleToPatrolDelay = UnityEngine.Random.Range(idleMinTime, idleMaxTime);
@@ -377,6 +380,22 @@ public class CookieMouse2 : UnitObject
         NavMesh.SamplePosition(randomDirection, out hit, patrolRange, 1);
         return hit.position;
     }
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void RunAway()
     {
         moveTime += Time.deltaTime;

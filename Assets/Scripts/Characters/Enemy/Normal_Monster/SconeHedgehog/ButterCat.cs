@@ -30,6 +30,8 @@ public class ButterCat : UnitObject
     public AnimationReferenceAsset StopDefend;
     private float aniCount = 0;
 
+    public LayerMask obstacleMask;
+
 
     [Space]
     [SerializeField] float patrolSpeed;
@@ -42,6 +44,7 @@ public class ButterCat : UnitObject
 
     [Space]
     [SerializeField] Transform target;
+    [SerializeField] float detectionRange;
     [SerializeField] float detectionAttackRange;
     [SerializeField] float hitDistance;
     [SerializeField] float time = 0;
@@ -115,6 +118,8 @@ public class ButterCat : UnitObject
     {
         base.Update();
         distanceToPlayer = Vector3.Distance(transform.position, target.position);
+
+        FindVisibleTargets();
         if (playerHealth.CurrentHP() <= 0)
         {
             state.CURRENT_STATE = StateMachine.State.Idle;
@@ -362,6 +367,21 @@ public class ButterCat : UnitObject
         {
             isShield = false;
         }
+    }
+    public bool FindVisibleTargets()
+    {
+        //거리가 시야 범위 안에 들어오면
+        if (distanceToPlayer <= detectionRange)
+        {
+            //플레이어의 방향
+            Vector3 dirToTarget = (target.position - transform.position).normalized;
+            // 공격 범위 안에 들어오면 
+            if (!Physics2D.Raycast(transform.position, dirToTarget, distanceToPlayer, obstacleMask))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
 

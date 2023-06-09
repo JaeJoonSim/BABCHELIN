@@ -126,6 +126,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 1
@@ -163,10 +164,13 @@ MonoBehaviour:
   Jump: {fileID: 11400000, guid: 1cc2a848f56050d4984b15448823083f, type: 2}
   NormalHit: {fileID: 11400000, guid: e29ef3d5f8ac8c34c9456479bf23d6a0, type: 2}
   ChaseHit: {fileID: 11400000, guid: 4f54cc2ae42f1c448b85980818c402ef, type: 2}
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 2048
   Damaged: 20
   target: {fileID: 0}
-  detectionRange: 15
-  detectionAttackRange: 10
+  detectionRange: 10
+  detectionAttackRange: 5
   detectionJumpRange: 4
   hitDistance: 0.5
   jumpDamageRange: 2
