@@ -109,7 +109,8 @@ public class UnitObject : BaseMonoBehaviour
 
     public virtual void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
-        CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
+        //CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
+        //CameraManager.instance.shakeCamera1(1.0f, 1.0f);
     }
 
 }
