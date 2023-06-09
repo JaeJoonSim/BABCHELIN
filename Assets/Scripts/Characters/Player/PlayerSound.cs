@@ -17,9 +17,9 @@ public class PlayerSound : MonoBehaviour
     public AudioClip pcWalkCookie;
     public AudioClip pcRolling;
     public AudioClip pcAbsorb;
-    public AudioClip pcBuffGet;
+    public AudioClip pcBuffGet;//
     public AudioClip pcHit;
-    public AudioClip pdLand;
+    public AudioClip pdLand;//
     public AudioClip pcDeath;
     public AudioClip pcShoot;
     public AudioClip pcSmallSkill;

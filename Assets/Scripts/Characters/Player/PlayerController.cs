@@ -198,7 +198,7 @@ public class PlayerController : BaseMonoBehaviour
                     //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-
+                playerSound.PlayPlayerSound(playerSound.pcAbsorb);
                 break;
 
             case StateMachine.State.Skill:
@@ -207,6 +207,7 @@ public class PlayerController : BaseMonoBehaviour
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 break;
             case StateMachine.State.Skill2:
+                playerSound.PlayPlayerSound(playerSound.pcSmallSkill);
                 if (!Skills[1].activeSelf)
                 {
                     Skills[1].SetActive(true);
@@ -447,10 +448,11 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addItem()
     {
-        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        playerSound.PlayPlayerSound(playerSound.pcTotemGet);
+        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         ItemStatusAdd.ReSaveFieldsToVariables();
         ItemStatusPercent.ReSaveFieldsToVariables();
-        Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
+        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
             if (item.Stat1 != "")
