@@ -122,7 +122,7 @@ public class PlayerController : BaseMonoBehaviour
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
-            speed += (0f - speed) / 3f * GameManager.DeltaTime;
+            speed = 0;
             return;
         }
         if (state.CURRENT_STATE != StateMachine.State.Dodging)
@@ -385,7 +385,7 @@ public class PlayerController : BaseMonoBehaviour
     {
         float Gauge = add + (add * (TotalStatus.ultRestore.value / 100));
         UltGauge += Gauge;
-        //Debug.Log("±Ã±Ø±â È¸º¹ = " + Gauge);
+        Debug.Log("±Ã±Ø±â È¸º¹ = " + Gauge);
         if (UltGauge > TotalStatus.UltMax.value)
         {
             UltGauge = 100;

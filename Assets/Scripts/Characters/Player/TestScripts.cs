@@ -9,6 +9,7 @@ public class TestScripts : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (player == null)
         player = GameObject.FindWithTag("Player").GetComponent<Health>();
     }
 

@@ -65,7 +65,12 @@ public class UnitObject : BaseMonoBehaviour
 
     protected virtual void FixedUpdate()
     {
-        if(!(rb == null))
+        if (state.CURRENT_STATE == StateMachine.State.Dead)
+        {
+            return;
+        }
+
+        if (!(rb == null))
         {
             float num = (UseDeltaTime ? GameManager.DeltaTime : GameManager.UnscaledDeltaTime);
             if (float.IsNaN(moveVX) || float.IsInfinity(moveVX))
