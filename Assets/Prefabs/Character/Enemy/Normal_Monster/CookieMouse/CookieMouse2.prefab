@@ -171,7 +171,7 @@ MonoBehaviour:
   Runaway: {fileID: 11400000, guid: 8c14f737d3d0d444c840f7522ef4f24a, type: 2}
   StartSliding: {fileID: 11400000, guid: 6490cc3628e05524aa5196a20166cdcb, type: 2}
   Sliding: {fileID: 11400000, guid: a442b0a9a2771574bb044fe144b1ad92, type: 2}
-  Damaged: 15
+  Damaged: 10
   target: {fileID: 0}
   detectionRange: 12
   detectionAttackRange: 7
@@ -180,8 +180,8 @@ MonoBehaviour:
   moveTime: 0
   time: 0
   patrolSpeed: 3
-  chaseSpeed: 4
-  slidingSpeed: 10
+  chaseSpeed: 3
+  slidingSpeed: 8
   runawaySpeed: 6
   hitSpeed: 1
   AttackDelay: 0
@@ -523,6 +523,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DirectionState: 0
+  crosshair: {fileID: 0}
   curAnimTime: 0
   AnimationTrack: 0
   SecondaryTrack: 0

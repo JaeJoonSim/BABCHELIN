@@ -1,8 +1,10 @@
+using FMOD;
 using Spine;
 using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,6 +17,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         Middle = 2
     }
     public direction3 DirectionState;
+
+    [SerializeField]
+    private SkeletonUtilityBone crosshair;
 
     public float curAnimTime;
 
@@ -72,7 +77,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     [DrawIf("South", true)] public AnimationReferenceAsset SouthMovingBack;
     [Space]
     public AnimationReferenceAsset StartMoving;
-    public AnimationReferenceAsset StopMoving;
+    [Header("StopMoving")]
+    [DrawIf("LeftRight", true)] public AnimationReferenceAsset StopMoving;
+    [DrawIf("North", true)] public AnimationReferenceAsset NorthStopMoving;
+    [DrawIf("South", true)] public AnimationReferenceAsset SouthStopMoving;
 
     [Space, Header("Attack")]
     [DrawIf("LeftRight", true)] public AnimationReferenceAsset Attack;
@@ -273,15 +281,23 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 //    anim.AnimationState.AddAnimation(AnimationTrack, Moving, loop: true, 0f);
                 //}
                 _Dir = value;
-                if (playerController != null)
+                if (crosshair != null)
                 {
-                    if (_Dir < 0)
-                        playerController.muzzleBone.position = transform.position + new Vector3(1, 0, 0);
-                    else if (_Dir > 0)
-                        playerController.muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
+                    crosshair.mode = SkeletonUtilityBone.Mode.Follow;
+                    if (IsInvoking("ReStartFacing"))
+                        CancelInvoke("ReStartFacing");
+                    Invoke("ReStartFacing", 0.1f);
+                    //if (playerController != null)
+                    //{
+                    //    if (_Dir < 0)
+                    //        playerController.muzzleBone.position = transform.position + new Vector3(1, 0, 0);
+                    //    else if (_Dir > 0)
+                    //        playerController.muzzleBone.position = transform.position + new Vector3(-1, 0, 0);
+                    //}
                 }
 
                 anim.skeleton.ScaleX = Dir;
+
             }
         }
     }
@@ -694,21 +710,39 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                     {
                         if (Track.Animation != NorthIdle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthStopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, NorthIdle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
                         }
                     }
                     else if (DirectionState == direction3.down && SouthIdle != null)
                     {
                         if (Track.Animation != SouthIdle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthStopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, SouthIdle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
                         }
                     }
                     else
                     {
                         if (Track.Animation != Idle.Animation)
                         {
-                            Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: true);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
+                            }
+                            else
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
                         }
                     }
 
@@ -1390,7 +1424,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void Update()
     {
-        if (!(state != null))
+
+
+            if (!(state != null))
         {
             return;
         }
@@ -1423,6 +1459,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (playerController != null)
         {
+
             UpdateAnimFromFacing();
         }
     }
@@ -1430,5 +1467,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
         Track.TimeScale = 1f;
         Track.End -= OnAnimationEnd;
+    }
+    void ReStartFacing()
+    {
+        if (crosshair != null)
+        {
+            crosshair.mode = SkeletonUtilityBone.Mode.Override;
+        }
     }
 }

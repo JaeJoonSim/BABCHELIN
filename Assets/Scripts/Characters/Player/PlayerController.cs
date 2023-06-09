@@ -83,6 +83,10 @@ public class PlayerController : BaseMonoBehaviour
     public GameObject BulletUI;
     private float fadeTime = 0;
 
+    [Header("스파인 체크용")]
+    public bool inSpineEvent = false;
+
+
     private void Start()
     {
         BaseStatus.SaveFieldsToVariables();
@@ -118,11 +122,16 @@ public class PlayerController : BaseMonoBehaviour
             Skills[1].SetActive(false);
         }
 
+ 
         getTotalstatus();
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
-            speed += (0f - speed) / 3f * GameManager.DeltaTime;
+            speed = 0;
+            if (UltObj.activeSelf)
+            {
+                UltObj.SetActive(false);
+            }
             return;
         }
         if (state.CURRENT_STATE != StateMachine.State.Dodging)
@@ -139,6 +148,7 @@ public class PlayerController : BaseMonoBehaviour
         switch (state.CURRENT_STATE)
         {
             case StateMachine.State.Idle:
+                inSpineEvent = false;
                 SpineTransform.localPosition = Vector3.zero;
                 if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
                 {
@@ -203,7 +213,8 @@ public class PlayerController : BaseMonoBehaviour
                 state.facingAngle = 270f;
                 muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
-
+                health.untouchable = true;
+                Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
@@ -241,6 +252,7 @@ public class PlayerController : BaseMonoBehaviour
         {
             return;
         }
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
 
         if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -294,8 +306,7 @@ public class PlayerController : BaseMonoBehaviour
             DodgeAngle = 0f;
         }
 
-        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-
+       
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
@@ -341,6 +352,7 @@ public class PlayerController : BaseMonoBehaviour
             GameManager.GetInstance().HitStop();
         }
     }
+
     private void getTotalstatus()
     {
         foreach (KeyValuePair<string, dynamic> total in BaseStatus.variables)
@@ -367,8 +379,9 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addBullet(int add)
     {
-        BulletGauge += add;
-
+        int Gauge = add + (add * (TotalStatus.absorbRestore.value / 100));
+        BulletGauge += Gauge;
+        //Debug.Log("Bullet 회복 = " + Gauge);
         if (BulletGauge > TotalStatus.bulletMax.value)
         {
             BulletGauge = TotalStatus.bulletMax.value;
@@ -379,6 +392,23 @@ public class PlayerController : BaseMonoBehaviour
         }
 
     }
+
+    public void addUltGauge(int add)
+    {
+        float Gauge = add + (add * (TotalStatus.ultRestore.value / 100));
+        UltGauge += Gauge;
+        Debug.Log("궁극기 회복 = " + Gauge);
+        if (UltGauge > TotalStatus.UltMax.value)
+        {
+            UltGauge = 100;
+        }
+        if (UltGauge <= 0)
+        {
+            UltGauge = 0;
+        }
+
+    }
+
     private void RestoreBullet()
     {
 
@@ -396,6 +426,10 @@ public class PlayerController : BaseMonoBehaviour
         UltIdx = UltIdx % 2;
     }
 
+    private void endUntouchable()
+    {
+        health.untouchable = false;
+    }
     public void addItem()
     {
         Debug.Log(ItemStatusAdd.variables["ultRestore"].value);

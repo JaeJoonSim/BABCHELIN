@@ -109,7 +109,7 @@ public class UltimateManager : MonoBehaviour
                 break;
             case 1:
                 temp = Instantiate(GummyBear.UltimateObj, skills[playerController.UltIdx].transform.position, transform.localRotation);
-                temp.transform.localScale = Vector3.one * GummyBear.size;
+                temp.GetComponent<UltimateGummyBear>().getStatus(GummyBear);
                 break;  
         }
 

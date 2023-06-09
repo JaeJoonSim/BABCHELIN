@@ -32,7 +32,7 @@ public class Health : BaseMonoBehaviour
 
     protected MeshRenderer meshRenderer;
     [HideInInspector] public bool isInvincible = false;
-    [HideInInspector] public bool untouchable = false;
+    public bool untouchable = false;
     [HideInInspector] public bool damageDecrease = false;
     [HideInInspector] public bool doNotChange = false;
 
@@ -127,6 +127,8 @@ public class Health : BaseMonoBehaviour
         state.LockStateChanges = false;
         untouchable = true;
         state.CURRENT_STATE = StateMachine.State.Dead;
+        if(isMonster)
+            Instantiate(absorb.Instance.UltimateEssence, transform.position, Quaternion.identity);
         OnDie?.Invoke();
     }
 

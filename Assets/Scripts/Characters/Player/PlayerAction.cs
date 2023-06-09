@@ -178,6 +178,7 @@ public class PlayerAction : BaseMonoBehaviour
                     if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
                     {
                         playerController.UltGauge -= 100;
+                        playerController.inSpineEvent = true;
                         state.CURRENT_STATE = StateMachine.State.Ultimate;
                     }
                         
@@ -296,6 +297,7 @@ public class PlayerAction : BaseMonoBehaviour
                 return false;
             }
             playerController.PreesAttack = true;
+            playerController.inSpineEvent = true;
             state.CURRENT_STATE = StateMachine.State.Attacking;
             ShotDelay = 1 / (playerController.TotalStatus.atkSpd.value / 100f);
         }
@@ -378,6 +380,7 @@ public class PlayerAction : BaseMonoBehaviour
                     return false;
                 }
                 state.facingAngle = Utils.GetMouseAngle(transform.position);
+                playerController.inSpineEvent = true;
                 state.CURRENT_STATE = StateMachine.State.Skill;
                 playerController.SkillIndex = 0;
                 playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
@@ -478,14 +481,23 @@ public class PlayerAction : BaseMonoBehaviour
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        int val1 = Mathf.FloorToInt(e.Time * Spine.skeleton.Data.Fps);
-        int val2 = Mathf.FloorToInt((trackEntry.TrackTime) * Spine.skeleton.Data.Fps);
+        
+        //float val2 = Mathf.Round((trackEntry.AnimationTime) * Spine.skeleton.Data.Fps);
+        //float val1 = Mathf.Round((e.Time * Spine.skeleton.Data.Fps));
+        //Debug.Log(1 < Mathf.Abs(val1 - val2));
+        //Debug.Log(val2);
         //Debug.Log(val1);
 
+        //Debug.Log("----------------------------");
         if (e.Data.Name == "shot")
         {
-            if (val1 != val2)
+            //if (1 < Mathf.Abs(val1 - val2))
+            //    return;
+
+            if (!playerController.inSpineEvent)
                 return;
+
+            playerController.inSpineEvent = false;
 
             Vector3 spawnPos = playerController.muzzleEnd.position;
             switch (state.CURRENT_STATE)
