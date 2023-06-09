@@ -1,8 +1,10 @@
+using FMOD;
 using Spine;
 using Spine.Unity;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -15,6 +17,9 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         Middle = 2
     }
     public direction3 DirectionState;
+
+    [SerializeField]
+    private SkeletonUtilityBone crosshair;
 
     public float curAnimTime;
 
@@ -282,6 +287,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                 }
 
                 anim.skeleton.ScaleX = Dir;
+
             }
         }
     }
@@ -1390,7 +1396,12 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
     private void Update()
     {
-        if (!(state != null))
+        if (Time.timeScale < 0f || state.CURRENT_STATE == StateMachine.State.Dead || state.CURRENT_STATE == StateMachine.State.Pause)
+        {
+            return;
+        }
+
+            if (!(state != null))
         {
             return;
         }
@@ -1400,7 +1411,10 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
         {
             return;
         }
-
+        if (crosshair != null)
+        {
+            crosshair.mode = SkeletonUtilityBone.Mode.Follow;
+        }
         if (AutomaticallySetFacing)
         {
             if (45 <= state.facingAngle && state.facingAngle <= 135)
@@ -1423,6 +1437,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
 
         if (playerController != null)
         {
+            crosshair.mode = SkeletonUtilityBone.Mode.Override;
             UpdateAnimFromFacing();
         }
     }

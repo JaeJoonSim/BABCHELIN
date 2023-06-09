@@ -127,7 +127,8 @@ public class Health : BaseMonoBehaviour
         state.LockStateChanges = false;
         untouchable = true;
         state.CURRENT_STATE = StateMachine.State.Dead;
-        Instantiate(absorb.Instance.UltimateEssence, transform.position, Quaternion.identity);
+        if(isMonster)
+            Instantiate(absorb.Instance.UltimateEssence, transform.position, Quaternion.identity);
         OnDie?.Invoke();
     }
 

@@ -123,6 +123,10 @@ public class PlayerController : BaseMonoBehaviour
         {
             SpineTransform.localPosition = Vector3.zero;
             speed = 0;
+            if (UltObj.activeSelf)
+            {
+                UltObj.SetActive(false);
+            }
             return;
         }
         if (state.CURRENT_STATE != StateMachine.State.Dodging)
@@ -241,6 +245,7 @@ public class PlayerController : BaseMonoBehaviour
         {
             return;
         }
+        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
 
 
         if (Mathf.Abs(xDir) > MinInputForMovement || Mathf.Abs(yDir) > MinInputForMovement)
@@ -294,8 +299,7 @@ public class PlayerController : BaseMonoBehaviour
             DodgeAngle = 0f;
         }
 
-        muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
-
+       
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
