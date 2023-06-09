@@ -61,7 +61,7 @@ public class HealthPlayer : Health
         knockbackDirection.Normalize();
         controller.speed = KnockbackForce;
 
-        CameraManager.instance.ShakeCameraForDuration(0.6f, 0.8f, 0.3f, StackShakes: false);
+        CameraManager.instance.ShakeCameraForDuration(AcessSetting.cameraShakeMin, AcessSetting.cameraShakeMax, 0.3f, StackShakes: false);
 
         yield return new WaitForSeconds(knockbackDuration / 2);
     }
