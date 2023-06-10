@@ -44,7 +44,6 @@ public class DungeonUIManager : BaseMonoBehaviour
     public string SceneName;
 
     private Canvas canvas;
-    public bool isStage;
 
     private void Awake()
     {
