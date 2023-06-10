@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PageController : BaseMonoBehaviour
 {
     public List<GameObject> pages;
-    private int currentPage = 0;
+    public int currentPage = 0;
 
     public Button previousButton;
     public Button nextButton;

@@ -28,10 +28,6 @@ public class TutorialManager : BaseMonoBehaviour
         {
             Instance = this;
         }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 
     private void Start()
