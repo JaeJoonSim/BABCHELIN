@@ -59,11 +59,6 @@ public class UnitObject : BaseMonoBehaviour
 
     public virtual void Update()
     {
-        if (DungeonUIManager.Instance.isStage)
-        {
-            return;
-        }
-
         float num2 = (UseDeltaTime ? GameManager.DeltaTime : GameManager.UnscaledDeltaTime);
         Move();
     }
@@ -71,11 +66,6 @@ public class UnitObject : BaseMonoBehaviour
     protected virtual void FixedUpdate()
     {
         if (state.CURRENT_STATE == StateMachine.State.Dead)
-        {
-            return;
-        }
-
-        if (DungeonUIManager.Instance.isStage)
         {
             return;
         }
