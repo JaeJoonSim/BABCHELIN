@@ -123,6 +123,28 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &306991 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6191512553379342667, guid: f80bb6c651d6d0049932f6b3d681aad3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1433887836}
+  m_PrefabAsset: {fileID: 0}
+--- !u!208 &306996
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 306991}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 2.5, y: 0.705, z: 0.5}
+  m_MoveThreshold: 5
+  m_Carve: 1
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0, z: 0}
+  m_TimeToStationary: 0.5
 --- !u!1 &107184375 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: bc73d606ceb58184d9c9d0fb2966848b,
@@ -768,7 +790,7 @@ MonoBehaviour:
   m_Center: {x: 0, y: 2, z: 0}
   m_LayerMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 2048
   m_UseGeometry: 1
   m_DefaultArea: 0
   m_IgnoreNavMeshAgent: 1
@@ -4607,12 +4629,12 @@ PrefabInstance:
     - target: {fileID: 5937453645239231569, guid: f80bb6c651d6d0049932f6b3d681aad3,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 5937453645239231569, guid: f80bb6c651d6d0049932f6b3d681aad3,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.17
       objectReference: {fileID: 0}
     - target: {fileID: 6191512553379342666, guid: f80bb6c651d6d0049932f6b3d681aad3,
         type: 3}
@@ -4674,9 +4696,39 @@ PrefabInstance:
       propertyPath: m_Name
       value: Choco wall
       objectReference: {fileID: 0}
+    - target: {fileID: 6191512553379342667, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6191512553379342667, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426005606437846763, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426005606437846763, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_NavMeshLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6426005606437846763, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8342126339736417738, guid: f80bb6c651d6d0049932f6b3d681aad3,
         type: 3}
       propertyPath: m_Offset.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8342126339736417738, guid: f80bb6c651d6d0049932f6b3d681aad3,
+        type: 3}
+      propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -4729,7 +4781,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693763, guid: bdbe96d2fc5e1fe46bc15a710a4676ce,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.03
+      value: 5.39
       objectReference: {fileID: 0}
     - target: {fileID: 3275738440347693763, guid: bdbe96d2fc5e1fe46bc15a710a4676ce,
         type: 3}
@@ -4780,6 +4832,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CookieMouse
+      objectReference: {fileID: 0}
+    - target: {fileID: 3275738440347693820, guid: bdbe96d2fc5e1fe46bc15a710a4676ce,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8923160386577020629, guid: bdbe96d2fc5e1fe46bc15a710a4676ce,
         type: 3}
@@ -5481,6 +5538,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: bc73d606ceb58184d9c9d0fb2966848b,
+        type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc73d606ceb58184d9c9d0fb2966848b, type: 3}
 --- !u!1001 &282437663538347644
@@ -5672,7 +5734,7 @@ PrefabInstance:
     - target: {fileID: 3275738440347693820, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3524098966121532011, guid: 924275bcb8ed9ec419543839ae2e5ca4,
         type: 3}

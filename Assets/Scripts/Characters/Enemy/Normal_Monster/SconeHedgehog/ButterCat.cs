@@ -456,10 +456,9 @@ public class ButterCat : UnitObject
         else if (e.Data.Name == "defend" || e.Data.Name == "Defend")
         {
             Debug.Log("Shield");
-            GameObject shieldeffect = Instantiate(ShieldEffect, transform);
+            GameObject shieldeffect = Instantiate(ShieldEffect);
             shieldeffect.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
-            shieldeffect.GetComponent<ParticleSystem>().Play();
-            Destroy(shieldeffect, defendTime);
+            //shieldeffect.GetComponent<ParticleSystem>().Play();
         }
     }
 
