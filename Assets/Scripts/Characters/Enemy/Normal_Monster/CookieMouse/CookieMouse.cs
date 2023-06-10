@@ -109,6 +109,8 @@ public class CookieMouse : UnitObject
     public override void Update()
     {
         base.Update();
+        SpineTransform.localPosition = Vector3.zero;
+        distanceToPlayer = Vector3.Distance(transform.position, target.position);
 
         if (creamParent != null && !agent.enabled && transform.position.z >= 0)
             agent.enabled = true;
@@ -140,8 +142,6 @@ public class CookieMouse : UnitObject
 
         if (state.CURRENT_STATE != StateMachine.State.Dead)
         {
-            distanceToPlayer = Vector3.Distance(transform.position, target.position);
-
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
@@ -162,7 +162,6 @@ public class CookieMouse : UnitObject
                         state.CURRENT_STATE = StateMachine.State.Notice;
                     }
 
-                    SpineTransform.localPosition = Vector3.zero;
                     //speed += (0f - speed) / 3f * GameManager.DeltaTime;
                     break;
 
