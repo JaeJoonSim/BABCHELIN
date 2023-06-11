@@ -10,7 +10,13 @@ public class TotemObj : MonoBehaviour
     private Totem item;
     public string name;
     bool isget = false;
-    public TextMeshProUGUI text;
+
+    [Header("툴팁")]
+    public GameObject Canvas;
+    public TextMeshProUGUI UiName;
+    public TextMeshProUGUI UiDescription;
+    public Image UiIcon;
+
 
     public GameObject[] otherTotem;
 
@@ -40,7 +46,6 @@ public class TotemObj : MonoBehaviour
         {
             Vector3 direction = absorb.Instance.Player.position - IconObj.transform.position;
 
-            // 정규화(normalize)된 방향 벡터를 사용하여 이동합니다.
             IconObj.transform.Translate(direction.normalized * absorb.Instance.speed * Time.deltaTime);
 
             if(Vector3.Distance(absorb.Instance.Player.position , IconObj.transform.position) < 1f)
@@ -49,6 +54,18 @@ public class TotemObj : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+
+        if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < 2f)
+        {
+
+            Canvas.SetActive(true);
+        }
+        else
+        {
+            //var stat = absorb.Instance.Player.gameObject.GetComponent<PlayerController>().TotalStatus.variables[];
+            Canvas.SetActive(false);
+        }
+                
     }
 
     void Replace()
@@ -65,7 +82,9 @@ public class TotemObj : MonoBehaviour
         spriteRenderer.sprite = TotemManager.Instance.Icons[item.Item];
 
         name = item.Name;
-        text.text = item.Name +"\n\n"+ item.Description;
+        UiName.text = item.Name;
+        UiDescription.text = item.Description;
+        UiIcon.sprite = TotemManager.Instance.Icons[item.Item];
     }
 
     public void setItmeToPlayer()
@@ -74,6 +93,7 @@ public class TotemObj : MonoBehaviour
             return;
 
         isget = true;
+        IconObj.GetComponent<FloatingObject>().ismoving = false;
         iconPos = IconObj.transform.position;
         TotemManager.Instance.isAdd[item.Type]= item;
         absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
