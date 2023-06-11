@@ -18,7 +18,14 @@ public class TutorialStage : BaseMonoBehaviour
     public Image image;
     public float playerMoveSpeed = 1.0f;
 
+    [Space]
+
     public GameObject dialogue;
+    public UnscaledTimeAnimation animUI;
+    public AnimationReferenceAsset emotionMad;
+    public GameObject absorbTutoPanel;
+
+    [Space]
 
     public Transform readySpoon;
     public Transform spoon;
@@ -110,7 +117,7 @@ public class TutorialStage : BaseMonoBehaviour
         StartCoroutine(MovePlayerUp(() => isMoveUpComplete = true));
 
         yield return new WaitUntil(() => isFadeOutComplete && isMoveUpComplete);
-        
+
         anim.gameObject.SetActive(false);
         player.enabled = true;
 
@@ -142,11 +149,25 @@ public class TutorialStage : BaseMonoBehaviour
         player.GetComponent<PlayerInput>().enabled = true;
         player.GetComponent<PlayerAction>().enabled = true;
 
+        bool isCameraMoveComplete = false;
+
         if (currentMap.name == stageNames[0])
         {
             //dialogue.SetActive(true);
-            StartCoroutine(LookEnemyCamera(() => dialogue.SetActive(true)));
+            StartCoroutine(LookEnemyCamera(() =>
+            {
+                player.GetComponent<PlayerInput>().enabled = false;
+                player.GetComponent<PlayerAction>().enabled = false;
+                animUI.emotion = emotionMad;
+                dialogue.SetActive(true);
+                isCameraMoveComplete = true;
+            }));
         }
+
+        yield return new WaitUntil(() => isCameraMoveComplete);
+        yield return new WaitForSeconds(0.2f);
+
+        absorbTutoPanel.SetActive(true);
     }
 
     private IEnumerator LookEnemyCamera(Action onComplete)
