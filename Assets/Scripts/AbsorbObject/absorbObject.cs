@@ -30,6 +30,8 @@ public class absorbObject : MonoBehaviour
     private float startTime;
     private float currentSpeed;
 
+    private GameObject showObj;
+
 
     void Start()
     {
@@ -38,17 +40,17 @@ public class absorbObject : MonoBehaviour
             case absorb.objectSize.small:
                 absorbTime = absorb.Instance.absorbTimeSmall;
                 addBullet = absorb.Instance.addBulletSmall;
-                Instantiate(absorb.Instance.showAbsorbSmall, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                showObj = Instantiate(absorb.Instance.showAbsorbSmall, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             case absorb.objectSize.medium:
                 absorbTime = absorb.Instance.absorbTimeMedium;
                 addBullet = absorb.Instance.addBulletMedium;
-                Instantiate(absorb.Instance.showAbsorbMedium, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                showObj = Instantiate(absorb.Instance.showAbsorbMedium, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             case absorb.objectSize.large:
                 absorbTime = absorb.Instance.absorbTimeLarge;
                 addBullet = absorb.Instance.addBulletLarge;
-                Instantiate(absorb.Instance.showAbsorbLarge, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                showObj = Instantiate(absorb.Instance.showAbsorbLarge, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             default:
                 break;
@@ -67,6 +69,10 @@ public class absorbObject : MonoBehaviour
 
     private void Update()
     {
+        if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbRange.value)
+            showObj.SetActive(true);
+        else
+            showObj.SetActive(false);
         if (!isAbsorb)
         {
             if (inAbsorbArea)
