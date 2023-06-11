@@ -735,6 +735,48 @@ public class SconeHedgehog : UnitObject
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Wall")
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Dash)
+            {
+                health.isInvincible = false;
+                state.LockStateChanges = false;
+                time = 0;
+                aniCount = 0;
+                dashCount++;
+                if (dashCount < 3)
+                {
+                    state.CURRENT_STATE = StateMachine.State.DashDelay;
+                }
+                else
+                {
+                    state.CURRENT_STATE = StateMachine.State.Delay;
+                }
+            }
+        }
+        else if (collision.tag == "DestroyableObject ")
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Dash)
+            {
+                health.isInvincible = false;
+                state.LockStateChanges = false;
+                time = 0;
+                aniCount = 0;
+                dashCount++;
+                if (dashCount < 3)
+                {
+                    state.CURRENT_STATE = StateMachine.State.DashDelay;
+                }
+                else
+                {
+                    state.CURRENT_STATE = StateMachine.State.Delay;
+                }
+            }
+        }
+    }
+
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         Debug.Log(e.Data.Name);
