@@ -275,6 +275,15 @@ public class BerryBird : UnitObject
                     {
                         agent.SetDestination(target.position);
                     }
+
+                    if (state.PREVIOUS_STATE == StateMachine.State.Idle)
+                    {
+                        detectionRange *= 2;
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        detectionRange *= 2;
+                    }
                     break;
                 case StateMachine.State.HitRight:
                     aniCount = 0;
@@ -294,9 +303,18 @@ public class BerryBird : UnitObject
                             }
                         }
                     }
-                    else if(state.PREVIOUS_STATE == StateMachine.State.Moving)
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
                     {
                         agent.SetDestination(target.position);
+                    }
+
+                    if (state.PREVIOUS_STATE == StateMachine.State.Idle)
+                    {
+                        detectionRange *= 2;
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        detectionRange *= 2;
                     }
                     break;
 

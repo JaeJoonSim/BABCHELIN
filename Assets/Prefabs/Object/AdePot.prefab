@@ -140,7 +140,6 @@ GameObject:
   - component: {fileID: 4265093594819362735}
   - component: {fileID: 4265093594819362734}
   - component: {fileID: 6125220645253390736}
-  - component: {fileID: 4265093594819362729}
   - component: {fileID: 4265093594819362728}
   - component: {fileID: 4265093594819362732}
   m_Layer: 8
@@ -225,6 +224,8 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
+  buff: {fileID: 0}
+  buffProbability: 15
   spawnCycleTime: 10
   spawnRange: 2
   mosterObject:
@@ -238,25 +239,6 @@ MonoBehaviour:
   BrokenEffect: {fileID: 8180159653219317779, guid: f9c07409bbd22204c849edb765562718,
     type: 3}
   spawnMax: 0
---- !u!114 &4265093594819362729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4265093594819362709}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsPlayer: 0
-  currentState: 0
-  previousState: 0
-  facingAngle: 0
-  LookAngle: 0
-  isDefending: 0
-  Timer: 0
 --- !u!114 &4265093594819362728
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +260,7 @@ MonoBehaviour:
   recoveryTime: 0.5
   isInvincible: 0
   untouchable: 0
+  cheatMode: 0
   damageDecrease: 0
   doNotChange: 0
   isMonster: 0

@@ -632,8 +632,10 @@ public class SconeHedgehog : UnitObject
                     }
                     else if (state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
+                        detectionRange *= 2;
                         aniCount = 0;
                     }
+
                     agent.speed = 1;
                     break;
                 case StateMachine.State.HitRight:
@@ -648,6 +650,7 @@ public class SconeHedgehog : UnitObject
                     }
                     else if (state.PREVIOUS_STATE == StateMachine.State.Idle || state.PREVIOUS_STATE == StateMachine.State.Patrol)
                     {
+                        detectionRange *= 2;
                         aniCount = 0;
                     }
                     agent.speed = 1;
