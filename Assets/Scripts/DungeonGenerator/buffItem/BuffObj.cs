@@ -24,7 +24,7 @@ public class BuffObj : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            StartCoroutine(absorb.Instance.Player.GetComponent<PlayerController>().buffControl(buffIdx, true));
+            absorb.Instance.Player.GetComponent<PlayerController>().addBuff(buffIdx, true);
             Destroy(gameObject);
         }
         

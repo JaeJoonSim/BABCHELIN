@@ -22,7 +22,7 @@ public class TestScripts : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            StartCoroutine(absorb.Instance.Player.GetComponent<PlayerController>().buffControl(1008, true));
+            absorb.Instance.Player.GetComponent<PlayerController>().addBuff(1008, true);
         }
     }
 }
