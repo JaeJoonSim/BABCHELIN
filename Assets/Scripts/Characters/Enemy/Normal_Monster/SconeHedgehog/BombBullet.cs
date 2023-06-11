@@ -9,7 +9,6 @@ public class BombBullet : UDRLBullet
     [SerializeField] float blastRange;
 
     [SerializeField] Transform target;
-    private float distanceToPlayer;
 
     protected override void Start()
     {
@@ -21,4 +20,5 @@ public class BombBullet : UDRLBullet
     {
         base.Update();
     }
+
 }

@@ -80,7 +80,9 @@ public class ButterCat : UnitObject
     public float yDir;
 
     [Space]
-    public GameObject BombObject;
+    public GameObject Pattern1;
+    public GameObject Pattern2;
+    private bool patternCheck = true;
 
     public GameObject LandEffect;
     public GameObject ShieldEffect;
@@ -440,9 +442,18 @@ public class ButterCat : UnitObject
     {
         if (e.Data.Name == "ateck" || e.Data.Name == "attack")
         {
-            GameObject SpawnBullet = BombObject;
-            SpawnBullet.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
-            Instantiate(SpawnBullet);
+            Pattern1.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            Pattern2.transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - 0.5f);
+            if (patternCheck)
+            {
+                GameObject SpawnBullet = Instantiate(Pattern1);
+                patternCheck = false;
+            }
+            else
+            {
+                GameObject SpawnBullet = Instantiate(Pattern2);
+                patternCheck = true;
+            }
         }
         else if (e.Data.Name == "land" || e.Data.Name == "Land")
         {

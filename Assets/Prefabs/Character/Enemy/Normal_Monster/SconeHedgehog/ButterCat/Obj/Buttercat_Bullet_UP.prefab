@@ -97,10 +97,10 @@ GameObject:
   - component: {fileID: 371823184825627162}
   - component: {fileID: 2862424241139748285}
   - component: {fileID: 6779158364017665650}
-  - component: {fileID: 4997575340277115995}
-  - component: {fileID: 2071582293623564433}
+  - component: {fileID: 8758917037606282105}
+  - component: {fileID: 2744011765936166065}
   m_Layer: 10
-  m_Name: Buttercat_Bullet_DownLeft
+  m_Name: Buttercat_Bullet_UP
   m_TagString: EnemyAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.4988685, y: -0.60000104}
+  m_AnchoredPosition: {x: 5.4988685, y: 0.599999}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!58 &2862424241139748282
@@ -187,7 +187,7 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2862424241139748284}
   m_CullTransparentMesh: 1
---- !u!114 &4997575340277115995
+--- !u!114 &8758917037606282105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc3cccc1b30e554cb355d724c792ba4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  num: 6
+  num: 0
   popSound: {fileID: 0}
   damage: 15
   speed: 15
@@ -212,7 +212,7 @@ MonoBehaviour:
     type: 3}
   blastRange: 0
   target: {fileID: 0}
---- !u!82 &2071582293623564433
+--- !u!82 &2744011765936166065
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
