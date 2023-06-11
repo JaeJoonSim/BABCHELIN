@@ -434,6 +434,68 @@ public class CookieMouse2 : UnitObject
             playerHealth.Damaged(gameObject, transform.position, Damaged, Health.AttackType.Normal);
     }
 
+   
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Wall")
+        {
+            if(state.CURRENT_STATE == StateMachine.State.Attacking)
+            {
+                Debug.Log("dd");
+                state.LockStateChanges = false;
+                moveTime = 0;
+                aniCount = 0;
+                if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Runaway;
+                }
+                else
+                {
+                    if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
+                    else if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
+                    else
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                }
+            }
+        }
+        else if (collision.tag == "DestroyableObject ")
+        {
+            if (state.CURRENT_STATE == StateMachine.State.Attacking)
+            {
+                state.LockStateChanges = false;
+                moveTime = 0;
+                aniCount = 0;
+                if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
+                {
+                    state.CURRENT_STATE = StateMachine.State.Runaway;
+                }
+                else
+                {
+                    if (distanceToPlayer <= detectionAttackRange && FindVisibleTargets() == true)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Attacking;
+                    }
+                    else if (distanceToPlayer <= detectionRange && FindVisibleTargets() == true)
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Moving;
+                    }
+                    else
+                    {
+                        state.CURRENT_STATE = StateMachine.State.Idle;
+                    }
+                }
+            }
+        }
+    }
+
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {

@@ -126,6 +126,11 @@ public class PlayerController : BaseMonoBehaviour
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
+            if (IsInvoking("SoundDelay"))
+            {
+                CancelInvoke("SoundDelay");
+                playerSound.StopSound();
+            }
         }
 
         if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
@@ -198,7 +203,7 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Absorbing:
                 if (!IsInvoking("SoundDelay"))
-                    Invoke("SoundDelay", 0.5f);
+                    InvokeRepeating("SoundDelay",0f, 4f);
                 if (absorbEffet != null)
                 {
                     //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);

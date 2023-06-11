@@ -58,6 +58,13 @@ public class PlayerSound : MonoBehaviour
             audioSource.PlayOneShot(audioSource.clip);
         }
     }
+
+    public void StopSound()
+    {
+        audioSource.Stop();
+        //audioSource.Play();
+    }
+
     public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
 

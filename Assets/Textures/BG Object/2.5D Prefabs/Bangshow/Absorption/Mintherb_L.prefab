@@ -10,7 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4082940359918445308}
   - component: {fileID: 4082940359918445309}
-  m_Layer: 0
+  - component: {fileID: 1924170732239976868}
+  - component: {fileID: 7297867020435080331}
+  m_Layer: 20
   m_Name: Mintherb_L9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -84,6 +86,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &1924170732239976868
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940359918445311}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.18833399, y: 9.965532}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 29.7, y: 25.204397}
+    newSize: {x: 29.7, y: 25.204397}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.2033453, y: 2.4537392}
+  m_EdgeRadius: 0
+--- !u!114 &7297867020435080331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940359918445311}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5
 --- !u!1 &4082940360517346560
 GameObject:
   m_ObjectHideFlags: 0
@@ -94,7 +143,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4082940360517346561}
   - component: {fileID: 4082940360517346590}
-  m_Layer: 0
+  - component: {fileID: 6369573982211231522}
+  - component: {fileID: 3488624160664639578}
+  m_Layer: 20
   m_Name: Mintherb_L8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -168,6 +219,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &6369573982211231522
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940360517346560}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.7326655, y: 11.157462}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 29.7, y: 25.204397}
+    newSize: {x: 29.7, y: 25.204397}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.7306776, y: 3.1393452}
+  m_EdgeRadius: 0
+--- !u!114 &3488624160664639578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940360517346560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 1
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5
 --- !u!1 &4082940360888155091
 GameObject:
   m_ObjectHideFlags: 0
@@ -346,7 +444,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4082940361057999796}
   - component: {fileID: 4082940361057999797}
-  m_Layer: 0
+  - component: {fileID: 3537574247874623740}
+  - component: {fileID: 1200158176018348088}
+  m_Layer: 20
   m_Name: Mintherb_L6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -420,6 +520,53 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &3537574247874623740
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940361057999799}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -2.3729994, y: 13.831457}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 29.7, y: 25.204397}
+    newSize: {x: 29.7, y: 25.204397}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.1073427, y: 3.2744322}
+  m_EdgeRadius: 0
+--- !u!114 &1200158176018348088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940361057999799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 2
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5
 --- !u!1 &4082940361333891772
 GameObject:
   m_ObjectHideFlags: 0
@@ -681,9 +828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4082940361859436826}
-  - component: {fileID: 5617562931838615189}
-  - component: {fileID: 936797157567788436}
-  m_Layer: 20
+  m_Layer: 0
   m_Name: Mintherb_L
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -714,53 +859,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &5617562931838615189
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4082940361859436829}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.40649986, y: 9.436587}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 29.45494, y: 21.731455}
-  m_EdgeRadius: 0
---- !u!114 &936797157567788436
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4082940361859436829}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  size: 0
-  absorbTime: 0
-  curAbsorbTime: 0
-  absorbKeepTime: 1
-  inAbsorbArea: 0
-  isAbsorb: 0
-  speed: 1
-  maxSpeed: 20
-  acceleration: 5
 --- !u!1 &4082940361947857919
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,7 +869,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4082940361947857916}
   - component: {fileID: 4082940361947857917}
-  m_Layer: 0
+  - component: {fileID: 7234089078313372225}
+  - component: {fileID: 5418119852226020984}
+  m_Layer: 20
   m_Name: Mintherb_L10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -845,3 +945,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &7234089078313372225
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940361947857919}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 2.5613344, y: 10.894783}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 29.7, y: 25.204397}
+    newSize: {x: 29.7, y: 25.204397}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.4293456, y: 2.876667}
+  m_EdgeRadius: 0
+--- !u!114 &5418119852226020984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4082940361947857919}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 979d12287cb3e2d46a40076ce0b86b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  size: 0
+  absorbTime: 0
+  curAbsorbTime: 0
+  absorbKeepTime: 1
+  inAbsorbArea: 0
+  isAbsorb: 0
+  speed: 1
+  maxSpeed: 20
+  acceleration: 5

@@ -72,7 +72,6 @@ public class absorbObject : MonoBehaviour
                 if (curAbsorbTime <= 0)
                 {
                     isAbsorb = true;
-                    transform.localScale = transform.localScale / 2;
                 }
 
                 absorbKeepTime = absorb.Instance.absorbKeepTime;

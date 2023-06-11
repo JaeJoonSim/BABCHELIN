@@ -4,12 +4,15 @@ using System.Collections.Generic;
 using System.Xml;
 using UGS;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.TextCore.Text;
 
 
 public class TotemManager : BaseMonoBehaviour
 {
     public List<Totem> totemSet = new List<Totem>();
     public Dictionary<int, Totem> isAdd = new Dictionary<int, Totem>();
+    public Dictionary<int, Sprite> Icons = new Dictionary<int, Sprite>();
     static private TotemManager instance;
     static public TotemManager Instance { get { return instance; } }
 
@@ -36,6 +39,19 @@ public class TotemManager : BaseMonoBehaviour
                 Totem tmp = new Totem(x.item, x.type, x.name, x.description, x.stat1, x.val1, x.stat2, x.val2);
                 totemSet.Add(tmp);
             }
+
+            if (x.type != 99)
+            {
+                Sprite icon = Resources.Load<Sprite>("TotemIcon/" + x.item.ToString());
+                if (icon != null)
+                {
+                    Icons[x.item] = icon;
+                }
+                else
+                {
+                    Debug.Log("error : " + x.item + " - 아이콘이 존제하지 않음");
+                }
+            }      
         }
     }
 
