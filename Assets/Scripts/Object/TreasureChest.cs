@@ -86,8 +86,8 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
             openEffect.transform.position = new Vector3(transform.position.x + 0.2f, transform.position.y, transform.position.z);
             GameObject openeffect = Instantiate(openEffect);
 
-            Vector2 randomPoint = Random.insideUnitCircle * spawnRange;
-            Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
+            Vector2 randomPoint = (transform.position - absorb.Instance.Player.transform.position).normalized;
+            Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y - 1, transform.position.z);
 
             spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
             Instantiate(spawnEffect);

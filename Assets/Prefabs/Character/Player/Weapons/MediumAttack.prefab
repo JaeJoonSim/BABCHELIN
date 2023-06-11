@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1645418372607955192}
   - component: {fileID: 1645418372607955194}
   - component: {fileID: 5813323462273287219}
+  - component: {fileID: 1167183133813248014}
   m_Layer: 0
   m_Name: MediumAttack
   m_TagString: Untagged
@@ -72,6 +73,27 @@ MonoBehaviour:
   HitEffet: {fileID: 396349728389228701, guid: 06fe1104ccefa9b4aafeadaf743794bc, type: 3}
   endEffet: {fileID: 396349728389228701, guid: 06fe1104ccefa9b4aafeadaf743794bc, type: 3}
   target: {fileID: 0}
+--- !u!50 &1167183133813248014
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645418372607955195}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1001 &4523226012186475608
 PrefabInstance:
   m_ObjectHideFlags: 0

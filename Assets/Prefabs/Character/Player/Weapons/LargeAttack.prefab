@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 1645418372607955192}
   - component: {fileID: 1645418372607955194}
   - component: {fileID: 1645418372607955143}
+  - component: {fileID: 5209852263781909266}
   m_Layer: 0
   m_Name: LargeAttack
   m_TagString: Untagged
@@ -66,13 +67,37 @@ MonoBehaviour:
   speed: 15
   range: 10
   Cost: 30
+  bulletAuto: 0
+  bulletAutoRange: 0
   destructionGauge: 1
   HitEffet: {fileID: 7071466606703376891, guid: ac7a8b99b7e67d247aa6355881f907b3,
     type: 3}
   endEffet: {fileID: 4627354742501184210, guid: 1ae0f3be8cf3a1049ba38344290a80fa,
     type: 3}
+  target: {fileID: 0}
   splashRange: 0
   splashDmg: 0
+--- !u!50 &5209852263781909266
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645418372607955195}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1001 &2972691473492826716
 PrefabInstance:
   m_ObjectHideFlags: 0
