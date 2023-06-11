@@ -144,23 +144,8 @@ public class TutorialStage : BaseMonoBehaviour
 
         if (currentMap.name == stageNames[0])
         {
-            //dialogue.SetActive(true);
-            StartCoroutine(LookEnemyCamera(() => dialogue.SetActive(true)));
+            dialogue.SetActive(true);
         }
-    }
-
-    private IEnumerator LookEnemyCamera(Action onComplete)
-    {
-        player.State.facingAngle = 90;
-        camera.LookDistance = 8;
-
-        yield return new WaitForSeconds(1.5f);
-
-        camera.LookDistance = 0.5f;
-
-        yield return new WaitForSeconds(1.5f);
-
-        onComplete?.Invoke();
     }
 
     private IEnumerator FadeOut(Action onComplete)
