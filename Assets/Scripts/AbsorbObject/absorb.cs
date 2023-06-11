@@ -37,7 +37,7 @@ public class absorb : BaseMonoBehaviour
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
 
-
+    public GameObject showAbsorb;
     private void Awake()
     {
         if (instance == null)

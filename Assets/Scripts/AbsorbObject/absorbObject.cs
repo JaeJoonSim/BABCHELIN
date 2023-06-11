@@ -59,6 +59,7 @@ public class absorbObject : MonoBehaviour
         initialRotation = transform.rotation;
         curAbsorbTime = absorbTime;
 
+        Instantiate(absorb.Instance.showAbsorb, transform.position + new Vector3(0, 0, -2), Quaternion.identity, transform);
     }
 
     private void Update()
