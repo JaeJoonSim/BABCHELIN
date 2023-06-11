@@ -10,6 +10,8 @@ using UnityEngine.UI;
 
 public class TutorialStage : BaseMonoBehaviour
 {
+    public static TutorialStage Instance;
+
     public List<GameObject> mapPool;
 
     public GameObject currentMap;
@@ -23,6 +25,7 @@ public class TutorialStage : BaseMonoBehaviour
     public GameObject dialogue;
     public UnscaledTimeAnimation animUI;
     public AnimationReferenceAsset emotionMad;
+    public AnimationReferenceAsset interest;
     public GameObject absorbTutoPanel;
 
     [Space]
