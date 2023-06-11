@@ -20,5 +20,9 @@ public class TestScripts : MonoBehaviour
         {
             player.Damaged(gameObject, transform.position, damage, Health.AttackType.Normal);
         }
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            StartCoroutine(absorb.Instance.Player.GetComponent<PlayerController>().buffControl(1008, true));
+        }
     }
 }

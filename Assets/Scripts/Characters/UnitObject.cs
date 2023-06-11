@@ -22,6 +22,10 @@ public class UnitObject : BaseMonoBehaviour
 
     protected bool isDead = false;
 
+    public GameObject buff;
+    [Header("버프 드랍 확률")]
+    public float buffProbability = 15f;
+
     public virtual void Awake()
     {
         health = GetComponent<Health>();
@@ -37,6 +41,10 @@ public class UnitObject : BaseMonoBehaviour
         {
             Debug.Log("instance null");
         }
+ 
+        buff = Resources.Load<GameObject>("RainbowSugar");
+
+        
     }
 
     public virtual void OnEnable()
@@ -54,6 +62,14 @@ public class UnitObject : BaseMonoBehaviour
         else
         {
             Debug.Log("instance null");
+        }
+
+        //Debug.Log("buff");
+        //if(buff == null)
+        //    Debug.Log("buff");
+        if (UnityEngine.Random.value <= buffProbability / 100f)
+        {
+            Instantiate(buff, transform.position, Quaternion.identity);
         }
     }
 

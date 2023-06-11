@@ -62,6 +62,8 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showAttack", true)] public bool PreesAttack;
     [DrawIf("showAttack", true)] public GameObject Attack;
     [DrawIf("showAttack", true)] public int SkillIndex;
+    [DrawIf("showAttack", true)] private bool BulletUnlimit = false;
+    public bool Heal = false;
     public GameObject[] Skills;
 
     [Header("스킬")]
@@ -138,7 +140,7 @@ public class PlayerController : BaseMonoBehaviour
             Skills[1].SetActive(false);
         }
 
- 
+
         getTotalstatus();
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
@@ -203,14 +205,14 @@ public class PlayerController : BaseMonoBehaviour
                 break;
             case StateMachine.State.Absorbing:
                 if (!IsInvoking("SoundDelay"))
-                    InvokeRepeating("SoundDelay",0f, 4f);
+                    InvokeRepeating("SoundDelay", 0f, 4f);
                 if (absorbEffet != null)
                 {
                     //absorbEffet.transform.position = new Vector3(GrinderControl.position.x, GrinderControl.position.y, -0.3f);
                     //absorbEffet.transform.rotation = Quaternion.Euler(state.facingAngle, -90, 0);
                     absorbEffet.Play(true);
                 }
-                
+
                 break;
 
             case StateMachine.State.Skill:
@@ -234,7 +236,7 @@ public class PlayerController : BaseMonoBehaviour
                 muzzle.rotation = Quaternion.Euler(0, 0, state.facingAngle);
                 muzzleBone.position = transform.position + (muzzleEnd.position - transform.position).normalized;
                 health.untouchable = true;
-                if(!IsInvoking("endUntouchable"))
+                if (!IsInvoking("endUntouchable"))
                     Invoke("endUntouchable", 3f);
                 if (simpleSpineAnimator.Track.IsComplete)
                 {
@@ -246,12 +248,17 @@ public class PlayerController : BaseMonoBehaviour
             case StateMachine.State.HitRight:
                 curHitDelay += Time.deltaTime;
 
-                if (hitDelay < curHitDelay) 
+                if (hitDelay < curHitDelay)
                 {
                     state.CURRENT_STATE = StateMachine.State.Idle;
                 }
                 break;
-
+            case StateMachine.State.Landing:
+                if (BuffStatus.atk.value != 0)
+                {
+                    buffControl(1005, false);
+                }
+                break;
             case StateMachine.State.Dead:
                 if (circleCollider2D == true) circleCollider2D.enabled = false;
                 break;
@@ -277,10 +284,12 @@ public class PlayerController : BaseMonoBehaviour
         {
             playerSound.PlayPlayerSound(playerSound.pcAbsorb);
         }
-        else if(state.CURRENT_STATE == StateMachine.State.Skill2)
+        else if (state.CURRENT_STATE == StateMachine.State.Skill2)
         {
             playerSound.PlayPlayerSound(playerSound.pcSmallSkill);
         }
+
+
     }
 
     public void facingAngle()
@@ -349,7 +358,7 @@ public class PlayerController : BaseMonoBehaviour
             DodgeAngle = 0f;
         }
 
-       
+
     }
     private void OnHit(GameObject Attacker, Vector3 AttackLocation, Health.AttackType type)
     {
@@ -420,10 +429,100 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
     }
+
+    public IEnumerator buffControl(int idx, bool toggle, float delay = 0)
+    {
+        yield return new WaitForSeconds(delay);
+        switch (idx)
+        {
+            case 1001:
+                if (toggle) { }
+                else { }
+                break;
+            case 1002:
+                if (toggle) 
+                {
+                    BuffStatus.movSpd.value = TotalStatus.movSpd.value / 100 * 10;
+                    StartCoroutine(buffControl(1002, false, 10f));
+                }
+                else 
+                {
+                    BuffStatus.movSpd.value = 0;
+                }
+                
+                break;
+            case 1003:
+                if (toggle) { }
+                else { }
+                break;
+            case 1004:
+                if (toggle) { }
+                else { }
+                break;
+            case 1005:
+                if (toggle) 
+                {
+                    BuffStatus.atk.value = TotalStatus.atk.value / 100 * 50;
+                }
+                else 
+                {
+                    BuffStatus.atk.value = 0;
+                }
+                break;
+            case 1006:
+                if (toggle) 
+                {
+                    BuffStatus.bulletRange.value = TotalStatus.bulletRange.value;
+                    StartCoroutine(buffControl(1006, false, 5f));
+                }
+                else 
+                {
+                    BuffStatus.bulletRange.value = 0;
+                }
+                break;
+            case 1007:
+                if (toggle) 
+                {
+                    BulletUnlimit = true;
+                    StartCoroutine(buffControl(1007, false, 5f));
+                }
+                else 
+                {
+                    BulletUnlimit = false;
+                }
+                break;
+            case 1008:
+                if (toggle) 
+                {
+                    Heal = true;
+                    StartCoroutine(buffControl(1008, false, 5f));
+                }
+                else
+                {
+                    Heal = false;
+                }
+                break;
+            case 1009:
+                if (toggle) { }
+                else { }
+                break;
+            default:
+                break;
+        }
+    }
+
     public void addBullet(int add)
     {
-        int Gauge = add + (add * (TotalStatus.absorbRestore.value / 100));
-        BulletGauge += Gauge;
+        if (add > 0)
+        {
+            int Gauge = add + (add * (TotalStatus.absorbRestore.value / 100));
+            BulletGauge += Gauge;
+        }
+        else if(add < 0 && !BulletUnlimit)
+        {
+            BulletGauge += add;
+        }
+        
         //Debug.Log("Bullet 회복 = " + Gauge);
         if (BulletGauge > TotalStatus.bulletMax.value)
         {
@@ -451,7 +550,6 @@ public class PlayerController : BaseMonoBehaviour
         }
 
     }
-
     private void RestoreBullet()
     {
 
@@ -468,17 +566,15 @@ public class PlayerController : BaseMonoBehaviour
         UltIdx++;
         UltIdx = UltIdx % 2;
     }
-
     private void endUntouchable()
     {
         health.untouchable = false;
     }
-
     public void Camerawork()
     {
         if (camera.targets.Count <= 1)
         {
- 
+
             camera.SnappyMovement = true;
             camera.AddTarget(gameObject, 1f);
             camera.targetDistance = 5f;
@@ -552,7 +648,6 @@ public class PlayerController : BaseMonoBehaviour
             }
         }
     }
-
     private IEnumerator Delay(float delay, Action callback)
     {
         yield return new WaitForSeconds(delay);
