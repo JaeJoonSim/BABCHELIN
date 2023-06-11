@@ -18,6 +18,8 @@ public class TutorialStage : BaseMonoBehaviour
     public Image image;
     public float playerMoveSpeed = 1.0f;
 
+    public GameObject dialogue;
+
     public Transform readySpoon;
     public Transform spoon;
 
@@ -29,6 +31,7 @@ public class TutorialStage : BaseMonoBehaviour
 
     private float PrevPlayerPos;
     private bool canMoving;
+    private string[] stageNames;
 
     private void Start()
     {
@@ -39,6 +42,12 @@ public class TutorialStage : BaseMonoBehaviour
             gameObject.SetActive(false);
 
         anim.AnimationState.Event += OnSpineEvent;
+
+        stageNames = new string[mapPool.Count];
+        for (int i = 0; i < mapPool.Count; i++)
+        {
+            stageNames[i] = mapPool[i].name + "(Clone)";
+        }
     }
 
     private void Update()
@@ -128,10 +137,15 @@ public class TutorialStage : BaseMonoBehaviour
         camera.SnappyMovement = false;
         player.State.CURRENT_STATE = StateMachine.State.Landing;
 
-        yield return new WaitForSeconds(0.9f);
+        yield return new WaitForSeconds(0.5f);
         player.State.CURRENT_STATE = StateMachine.State.Idle;
         player.GetComponent<PlayerInput>().enabled = true;
         player.GetComponent<PlayerAction>().enabled = true;
+
+        if (currentMap.name == stageNames[0])
+        {
+            dialogue.SetActive(true);
+        }
     }
 
     private IEnumerator FadeOut(Action onComplete)

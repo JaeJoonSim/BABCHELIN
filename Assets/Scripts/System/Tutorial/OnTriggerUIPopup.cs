@@ -4,11 +4,12 @@ using UnityEngine;
 
 public class OnTriggerUIPopup : MonoBehaviour
 {
-    private GameObject UI;
+    public GameObject UI;
 
     private void Start()
     {
-        UI = gameObject.transform.GetChild(0).gameObject;
+        if (UI == null)
+            UI = gameObject.transform.GetChild(0).gameObject;
         UI.SetActive(false);
     }
 
@@ -20,7 +21,7 @@ public class OnTriggerUIPopup : MonoBehaviour
 
             UI.SetActive(true);
 
-            enabled = false;
+            Destroy(gameObject);
         }
     }
 }

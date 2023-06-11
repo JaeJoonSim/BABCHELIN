@@ -23,7 +23,7 @@ public class OnTriggerObjectOn : MonoBehaviour
 
             OnTriggerEnter.SetActive(true);
 
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 }
