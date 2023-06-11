@@ -240,6 +240,14 @@ public class CookieMouse2 : UnitObject
                     {
                         agent.SetDestination(target.position);
                     }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Idle)
+                    {
+                        detectionRange *= 2;
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        detectionRange *= 2;
+                    }
 
                     agent.speed = hitSpeed;
                     aniCount = 0;
@@ -254,6 +262,14 @@ public class CookieMouse2 : UnitObject
                     else if (state.PREVIOUS_STATE == StateMachine.State.Moving)
                     {
                         agent.SetDestination(target.position);
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Idle)
+                    {
+                        detectionRange *= 2;
+                    }
+                    else if (state.PREVIOUS_STATE == StateMachine.State.Patrol)
+                    {
+                        detectionRange *= 2;
                     }
 
                     agent.speed = hitSpeed;
