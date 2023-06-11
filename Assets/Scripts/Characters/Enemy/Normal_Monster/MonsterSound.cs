@@ -39,7 +39,20 @@ public class MonsterSound : MonoBehaviour
 
     private void Update()
     {
-        
+        switch (state.CURRENT_STATE)
+        {
+            case StateMachine.State.StartDash:
+                audioSource.loop = true;
+                break;
+
+            case StateMachine.State.Dash:
+                audioSource.loop = true;
+                break;
+
+            default:
+                audioSource.loop = false;
+                break;
+        }
     }
 
     private void Die()
@@ -90,9 +103,11 @@ public class MonsterSound : MonoBehaviour
             case StateMachine.State.Spawn:
                 PlaySound(spawn);
                 break;
-            case StateMachine.State.FartShield:
-                break;
-            case StateMachine.State.Outburst:
+            case StateMachine.State.StartDash:
+                audioSource.clip = dash;
+                audioSource.Play();
+                audioSource.loop = true;
+                //PlaySound(dash);
                 break;
             case StateMachine.State.Dead:
 
