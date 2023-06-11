@@ -14,7 +14,7 @@ public class FloatingObject : MonoBehaviour
     private void Start()
     {
         ismoving = true;
-        startPos = transform.position;
+        startPos = transform.localPosition;
     }
 
     private void Update()
@@ -22,7 +22,7 @@ public class FloatingObject : MonoBehaviour
         if (ismoving)
         {
             // 위아래로 둥실둥실 움직이기
-            Vector3 newPosition = startPos + Vector3.forward * Mathf.Sin(Time.time * floatingSpeed) * floatingHeight;
+            Vector3 newPosition = (transform.parent.position + startPos) + Vector3.forward * Mathf.Sin(Time.time * floatingSpeed) * floatingHeight;
             transform.position = newPosition;
         }
     }

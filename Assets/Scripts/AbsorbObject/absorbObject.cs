@@ -38,14 +38,17 @@ public class absorbObject : MonoBehaviour
             case absorb.objectSize.small:
                 absorbTime = absorb.Instance.absorbTimeSmall;
                 addBullet = absorb.Instance.addBulletSmall;
+                Instantiate(absorb.Instance.showAbsorbSmall, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             case absorb.objectSize.medium:
                 absorbTime = absorb.Instance.absorbTimeMedium;
                 addBullet = absorb.Instance.addBulletMedium;
+                Instantiate(absorb.Instance.showAbsorbMedium, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             case absorb.objectSize.large:
                 absorbTime = absorb.Instance.absorbTimeLarge;
                 addBullet = absorb.Instance.addBulletLarge;
+                Instantiate(absorb.Instance.showAbsorbLarge, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
                 break;
             default:
                 break;
@@ -59,7 +62,7 @@ public class absorbObject : MonoBehaviour
         initialRotation = transform.rotation;
         curAbsorbTime = absorbTime;
 
-        Instantiate(absorb.Instance.showAbsorb, transform.position + new Vector3(0, 0, -2), Quaternion.identity, transform);
+        
     }
 
     private void Update()
