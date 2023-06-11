@@ -14,7 +14,7 @@ public class BuffObj : MonoBehaviour
     {
         int tmp = Random.Range(1001, 1009);
 
-        if (tmp == 1003 || tmp == 1004)
+        if (tmp == 1001 || tmp == 1003 || tmp == 1004 || tmp == 1009 )
             return setIdx();
         else
             return tmp;
