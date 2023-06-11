@@ -311,9 +311,10 @@ public class PlayerAction : BaseMonoBehaviour
                 return false;
             }
             playerController.PreesAttack = true;
-            playerController.inSpineEvent = true;
-            state.CURRENT_STATE = StateMachine.State.Attacking;
+            playerController.inSpineEvent = true;  
             ShotDelay = 1 / (playerController.TotalStatus.atkSpd.value / 100f);
+            playerController.facingAngle();
+            state.CURRENT_STATE = StateMachine.State.Attacking;
         }
         else if (Input.GetMouseButton(0) && state.CURRENT_STATE == StateMachine.State.Attacking)
         {
