@@ -22,6 +22,8 @@ public class PlayerController : BaseMonoBehaviour
 
     private new CameraFollowTarget camera;
 
+    public BuffUI buffUI;
+
     [Header("BaseStatus")]
     public status BaseStatus;
 
@@ -430,9 +432,14 @@ public class PlayerController : BaseMonoBehaviour
         }
     }
 
-    public IEnumerator buffControl(int idx, bool toggle, float delay = 0)
+    public void addBuff(int idx, bool toggle, float delay = 0.1f)
+    {
+        StartCoroutine(buffControl(idx, toggle, delay));
+    }
+    public IEnumerator buffControl(int idx, bool toggle, float delay = 0.1f)
     {
         yield return new WaitForSeconds(delay);
+
         switch (idx)
         {
             case 1001:
@@ -440,16 +447,17 @@ public class PlayerController : BaseMonoBehaviour
                 else { }
                 break;
             case 1002:
-                if (toggle) 
+                if (toggle)
                 {
+                    buffUI.addBuff(10, idx);
                     BuffStatus.movSpd.value = TotalStatus.movSpd.value / 100 * 10;
                     StartCoroutine(buffControl(1002, false, 10f));
                 }
-                else 
+                else
                 {
                     BuffStatus.movSpd.value = 0;
                 }
-                
+
                 break;
             case 1003:
                 if (toggle) { }
@@ -460,40 +468,45 @@ public class PlayerController : BaseMonoBehaviour
                 else { }
                 break;
             case 1005:
-                if (toggle) 
+                if (toggle)
                 {
+                    buffUI.addBuff(1000, idx);
                     BuffStatus.atk.value = TotalStatus.atk.value / 100 * 50;
                 }
-                else 
+                else
                 {
+                    buffUI.removeBuff(idx);
                     BuffStatus.atk.value = 0;
                 }
                 break;
             case 1006:
-                if (toggle) 
+                if (toggle)
                 {
+                    buffUI.addBuff(5, idx);
                     BuffStatus.bulletRange.value = TotalStatus.bulletRange.value;
                     StartCoroutine(buffControl(1006, false, 5f));
                 }
-                else 
+                else
                 {
                     BuffStatus.bulletRange.value = 0;
                 }
                 break;
             case 1007:
-                if (toggle) 
+                if (toggle)
                 {
+                    buffUI.addBuff(5, idx);
                     BulletUnlimit = true;
                     StartCoroutine(buffControl(1007, false, 5f));
                 }
-                else 
+                else
                 {
                     BulletUnlimit = false;
                 }
                 break;
             case 1008:
-                if (toggle) 
+                if (toggle)
                 {
+                    buffUI.addBuff(5, idx);
                     Heal = true;
                     StartCoroutine(buffControl(1008, false, 5f));
                 }

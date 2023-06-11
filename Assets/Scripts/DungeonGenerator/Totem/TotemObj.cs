@@ -67,14 +67,12 @@ public class TotemObj : MonoBehaviour
         }
                 
     }
-
     void Replace()
     {
         effetObj.SetActive(false);
         spriteObj.SetActive(true);
         IconObj.SetActive(true);
     }
-
     void getItem()
     {
         item = TotemManager.Instance.getTotem();
@@ -86,7 +84,6 @@ public class TotemObj : MonoBehaviour
         UiDescription.text = item.Description;
         UiIcon.sprite = TotemManager.Instance.Icons[item.Item];
     }
-
     public void setItmeToPlayer()
     {
         if (isget)
