@@ -457,11 +457,18 @@ public class PlayerAction : BaseMonoBehaviour
             if (Vector3.Angle(toMousedirection, dirToTarget) <= playerController.TotalStatus.absorbAngle.value / 2)
             {
                 absorbObject absorb = targetInRange[i].gameObject.GetComponent<absorbObject>();
-                if (absorb != null)
+
+                if (!Physics2D.Raycast(playerController.muzzleEnd.position, dirToTarget, playerController.TotalStatus.absorbRange.value, 1 << 22))
                 {
-                    absorb.inAbsorbArea = true;
+                    if (absorb != null)
+                    {
+                        absorb.inAbsorbArea = true;
+                    }
+                    Debug.DrawLine(playerController.muzzleEnd.position, targetInRange[i].transform.position, Color.green);
                 }
-                Debug.DrawLine(playerController.muzzleEnd.position, targetInRange[i].transform.position, Color.green);
+
+
+               
             }
         }
     }
