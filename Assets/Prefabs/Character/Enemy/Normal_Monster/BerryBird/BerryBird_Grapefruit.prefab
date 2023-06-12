@@ -82,7 +82,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.7
 --- !u!114 &4265093594819362729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +148,8 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
+  buff: {fileID: 0}
+  buffProbability: 15
   SpineTransform: {fileID: 9079983999551196370}
   AnimationTrack: 0
   Walk: {fileID: 11400000, guid: 5598f1d75c323a149b039059a94cff7e, type: 2}
