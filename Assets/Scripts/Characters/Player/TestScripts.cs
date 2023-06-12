@@ -24,5 +24,9 @@ public class TestScripts : MonoBehaviour
         {
             absorb.Instance.Player.GetComponent<PlayerController>().addBuff(1008, true);
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            BackGroundSouund.Instance.PlaySound("objectApear");
+        }
     }
 }

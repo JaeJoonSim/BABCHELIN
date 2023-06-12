@@ -206,6 +206,8 @@ public class MapController : BaseMonoBehaviour
         anim.gameObject.SetActive(true);
         if (anim.gameObject.activeSelf)
         {
+            BackGroundSouund.Instance.PlaySound("objectApear");
+
             PrevCameraPos = camera.targets[0].gameObject;
             camera.RemoveTarget(camera.targets[0].gameObject);
             camera.AddTarget(anim.gameObject, 1f);

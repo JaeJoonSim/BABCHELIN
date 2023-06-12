@@ -107,6 +107,7 @@ public class absorbObject : MonoBehaviour
         }
         else
         {
+            BackGroundSouund.Instance.PlaySound("objectAbsorb");
             Instantiate(absorb.Instance.BulletEssence, transform.position, Quaternion.identity).GetComponent<BulletEssence>().setAddValue(addBullet);
             Destroy(gameObject);
         }

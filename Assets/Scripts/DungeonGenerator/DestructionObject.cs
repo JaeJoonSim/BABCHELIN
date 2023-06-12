@@ -12,6 +12,7 @@ public class DestructionObject : MonoBehaviour
     {
         if(collision.CompareTag("PlayerAttack"))
         {
+            BackGroundSouund.Instance.PlaySound("objectDestroy");
             Instantiate(DestructionEffet, transform.position + new Vector3(0,0, zPos) , Quaternion.identity);
         }
     }

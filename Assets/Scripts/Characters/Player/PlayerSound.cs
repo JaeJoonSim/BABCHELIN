@@ -17,7 +17,7 @@ public class PlayerSound : MonoBehaviour
     public AudioClip pcWalkCookie;
     public AudioClip pcRolling;
     public AudioClip pcAbsorb;
-    public AudioClip pcBuffGet;//
+    public AudioClip pcBuffGet;
     public AudioClip pcHit;
     public AudioClip pdLand;//
     public AudioClip pcDeath;
@@ -67,6 +67,14 @@ public class PlayerSound : MonoBehaviour
             if (pdLand != null)
             {
                 audioSource.clip = pdLand;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+        }
+        else if (ac == "pcBuffGet")
+        {
+            if (pcBuffGet != null)
+            {
+                audioSource.clip = pcBuffGet;
                 audioSource.PlayOneShot(audioSource.clip);
             }
         }

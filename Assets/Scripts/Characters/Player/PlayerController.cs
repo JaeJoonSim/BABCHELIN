@@ -130,7 +130,7 @@ public class PlayerController : BaseMonoBehaviour
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            if (IsInvoking("SoundDelay"))
+            if (IsInvoking("SoundDelay") && state.CURRENT_STATE != StateMachine.State.Skill2)
             {
                 CancelInvoke("SoundDelay");
                 playerSound.StopSound();
@@ -434,6 +434,7 @@ public class PlayerController : BaseMonoBehaviour
 
     public void addBuff(int idx, bool toggle, float delay = 0.1f)
     {
+        playerSound.PlayPlayerSound("pcBuffGet");
         StartCoroutine(buffControl(idx, toggle, delay));
     }
     public IEnumerator buffControl(int idx, bool toggle, float delay = 0.1f)
