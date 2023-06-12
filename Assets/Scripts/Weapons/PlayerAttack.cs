@@ -93,9 +93,15 @@ public class PlayerAttack : BaseMonoBehaviour
         {
             Debug.Log("Hit Test");
             Skunk skunk = collision.GetComponent<Skunk>();
+            ObjectHit objHit = collision.GetComponent<ObjectHit>();
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
             if (skunk != null)
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal, skunk.destructionCount);
+            else if(objHit != null)
+            {
+                collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal); 
+                objHit.OnHitEffect();
+            }
             else
                 collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
 
