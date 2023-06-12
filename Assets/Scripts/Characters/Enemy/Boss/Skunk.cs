@@ -230,8 +230,11 @@ public class Skunk : UnitObject
 
         if (currentPhase == 1 && health.CurrentHP() < health.MaxHP() / 2)
         {
-            health.untouchable = true;
-            health.SetHP(health.MaxHP() / 2f);
+            //health.SetHP(health.MaxHP() / 2f);
+
+            isPatternPause = true;
+            health.damageDecrease = true;
+            state.CURRENT_STATE = StateMachine.State.PhaseChange;
         }
         else if (currentPhase > 1 && state.CURRENT_STATE != StateMachine.State.Dead)
         {
