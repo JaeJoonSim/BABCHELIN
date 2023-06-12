@@ -59,6 +59,19 @@ public class PlayerSound : MonoBehaviour
         }
     }
 
+    public void PlayPlayerSound(string ac)
+    {
+        if (ac == "Land")
+        {
+            if (pdLand != null)
+            {
+                audioSource.clip = pdLand;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+        }
+        
+    }
+
     public void StopSound()
     {
         audioSource.Stop();
