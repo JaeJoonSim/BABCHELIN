@@ -88,18 +88,13 @@ public class PlayerSound : MonoBehaviour
 
     public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+       // Debug.Log(e.Data.Name);
 
-        switch (state.CURRENT_STATE)
+        if (e.Data.Name == "land")
         {
-            case StateMachine.State.Moving:
-                if (e.Data.Name == "land")
-                {
-                    PlayPlayerSound(pcWalkCookie);
-                }
-                break;
 
+            PlayPlayerSound(pcWalkCookie);
         }
-
     }
 
 }
