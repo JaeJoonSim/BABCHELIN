@@ -15,21 +15,25 @@ public class TotemManager : BaseMonoBehaviour
     public Dictionary<int, Sprite> Icons = new Dictionary<int, Sprite>();
     static private TotemManager instance;
     static public TotemManager Instance { get { return instance; } }
-
+    public int test;
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            UnityGoogleSheet.Load<DefaultTable.Data>();
             DontDestroyOnLoad(gameObject);
         }
         else
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 
+
+    private void Update()
+    {
+        test++;
+    }
     private void Start()
     {
         foreach (var x in DefaultTable.Data.DataList)

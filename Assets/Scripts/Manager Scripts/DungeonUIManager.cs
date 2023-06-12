@@ -47,10 +47,25 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private Canvas canvas;
 
+    [Header("매니저들")]
+    public GameObject absorbManager;
+    public GameObject soundManager;
+    public GameObject totemManager;
+
     private void Awake()
     {
         if (_instance == null)
             _instance = this;
+
+        //다른 매니저 생성해주는 코드
+        if (absorb.Instance == null)
+            Instantiate(absorbManager);
+        if (BackGroundSouund.Instance == null)
+            Instantiate(soundManager);
+        if (TotemManager.Instance == null)
+            Instantiate(totemManager);
+
+
     }
 
     private void Start()

@@ -26,7 +26,7 @@ public class BackGroundSouund : MonoBehaviour
         }
         else
         {
-            //Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
     private void Start()
