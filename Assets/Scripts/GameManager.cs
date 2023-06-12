@@ -87,7 +87,8 @@ public class GameManager : MonoBehaviour
     public void ChangeScene(string SceneName)
     {
         //씬 테스트를 위해 잠시 바꿨습니다._ 임동현
-        //UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
-        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(SceneName);
+        DungeonUIManager.Instance.enemyCount = 0;
+        //UnityEngine.SceneManagement.SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

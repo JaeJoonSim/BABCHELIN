@@ -120,7 +120,7 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name != "DungeonScene") // 여기서 DungeonScene은 이 오브젝트가 유지되어야 하는 씬의 이름입니다.
+        if (scene.name != "DungeonScene" && scene.name != "2DDungeon") // 여기서 DungeonScene은 이 오브젝트가 유지되어야 하는 씬의 이름입니다.
         {
             Destroy(this.gameObject);
         }
