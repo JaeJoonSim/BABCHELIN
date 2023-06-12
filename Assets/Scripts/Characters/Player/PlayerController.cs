@@ -50,7 +50,7 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showDodge", true)] public float dodgeSpeed;
     [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
     [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
-
+    [DrawIf("showDodge", true)] public float DodgeDelay;
 
 
     [Header("Èí¼ö")]
@@ -108,12 +108,14 @@ public class PlayerController : BaseMonoBehaviour
         ItemStatusPercent.SaveFieldsToVariables();
         BuffStatus.SaveFieldsToVariables();
         TotalStatus.SaveFieldsToVariables();
-        getTotalstatus();
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
+
+        getTotalstatus();
+        BulletGauge = TotalStatus.bulletMax.value;
     }
 
     private void OnEnable()
@@ -130,7 +132,7 @@ public class PlayerController : BaseMonoBehaviour
         if (absorbEffet != null && state.CURRENT_STATE != StateMachine.State.Absorbing)
         {
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
-            if (IsInvoking("SoundDelay"))
+            if (IsInvoking("SoundDelay") && state.CURRENT_STATE != StateMachine.State.Skill2)
             {
                 CancelInvoke("SoundDelay");
                 playerSound.StopSound();
@@ -434,6 +436,7 @@ public class PlayerController : BaseMonoBehaviour
 
     public void addBuff(int idx, bool toggle, float delay = 0.1f)
     {
+        playerSound.PlayPlayerSound("pcBuffGet");
         StartCoroutine(buffControl(idx, toggle, delay));
     }
     public IEnumerator buffControl(int idx, bool toggle, float delay = 0.1f)

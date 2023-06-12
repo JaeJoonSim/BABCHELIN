@@ -73,10 +73,17 @@ public class TreasureChest : BaseMonoBehaviour, Interactable
     {
         if (Open != null)
         {
+            BackGroundSouund.Instance.PlaySound("chestOpen");
             anim.AnimationState.SetAnimation(AnimationTrack, Open, loop: false);
         }
 
-        Destroy(gameObject, destroyTime);
+        Invoke("DestroyObj", destroyTime);
+    }
+
+    public void DestroyObj()
+    {
+        BackGroundSouund.Instance.PlaySound("chestDisappear");
+        Destroy(gameObject);
     }
 
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)

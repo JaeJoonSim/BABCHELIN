@@ -82,7 +82,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.7
 --- !u!114 &4265093594819362729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -148,6 +148,8 @@ MonoBehaviour:
   moveVY: 0
   speed: 0
   maxSpeed: 0.05
+  buff: {fileID: 0}
+  buffProbability: 15
   SpineTransform: {fileID: 9079983999551196370}
   target: {fileID: 0}
   detectionRange: 0
@@ -577,6 +579,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4265093594819362730}
     m_Modifications:
+    - target: {fileID: 711257821363008601, guid: 98f425fb659341d468a28828ac80e2c6,
+        type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 711257821363008602, guid: 98f425fb659341d468a28828ac80e2c6,
         type: 3}
       propertyPath: m_Name

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
+using System;
 
 public class TotemObj : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class TotemObj : MonoBehaviour
     Vector3 iconPos;
     public ParticleSystem TotemDestroyEffect;
 
+    public delegate void GetTotemAction();
+    public event GetTotemAction OnGetTotem;
+
     void Start()
     {
         Invoke("Replace", 1.5f);
@@ -51,6 +55,7 @@ public class TotemObj : MonoBehaviour
             if(Vector3.Distance(absorb.Instance.Player.position , IconObj.transform.position) < 1f)
             {
                 Instantiate(TotemDestroyEffect, iconPos, quaternion.identity);
+                OnGetTotem?.Invoke();
                 Destroy(gameObject);
             }
         }
@@ -92,10 +97,7 @@ public class TotemObj : MonoBehaviour
         isget = true;
         IconObj.GetComponent<FloatingObject>().ismoving = false;
         iconPos = IconObj.transform.position;
-        TotemManager.Instance.isAdd[item.Type]= item;
-        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
-
-        Instantiate(TotemChooseEffect, IconObj.transform.position , quaternion.identity, transform);
+        Instantiate(TotemChooseEffect, IconObj.transform.position, quaternion.identity, transform);
         Instantiate(PcTotemChooseEffect, absorb.Instance.Player.position, quaternion.identity, absorb.Instance.Player);
 
         for (int i = 0; i < otherTotem.Length; i++)
@@ -104,6 +106,20 @@ public class TotemObj : MonoBehaviour
                 Destroy(otherTotem[i]);
         }
 
+        foreach (var item in TotemManager.Instance.isAdd.Values)
+        {
+            if (item.Type == this.item.Type)
+            {
+                if (item.Item >= this.item.Item)
+                {
+                    return;
+                }
+            }
+        }
+
+        TotemManager.Instance.isAdd[item.Type] = item;
+        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
+        DungeonUIManager.Instance.addTotem();
     }
 
 }

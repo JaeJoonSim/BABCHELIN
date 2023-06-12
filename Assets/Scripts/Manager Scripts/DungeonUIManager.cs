@@ -40,6 +40,8 @@ public class DungeonUIManager : BaseMonoBehaviour
 
     public int enemyCount;
 
+    public TotemUI totemUi;
+
     [Space]
     public string SceneName;
 
@@ -76,14 +78,14 @@ public class DungeonUIManager : BaseMonoBehaviour
                 Time.timeScale = 0;
                 canvas.sortingOrder = 3;
             }
-            
+
             escBackPanel.SetActive(!escBackPanel.activeSelf);
             escPanel.SetActive(!escPanel.activeSelf);
             settingPanel.SetActive(false);
             PlayerUI.SetActive(!PlayerUI.activeSelf);
             if (BossUI != null)
                 BossUI.SetActive(!BossUI.activeSelf);
-            if(Minimap != null)
+            if (Minimap != null)
                 Minimap.SetActive(!Minimap.activeSelf);
         }
 
@@ -160,5 +162,10 @@ public class DungeonUIManager : BaseMonoBehaviour
     public void RegisterEnemy()
     {
         enemyCount++;
+    }
+
+    public void addTotem()
+    {
+        totemUi.reSetBuff();
     }
 }

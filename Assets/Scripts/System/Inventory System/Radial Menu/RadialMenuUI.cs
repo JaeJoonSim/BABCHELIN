@@ -29,7 +29,7 @@ public class RadialMenuUI : MonoBehaviour
 
     private void Update()
     {
-        if (mapController.mapPool.Count > 3)
+        if (mapController.mapPool.Count > 2)
         {
             for (int i = 0; i < mapController.mapPool.Count; i++)
             {
@@ -57,6 +57,11 @@ public class RadialMenuUI : MonoBehaviour
             if (selected >= 0)
             {
                 audioSource.clip = mapController.mapPool[selected].GetComponent<MapInfo>().BGM;
+                if (mapController.mapPool.Count <= 2)
+                {
+                    audioSource.clip = mapController.bossRoom.GetComponent<MapInfo>().BGM;
+                }
+
                 mapController.selectedMapIndex = selected;
                 mapController.SelectMap();
             }

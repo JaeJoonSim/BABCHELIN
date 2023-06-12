@@ -23,7 +23,7 @@ public class LargeAttack : PlayerAttack
         if (collision.tag == "Enemy")
         {
             Vector3 collisionPoint = collision.ClosestPoint(transform.position);
-            collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, 10f, Health.AttackType.Normal);
+            collision.GetComponent<Health>().Damaged(gameObject, collisionPoint, Damage, Health.AttackType.Normal);
             Instantiate(HitEffet, collisionPoint, Quaternion.identity);
 
             Collider2D[] targetInRange = Physics2D.OverlapCircleAll(transform.position, splashRange, 1 << 8);

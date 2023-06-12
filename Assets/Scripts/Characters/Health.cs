@@ -38,6 +38,7 @@ public class Health : BaseMonoBehaviour
     [HideInInspector] public bool doNotChange = false;
 
     [SerializeField] private bool isMonster;
+    [SerializeField] private bool isObject;
 
     public delegate void HitAction(GameObject Attacker, Vector3 AttackLocation, AttackType type);
     public delegate void HealthEvent(GameObject attacker, Vector3 attackLocation, float damage, AttackType type);
@@ -169,8 +170,9 @@ public class Health : BaseMonoBehaviour
     {
         if (type == AttackType.Normal)
         {
-            StartCoroutine(InvincibilityAndBlink(recoveryTime));
-            if (!damageDecrease && !doNotChange)
+            if(!isObject)
+                StartCoroutine(InvincibilityAndBlink(recoveryTime));
+            if (!damageDecrease && !doNotChange && !isObject)
                 state.ChangeToHitState(attackLocation);
         }
     }

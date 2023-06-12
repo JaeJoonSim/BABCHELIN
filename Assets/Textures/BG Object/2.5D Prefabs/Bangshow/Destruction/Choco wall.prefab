@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 6191512553379342666}
   - component: {fileID: 8342126339736417738}
   - component: {fileID: 1028049760512696457}
+  - component: {fileID: 8838584516917044212}
   m_Layer: 22
   m_Name: Choco wall
   m_TagString: 'DestroyableObject '
@@ -76,6 +77,21 @@ MonoBehaviour:
   m_Area: 1
   m_IgnoreFromBuild: 0
   m_AffectedAgents: ffffffff
+--- !u!114 &8838584516917044212
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6191512553379342667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122566e7400910846bef4f49f4b60100, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DestructionEffet: {fileID: 4627354742501184210, guid: 87ae3e36e9b5d5e4d9f96d87d0310302,
+    type: 3}
+  zPos: -1.5
 --- !u!1001 &6191512551732822970
 PrefabInstance:
   m_ObjectHideFlags: 0

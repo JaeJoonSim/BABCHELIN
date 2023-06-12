@@ -17,7 +17,7 @@ public class PlayerSound : MonoBehaviour
     public AudioClip pcWalkCookie;
     public AudioClip pcRolling;
     public AudioClip pcAbsorb;
-    public AudioClip pcBuffGet;//
+    public AudioClip pcBuffGet;
     public AudioClip pcHit;
     public AudioClip pdLand;//
     public AudioClip pcDeath;
@@ -59,6 +59,27 @@ public class PlayerSound : MonoBehaviour
         }
     }
 
+
+    public void PlayPlayerSound(string ac)
+    {
+        if (ac == "Land")
+        {
+            if (pdLand != null)
+            {
+                audioSource.clip = pdLand;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+        }
+        else if (ac == "pcBuffGet")
+        {
+            if (pcBuffGet != null)
+            {
+                audioSource.clip = pcBuffGet;
+                audioSource.PlayOneShot(audioSource.clip);
+            }
+        }
+    }
+
     public void StopSound()
     {
         audioSource.Stop();
@@ -67,18 +88,13 @@ public class PlayerSound : MonoBehaviour
 
     public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
+       // Debug.Log(e.Data.Name);
 
-        switch (state.CURRENT_STATE)
+        if (e.Data.Name == "land")
         {
-            case StateMachine.State.Moving:
-                if (e.Data.Name == "land")
-                {
-                    PlayPlayerSound(pcWalkCookie);
-                }
-                break;
 
+            PlayPlayerSound(pcWalkCookie);
         }
-
     }
 
 }
