@@ -33,7 +33,12 @@ public class absorb : BaseMonoBehaviour
 
     public GameObject BulletEssence;
     public GameObject UltimateEssence;
-    public Transform Player { get { return player; } set { player = value; } }
+    public Transform Player { 
+        get        
+        {
+            return player;        
+        } 
+        set { player = value; } }
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
 
@@ -52,10 +57,22 @@ public class absorb : BaseMonoBehaviour
             Destroy(gameObject);
         }
     }
-
-    private void Start()
+    private void awake()
     {
-        if (Player == null)
+        getPlayer();
+    }
+
+    private void Update()
+    {
+        if (player == null)
+        {
+            getPlayer();
+        }
+    }
+
+    private void getPlayer()
+    {
+        if (player == null)
         {
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
