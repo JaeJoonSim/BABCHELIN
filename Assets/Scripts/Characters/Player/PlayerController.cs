@@ -626,18 +626,18 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     if (item.Val1 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat1].value = item.Val1 * 100;
+                        ItemStatusPercent.variables[item.Stat1].value = (int)(item.Val1 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat1].value = item.Val1;
+                        ItemStatusAdd.variables[item.Stat1].value = (int)item.Val1;
                     }
                 }
                 else if (valueType == typeof(Stat<float>))
                 {
                     if (item.Val1 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat1].value = item.Val1 * 100;
+                        ItemStatusPercent.variables[item.Stat1].value = (item.Val1 * 100);
                     }
                     else
                     {
@@ -659,18 +659,18 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     if (item.Val2 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat2].value = item.Val2 * 100;
+                        ItemStatusPercent.variables[item.Stat2].value = (int)(item.Val2 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat2].value = item.Val2;
+                        ItemStatusAdd.variables[item.Stat2].value = (int)item.Val2;
                     }
                 }
                 if (valueType == typeof(Stat<float>))
                 {
                     if (item.Val2 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat2].value = item.Val2 * 100;
+                        ItemStatusPercent.variables[item.Stat2].value = (item.Val2 * 100);
                     }
                     else
                     {
