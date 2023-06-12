@@ -284,6 +284,7 @@ public class PlayerAction : BaseMonoBehaviour
         if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (playerController.DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
         {
             DodgeQueued = false;
+            playerController.playerSound.StopSound();
             state.CURRENT_STATE = StateMachine.State.Dodging;
             playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcRolling);
             playerController.DodgeDelay = playerController.TotalStatus.dodgeCoolDown.value;
@@ -358,6 +359,7 @@ public class PlayerAction : BaseMonoBehaviour
         else if (state.CURRENT_STATE == StateMachine.State.Absorbing && !Input.GetMouseButton(1))
         {
             playerController.PreesAttack = false;
+            playerController.playerSound.StopSound();
             state.CURRENT_STATE = StateMachine.State.Idle;
             if (targetInRange != null)
             {

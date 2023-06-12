@@ -13,7 +13,9 @@ public class BackGroundSouund : MonoBehaviour
     public AudioClip chestDisappear;
     public AudioClip objectDestroy;
     public AudioClip objectAbsorb;
-    public AudioClip objectApear;
+    public AudioClip objectAbsorbInPlayer;
+    public AudioClip objectApearDown;
+    public AudioClip objectApearUp;
 
     private void Awake()
     {
@@ -73,10 +75,24 @@ public class BackGroundSouund : MonoBehaviour
                     audioSource.PlayOneShot(audioSource.clip);
                 }
                 break;
-            case "objectApear":
-                if (objectApear != null)
+            case "objectAbsorbInPlayer":
+                if (objectAbsorb != null)
                 {
-                    audioSource.clip = objectApear;
+                    audioSource.clip = objectAbsorb;
+                    audioSource.PlayOneShot(audioSource.clip);
+                }
+                break;              
+            case "objectApearDown":
+                if (objectApearDown != null)
+                {
+                    audioSource.clip = objectApearDown;
+                    audioSource.PlayOneShot(audioSource.clip);
+                }
+                break;
+            case "objectApearUp":
+                if (objectApearUp != null)
+                {
+                    audioSource.clip = objectApearUp;
                     audioSource.PlayOneShot(audioSource.clip);
                 }
                 break;
