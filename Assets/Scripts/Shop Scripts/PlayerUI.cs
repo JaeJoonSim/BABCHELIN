@@ -59,15 +59,15 @@ public class PlayerUI : MonoBehaviour
         UIHealthGauge.fillAmount = playerHealth.CurrentHP() / playerHealth.MaxHP();
         UIHealthBackGauge.fillAmount = playerHealth.BackHP() / playerHealth.MaxHP();
         UIHealthCutline.value = playerHealth.CurrentHP() / playerHealth.MaxHP();
-        UIBulletGauge.fillAmount = playerController.BulletGauge / 1000f;
-        UIBulletCutline.value = playerController.BulletGauge / 1000f;
+        UIBulletGauge.fillAmount = playerController.BulletGauge / playerController.TotalStatus.bulletMax.value;
+        UIBulletCutline.value = playerController.BulletGauge / playerController.TotalStatus.bulletMax.value;
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
 
         DashIcon.fillAmount = playerController.DodgeDelay / playerController.TotalStatus.dodgeCoolDown.value;
-        SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.BaseStatus.sk1CoolDown.value;
-        SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.BaseStatus.sk2CoolDown.value;
+        SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.TotalStatus.sk1CoolDown.value;
+        SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.TotalStatus.sk2CoolDown.value;
 
-        UIUltimateGauge.fillAmount = 0.1f + (playerController.UltGauge / playerController.BaseStatus.UltMax.value) / 0.8f;
+        UIUltimateGauge.fillAmount = 0.1f + (playerController.UltGauge / playerController.TotalStatus.UltMax.value) / 0.8f;
         UIUltimateIcon.sprite = UltIcons[playerController.UltIdx];
 
     }

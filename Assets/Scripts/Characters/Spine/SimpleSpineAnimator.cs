@@ -705,47 +705,63 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
             switch (state.CURRENT_STATE)
             {
                 case StateMachine.State.Idle:
-
-                    if (DirectionState == direction3.up && NorthIdle != null)
+                    if (state.PREVIOUS_STATE == StateMachine.State.Moving)
                     {
-                        if (Track.Animation != NorthIdle.Animation)
+                        if (DirectionState == direction3.up && NorthIdle != null && NorthStopMoving != null)
                         {
-                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            if (Track.Animation != NorthIdle.Animation && Track.Animation != NorthStopMoving.Animation)
                             {
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthStopMoving, loop: true);
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthStopMoving, loop: false);
                                 Track = anim.AnimationState.AddAnimation(AnimationTrack, NorthIdle, loop: true, 0f);
                             }
-                            else
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
+
                         }
-                    }
-                    else if (DirectionState == direction3.down && SouthIdle != null)
-                    {
-                        if (Track.Animation != SouthIdle.Animation)
+                        else if (DirectionState == direction3.down && SouthIdle != null && SouthStopMoving != null)
                         {
-                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            if (Track.Animation != SouthIdle.Animation && Track.Animation != SouthStopMoving.Animation)
                             {
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthStopMoving, loop: true);
+
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthStopMoving, loop: false);
                                 Track = anim.AnimationState.AddAnimation(AnimationTrack, SouthIdle, loop: true, 0f);
+
                             }
-                            else
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
+                        }
+                        else
+                        {
+                            if (Track.Animation != Idle.Animation && Track.Animation != StopMoving.Animation)
+                            {
+
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: false);
+                                Track = anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
+
+                            }
                         }
                     }
                     else
                     {
-                        if (Track.Animation != Idle.Animation)
+                        if (DirectionState == direction3.up && NorthIdle != null)
                         {
-                            if (state.PREVIOUS_STATE == StateMachine.State.Moving)
+                            if (Track.Animation != NorthIdle.Animation)
                             {
-                                Track = anim.AnimationState.SetAnimation(AnimationTrack, StopMoving, loop: true);
-                                Track = anim.AnimationState.AddAnimation(AnimationTrack, Idle, loop: true, 0f);
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, NorthIdle, loop: true);
                             }
-                            else
+                        }
+                        else if (DirectionState == direction3.down && SouthIdle != null)
+                        {
+                            if (Track.Animation != SouthIdle.Animation)
+                            {
+                                Track = anim.AnimationState.SetAnimation(AnimationTrack, SouthIdle, loop: true);
+                            }
+                        }
+                        else
+                        {
+                            if (Track.Animation != Idle.Animation)
+                            {
                                 Track = anim.AnimationState.SetAnimation(AnimationTrack, Idle, loop: true);
+
+                            }
                         }
                     }
-
                     break;
                 case StateMachine.State.Moving:
 
@@ -804,7 +820,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
                                 if (Track.Animation != Moving.Animation)
                                 {
                                     Track = anim.AnimationState.SetAnimation(AnimationTrack, Moving, loop: true);
-                                    
+
                                 }
                             }
                             else
@@ -1426,7 +1442,7 @@ public class SimpleSpineAnimator : BaseMonoBehaviour
     {
 
 
-            if (!(state != null))
+        if (!(state != null))
         {
             return;
         }
