@@ -22,7 +22,7 @@ public class PlayerUI : MonoBehaviour
     public Slider UIBulletCutline;
 
     public Transform BulletCanvas;
-    private Image PlayerBulletGauge;
+    public Image PlayerBulletGauge;
 
     public Image DashIcon;
     public Image SkillIcon_1;
@@ -62,7 +62,7 @@ public class PlayerUI : MonoBehaviour
         UIBulletGauge.fillAmount = playerController.BulletGauge / playerController.TotalStatus.bulletMax.value;
         UIBulletCutline.value = playerController.BulletGauge / playerController.TotalStatus.bulletMax.value;
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
-
+        Debug.Log(playerController.BulletGauge / playerController.TotalStatus.bulletMax.value);
         DashIcon.fillAmount = playerController.DodgeDelay / playerController.TotalStatus.dodgeCoolDown.value;
         SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.TotalStatus.sk1CoolDown.value;
         SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.TotalStatus.sk2CoolDown.value;
