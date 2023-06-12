@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class TotemUI : MonoBehaviour
 {
-    private Vector2 pivot = new Vector2(50, -200);
+    public Vector2 pivot = new Vector2(30, 50);
     public List<GameObject> TotemList = new List<GameObject>();
 
     public GameObject totemUI;
@@ -17,7 +17,7 @@ public class TotemUI : MonoBehaviour
         {
             int ypos = (int)(i / 2);
 
-            TotemList[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(pivot.x + ((i % 2) * 70), pivot.y - (ypos * 70));
+            TotemList[i].GetComponent<RectTransform>().anchoredPosition = new Vector2(pivot.x + ((i % 2) * 70), pivot.y + (ypos * 70));
         }
     }
     public void addBuff(Totem totem)

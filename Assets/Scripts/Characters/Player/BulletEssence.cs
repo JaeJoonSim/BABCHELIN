@@ -28,11 +28,12 @@ public class BulletEssence : MonoBehaviour
         if (collision.tag == "Player")
         {
             collision.GetComponent<PlayerController>().addBullet(addValue);
-            Destroy(gameObject);
-
+            BackGroundSouund.Instance.PlaySound("objectAbsorbInPlayer");
             Cream parent = gameObject.GetComponentInParent<Cream>();
             if (parent != null)
                 Destroy(parent);
+
+            Destroy(gameObject);
         }
     }
 }

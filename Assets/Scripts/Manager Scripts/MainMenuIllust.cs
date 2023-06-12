@@ -25,6 +25,10 @@ public class MainMenuIllust : MonoBehaviour
     public AnimationReferenceAsset StartAnim;
     public AnimationReferenceAsset IdleAnim;
 
+    private AudioSource audioSource;
+    public AudioClip bang;
+    public AudioClip bgm;
+
     public GameObject LogoImage;
     private Color logoColor;
     public GameObject[] ElseUI;
@@ -46,6 +50,7 @@ public class MainMenuIllust : MonoBehaviour
 
         spineAnimation = SpineTransform.GetComponent<SkeletonAnimation>();
 
+        audioSource = GetComponent<AudioSource>();
 
         logoColor = new Color(1, 1, 1, 0);
         uiColor = new Color(1, 1, 1, 0);
@@ -108,7 +113,18 @@ public class MainMenuIllust : MonoBehaviour
     private void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
         Debug.Log(e.Data.Name);
-        if (e.Data.Name == "Title_UI")
+        if(e.Data.Name == "bang")
+        {
+            audioSource.clip = bang;
+            audioSource.PlayOneShot(audioSource.clip);
+        }
+        else if(e.Data.Name == "bgm")
+        {
+            audioSource.clip = bgm;
+            audioSource.PlayOneShot(audioSource.clip);
+            audioSource.loop = true;
+        }
+        else if (e.Data.Name == "Title_UI")
         {
             logoOn = true;
             //LogoImage.SetActive(true);
