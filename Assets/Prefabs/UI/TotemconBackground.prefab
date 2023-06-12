@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 2317325120475280107}
   - component: {fileID: 7573646988135460588}
   - component: {fileID: 6035315522442114618}
-  - component: {fileID: 7252291853201339336}
+  - component: {fileID: 5600999786407613173}
   m_Layer: 5
-  m_Name: BuffIconBackground
+  m_Name: TotemconBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,9 +37,9 @@ RectTransform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -510.9999, y: -379.99997}
+  m_AnchorMin: {x: 1, y: 1}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: -1470.9999, y: -920}
   m_SizeDelta: {x: 70, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7573646988135460588
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &7252291853201339336
+--- !u!114 &5600999786407613173
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -89,18 +89,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1117131703964096927}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8cafd0c261bfab47a071a2d8eeafcbe, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d3503fb0b0627144b7764384404e5b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coolTime: 0
-  curCoolTime: 5
   icon: {fileID: 2443006869145924625}
-  idx: 0
-  count: 0
-  toolTip: {fileID: 8395153330455559806}
   uiIcon: {fileID: 5047610488902873678}
   uiName: {fileID: 1630655188130429566}
   uiInfo: {fileID: 7409391538355743432}
+  toolTip: {fileID: 8395153330455559806}
 --- !u!1 &1184289257244489165
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,7 +667,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: 18b30732aa86f1440afcaa3fdade7b10, type: 3}
-  m_Type: 0
+  m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

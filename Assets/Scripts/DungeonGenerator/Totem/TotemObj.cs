@@ -97,10 +97,7 @@ public class TotemObj : MonoBehaviour
         isget = true;
         IconObj.GetComponent<FloatingObject>().ismoving = false;
         iconPos = IconObj.transform.position;
-        TotemManager.Instance.isAdd[item.Type]= item;
-        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
-
-        Instantiate(TotemChooseEffect, IconObj.transform.position , quaternion.identity, transform);
+        Instantiate(TotemChooseEffect, IconObj.transform.position, quaternion.identity, transform);
         Instantiate(PcTotemChooseEffect, absorb.Instance.Player.position, quaternion.identity, absorb.Instance.Player);
 
         for (int i = 0; i < otherTotem.Length; i++)
@@ -109,7 +106,20 @@ public class TotemObj : MonoBehaviour
                 Destroy(otherTotem[i]);
         }
 
-        
+        foreach (var item in TotemManager.Instance.isAdd.Values)
+        {
+            if (item.Type == this.item.Type)
+            {
+                if (item.Item >= this.item.Item)
+                {
+                    return;
+                }
+            }
+        }
+
+        TotemManager.Instance.isAdd[item.Type] = item;
+        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
+        DungeonUIManager.Instance.addTotem();
     }
 
 }

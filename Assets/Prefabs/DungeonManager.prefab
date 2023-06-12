@@ -4732,6 +4732,7 @@ MonoBehaviour:
   - {fileID: 5387928450033560541}
   - {fileID: 4442320645928796214}
   enemyCount: 0
+  totemUi: {fileID: 716408063804641976}
   SceneName: 
 --- !u!114 &3062203400200393489
 MonoBehaviour:
@@ -4787,6 +4788,7 @@ GameObject:
   - component: {fileID: 2648169565226017350}
   - component: {fileID: 2648169565226017348}
   - component: {fileID: 2648169565226017349}
+  - component: {fileID: 716408063804641976}
   m_Layer: 0
   m_Name: EscPanel
   m_TagString: Untagged
@@ -4859,6 +4861,20 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &716408063804641976
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2648169565226017351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 482d43bcdf8862c4b8b78510f4bb43b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TotemList: []
+  totemUI: {fileID: 1117131703964096927, guid: dcd7f7b89b1aa8d469e060eb38cc3ac7, type: 3}
 --- !u!1 &2662517014824741110
 GameObject:
   m_ObjectHideFlags: 0

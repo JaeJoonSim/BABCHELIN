@@ -54,9 +54,8 @@ public class BuffUI : MonoBehaviour
             if (BuffList[i].GetComponent<BuffUIObj>()?.idx <= idx)
             {
                 Destroy(BuffList[i]);
-                BuffList.RemoveAt(i);
-
             }
+            BuffList.Clear();
         }
     }
 }
