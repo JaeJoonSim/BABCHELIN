@@ -10,9 +10,14 @@ public class TotemUI : MonoBehaviour
 
     public GameObject totemUI;
 
+    private void Start()
+    {
+        InvokeRepeating("reSetBuff", 0, 3f);
+    }
     // Update is called once per frame
     void Update()
     {
+    
         for (int i = 0; i < TotemList.Count; i++)
         {
             int ypos = (int)(i / 2);
