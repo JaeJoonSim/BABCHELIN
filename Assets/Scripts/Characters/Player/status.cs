@@ -83,9 +83,9 @@ public struct status
     public Stat<int> bulletCost;
 
     [Space, Tooltip("총알 최대치")]
-    public Stat<int> bulletMax;
+    public Stat<float> bulletMax;
     [Tooltip("총알 최소치")]
-    public Stat<int> bulletMin;
+    public Stat<float> bulletMin;
     [Tooltip("탄환 자연회복량(최소치까지)")]
     public Stat<int> bulletRegen;
     [Tooltip("탄환 자연시간(초)(최소치까지)")]

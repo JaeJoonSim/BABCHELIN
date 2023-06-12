@@ -60,7 +60,7 @@ public class PlayerController : BaseMonoBehaviour
 
     [Header("АјАн")]
     public bool showAttack = false;
-    [DrawIf("showAttack", true)] public int BulletGauge;
+    [DrawIf("showAttack", true)] public float BulletGauge;
     [DrawIf("showAttack", true)] public bool PreesAttack;
     [DrawIf("showAttack", true)] public GameObject Attack;
     [DrawIf("showAttack", true)] public int SkillIndex;
