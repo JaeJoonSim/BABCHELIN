@@ -9349,7 +9349,7 @@ MonoBehaviour:
     bulletMin:
       value: 300
     bulletRegen:
-      value: 2
+      value: 5
     bulletRegenTime:
       value: 1
     bulletAuto:
@@ -9849,9 +9849,10 @@ MonoBehaviour:
   dodgeSpeed: 0
   DodgeAngle: 0
   DodgeDuration: 0.5
+  DodgeDelay: 0
   showAbsorb: 0
   absorbEffet: {fileID: 5729501917595095277}
-  showAttack: 0
+  showAttack: 1
   BulletGauge: 1000
   PreesAttack: 0
   Attack: {fileID: 1645418372607955195, guid: 0debe353a95849e4292ba144f05c8b2f, type: 3}
@@ -9891,7 +9892,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
   CameraBone: {fileID: 0}
-  DodgeDelay: 0
   ShotDelay: 0
   SkillDelay: 0
   _state: {fileID: 6160722343811252260}
@@ -9970,6 +9970,7 @@ MonoBehaviour:
   damageDecrease: 0
   doNotChange: 0
   isMonster: 0
+  isObject: 0
   controller: {fileID: 0}
   KnockbackForce: 2
   RetryPanel: {fileID: 6160722343175086447}
@@ -10448,7 +10449,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 20, y: -2.000061}
+  m_AnchoredPosition: {x: 20, y: -2}
   m_SizeDelta: {x: -474.87085, y: -963.0686}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6160722344512130542

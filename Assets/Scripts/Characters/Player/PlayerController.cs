@@ -108,12 +108,14 @@ public class PlayerController : BaseMonoBehaviour
         ItemStatusPercent.SaveFieldsToVariables();
         BuffStatus.SaveFieldsToVariables();
         TotalStatus.SaveFieldsToVariables();
-        getTotalstatus();
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
+
+        getTotalstatus();
+        BulletGauge = TotalStatus.bulletMax.value;
     }
 
     private void OnEnable()
