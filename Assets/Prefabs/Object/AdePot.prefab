@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 4265093594819362728}
   - component: {fileID: 4265093594819362732}
   - component: {fileID: 1118224395758282011}
+  - component: {fileID: 928467181015111797}
   m_Layer: 8
   m_Name: AdePot
   m_TagString: Enemy
@@ -295,6 +296,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   objectHitEffect: {fileID: 9020660444075462851, guid: 6960ba07c2680344db291f093ce084e8,
     type: 3}
+--- !u!114 &928467181015111797
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4265093594819362709}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c895e190b40290c4f8bbbdc2216cd04b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  IsPlayer: 0
+  currentState: 0
+  previousState: 0
+  facingAngle: 0
+  LookAngle: 0
+  isDefending: 0
+  Timer: 0
 --- !u!1 &5987695874941143013
 GameObject:
   m_ObjectHideFlags: 0

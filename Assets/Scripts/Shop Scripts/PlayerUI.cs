@@ -24,6 +24,7 @@ public class PlayerUI : MonoBehaviour
     public Transform BulletCanvas;
     private Image PlayerBulletGauge;
 
+    public Image DashIcon;
     public Image SkillIcon_1;
     public Image SkillIcon_2;
     public Image UIUltimateGauge;
@@ -62,7 +63,7 @@ public class PlayerUI : MonoBehaviour
         UIBulletCutline.value = playerController.BulletGauge / 1000f;
         PlayerBulletGauge.fillAmount = (UIBulletGauge.fillAmount / 5);
 
-
+        DashIcon.fillAmount = playerController.DodgeDelay / playerController.TotalStatus.dodgeCoolDown.value;
         SkillIcon_1.fillAmount = playerController.skill1CurCooltime / playerController.BaseStatus.sk1CoolDown.value;
         SkillIcon_2.fillAmount = playerController.skill2CurCooltime / playerController.BaseStatus.sk2CoolDown.value;
 
