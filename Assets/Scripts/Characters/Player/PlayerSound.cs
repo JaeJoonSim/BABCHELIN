@@ -17,6 +17,7 @@ public class PlayerSound : MonoBehaviour
     public AudioClip pcWalkCookie;
     public AudioClip pcRolling;
     public AudioClip pcAbsorb;
+    public AudioClip pcAbsorb2;
     public AudioClip pcBuffGet;
     public AudioClip pcHit;
     public AudioClip pdLand;//
@@ -38,6 +39,40 @@ public class PlayerSound : MonoBehaviour
         anim.AnimationState.Event += OnSpineEvent;
         health.OnDamaged += OnDamaged;
         health.OnDie += Die;
+    }
+
+    private void Update()
+    {
+        if (state.CURRENT_STATE == StateMachine.State.Absorbing)
+        {
+            if (!IsInvoking("absorb"))
+            {
+                InvokeRepeating("absorb", 0, 11.5f);
+            }
+
+            if (!IsInvoking("absorb2"))
+                InvokeRepeating("absorb2", 0, 4.5f);
+        }
+        else
+        {
+            if(IsInvoking("absorb"))
+                CancelInvoke("absorb");
+            if (IsInvoking("absorb2"))
+                CancelInvoke("absorb2");
+        }
+               
+
+    }
+
+    void absorb()
+    {
+        audioSource.clip = pcAbsorb;
+        audioSource.PlayOneShot(audioSource.clip);
+    }
+    void absorb2()
+    {
+        audioSource.clip = pcAbsorb2;
+        audioSource.PlayOneShot(audioSource.clip);
     }
 
     private void Die()
@@ -88,7 +123,7 @@ public class PlayerSound : MonoBehaviour
 
     public void OnSpineEvent(TrackEntry trackEntry, Spine.Event e)
     {
-       // Debug.Log(e.Data.Name);
+        // Debug.Log(e.Data.Name);
 
         if (e.Data.Name == "land")
         {

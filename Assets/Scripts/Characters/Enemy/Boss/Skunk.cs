@@ -489,7 +489,7 @@ public class Skunk : UnitObject
                         GameObject bombPrefab = bombPrefabs[Random.Range(0, bombPrefabs.Length)];
 
                         Instantiate(bombPrefab, dropPosition, Quaternion.identity);
-
+                        Debug.Log("bomb Create");
                         yield return new WaitForSeconds(dropDelay);
                     }
                 }
@@ -700,7 +700,7 @@ public class Skunk : UnitObject
             transform.position += directionToPlayer * runawaySpeed * Time.deltaTime;
 
             if (objectToSpawnDuringOutburst != null && isShieldActive)
-                Instantiate(objectToSpawnDuringOutburst, transform.position, Quaternion.identity);
+                //Instantiate(objectToSpawnDuringOutburst, transform.position, Quaternion.identity);
 
             if (Vector3.Distance(transform.position, playerPosition) < 1f)
             {

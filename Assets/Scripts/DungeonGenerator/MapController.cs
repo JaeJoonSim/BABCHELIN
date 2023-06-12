@@ -117,6 +117,7 @@ public class MapController : BaseMonoBehaviour
     {
         if (e.Data.Name == "Launch")
         {
+            BackGroundSouund.Instance.PlaySound("objectApearUp");
             Radial.SetActive(false);
             isLaunch = true;
             isReady = false;
@@ -206,7 +207,7 @@ public class MapController : BaseMonoBehaviour
         anim.gameObject.SetActive(true);
         if (anim.gameObject.activeSelf)
         {
-            BackGroundSouund.Instance.PlaySound("objectApear");
+            BackGroundSouund.Instance.PlaySound("objectApearDown");
 
             PrevCameraPos = camera.targets[0].gameObject;
             camera.RemoveTarget(camera.targets[0].gameObject);

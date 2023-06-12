@@ -2324,8 +2324,11 @@ MonoBehaviour:
   chestOpen: {fileID: 8300000, guid: e2c978b0454ab7c44989c2de5c12002f, type: 3}
   chestDisappear: {fileID: 8300000, guid: 616fc991e53d36e4cbf3166233f6ae0d, type: 3}
   objectDestroy: {fileID: 8300000, guid: c5646a73ff74c1249983c3417fad8e42, type: 3}
-  objectAbsorb: {fileID: 8300000, guid: 93713bf2cfdd367418196f28b980a8b2, type: 3}
-  objectApear: {fileID: 8300000, guid: 95d4d2d4d22f8e241baeed6414d1772b, type: 3}
+  objectAbsorb: {fileID: 8300000, guid: 89f367709a063d540a1509d66a014ce0, type: 3}
+  objectAbsorbInPlayer: {fileID: 8300000, guid: 93713bf2cfdd367418196f28b980a8b2,
+    type: 3}
+  objectApearDown: {fileID: 8300000, guid: 868ca4dd8c5c8f041a1d789177817b7b, type: 3}
+  objectApearUp: {fileID: 8300000, guid: 95d4d2d4d22f8e241baeed6414d1772b, type: 3}
 --- !u!1 &996775984715016284
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,7 +3018,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Resume
+  m_text: "\uAC8C\uC784 \uC7AC\uAC1C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67f40b5268ed49343afcc2e4e385efee, type: 2}
   m_sharedMaterial: {fileID: -3335144939090161698, guid: 67f40b5268ed49343afcc2e4e385efee,
@@ -4472,7 +4475,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Main Menu
+  m_text: "\uBA54\uC778 \uBA54\uB274"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67f40b5268ed49343afcc2e4e385efee, type: 2}
   m_sharedMaterial: {fileID: -3335144939090161698, guid: 67f40b5268ed49343afcc2e4e385efee,
@@ -4608,7 +4611,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Exit Game
+  m_text: "\uAC8C\uC784 \uC885\uB8CC"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67f40b5268ed49343afcc2e4e385efee, type: 2}
   m_sharedMaterial: {fileID: -3335144939090161698, guid: 67f40b5268ed49343afcc2e4e385efee,
@@ -5021,6 +5024,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482d43bcdf8862c4b8b78510f4bb43b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pivot: {x: 40, y: 50}
   TotemList: []
   totemUI: {fileID: 1117131703964096927, guid: dcd7f7b89b1aa8d469e060eb38cc3ac7, type: 3}
 --- !u!1 &2662517014824741110
@@ -16513,9 +16517,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Setting
-
-'
+  m_text: "\uC124\uC815"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 67f40b5268ed49343afcc2e4e385efee, type: 2}
   m_sharedMaterial: {fileID: -3335144939090161698, guid: 67f40b5268ed49343afcc2e4e385efee,
