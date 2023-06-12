@@ -105,6 +105,7 @@ public class DialogueSystemDialogue : BaseMonoBehaviour
         }
         else
         {
+            Time.timeScale = 1;
             choiceButton.gameObject.SetActive(false);
         }
     }
