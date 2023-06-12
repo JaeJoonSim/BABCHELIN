@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Unity.Mathematics;
+using System;
 
 public class TotemObj : MonoBehaviour
 {
@@ -35,6 +36,9 @@ public class TotemObj : MonoBehaviour
     Vector3 iconPos;
     public ParticleSystem TotemDestroyEffect;
 
+    public delegate void GetTotemAction();
+    public event GetTotemAction OnGetTotem;
+
     void Start()
     {
         Invoke("Replace", 1.5f);
@@ -51,6 +55,7 @@ public class TotemObj : MonoBehaviour
             if(Vector3.Distance(absorb.Instance.Player.position , IconObj.transform.position) < 1f)
             {
                 Instantiate(TotemDestroyEffect, iconPos, quaternion.identity);
+                OnGetTotem?.Invoke();
                 Destroy(gameObject);
             }
         }
@@ -104,6 +109,7 @@ public class TotemObj : MonoBehaviour
                 Destroy(otherTotem[i]);
         }
 
+        
     }
 
 }

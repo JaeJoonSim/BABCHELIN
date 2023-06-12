@@ -147,7 +147,7 @@ public class MapController : BaseMonoBehaviour
         
         player.enabled = true;
 
-        if (mapPool.Count <= 3)
+        if (mapPool.Count <= 2)
         {
             SpawnBossRoom();
         }

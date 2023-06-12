@@ -62,7 +62,7 @@ public class TutorialStage : BaseMonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G) && canMoving)
+        if (Input.GetKeyDown(KeyCode.F) && canMoving)
         {
             //StartCoroutine(MapTransition());
             anim.AnimationState.SetAnimation(0, launch, loop: false);
