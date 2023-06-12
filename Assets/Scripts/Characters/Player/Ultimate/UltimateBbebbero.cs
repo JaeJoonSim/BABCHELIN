@@ -25,7 +25,13 @@ public class UltimateBbebbero : MonoBehaviour
             HitEffet.Play();
             Destroy(gameObject, 2f);
             isDamaged = true;
+            Invoke("olliderOff", 1f);
         }
+    }
+
+    void olliderOff()
+    {
+        GetComponent<BoxCollider2D>().enabled = false;
     }
 
     public void getStatus(UltimateStatus val)
