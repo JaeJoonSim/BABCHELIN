@@ -46,6 +46,10 @@ public class DialogueSystemDialogue : BaseMonoBehaviour
         ChooseButton(currentDialogue, choiceButton1, 0);
         ChooseButton(currentDialogue, choiceButton2, 1);
     }
+    private void OnDisable()
+    {
+        Time.timeScale = 1;
+    }
 
 
     private void Update()
