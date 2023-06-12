@@ -19,9 +19,6 @@ public class PlayerAction : BaseMonoBehaviour
     private UnitObject _unitObject;
 
     [Header("µÙ∑π¿Ã")]
-    [Tooltip("»∏«« µÙ∑π¿Ã")]
-
-    public float DodgeDelay;
     //∞¯∞› µÙ∑π¿Ã
     public float ShotDelay;
     //Ω∫≈≥ µÙ∑π¿Ã
@@ -122,7 +119,7 @@ public class PlayerAction : BaseMonoBehaviour
         {
             if (state.CURRENT_STATE != StateMachine.State.Dodging)
             {
-                DodgeDelay -= Time.deltaTime;
+                playerController.DodgeDelay -= Time.deltaTime;
             }
 
 
@@ -277,19 +274,19 @@ public class PlayerAction : BaseMonoBehaviour
 
         StateMachine.State cURRENT_STATE = state.CURRENT_STATE;
 
-        if (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
+        if (playerController.DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))
         {
             DodgeQueued = true;
             playerController.PreesAttack = false;
             //playerController.forceDir = Utils.GetAngle(Vector3.zero, new Vector3(playerController.xDir, playerController.yDir));
         }
 
-        if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
+        if (state.CURRENT_STATE != StateMachine.State.Dodging && (DodgeQueued || (playerController.DodgeDelay <= 0f && Input.GetKey(KeyCode.LeftShift))))
         {
             DodgeQueued = false;
             state.CURRENT_STATE = StateMachine.State.Dodging;
             playerController.playerSound.PlayPlayerSound(playerController.playerSound.pcRolling);
-            DodgeDelay = playerController.TotalStatus.dodgeCoolDown.value;
+            playerController.DodgeDelay = playerController.TotalStatus.dodgeCoolDown.value;
             playerController.dodgeSpeed = playerController.TotalStatus.dodgeDistance.value / playerController.TotalStatus.dodgeTime.value;
             if (playerController.absorbEffet != null)
             {

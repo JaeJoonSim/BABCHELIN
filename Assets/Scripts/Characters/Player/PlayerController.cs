@@ -50,7 +50,7 @@ public class PlayerController : BaseMonoBehaviour
     [DrawIf("showDodge", true)] public float dodgeSpeed;
     [DrawIf("showDodge", true)] public float DodgeAngle = 0f;
     [DrawIf("showDodge", true)] public float DodgeDuration = 0.3f;
-
+    [DrawIf("showDodge", true)] public float DodgeDelay;
 
 
     [Header("Èí¼ö")]
