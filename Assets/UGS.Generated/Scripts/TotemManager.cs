@@ -21,6 +21,7 @@ public class TotemManager : BaseMonoBehaviour
         if (instance == null)
         {
             instance = this;
+            UnityGoogleSheet.Load<DefaultTable.Data>();
             DontDestroyOnLoad(gameObject);
         }
         else
