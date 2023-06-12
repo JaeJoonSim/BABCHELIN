@@ -194,7 +194,6 @@ public struct status
         {
             // 필드 이름 가져오기
             Type fieldType = field.FieldType;
-            
             if(fieldType == typeof(Stat<int>))
             {
                 field.SetValue(this, new Stat<int>(0));
@@ -207,6 +206,8 @@ public struct status
             {
                 field.SetValue(this, new Stat<bool>(false));
             }
+
+            
         }
     }
 

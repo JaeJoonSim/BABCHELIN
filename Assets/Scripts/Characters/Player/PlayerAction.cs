@@ -122,13 +122,21 @@ public class PlayerAction : BaseMonoBehaviour
                 playerController.DodgeDelay -= Time.deltaTime;
             }
 
+
             playerController.skill2CurCooltime -= Time.deltaTime;
-            if (playerController.skill2CurCooltime <= 0f)
+
+            if (playerController.skill2count < playerController.TotalStatus.sk2Count.value)
             {
-                playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
-                if(playerController.skill2count < playerController.TotalStatus.sk2Count.value)
-                    playerController.skill2count++;
+                if (playerController.skill2CurCooltime <= 0f)
+                {
+                    playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                    if (playerController.skill2count < playerController.TotalStatus.sk2Count.value)
+                        playerController.skill2count++;
+                }
             }
+            
+
+            
             
             
 
@@ -397,7 +405,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if ((state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            if (Input.GetKeyDown(KeyCode.Q) && playerController.skill2count > 1f)
+            if (Input.GetKeyDown(KeyCode.Q) && playerController.skill2count > 0f)
             {
                 if (playerController.BulletGauge < playerController.Skills[0].GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
                 {

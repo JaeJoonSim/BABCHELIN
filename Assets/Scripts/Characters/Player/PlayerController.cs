@@ -117,6 +117,7 @@ public class PlayerController : BaseMonoBehaviour
         InvokeRepeating("addItem", 0f, 1f);
         getTotalstatus();
         BulletGauge = TotalStatus.bulletMax.value;
+        skill2count = TotalStatus.sk2Count.value;
     }
 
     private void OnEnable()
@@ -621,15 +622,26 @@ public class PlayerController : BaseMonoBehaviour
             if (item.Stat1 != "")
             {
                 Type valueType = BaseStatus.variables[item.Stat1].GetType();
-                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                if (valueType == typeof(Stat<int>) )
                 {
                     if (item.Val1 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat1].value += item.Val1 * 100;
+                        ItemStatusPercent.variables[item.Stat1].value = item.Val1 * 100;
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat1].value += item.Val1;
+                        ItemStatusAdd.variables[item.Stat1].value = item.Val1;
+                    }
+                }
+                else if (valueType == typeof(Stat<float>))
+                {
+                    if (item.Val1 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat1].value = item.Val1 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat1].value = item.Val1;
                     }
                 }
                 else if (valueType == typeof(Stat<bool>))
@@ -643,15 +655,26 @@ public class PlayerController : BaseMonoBehaviour
             if (item.Stat2 != "")
             {
                 Type valueType = BaseStatus.variables[item.Stat2].GetType();
-                if (valueType == typeof(Stat<int>) || valueType == typeof(Stat<float>))
+                if (valueType == typeof(Stat<int>))
                 {
                     if (item.Val2 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat2].value += item.Val2 * 100;
+                        ItemStatusPercent.variables[item.Stat2].value = item.Val2 * 100;
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat2].value += item.Val2;
+                        ItemStatusAdd.variables[item.Stat2].value = item.Val2;
+                    }
+                }
+                if (valueType == typeof(Stat<float>))
+                {
+                    if (item.Val2 < 1)
+                    {
+                        ItemStatusPercent.variables[item.Stat2].value = item.Val2 * 100;
+                    }
+                    else
+                    {
+                        ItemStatusAdd.variables[item.Stat2].value = item.Val2;
                     }
                 }
                 else if (valueType == typeof(Stat<bool>))
