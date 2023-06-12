@@ -58,11 +58,11 @@ public struct status
     public Stat<float> absorbSpdLarge;
 
     [Tooltip("오브젝트 흡수량(소)")]
-    public Stat<float> absorbChargeSmall;
+    public Stat<int> absorbChargeSmall;
     [Tooltip("오브젝트 흡수량(중)")]
-    public Stat<float> absorbChargeMedium;
+    public Stat<int> absorbChargeMedium;
     [Tooltip("오브젝트 흡수 량(대)")]
-    public Stat<float> absorbChargeLarge;
+    public Stat<int> absorbChargeLarge;
 
     //공격관련
     [Header("ATK"), Space]
@@ -134,7 +134,7 @@ public struct status
     [Tooltip("대형탄 스플래쉬 데미지")]
     public Stat<float> sk2SplashDmg;
     [Tooltip("대형탄 충전횟수")]
-    public Stat<float> sk2Count;
+    public Stat<int> sk2Count;
     [Tooltip("대형탄 가장 가까운 적에게 유도탄")]
     public Stat<bool> sk2Auto;
     [Tooltip("대형탄 유도 범위")]

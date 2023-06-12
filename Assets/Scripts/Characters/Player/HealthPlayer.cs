@@ -28,14 +28,20 @@ public class HealthPlayer : Health
         controller = GetComponent<PlayerController>();
         OnDamaged += ApplyKnockbackAndChangeState;
 
+        InvokeRepeating("hpRegen", 0f, 1f);
+
     }
 
     private void Update()
     {
-        maxHealth = controller.TotalStatus.hpMax.value;
+        if(maxHealth != controller.TotalStatus.hpMax.value)
+        {
+            currentHealth *= (float)controller.TotalStatus.hpMax.value / maxHealth;
+            maxHealth = controller.TotalStatus.hpMax.value;
+        }
 
-        if (controller.Heal)
-            currentHealth += 2;
+
+
         if (isPoisoned == true)
         {
             curPoisonTimer += Time.deltaTime;
@@ -51,6 +57,17 @@ public class HealthPlayer : Health
         }
     }
 
+    private void hpRegen()
+    {
+        currentHealth += controller.TotalStatus.hpRegen.value;
+        if (controller.Heal)
+            currentHealth += 2;
+    }
+
+    protected override void setcurrentHealth(float damage)
+    {
+        currentHealth -= damage - (damage / 100) * controller.TotalStatus.def.value;
+    }
     private void ApplyKnockbackAndChangeState(GameObject Attacker, Vector3 attackLocation, float damage, AttackType type)
     {
         if(type == AttackType.Normal)
@@ -98,6 +115,6 @@ public class HealthPlayer : Health
         yield return new WaitForSeconds(3f);
         RetryPanel.SetActive(true);
     }
-
+    
 
 }

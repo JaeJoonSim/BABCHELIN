@@ -52,7 +52,7 @@ public class Health : BaseMonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         state = GetComponent<StateMachine>();
-        if(isMonster)
+        if (isMonster)
         {
             dtc = GetComponent<DamageTextControler>();
         }
@@ -92,8 +92,8 @@ public class Health : BaseMonoBehaviour
         {
             damage *= 0.01f;
         }
+        setcurrentHealth(damage);
 
-        currentHealth -= damage;
         Invoke("DecreaseBackHP", 0.3f);
 
         if (isMonster)
@@ -115,6 +115,11 @@ public class Health : BaseMonoBehaviour
         {
             Die();
         }
+    }
+
+    protected virtual void setcurrentHealth(float damage)
+    {
+        currentHealth -= damage;
     }
 
     protected virtual bool IsInvincible()

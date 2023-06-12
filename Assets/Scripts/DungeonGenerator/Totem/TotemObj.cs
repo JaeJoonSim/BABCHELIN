@@ -118,7 +118,9 @@ public class TotemObj : MonoBehaviour
         }
 
         TotemManager.Instance.isAdd[item.Type] = item;
-        absorb.Instance.Player.gameObject.GetComponent<PlayerController>().addItem();
+        PlayerController pc= absorb.Instance.Player.gameObject.GetComponent<PlayerController>();
+        pc.addItem();
+        pc.playerSound.PlayPlayerSound(pc.playerSound.pcTotemGet);
         DungeonUIManager.Instance.addTotem();
     }
 

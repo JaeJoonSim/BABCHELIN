@@ -60,6 +60,15 @@ public class absorb : BaseMonoBehaviour
     private void awake()
     {
         getPlayer();
+
+        status stat = Player.GetComponent<PlayerController>().TotalStatus;
+        absorbTimeSmall = stat.absorbSpdSmall.value;
+        absorbTimeMedium = stat.absorbSpdMedium.value;
+        absorbTimeLarge = stat.absorbSpdLarge.value;
+
+        addBulletSmall = stat.absorbChargeSmall.value;
+        addBulletMedium = stat.absorbChargeMedium.value;
+        addBulletLarge = stat.absorbChargeLarge.value;
     }
 
     private void Update()

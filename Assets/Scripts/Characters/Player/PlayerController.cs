@@ -72,6 +72,7 @@ public class PlayerController : BaseMonoBehaviour
     public bool showSkill = false;
     [DrawIf("showSkill", true)] public float skill1CurCooltime;
     [DrawIf("showSkill", true)] public float skill2CurCooltime;
+    [DrawIf("showSkill", true)] public int skill2count;
 
     [Header("ÇÇ°Ý")]
     public float hitDelay;
@@ -113,7 +114,7 @@ public class PlayerController : BaseMonoBehaviour
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
-
+        InvokeRepeating("addItem", 0f, 1f);
         getTotalstatus();
         BulletGauge = TotalStatus.bulletMax.value;
     }
@@ -610,7 +611,7 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addItem()
     {
-        playerSound.PlayPlayerSound(playerSound.pcTotemGet);
+        
         //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         ItemStatusAdd.ReSaveFieldsToVariables();
         ItemStatusPercent.ReSaveFieldsToVariables();

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 
 public class absorbObject : MonoBehaviour
 {
@@ -69,6 +70,24 @@ public class absorbObject : MonoBehaviour
 
     private void Update()
     {
+        switch (size)
+        {
+            case absorb.objectSize.small:
+                absorbTime = absorb.Instance.absorbTimeSmall;
+                addBullet = absorb.Instance.addBulletSmall;
+                break;
+            case absorb.objectSize.medium:
+                absorbTime = absorb.Instance.absorbTimeMedium;
+                addBullet = absorb.Instance.addBulletMedium;
+                break;
+            case absorb.objectSize.large:
+                absorbTime = absorb.Instance.absorbTimeLarge;
+                addBullet = absorb.Instance.addBulletLarge;
+                break;
+            default:
+                break;
+        }
+        absorbTime -= absorbTime-(absorbTime / 100) * absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbSpd.value;
         if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbRange.value)
             showObj.SetActive(true);
         else
@@ -106,7 +125,7 @@ public class absorbObject : MonoBehaviour
             }
         }
         else
-        {
+        { 
             BackGroundSouund.Instance.PlaySound("objectAbsorb");
             Instantiate(absorb.Instance.BulletEssence, transform.position, Quaternion.identity).GetComponent<BulletEssence>().setAddValue(addBullet);
             Destroy(gameObject);

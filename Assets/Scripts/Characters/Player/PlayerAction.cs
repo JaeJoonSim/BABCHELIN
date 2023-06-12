@@ -122,9 +122,15 @@ public class PlayerAction : BaseMonoBehaviour
                 playerController.DodgeDelay -= Time.deltaTime;
             }
 
-
             playerController.skill2CurCooltime -= Time.deltaTime;
-
+            if (playerController.skill2CurCooltime <= 0f)
+            {
+                playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                if(playerController.skill2count < playerController.TotalStatus.sk2Count.value)
+                    playerController.skill2count++;
+            }
+            
+            
 
             if (state.CURRENT_STATE == StateMachine.State.Skill2)
             {
@@ -186,6 +192,10 @@ public class PlayerAction : BaseMonoBehaviour
                     if (playerController.UltObj.GetComponent<UltimateManager>().UltimateStart())
                     {
                         playerController.UltGauge -= 100;
+                        if (UnityEngine.Random.value <= playerController.TotalStatus.ultTwice.value / 100f)
+                        {
+                            playerController.UltGauge += 100;
+                        }
                         playerController.inSpineEvent = true;
                         playerController.Camerawork();
                         state.CURRENT_STATE = StateMachine.State.Ultimate;
@@ -387,7 +397,7 @@ public class PlayerAction : BaseMonoBehaviour
     {
         if ((state.CURRENT_STATE == StateMachine.State.Idle || state.CURRENT_STATE == StateMachine.State.Moving))
         {
-            if (Input.GetKeyDown(KeyCode.Q) && playerController.skill2CurCooltime < 0f)
+            if (Input.GetKeyDown(KeyCode.Q) && playerController.skill2count > 1f)
             {
                 if (playerController.BulletGauge < playerController.Skills[0].GetComponent<PlayerAttack>().Cost || ShotDelay > 0)
                 {
@@ -398,7 +408,8 @@ public class PlayerAction : BaseMonoBehaviour
 
                 state.CURRENT_STATE = StateMachine.State.Skill;
                 playerController.SkillIndex = 0;
-                playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                playerController.skill2count--;
+                
             }
             else if (Input.GetKeyDown(KeyCode.E) && playerController.skill1CurCooltime < 0f)
             {
