@@ -182,7 +182,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2208319747709286849}
-  - component: {fileID: 8899178948449897078}
+  - component: {fileID: 8258153884260452582}
   m_Layer: 0
   m_Name: Map
   m_TagString: Wall
@@ -214,7 +214,7 @@ Transform:
   m_Father: {fileID: 6443386215449595270}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!68 &8899178948449897078
+--- !u!68 &8258153884260452582
 EdgeCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -230,23 +230,24 @@ EdgeCollider2D:
   m_Offset: {x: 0, y: 0}
   m_EdgeRadius: 0
   m_Points:
-  - {x: -15.814482, y: -0.9008503}
-  - {x: -14.104087, y: -6.8891735}
-  - {x: -10.438351, y: -11.390238}
-  - {x: -5.803417, y: -15.1192045}
-  - {x: 0.44931307, y: -15.642003}
-  - {x: 6.8981194, y: -14.801385}
-  - {x: 10.890816, y: -11.402006}
-  - {x: 14.358315, y: -6.225626}
-  - {x: 15.220777, y: -0.36496162}
-  - {x: 14.919054, y: 4.946149}
-  - {x: 11.520732, y: 9.50688}
-  - {x: 7.02684, y: 13.5234585}
-  - {x: 0.0091897845, y: 15.185643}
-  - {x: -6.511832, y: 14.061009}
-  - {x: -10.81581, y: 10.770636}
-  - {x: -14.0707, y: 6.3476906}
-  - {x: -16.241158, y: -0.8565748}
+  - {x: -0.1950202, y: -14.410359}
+  - {x: -3.8663397, y: -13.857384}
+  - {x: -8.097593, y: -12.075054}
+  - {x: -11.760646, y: -7.987695}
+  - {x: -14.324126, y: -0.09141177}
+  - {x: -13.325931, y: 5.115841}
+  - {x: -10.51956, y: 9.419615}
+  - {x: -5.373065, y: 13.230605}
+  - {x: -0.10378313, y: 14.369906}
+  - {x: 5.1116366, y: 13.512806}
+  - {x: 8.963222, y: 10.879068}
+  - {x: 12.606024, y: 6.603143}
+  - {x: 14.519964, y: 0.38122642}
+  - {x: 13.873282, y: -4.8584924}
+  - {x: 10.953913, y: -9.503347}
+  - {x: 7.34842, y: -12.393274}
+  - {x: 4.6120815, y: -13.9251375}
+  - {x: 0.04923582, y: -14.466483}
   m_AdjacentStartPoint: {x: 0, y: 0}
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
@@ -2942,6 +2943,11 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 72372d8c6b7d87247a37325d4825ce7a, type: 2}
+    - target: {fileID: 63048544454541636, guid: 42ecba09bb1f0ab4d89c7b9fb5bfc702,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 63048544454541637, guid: 42ecba09bb1f0ab4d89c7b9fb5bfc702,
         type: 3}
       propertyPath: m_CastShadows
@@ -3019,6 +3025,54 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 42ecba09bb1f0ab4d89c7b9fb5bfc702, type: 3}
+--- !u!1 &929871976763389909 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 63048544454541636, guid: 42ecba09bb1f0ab4d89c7b9fb5bfc702,
+    type: 3}
+  m_PrefabInstance: {fileID: 880576820683208337}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &8258153884260452586
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929871976763389909}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 3.7264235}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 8.880001, y: 25.614424}
+    newSize: {x: 8.880001, y: 25.614424}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 8.880001, y: 7.452847}
+  m_EdgeRadius: 0
+--- !u!114 &8258153884260452585
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929871976763389909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!4 &7998572317111358663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7149689632608870998, guid: 42ecba09bb1f0ab4d89c7b9fb5bfc702,
@@ -7746,6 +7800,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cadlestick_R
       objectReference: {fileID: 0}
+    - target: {fileID: 8719644386771204700, guid: 3154b0f47a6af1546b64e4dfbf5482bb,
+        type: 3}
+      propertyPath: m_Layer
+      value: 22
+      objectReference: {fileID: 0}
     - target: {fileID: 8719644386771204703, guid: 3154b0f47a6af1546b64e4dfbf5482bb,
         type: 3}
       propertyPath: m_CastShadows
@@ -7778,6 +7837,54 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 72372d8c6b7d87247a37325d4825ce7a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3154b0f47a6af1546b64e4dfbf5482bb, type: 3}
+--- !u!1 &2335652697419628684 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8719644386771204700, guid: 3154b0f47a6af1546b64e4dfbf5482bb,
+    type: 3}
+  m_PrefabInstance: {fileID: 6443386215631207120}
+  m_PrefabAsset: {fileID: 0}
+--- !u!61 &8258153884260452588
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2335652697419628684}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 3.4691248}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 8.020967, y: 25.91}
+    newSize: {x: 8.020967, y: 25.91}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 8.020967, y: 6.9382496}
+  m_EdgeRadius: 0
+--- !u!114 &8258153884260452587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2335652697419628684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9809bf1345abc5648af68b3a82653f08, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 1
+  m_Area: 1
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff
 --- !u!4 &5159749313864993606 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2229454671668687254, guid: 3154b0f47a6af1546b64e4dfbf5482bb,
