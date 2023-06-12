@@ -157,14 +157,17 @@ public class TutorialStage : BaseMonoBehaviour
         if (currentMap.name == stageNames[0])
         {
             //dialogue.SetActive(true);
-            StartCoroutine(LookEnemyCamera(() =>
-            {
-                player.GetComponent<PlayerInput>().enabled = false;
-                player.GetComponent<PlayerAction>().enabled = false;
-                animUI.emotion = emotionMad;
-                dialogue.SetActive(true);
-                isCameraMoveComplete = true;
-            }));
+            //StartCoroutine(LookEnemyCamera(() =>
+            //{
+            //    player.GetComponent<PlayerInput>().enabled = false;
+            //    player.GetComponent<PlayerAction>().enabled = false;
+            //    animUI.emotion = emotionMad;
+            //    dialogue.SetActive(true);
+            //    isCameraMoveComplete = true;
+            //}));
+            animUI.emotion = emotionMad;
+            dialogue.SetActive(true);
+            isCameraMoveComplete = true;
         }
 
         yield return new WaitUntil(() => isCameraMoveComplete);

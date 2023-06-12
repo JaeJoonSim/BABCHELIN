@@ -21,6 +21,7 @@ public class ObjectMovement : BaseMonoBehaviour
     public Image logoImage;         // TutorialGameLogo의 Image 컴포넌트
     public float letterMoveDuration;
     public GameObject dialogue;
+    public Canvas canvas;
 
     private bool isMoving;          // 이동 중인지 여부
 
@@ -114,10 +115,7 @@ public class ObjectMovement : BaseMonoBehaviour
             logoImage.color = new Color(1f, 1f, 1f, t);
             yield return null;
         }
-        StartCoroutine(MoveTutorialLetter(tutorialTopLetter, false));
-        StartCoroutine(MoveTutorialLetter(tutorialBottomLetter, true));
-
-        OnFadeOutComplete?.Invoke();
+        StartCoroutine(ExecuteAfterCoroutinesComplete());
     }
 
     private void FadeOutCompleted()
@@ -125,8 +123,25 @@ public class ObjectMovement : BaseMonoBehaviour
         // TODO...
     }
 
+    IEnumerator ExecuteAfterCoroutinesComplete()
+    {
+        // 두 코루틴 실행
+        Coroutine coroutine1 = StartCoroutine(MoveTutorialLetter(tutorialTopLetter, false));
+        Coroutine coroutine2 = StartCoroutine(MoveTutorialLetter(tutorialBottomLetter, true));
+
+        // 두 코루틴이 모두 완료될 때까지 기다림
+        yield return coroutine1;
+        yield return coroutine2;
+
+        // 두 코루틴이 완료된 후에 실행할 코드
+        canvas.sortingOrder = 0;
+        OnFadeOutComplete?.Invoke();
+    }
+
+
     private IEnumerator MoveTutorialLetter(Transform letter, bool b)
     {
+        canvas.sortingOrder = 3;
         Vector3 startPosition = letter.position;
         Vector3 newLetterPosition;
         if (b)
