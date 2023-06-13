@@ -109,13 +109,16 @@ public class PlayerController : BaseMonoBehaviour
         ItemStatusPercent.SaveFieldsToVariables();
         BuffStatus.SaveFieldsToVariables();
         TotalStatus.SaveFieldsToVariables();
+
         unitObject = base.gameObject.GetComponent<UnitObject>();
         state = base.gameObject.GetComponent<StateMachine>();
         circleCollider2D = base.gameObject.GetComponent<CircleCollider2D>();
         simpleSpineAnimator = GetComponentInChildren<SimpleSpineAnimator>();
         camera = Camera.main.GetComponent<CameraFollowTarget>();
-        InvokeRepeating("addItem", 0f, 1f);
-        getTotalstatus();
+
+        addItem();
+        InvokeRepeating("getTotalstatus", 0f, 1f);
+
         BulletGauge = TotalStatus.bulletMax.value;
         skill2count = TotalStatus.sk2Count.value;
     }
@@ -136,19 +139,11 @@ public class PlayerController : BaseMonoBehaviour
             absorbEffet.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);           
         }
 
-        //if (IsInvoking("SoundDelay") && state.CURRENT_STATE != StateMachine.State.Skill2)
-        //{
-        //    CancelInvoke("SoundDelay");
-        //    playerSound.StopSound();
-        //}
-
         if (state.CURRENT_STATE != StateMachine.State.Skill2 && Skills[1].activeSelf)
         {
             Skills[1].SetActive(false);
         }
 
-
-        getTotalstatus();
         if (Time.timeScale <= 0f && state.CURRENT_STATE != StateMachine.State.GameOver && state.CURRENT_STATE != StateMachine.State.FinalGameOver || state.CURRENT_STATE == StateMachine.State.Pause || state.CURRENT_STATE == StateMachine.State.Dead)
         {
             SpineTransform.localPosition = Vector3.zero;
@@ -612,6 +607,9 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addItem()
     {
+        ItemStatusAdd.ReSaveFieldsToVariables();
+        ItemStatusPercent.ReSaveFieldsToVariables();
+
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
             if (item.Stat1 != "")
@@ -621,22 +619,22 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     if (item.Val1 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat1].value = (int)(item.Val1 * 100);
+                        ItemStatusPercent.variables[item.Stat1].value += (int)(item.Val1 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat1].value = (int)item.Val1;
+                        ItemStatusAdd.variables[item.Stat1].value += (int)item.Val1;
                     }
                 }
                 else if (valueType == typeof(Stat<float>))
                 {
                     if (item.Val1 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat1].value = (item.Val1 * 100);
+                        ItemStatusPercent.variables[item.Stat1].value += (item.Val1 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat1].value = item.Val1;
+                        ItemStatusAdd.variables[item.Stat1].value += item.Val1;
                     }
                 }
                 else if (valueType == typeof(Stat<bool>))
@@ -654,22 +652,22 @@ public class PlayerController : BaseMonoBehaviour
                 {
                     if (item.Val2 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat2].value = (int)(item.Val2 * 100);
+                        ItemStatusPercent.variables[item.Stat2].value += (int)(item.Val2 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat2].value = (int)item.Val2;
+                        ItemStatusAdd.variables[item.Stat2].value += (int)item.Val2;
                     }
                 }
                 if (valueType == typeof(Stat<float>))
                 {
                     if (item.Val2 < 1)
                     {
-                        ItemStatusPercent.variables[item.Stat2].value = (item.Val2 * 100);
+                        ItemStatusPercent.variables[item.Stat2].value += (item.Val2 * 100);
                     }
                     else
                     {
-                        ItemStatusAdd.variables[item.Stat2].value = item.Val2;
+                        ItemStatusAdd.variables[item.Stat2].value += item.Val2;
                     }
                 }
                 else if (valueType == typeof(Stat<bool>))

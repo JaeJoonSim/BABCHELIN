@@ -10,14 +10,18 @@ public class BuffUI : MonoBehaviour
     public GameObject buffUI;
     //RectTransform
 
-    void Update()
+    private void Start()
+    {
+        InvokeRepeating("UpdateBuff", 0f, 0.1f);
+    }
+
+    void UpdateBuff()
     {
         for (int i = 0; i < BuffList.Count; i++)
         {
-
             if (BuffList[i].GetComponent<BuffUIObj>()?.curCoolTime <= 0)
             {
-                Destroy(BuffList[i]);
+                Destroy(BuffList[i], 0.1f);
                 BuffList.RemoveAt(i);
             }
         }

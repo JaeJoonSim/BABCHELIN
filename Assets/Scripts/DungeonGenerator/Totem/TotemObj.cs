@@ -59,17 +59,18 @@ public class TotemObj : MonoBehaviour
                 Destroy(gameObject);
             }
         }
-
-        if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < 2f)
+        if (absorb.Instance.Player != null)
         {
-
-            Canvas.SetActive(true);
+            if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < 2f)
+            {
+                Canvas.SetActive(true);
+            }
+            else
+            {
+                Canvas.SetActive(false);
+            }
         }
-        else
-        {
-            //var stat = absorb.Instance.Player.gameObject.GetComponent<PlayerController>().TotalStatus.variables[];
-            Canvas.SetActive(false);
-        }
+        
                 
     }
     void Replace()

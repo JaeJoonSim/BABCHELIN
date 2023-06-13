@@ -1,4 +1,4 @@
-using System;
+ï»¿using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Unity.VisualScripting;
@@ -22,141 +22,141 @@ public struct status
     //PC Base
     [Header("PC Base"), Space]
 
-    [Tooltip("ÃÖ´ë Ã¼·Â")]
+    [Tooltip("ìµœëŒ€ ì²´ë ¥")]
     public Stat<int> hpMax;
-    [Tooltip("Ã¼·Â ÀÚ¿¬Ä¡À¯·®")]
+    [Tooltip("ì²´ë ¥ ìì—°ì¹˜ìœ ëŸ‰")]
     public Stat<int> hpRegen;
 
-    [Space, Tooltip("¹æ¾î·Â(%¿¬»ê)")]
+    [Space, Tooltip("ë°©ì–´ë ¥(%ì—°ì‚°)")]
     public Stat<int> def;
 
-    [Space, Tooltip("ÀÌµ¿¼Óµµ")]
+    [Space, Tooltip("ì´ë™ì†ë„")]
     public Stat<float> movSpd;
 
-    [Space, Tooltip("±¸¸£±â ÄğÅ¸ÀÓ")]
+    [Space, Tooltip("êµ¬ë¥´ê¸° ì¿¨íƒ€ì„")]
     public Stat<float> dodgeCoolDown;
-    [Tooltip("±¸¸£±â ½Ã°£")]
+    [Tooltip("êµ¬ë¥´ê¸° ì‹œê°„")]
     public Stat<float> dodgeTime;
-    [Tooltip("±¸¸£±â °Å¸®")]
+    [Tooltip("êµ¬ë¥´ê¸° ê±°ë¦¬")]
     public Stat<float> dodgeDistance;
 
-    //Èí¼ö°ü·Ã
+    //í¡ìˆ˜ê´€ë ¨
     [Header("Absorb"), Space]
 
     public Stat<float> absorbAngle;
     public Stat<float> absorbRange;
 
-    [Tooltip("Èí¼ö ÃæÀü·®(%´ÜÀ§) // 20% ±âÁØ - ÃæÀü°ª(10) + 20%(2))")]
+    [Tooltip("í¡ìˆ˜ ì¶©ì „ëŸ‰(%ë‹¨ìœ„) // 20% ê¸°ì¤€ - ì¶©ì „ê°’(10) + 20%(2))")]
     public Stat<int> absorbRestore;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö ¼Óµµ(°øÅë)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ ì†ë„(ê³µí†µ)")]
     public Stat<float> absorbSpd;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö ¼Óµµ(¼Ò)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ ì†ë„(ì†Œ)")]
     public Stat<float> absorbSpdSmall;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö ¼Óµµ(Áß)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ ì†ë„(ì¤‘)")]
     public Stat<float> absorbSpdMedium;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö ¼Óµµ(´ë)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ ì†ë„(ëŒ€)")]
     public Stat<float> absorbSpdLarge;
 
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö·®(¼Ò)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ëŸ‰(ì†Œ)")]
     public Stat<int> absorbChargeSmall;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö·®(Áß)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ëŸ‰(ì¤‘)")]
     public Stat<int> absorbChargeMedium;
-    [Tooltip("¿ÀºêÁ§Æ® Èí¼ö ·®(´ë)")]
+    [Tooltip("ì˜¤ë¸Œì íŠ¸ í¡ìˆ˜ ëŸ‰(ëŒ€)")]
     public Stat<int> absorbChargeLarge;
 
-    //°ø°İ°ü·Ã
+    //ê³µê²©ê´€ë ¨
     [Header("ATK"), Space]
 
-    [Tooltip("±âº» °ø°İ·Â")]
+    [Tooltip("ê¸°ë³¸ ê³µê²©ë ¥")]
     public Stat<float> atk;
-    [Tooltip("±âº» °ø°İ ÆÄ±« µ¥¹ÌÁö")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© íŒŒê´´ ë°ë¯¸ì§€")]
     public Stat<float> atkDestroyDmg;
-    [Tooltip("°ø°İ¼Óµµ")]
+    [Tooltip("ê³µê²©ì†ë„")]
     public Stat<float> atkSpd;
-    [Tooltip("±âº» °ø°İ ¹ß»ç °¹¼ö")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© ë°œì‚¬ ê°¯ìˆ˜")]
     public Stat<int> bulletCount;
-    [Tooltip("Åõ»çÃ¼ ¼Óµµ")]
+    [Tooltip("íˆ¬ì‚¬ì²´ ì†ë„")]
     public Stat<int> bulletSpd;
-    [Tooltip("±âº» °ø°İ »çÁ¤°Å¸®")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© ì‚¬ì •ê±°ë¦¬")]
     public Stat<int> bulletRange;
-    [Tooltip("±âº» °ø°İ ¼Ò¸ğ·®")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© ì†Œëª¨ëŸ‰")]
     public Stat<int> bulletCost;
 
-    [Space, Tooltip("ÃÑ¾Ë ÃÖ´ëÄ¡")]
+    [Space, Tooltip("ì´ì•Œ ìµœëŒ€ì¹˜")]
     public Stat<float> bulletMax;
-    [Tooltip("ÃÑ¾Ë ÃÖ¼ÒÄ¡")]
+    [Tooltip("ì´ì•Œ ìµœì†Œì¹˜")]
     public Stat<float> bulletMin;
-    [Tooltip("ÅºÈ¯ ÀÚ¿¬È¸º¹·®(ÃÖ¼ÒÄ¡±îÁö)")]
+    [Tooltip("íƒ„í™˜ ìì—°íšŒë³µëŸ‰(ìµœì†Œì¹˜ê¹Œì§€)")]
     public Stat<int> bulletRegen;
-    [Tooltip("ÅºÈ¯ ÀÚ¿¬½Ã°£(ÃÊ)(ÃÖ¼ÒÄ¡±îÁö)")]
+    [Tooltip("íƒ„í™˜ ìì—°ì‹œê°„(ì´ˆ)(ìµœì†Œì¹˜ê¹Œì§€)")]
     public Stat<int> bulletRegenTime;
-    [Tooltip("°¡Àå °¡±î¿î Àû¿¡°Ô À¯µµÅº")]
+    [Tooltip("ê°€ì¥ ê°€ê¹Œìš´ ì ì—ê²Œ ìœ ë„íƒ„")]
     public Stat<bool> bulletAuto;
-    [Tooltip("À¯µµ ¹üÀ§")]
+    [Tooltip("ìœ ë„ ë²”ìœ„")]
     public Stat<float> bulletAutoRange;
 
-    //¼ÒÇüÅº°ü·Ã
-    [Header("Skill_1(¼ÒÇüÅº)"), Space]
+    //ì†Œí˜•íƒ„ê´€ë ¨
+    [Header("Skill_1(ì†Œí˜•íƒ„)"), Space]
 
-    [Tooltip("¼ÒÇüÅº µ¥¹ÌÁö")]
+    [Tooltip("ì†Œí˜•íƒ„ ë°ë¯¸ì§€")]
     public Stat<float> sk1Dmg;
-    [Tooltip("±âº» °ø°İ ¼Ò¸ğ·®")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© ì†Œëª¨ëŸ‰")]
     public Stat<int> sk1Cost;
-    [Tooltip("¼ÒÇüÅº ÄğÅ¸ÀÓ")]
+    [Tooltip("ì†Œí˜•íƒ„ ì¿¨íƒ€ì„")]
     public Stat<float> sk1CoolDown;
-    [Tooltip("¼ÒÇüÅº Áö¼Ó½Ã°£")]
+    [Tooltip("ì†Œí˜•íƒ„ ì§€ì†ì‹œê°„")]
     public Stat<float> sk1ResistTime;
-    [Tooltip("¼ÒÇüÅº °ø°İ¼Óµµ")]
+    [Tooltip("ì†Œí˜•íƒ„ ê³µê²©ì†ë„")]
     public Stat<float> sk1Spd;
-    [Tooltip("¼ÒÇüÅº ÆÄ±« µ¥¹ÌÁö")]
+    [Tooltip("ì†Œí˜•íƒ„ íŒŒê´´ ë°ë¯¸ì§€")]
     public Stat<float> sk1DestroyDmg;
-    [Tooltip("¼ÒÇüÅº »ç°Å¸®")]
+    [Tooltip("ì†Œí˜•íƒ„ ì‚¬ê±°ë¦¬")]
     public Stat<float> sk1Range;
-    [Tooltip("¼ÒÇüÅº ¹üÀ§(°¢µµ)")]
+    [Tooltip("ì†Œí˜•íƒ„ ë²”ìœ„(ê°ë„)")]
     public Stat<float> sk1Angle;
 
 
-    //´ëÇüÅº°ü·Ã
-    [Header("Skill_2(´ëÇüÅº)"), Space]
+    //ëŒ€í˜•íƒ„ê´€ë ¨
+    [Header("Skill_2(ëŒ€í˜•íƒ„)"), Space]
 
-    [Tooltip("´ëÇüÅº µ¥¹ÌÁö")]
+    [Tooltip("ëŒ€í˜•íƒ„ ë°ë¯¸ì§€")]
     public Stat<float> sk2Dmg;
-    [Tooltip("±âº» °ø°İ ¼Ò¸ğ·®")]
+    [Tooltip("ê¸°ë³¸ ê³µê²© ì†Œëª¨ëŸ‰")]
     public Stat<int> sk2Cost;
-    [Tooltip("´ëÇüÅº ÄğÅ¸ÀÓ")]
+    [Tooltip("ëŒ€í˜•íƒ„ ì¿¨íƒ€ì„")]
     public Stat<float> sk2CoolDown;
-    [Tooltip("´ëÇüÅº »ç°Å¸®")]
+    [Tooltip("ëŒ€í˜•íƒ„ ì‚¬ê±°ë¦¬")]
     public Stat<float> sk2Range;
-    [Tooltip("´ëÇüÅº ÆÄ±« µ¥¹ÌÁö")]
+    [Tooltip("ëŒ€í˜•íƒ„ íŒŒê´´ ë°ë¯¸ì§€")]
     public Stat<float> sk2DestroyDmg;
-    [Tooltip("´ëÇüÅº ½ºÇÃ·¡½¬ ¹üÀ§")]
+    [Tooltip("ëŒ€í˜•íƒ„ ìŠ¤í”Œë˜ì‰¬ ë²”ìœ„")]
     public Stat<float> sk2SplashRange;
-    [Tooltip("´ëÇüÅº ½ºÇÃ·¡½¬ µ¥¹ÌÁö")]
+    [Tooltip("ëŒ€í˜•íƒ„ ìŠ¤í”Œë˜ì‰¬ ë°ë¯¸ì§€")]
     public Stat<float> sk2SplashDmg;
-    [Tooltip("´ëÇüÅº ÃæÀüÈ½¼ö")]
+    [Tooltip("ëŒ€í˜•íƒ„ ì¶©ì „íšŸìˆ˜")]
     public Stat<int> sk2Count;
-    [Tooltip("´ëÇüÅº °¡Àå °¡±î¿î Àû¿¡°Ô À¯µµÅº")]
+    [Tooltip("ëŒ€í˜•íƒ„ ê°€ì¥ ê°€ê¹Œìš´ ì ì—ê²Œ ìœ ë„íƒ„")]
     public Stat<bool> sk2Auto;
-    [Tooltip("´ëÇüÅº À¯µµ ¹üÀ§")]
+    [Tooltip("ëŒ€í˜•íƒ„ ìœ ë„ ë²”ìœ„")]
     public Stat<float> sk2AutoRange;
 
 
-    //±Ã±Ø±â°ü·Ã
+    //ê¶ê·¹ê¸°ê´€ë ¨
     [Header("ultimate"), Space]
 
-    [Tooltip("±Ã±Ø±â ÃæÀü·®(%´ÜÀ§) // 20% ±âÁØ - ÃæÀü°ª(10) + 20%(2))")]
+    [Tooltip("ê¶ê·¹ê¸° ì¶©ì „ëŸ‰(%ë‹¨ìœ„) // 20% ê¸°ì¤€ - ì¶©ì „ê°’(10) + 20%(2))")]
     public Stat<int> ultRestore;
-    [Tooltip("n% È®·ü·Î ±Ã±Ø±â »ç¿ë ÈÄ °ÔÀÌÁö 100% È¸º¹")]
+    [Tooltip("n% í™•ë¥ ë¡œ ê¶ê·¹ê¸° ì‚¬ìš© í›„ ê²Œì´ì§€ 100% íšŒë³µ")]
     public Stat<float> ultTwice;
-    [Tooltip("±Ã±Ø±â ÃÖ´ëÄ¡")]
+    [Tooltip("ê¶ê·¹ê¸° ìµœëŒ€ì¹˜")]
     public Stat<int> UltMax;
 
     [Header("ohter"), Space]
-    [Tooltip("ºÎÈ° È½¼ö")]
+    [Tooltip("ë¶€í™œ íšŸìˆ˜")]
     public Stat<int> Revive;
-    [Tooltip("ºÎÈ°½Ã Ã¼·Â")]
+    [Tooltip("ë¶€í™œì‹œ ì²´ë ¥")]
     public Stat<int> ReviveHp;
-    [Tooltip("ÇÇÈí ·®")]
+    [Tooltip("í”¼í¡ ëŸ‰")]
     public Stat<float> hpAbsorb;
 
 
@@ -166,19 +166,42 @@ public struct status
     {
         variables = new Dictionary<string, dynamic>();
         variables.Clear();
-        // ÇöÀç ±¸Á¶Ã¼ Å¸ÀÔ
+        // í˜„ì¬ êµ¬ì¡°ì²´ íƒ€ì…
         Type structType = typeof(status);
 
-        // ¸ğµç ÇÊµå °¡Á®¿À±â
+        // ëª¨ë“  í•„ë“œ ê°€ì ¸ì˜¤ê¸°
         FieldInfo[] fields = structType.GetFields(BindingFlags.Public | BindingFlags.Instance);
 
         foreach (FieldInfo field in fields)
         {
-            // ÇÊµå ÀÌ¸§ °¡Á®¿À±â
+            // í•„ë“œ ì´ë¦„ ê°€ì ¸ì˜¤ê¸°
             string fieldName = field.Name;
 
             if (!variables.ContainsKey(fieldName))
                 variables.Add(fieldName, field.GetValue(this));
+        }
+    }
+    public void ReSaveFieldsToVariables()
+    {
+        Type structType = typeof(status);
+        FieldInfo[] fields = structType.GetFields(BindingFlags.Public | BindingFlags.Instance);
+
+        foreach (FieldInfo field in fields)
+        {
+            Type fieldType = field.FieldType;
+            string fieldName = field.Name;
+            if (fieldType == typeof(Stat<int>))
+            {
+                variables[fieldName].value = 0;
+            }
+            else if (fieldType == typeof(Stat<float>))
+            {
+                variables[fieldName].value = 0;
+            }
+            else if (fieldType == typeof(Stat<bool>))
+            {
+                variables[fieldName].value = false;
+            }
         }
     }
 
