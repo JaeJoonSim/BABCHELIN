@@ -1,4 +1,5 @@
 #if UNITY_EDITOR
+using Spine.Unity;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -18,6 +19,13 @@ public class ChangeMaterial : Editor
                 s.material = AssetDatabase.LoadAssetAtPath<Material>(path);
                 s.sortingOrder = 0;
             }
+
+            var m = sprite.GetComponent<MeshRenderer>();
+            if(m != null && sprite.GetComponent<SkeletonAnimation>())
+            {
+                m.material.renderQueue = 3002;
+            }
+
         }
     }
 }
