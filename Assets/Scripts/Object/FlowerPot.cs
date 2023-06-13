@@ -47,10 +47,12 @@ public class FlowerPot : UnitObject
         Vector3 dropPosition = new Vector3(transform.position.x + randomPoint.x, transform.position.y + randomPoint.y, transform.position.z);
 
         //GameObject spawnMonster = mosterObject[Random.Range(0, mosterObject.Length)];
-        spawnEffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
-        Instantiate(spawnEffect);
-        GameObject spawnMonster = Instantiate(mosterObject[Random.Range(0, mosterObject.Length)], dropPosition, Quaternion.identity);
+        GameObject spawneffect = Instantiate(spawnEffect);
+        spawneffect.transform.position = new Vector3(dropPosition.x, dropPosition.y, dropPosition.z - 0.5f);
+
+        GameObject spawnMonster = Instantiate(mosterObject[Random.Range(0, mosterObject.Length)], transform.parent);
         //Instantiate(spawnMonster, dropPosition, Quaternion.identity);
-        spawnMonster.transform.SetParent(transform.parent);
+        spawnMonster.transform.position = dropPosition;
+        //spawnMonster.transform.SetParent(transform.parent);
     }
 }
