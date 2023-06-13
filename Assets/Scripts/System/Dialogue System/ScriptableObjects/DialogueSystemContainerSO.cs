@@ -29,6 +29,18 @@ public class DialogueSystemContainerSO : ScriptableObject
 
     public List<string> GetGroupedDialogueNames(DialogueSystemGroupSO dialogueGroup, bool startingDialoguesOnly)
     {
+        if (dialogueGroup == null)
+        {
+            Debug.LogError("DialogueSystemGroupSO argument is null");
+            return new List<string>();
+        }
+
+        if (!DialogueGroups.ContainsKey(dialogueGroup))
+        {
+            Debug.LogError("Dialogue group not found in DialogueGroups");
+            return new List<string>();
+        }
+
         List<DialogueSystemDialogueSO> groupedDialogues = DialogueGroups[dialogueGroup];
         List<string> groupedDialogueNames = new List<string>();
 
@@ -36,13 +48,13 @@ public class DialogueSystemContainerSO : ScriptableObject
         {
             if (startingDialoguesOnly && !groupedDialogue.IsStartingDialogue)
                 continue;
-            
 
             groupedDialogueNames.Add(groupedDialogue.DialogueName);
         }
 
         return groupedDialogueNames;
     }
+
 
     public List<string> GetUnGroupedDialogueNames(bool startingDialoguesOnly)
     {
