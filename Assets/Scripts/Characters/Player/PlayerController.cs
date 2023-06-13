@@ -612,11 +612,6 @@ public class PlayerController : BaseMonoBehaviour
     }
     public void addItem()
     {
-        
-        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
-        ItemStatusAdd.ReSaveFieldsToVariables();
-        ItemStatusPercent.ReSaveFieldsToVariables();
-        //Debug.Log(ItemStatusAdd.variables["ultRestore"].value);
         foreach (var item in TotemManager.Instance.isAdd.Values)
         {
             if (item.Stat1 != "")
