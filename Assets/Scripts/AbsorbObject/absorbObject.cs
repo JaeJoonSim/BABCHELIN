@@ -25,7 +25,7 @@ public class absorbObject : MonoBehaviour
     public bool isAbsorb;
 
     [Header("흔들림 변수")]
-    public float maxSpeed = 20f;     // 최대 속도
+    public float maxSpeed = 60f;     // 최대 속도
 
     private Quaternion initialRotation;  // 초기 회전값
     private float startTime;
@@ -132,18 +132,12 @@ public class absorbObject : MonoBehaviour
 
     void shake()
     {
-
         float t = (curAbsorbTime) / absorbTime;
         float acceleration = accelerationCurve.Evaluate(t);
         float currentSpeed = Mathf.Lerp(maxSpeed, 1, acceleration);
-
-        float yRotation = Mathf.Sin(acceleration * maxSpeed) * 20f;
-        Debug.Log(yRotation);
+        float yRotation = Mathf.Sin(5* Time.deltaTime);
+        Debug.Log(currentSpeed);
         transform.rotation = initialRotation * Quaternion.Euler(0, yRotation, 0);
-        //transform.localRotation = Quaternion.Euler(0f, currentAngle, -90f);
-
-        
-      
     }
 
 
