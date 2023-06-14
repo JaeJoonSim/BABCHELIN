@@ -33,12 +33,16 @@ public class absorb : BaseMonoBehaviour
 
     public GameObject BulletEssence;
     public GameObject UltimateEssence;
-    public Transform Player { 
-        get        
+    public Transform Player
+    {
+        get
         {
-            return player;        
-        } 
-        set { player = value; } }
+            return player;
+        }
+        set { player = value; }
+    }
+
+    private status stat;
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
 
@@ -61,23 +65,28 @@ public class absorb : BaseMonoBehaviour
     {
         getPlayer();
 
-        status stat = Player.GetComponent<PlayerController>().TotalStatus;
-        absorbTimeSmall = stat.absorbSpdSmall.value;
-        absorbTimeMedium = stat.absorbSpdMedium.value;
-        absorbTimeLarge = stat.absorbSpdLarge.value;
+        stat = Player.GetComponent<PlayerController>().TotalStatus;
 
-        addBulletSmall = stat.absorbChargeSmall.value;
-        addBulletMedium = stat.absorbChargeMedium.value;
-        addBulletLarge = stat.absorbChargeLarge.value;
     }
-
     private void Update()
     {
         if (player == null)
         {
             getPlayer();
+            stat = Player.GetComponent<PlayerController>().TotalStatus;
+        }
+        else
+        {
+            absorbTimeSmall = stat.absorbSpdSmall.value;
+            absorbTimeMedium = stat.absorbSpdMedium.value;
+            absorbTimeLarge = stat.absorbSpdLarge.value;
+
+            addBulletSmall = stat.absorbChargeSmall.value;
+            addBulletMedium = stat.absorbChargeMedium.value;
+            addBulletLarge = stat.absorbChargeLarge.value;
         }
     }
+
 
     private void getPlayer()
     {

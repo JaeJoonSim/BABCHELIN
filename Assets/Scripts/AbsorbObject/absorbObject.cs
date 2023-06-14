@@ -9,6 +9,8 @@ public class absorbObject : MonoBehaviour
 
     private int addBullet;
 
+    public AnimationCurve accelerationCurve;
+
     [Header("흡수시간")]
     [SerializeField]
     private float absorbTime;
@@ -23,13 +25,10 @@ public class absorbObject : MonoBehaviour
     public bool isAbsorb;
 
     [Header("흔들림 변수")]
-    public float speed = 1f;         // 흔들리는 속도
     public float maxSpeed = 20f;     // 최대 속도
-    public float acceleration = 5f;  // 가속도
 
     private Quaternion initialRotation;  // 초기 회전값
     private float startTime;
-    private float currentSpeed;
 
     private GameObject showObj;
 
@@ -65,7 +64,7 @@ public class absorbObject : MonoBehaviour
         initialRotation = transform.rotation;
         curAbsorbTime = absorbTime;
 
-        
+
     }
 
     private void Update()
@@ -87,7 +86,7 @@ public class absorbObject : MonoBehaviour
             default:
                 break;
         }
-        absorbTime -= absorbTime-(absorbTime / 100) * absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbSpd.value;
+        absorbTime = absorbTime - (absorbTime / 100) * absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbSpd.value;
         if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbRange.value)
             showObj.SetActive(true);
         else
@@ -119,13 +118,12 @@ public class absorbObject : MonoBehaviour
                 else
                 {
                     startTime = Time.time;
-                    currentSpeed = 0;
                     transform.rotation = initialRotation;
                 }
             }
         }
         else
-        { 
+        {
             BackGroundSouund.Instance.PlaySound("objectAbsorb");
             Instantiate(absorb.Instance.BulletEssence, transform.position, Quaternion.identity).GetComponent<BulletEssence>().setAddValue(addBullet);
             Destroy(gameObject);
@@ -134,9 +132,18 @@ public class absorbObject : MonoBehaviour
 
     void shake()
     {
-        currentSpeed = Mathf.Clamp(currentSpeed + acceleration * Time.deltaTime, 0, maxSpeed);
-        float yRotation = Mathf.Sin((Time.time - startTime) * currentSpeed * speed) * currentSpeed;
+
+        float t = (curAbsorbTime) / absorbTime;
+        float acceleration = accelerationCurve.Evaluate(t);
+        float currentSpeed = Mathf.Lerp(maxSpeed, 1, acceleration);
+
+        float yRotation = Mathf.Sin(acceleration * maxSpeed) * 20f;
+        Debug.Log(yRotation);
         transform.rotation = initialRotation * Quaternion.Euler(0, yRotation, 0);
+        //transform.localRotation = Quaternion.Euler(0f, currentAngle, -90f);
+
+        
+      
     }
 
 
