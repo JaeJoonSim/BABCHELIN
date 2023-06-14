@@ -17,14 +17,9 @@ public class TotemUI : MonoBehaviour
     public TextMeshProUGUI uiName;
     public TextMeshProUGUI uiInfo;
 
-    private void Start()
+    private void OnEnable()
     {
-        InvokeRepeating("reSetBuff", 0, 3f);
-        InvokeRepeating("UpdateTotem", 0, 1f);
-    }
-    // Update is called once per frame
-    void UpdateTotem()
-    { 
+        reSetBuff();
         for (int i = 0; i < TotemList.Count; i++)
         {
             int ypos = (int)(i / 2);
@@ -52,9 +47,13 @@ public class TotemUI : MonoBehaviour
             Destroy(TotemList[i]);
         }
         TotemList.Clear();
-        foreach (var item in TotemManager.Instance.isAdd.Values)
+        if (TotemManager.Instance != null)
         {
-            addBuff(item);
+            foreach (var item in TotemManager.Instance.isAdd.Values)
+            {
+                addBuff(item);
+            }
         }
+       
     }
 }

@@ -25,12 +25,12 @@ public class TotemUIobj : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        Debug.Log("in");
         uiIcon.sprite = icon.sprite;
         uiName.text = Name;
         uiInfo.text = Info;
         toolTip.SetActive(true);
-    }
+        toolTip.transform.position = Input.mousePosition + toolTip.GetComponent<FollowMouse>().offset;
+    }   
     public void OnPointerExit(PointerEventData eventData)
     {
         toolTip.SetActive(false);

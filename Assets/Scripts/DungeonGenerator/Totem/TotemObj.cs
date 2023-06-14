@@ -52,7 +52,7 @@ public class TotemObj : MonoBehaviour
 
             IconObj.transform.Translate(direction.normalized * absorb.Instance.speed * Time.deltaTime);
 
-            if(Vector3.Distance(absorb.Instance.Player.position , IconObj.transform.position) < 1f)
+            if(Vector3.Distance(absorb.Instance.Player.position , IconObj.transform.position) < 2f)
             {
                 Instantiate(TotemDestroyEffect, iconPos, quaternion.identity);
                 OnGetTotem?.Invoke();
@@ -96,6 +96,7 @@ public class TotemObj : MonoBehaviour
             return;
 
         isget = true;
+        transform.GetComponent<Collider2D>().enabled = false;
         IconObj.GetComponent<FloatingObject>().ismoving = false;
         iconPos = IconObj.transform.position;
         Instantiate(TotemChooseEffect, IconObj.transform.position, quaternion.identity, transform);
