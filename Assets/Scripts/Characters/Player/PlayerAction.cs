@@ -170,6 +170,15 @@ public class PlayerAction : BaseMonoBehaviour
         if (context.performed)
         {
             playerController.health.cheatMode = !playerController.health.cheatMode;
+
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject enemy in enemies)
+            {
+                if (enemy.tag == "Enemy")
+                {
+                    enemy.GetComponent<Health>().Damaged(gameObject, transform.position, 99999, Health.AttackType.Normal);
+                }
+            }
         }
         else if (context.canceled)
         {
