@@ -24,8 +24,7 @@ public class absorbObject : MonoBehaviour
     public bool inAbsorbArea;
     public bool isAbsorb;
 
-    [Header("흔들림 변수")]
-    public float maxSpeed = 60f;     // 최대 속도
+
 
     private Quaternion initialRotation;  // 초기 회전값
     private float startTime;
@@ -35,36 +34,32 @@ public class absorbObject : MonoBehaviour
 
     void Start()
     {
-        switch (size)
-        {
-            case absorb.objectSize.small:
-                absorbTime = absorb.Instance.absorbTimeSmall;
-                addBullet = absorb.Instance.addBulletSmall;
-                showObj = Instantiate(absorb.Instance.showAbsorbSmall, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
-                break;
-            case absorb.objectSize.medium:
-                absorbTime = absorb.Instance.absorbTimeMedium;
-                addBullet = absorb.Instance.addBulletMedium;
-                showObj = Instantiate(absorb.Instance.showAbsorbMedium, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
-                break;
-            case absorb.objectSize.large:
-                absorbTime = absorb.Instance.absorbTimeLarge;
-                addBullet = absorb.Instance.addBulletLarge;
-                showObj = Instantiate(absorb.Instance.showAbsorbLarge, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
-                break;
-            default:
-                break;
-        }
-
-        absorbKeepTime = absorb.Instance.absorbKeepTime;
-
-        inAbsorbArea = false;
-        isAbsorb = false;
-
-        initialRotation = transform.rotation;
-        curAbsorbTime = absorbTime;
-
-
+            switch (size)
+            {
+                case absorb.objectSize.small:
+                    absorbTime = absorb.Instance.absorbTimeSmall;
+                    addBullet = absorb.Instance.addBulletSmall;
+                    showObj = Instantiate(absorb.Instance.showAbsorbSmall, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                    break;
+                case absorb.objectSize.medium:
+                    absorbTime = absorb.Instance.absorbTimeMedium;
+                    addBullet = absorb.Instance.addBulletMedium;
+                    showObj = Instantiate(absorb.Instance.showAbsorbMedium, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                    break;
+                case absorb.objectSize.large:
+                    absorbTime = absorb.Instance.absorbTimeLarge;
+                    addBullet = absorb.Instance.addBulletLarge;
+                    showObj = Instantiate(absorb.Instance.showAbsorbLarge, transform.position + new Vector3(0, 1, -2), Quaternion.identity, transform);
+                    break;
+                default:
+                    break;
+            }
+            absorbKeepTime = absorb.Instance.absorbKeepTime;
+            inAbsorbArea = false;
+            isAbsorb = false;
+            initialRotation = transform.rotation;
+            curAbsorbTime = absorbTime;
+            accelerationCurve = absorb.Instance.accelerationCurve;
     }
 
     private void Update()
@@ -86,11 +81,14 @@ public class absorbObject : MonoBehaviour
             default:
                 break;
         }
+
         absorbTime = absorbTime - (absorbTime / 100) * absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbSpd.value;
+
         if (Vector3.Distance(absorb.Instance.Player.position, transform.position) < absorb.Instance.Player.GetComponent<PlayerController>().TotalStatus.absorbRange.value)
             showObj.SetActive(true);
         else
             showObj.SetActive(false);
+
         if (!isAbsorb)
         {
             if (inAbsorbArea)
@@ -133,12 +131,13 @@ public class absorbObject : MonoBehaviour
     void shake()
     {
         float t = (curAbsorbTime) / absorbTime;
-        float acceleration = accelerationCurve.Evaluate(t);
-        float currentSpeed = Mathf.Lerp(maxSpeed, 1, acceleration);
-        float yRotation = Mathf.Sin(5* Time.deltaTime);
-        Debug.Log(currentSpeed);
+
+        float acceleration = accelerationCurve.Evaluate(1 - t);
+
+        float currentSpeed = Mathf.Lerp( 1, 20, acceleration);
+        float yRotation = Mathf.Sin((Time.time - startTime) * currentSpeed) * 15;
         transform.rotation = initialRotation * Quaternion.Euler(0, yRotation, 0);
     }
-
+        
 
 }

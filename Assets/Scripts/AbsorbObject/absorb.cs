@@ -43,12 +43,15 @@ public class absorb : BaseMonoBehaviour
     }
 
     private status stat;
+
     [Header("Èí¼ö ¼Óµµ")]
     public float speed = 10;
 
     public GameObject showAbsorbSmall;
     public GameObject showAbsorbMedium;
     public GameObject showAbsorbLarge;
+
+    public AnimationCurve accelerationCurve;
     private void Awake()
     {
         if (instance == null)

@@ -50,7 +50,7 @@ MonoBehaviour:
   addBulletSmall: 20
   addBulletMedium: 50
   addBulletLarge: 100
-  absorbKeepTime: 1
+  absorbKeepTime: 0
   BulletEssence: {fileID: 2809454977359242350, guid: e96c1370c6a141942876dca3dc165252,
     type: 3}
   UltimateEssence: {fileID: 2809454977359242350, guid: abe5f8785faa8b245b23f5796e0081c2,
@@ -62,3 +62,27 @@ MonoBehaviour:
     type: 3}
   showAbsorbLarge: {fileID: 1745743817250380179, guid: cab52c003797fdb4e9848c3ea676cfb3,
     type: 3}
+  accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
