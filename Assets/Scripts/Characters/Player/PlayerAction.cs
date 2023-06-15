@@ -123,23 +123,20 @@ public class PlayerAction : BaseMonoBehaviour
             }
 
 
-            playerController.skill2CurCooltime -= Time.deltaTime;
+            
 
             if (playerController.skill2count < playerController.TotalStatus.sk2Count.value)
             {
+                playerController.skill2CurCooltime -= Time.deltaTime;
                 if (playerController.skill2CurCooltime <= 0f)
                 {
-                    playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                    playerController.skill2count++;
                     if (playerController.skill2count < playerController.TotalStatus.sk2Count.value)
-                        playerController.skill2count++;
+                        playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                        
                 }
             }
             
-
-            
-            
-            
-
             if (state.CURRENT_STATE == StateMachine.State.Skill2)
             {
                 SkillDelay -= Time.deltaTime;
@@ -422,10 +419,11 @@ public class PlayerAction : BaseMonoBehaviour
                 }
                 state.facingAngle = Utils.GetMouseAngle(transform.position);
                 playerController.inSpineEvent = true;
-
+                playerController.skill2CurCooltime = playerController.TotalStatus.sk2CoolDown.value;
+                playerController.skill2count--;
                 state.CURRENT_STATE = StateMachine.State.Skill;
                 playerController.SkillIndex = 0;
-                playerController.skill2count--;
+                    
                 
             }
             else if (Input.GetKeyDown(KeyCode.E) && playerController.skill1CurCooltime < 0f)
@@ -439,7 +437,6 @@ public class PlayerAction : BaseMonoBehaviour
                 playerController.addBullet(-playerController.TotalStatus.sk1Cost.value);
                 playerController.SkillIndex = 1;
                 SkillDelay = playerController.TotalStatus.sk1ResistTime.value;
-                playerController.skill1CurCooltime = playerController.TotalStatus.sk1CoolDown.value;
             }
         }
         else

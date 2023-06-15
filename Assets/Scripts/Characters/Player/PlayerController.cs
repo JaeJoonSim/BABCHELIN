@@ -119,8 +119,8 @@ public class PlayerController : BaseMonoBehaviour
         addItem();
         InvokeRepeating("getTotalstatus", 0f, 1f);
 
-        BulletGauge = TotalStatus.bulletMax.value;
-        skill2count = TotalStatus.sk2Count.value;
+        BulletGauge = BaseStatus.bulletMax.value;
+        skill2count = BaseStatus.sk2Count.value;
     }
 
     private void OnEnable()
@@ -292,7 +292,7 @@ public class PlayerController : BaseMonoBehaviour
 
     }
 
-    public void facingAngle()
+    public void facingAngle()   
     {
 
         if (state.CURRENT_STATE == StateMachine.State.HitLeft ||

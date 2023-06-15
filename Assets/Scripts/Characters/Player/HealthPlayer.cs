@@ -34,7 +34,7 @@ public class HealthPlayer : Health
 
     private void Update()
     {
-        if(maxHealth != controller.TotalStatus.hpMax.value)
+        if(maxHealth != controller.TotalStatus.hpMax.value && controller.TotalStatus.hpMax.value > 0)
         {
             currentHealth *= (float)controller.TotalStatus.hpMax.value / maxHealth;
             maxHealth = controller.TotalStatus.hpMax.value;
