@@ -23,7 +23,11 @@ public class ChangeMaterial : Editor
             var m = sprite.GetComponent<MeshRenderer>();
             if(m != null && sprite.GetComponent<SkeletonAnimation>())
             {
-                m.material.renderQueue = 3002;
+                if (m.sharedMaterial != null)
+                    m.sharedMaterial.renderQueue = 3000;
+                else
+                    m.material.renderQueue = 3000;
+                
             }
 
         }
